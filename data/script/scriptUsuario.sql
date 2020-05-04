@@ -1,5 +1,5 @@
 USE vm;
---== AGREGAR USUARIO ==>>
+-- == AGREGAR USUARIO ==>>
 DELIMITER $$
 DROP PROCEDURE IF EXISTS agregarUsuario; $$
 DELIMITER ;
@@ -29,9 +29,9 @@ IF NOT EXISTS (SELECT * FROM usuario WHERE nombreUsuario = `@nombreUsuario`) THE
 ELSE SELECT "Existe Usuario registrado" AS error;
 END IF;
 END $$
-$$  
 DELIMITER ;
---== BUSCAR USUARIO ==>>
+
+-- == BUSCAR USUARIO ==>>
 DELIMITER $$
 DROP PROCEDURE IF EXISTS buscarUsuarioCliente; $$
 DELIMITER ;
@@ -44,9 +44,9 @@ SELECT nombreCompleto,apellidoPaterno,apellidoMaterno,'cliente' AS tipoUsuario,`
 FROM cliente WHERE idCliente = `@codigoUsuario`;
 
 END; $$
-$$  
 DELIMITER ;
---== INGRESAR AL SISTEMA ==>>
+
+-- == INGRESAR AL SISTEMA ==>>
 DELIMITER $$
 DROP PROCEDURE IF EXISTS ingresarSistema; $$
 DELIMITER ;
@@ -69,5 +69,4 @@ IF EXISTS ( SELECT codigoUsuario FROM usuario WHERE nombreUsuario=`@nombreUsuari
 ELSE SELECT "No existe Usuario" AS error;
 END IF;
 END $$
-$$  
 DELIMITER ;

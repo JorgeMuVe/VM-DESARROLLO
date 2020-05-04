@@ -1,5 +1,5 @@
 USE vm;
---== LISTAR PRODUCTO POR TIPO ==>>
+-- == LISTAR PRODUCTO POR TIPO ==>>
 DELIMITER $$
 DROP PROCEDURE IF EXISTS listarProductoPorTipo; $$
 DELIMITER ;
@@ -20,5 +20,4 @@ INNER JOIN negocio n ON n.idNegocio = p.idNegocio
 INNER JOIN tipoNegocio tn ON tn.idTipoNegocio = n.idTipoNegocio;
 
 END; $$
-$$  
 DELIMITER ;

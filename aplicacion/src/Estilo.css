@@ -1,19 +1,15 @@
-html,body{margin:0px}a{text-decoration:none;}li{list-style:none;}
-.centrado{display:flex;justify-items:center;align-items:center;justify-content:center;}
+html,body{margin:0px}a{text-decoration:none;}li{list-style:none;}.centrado{display:flex;justify-items:center;align-items:center;justify-content:center;}
 
-.barra_herramientas{display:flex;justify-content:space-between;}
-.barra_herramientas_boton img{position:fixed;width:40px;border-radius:50px;margin-top:5px;z-index:999;left:0;top:0;}
-
-.barra_herramientas_superior{display:grid;grid-template-columns:1fr 1fr;width:100%;}
-.barra_herramientas_lateral{width:50px;}
-.barra_herramientas_lateral ul{margin:0;padding:0;}
+.barra_herramientas {position:fixed;top:0;left:0;width:100%;background:#5fbd3e;height:50px;}
+.barra_herramientas {display:flex;justify-content:flex-end;}
+.barra_herramientas div{margin:5px; background:red;}
 
 .cuadro_mensaje{position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,0.1);}
 .error{font-size:3vh;color:#ee6e6e;background-color:#f3cdcd;margin:15% auto;padding:15px;border:2px solid #ee6e6e;border-radius:8px;width:max-content;}
 
 
 .Aplicacion{margin:0;height:100%;}
-.Paginas{margin:5vh 3vh;z-index:-999;}
+.Paginas{margin:60px 3vh;z-index:-999;}
 
 .principal_boton {
     border-radius:20px;

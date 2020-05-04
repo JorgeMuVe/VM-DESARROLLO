@@ -48,6 +48,14 @@ export class Menu extends React.Component {
     render(){
         return(
             <div className="Menu">
+                <div className="barra_herramientas">
+                    <div>
+                        NOT
+                    </div>
+                    <div>
+                        USU
+                    </div>
+                </div>
                 <input type="checkbox" id="toggle_menu" checked={this.state.menu} onChange={()=>this.abrirMenu()}/>
                 <label htmlFor="toggle_menu" className="button_menu">
                     <IconoMenu></IconoMenu>

@@ -43,7 +43,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TABLE IF NOT EXISTS cliente(
     idCliente INT(10) unsigned PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    registroNacional VARCHAR (11) unsigned,
+    registroNacional VARCHAR (11),
     nombreCompleto VARCHAR(250),
     apellidoPaterno VARCHAR(250),
     apellidoMaterno VARCHAR(250)
@@ -164,7 +164,7 @@ INSERT INTO tipoProducto(nombreTipoProducto,imagenTipoProducto) VALUES
 ('LIMPIEZA','/img/fondos/limpieza.jpg'),
 ('COMIDA','/img/fondos/comidas.jpg');
 
-INSERT INTO tiponegocio(nombreTipoNegocio) VALUES
+INSERT INTO tipoNegocio(nombreTipoNegocio) VALUES
 ('MERCADO'),('SUPERMERCADO'),('POLLERIA');
 
 INSERT INTO negocio(idTipoNegocio,nombreNegocio,ruc,logo,correo,telefono,razonSocial,representante) VALUES
