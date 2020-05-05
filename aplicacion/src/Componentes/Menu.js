@@ -8,11 +8,8 @@ import React from 'react';
 
 /* IMPORT SVG */
 import IconoMenu from '../SVG/IconoMenu';
-import IconoVenta from '../SVG/IconoVenta';
-import IconoPedido from '../SVG/IconoPedido';
-import IconoUsuario from '../SVG/IconoUsuario';
-import IconoProducto from '../SVG/IconoProducto';
-import IconoDireccion from '../SVG/IconoDireccion';
+import IconoNotificacion from '../SVG/IconoNotificacion';
+import IconoSinNotificacion from '../SVG/IconoSinNotificacion';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
@@ -48,45 +45,25 @@ export class Menu extends React.Component {
     render(){
         return(
             <div className="Menu">
+                <div className="logo_aplicacion">MERCADO VIRTUAL</div>
                 <div className="barra_herramientas">
-                    <div>
-                        NOT
+                    <div className="barra_herramientas_titulo">
+                        <div className="centrado"> MERCADO VIRTUAL </div>
                     </div>
-                    <div>
-                        USU
+                    <div className="barra_herramientas_items">
+                        <div> {(this.props.notificaciones||[]).length>0?<IconoNotificacion></IconoNotificacion>:<IconoSinNotificacion></IconoSinNotificacion>} </div>
+                        <div> <IconoMenu></IconoMenu> </div>
                     </div>
                 </div>
-                <input type="checkbox" id="toggle_menu" checked={this.state.menu} onChange={()=>this.abrirMenu()}/>
-                <label htmlFor="toggle_menu" className="button_menu">
-                    <IconoMenu></IconoMenu>
-                </label>
-                <nav className="nav_menu">
-                    <div className=""
-                        onClick={()=>this.cambiarPagina(
-                            this.props.usuarioAplicacion.tipoUsuario==="negocio"?"producto-negocio":"producto-cliente"
-                        )}>
-                        <IconoProducto></IconoProducto>
+                <div className="barra_lateral">
+                    <div className="barra_lateral_items">
+                        <div>Menu 1</div>
+                        <div>Menu 2</div>
+                        <div>Menu 3</div>
+                        <div>Menu 4</div>
                     </div>
-                    <div className=""
-                        hidden={this.props.usuarioAplicacion.tipoUsuario==="negocio"} 
-                        onClick={()=>this.cambiarPagina('pedido')}>
-                        <IconoPedido></IconoPedido>
-                    </div>
-                    <div className=""
-                        hidden={this.props.usuarioAplicacion.tipoUsuario!=="negocio"} 
-                        onClick={()=>this.cambiarPagina('direccion')}>
-                        <IconoDireccion></IconoDireccion>
-                    </div>
-                    <div className=""
-                        hidden={this.props.usuarioAplicacion.tipoUsuario!=="negocio"}  
-                        onClick={()=>this.cambiarPagina('venta')}>
-                        <IconoVenta></IconoVenta>
-                    </div>
-                    <div onClick={()=>this.cambiarPagina('usuario')}>
-                        <IconoUsuario></IconoUsuario>
-                    </div>
-                </nav>
-                <div className="paginas">
+                </div>
+                <div className="cuepo_aplicacion">
                     {this.props.children}
                 </div>
             </div>

@@ -14,6 +14,7 @@ import { urlAplicacionPublica } from './Componentes/Funciones'
 import React, { Component } from 'react';
 import Menu from './Componentes/Menu.js';
 import Mensaje from './Componentes/Mensaje.js';
+import PedidoCuadro from './Componentes/PedidoCuadro';
 
 
 /* *********  I N T E R F A Z   **********/
@@ -32,63 +33,13 @@ import Ingresar from './UI/Ingreso/Ingreso';
 import Registro from './UI/Registro/Registro';
 /* *******   V A R I A B L E S  G L O B A L E S **********/
 const estadoInicial = {
-  // DATOS DE APLICACION
-  usuarioAplicacion: { 
-    nombreCompleto:"Usuario Invitado",
-    apellidoPaterno:"",
-    apellidoMaterno:"",
-    tipoUsuario:"invitado",
-    codigoUsuario:""
-  },
 
-  productosPorTipo: [],
+  /**** URL DE APLICACION Y SERVIDOR ****/
+  urlAplicacion : urlAplicacionDesarrollo,
+  //urlAplicacion : urlAplicacionPublica,
+  urlAplicacionPublica: urlAplicacionPublica,
 
-  productos:[
-    {
-      id:0,
-      src:"/img/productos/tomate.jpg",
-      nombre:"Tomate Rojo",
-      description:"Tomastes rojos",
-      tienda: "Mercado Vinocanchon",
-      unidad:"GR",
-      disponible: 11000,
-      precio: 1.30,
-      descuento: 0,//DESCUETNO DEL 0%
-      reserva: 1000
-    },
-    {
-      id:1,
-      src:"/img/productos/carne.jpg",
-      nombre:"Carne Roja",
-      description:"Carne de res",
-      tienda: "San Fernando",
-      unidad:"GR",
-      disponible: 5000,
-      precio: 2.00,
-      descuento: 5,//DESCUETNO DEL 5%
-      reserva:0,
-    },
-    {
-      id:2,
-      src:"/img/productos/papa.png",
-      nombre:"Papa Amarilla",
-      description:"Papa para freir.",
-      tienda: "Mercado vinocanchon",
-      unidad:"GR",
-      disponible: 50000,
-      precio: 3.70,
-      descuento: 20,//DESCUETNO DEL 20%
-      reserva:0,
-    },
-  ],
-
-  pedidoUsuario:[],
-  oferta:[{codigoProducto:0},{codigoProducto:1}],
-  
-  pedidos:[{codigoPedido:0},{codigoPedido:1}],  
-  venta:[{codigoPedido:0},{codigoPedido:1}],
-
-  // PAGINAS DE APLICACION
+  /**** PAGINAS DE APLICACION ****/
   paginasApp:[
     {numeroPagina:0,nombrePagina:'principal',titulo:''},
     {numeroPagina:1,nombrePagina:'productos',titulo:''},
@@ -100,17 +51,37 @@ const estadoInicial = {
   ],
   paginaAnterior:'principal',
   paginaActual:'principal',
-
-  // CUADRO DE MENSAJE
+  
+  /**** CUADRO DE MENSAJE ****/
   mostrarMensaje:false,
   textoMensaje:'',
   tipoMensaje:'',
 
-  // URL DE APLICACION
-  urlAplicacion : urlAplicacionDesarrollo,
-  //urlAplicacion : urlAplicacionPublica,
+  /**** DATOS DE APLICACION *******/
+  //Usuario
+  usuarioAplicacion: { 
+    nombreCompleto:"Usuario Invitado",
+    apellidoPaterno:"",
+    apellidoMaterno:"",
+    tipoUsuario:"invitado",
+    codigoUsuario:""
+  },
+  
+  
+  // Productos
+  productosPorTipo: [],
 
-  urlAplicacionPublica: urlAplicacionPublica
+  // Pedido Usuario
+  pedidoUsuario:[1],
+
+  // Notificaciones
+  notificaciones:[1],
+
+  /*  *************************** */
+
+  //oferta:[{codigoProducto:0},{codigoProducto:1}],
+  //pedidos:[{codigoPedido:0},{codigoPedido:1}],  
+  //venta:[{codigoPedido:0},{codigoPedido:1}],
 };
 
 /* ****************  --------------------------   *********/
@@ -257,7 +228,13 @@ export class Aplicacion extends Component {
     const { paginaActual } = this.state;
     return (
       <div className="Aplicacion">
-        <Menu usuarioAplicacion = {this.state.usuarioAplicacion} cambiarPagina={this.cambiarPagina}>
+        <PedidoCuadro       
+          cambiarPagina={this.cambiarPagina}
+          pedidoUsuario={this.state.pedidoUsuario}
+        ></PedidoCuadro>
+        <Menu usuarioAplicacion={this.state.usuarioAplicacion} 
+              notificaciones={this.state.notificaciones}
+              cambiarPagina={this.cambiarPagina}>
           <div className="Paginas">
             <Mensaje
               mostrarMensaje={this.state.mostrarMensaje}
