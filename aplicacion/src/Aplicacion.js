@@ -234,7 +234,8 @@ export class Aplicacion extends Component {
         ></PedidoCuadro>
         <Menu usuarioAplicacion={this.state.usuarioAplicacion} 
               notificaciones={this.state.notificaciones}
-              cambiarPagina={this.cambiarPagina}>
+              cambiarPagina={this.cambiarPagina}
+              urlAplicacion={this.state.urlAplicacion}>
           <div className="Paginas">
             <Mensaje
               mostrarMensaje={this.state.mostrarMensaje}

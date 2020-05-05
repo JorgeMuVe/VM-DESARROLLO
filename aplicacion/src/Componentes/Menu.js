@@ -11,6 +11,10 @@ import IconoMenu from '../SVG/IconoMenu';
 import IconoNotificacion from '../SVG/IconoNotificacion';
 import IconoSinNotificacion from '../SVG/IconoSinNotificacion';
 
+import IconoUsuario from '../SVG/IconoUsuario';
+import IconoMercado from '../SVG/IconoMercado';
+import IconoPedidoMenu from '../SVG/IconoPedidoMenu';
+
 /* VARIABLES GLOBALES */
 const estadoInicial = {
     tema : 0, // Tema Seleccionado
@@ -38,29 +42,74 @@ export class Menu extends React.Component {
     abrirMenu = () => { this.setState({menu:!this.state.menu}) }
 
     cambiarPagina = (nombrePagina) => {
-        this.setState({menu:false})
         this.props.cambiarPagina(nombrePagina);
     }
 
     render(){
         return(
             <div className="Menu">
-                <div className="logo_aplicacion">MERCADO VIRTUAL</div>
+                <div className="logo_aplicacion centrado">
+                    <img src={this.props.urlAplicacion + "/vinocanchon.png"} alt="Logo Negocio"/>
+                </div>
                 <div className="barra_herramientas">
                     <div className="barra_herramientas_titulo">
                         <div className="centrado"> MERCADO VIRTUAL </div>
                     </div>
                     <div className="barra_herramientas_items">
-                        <div> {(this.props.notificaciones||[]).length>0?<IconoNotificacion></IconoNotificacion>:<IconoSinNotificacion></IconoSinNotificacion>} </div>
-                        <div> <IconoMenu></IconoMenu> </div>
+                        <div> {(this.props.notificaciones||[]).length>0?<IconoNotificacion/>:<IconoSinNotificacion/>} </div>
+                        <div> <IconoMenu/> </div>
                     </div>
                 </div>
                 <div className="barra_lateral">
                     <div className="barra_lateral_items">
-                        <div>Menu 1</div>
-                        <div>Menu 2</div>
-                        <div>Menu 3</div>
-                        <div>Menu 4</div>
+                        <div hidden={false} 
+                            onClick={()=>this.cambiarPagina("usuario")} 
+                            className="boton_barra_lateral">
+                            <div className=""><IconoUsuario/></div>
+                            <div className="">{true?"Inicar Sesion":"Nombre Usuario"}</div>
+                        </div>
+
+                        <div hidden={false} 
+                            onClick={()=>this.cambiarPagina("usuario")} 
+                            className="boton_barra_lateral">
+                            <div className=""><IconoMercado/></div>
+                            <div className="">Mercados</div>
+                        </div>
+
+                        <div hidden={false} 
+                            onClick={()=>this.cambiarPagina("usuario")} 
+                            className="boton_barra_lateral">
+                            <div className=""><IconoPedidoMenu/></div>
+                            <div className="">Pedido</div>
+                        </div>
+
+                        <div hidden={false} 
+                            onClick={()=>this.cambiarPagina("usuario")} 
+                            className="boton_barra_lateral">
+                            <div className=""><IconoUsuario/></div>
+                            <div className="">Pedidos</div>
+                        </div>
+
+                        <div hidden={false} 
+                            onClick={()=>this.cambiarPagina("usuario")} 
+                            className="boton_barra_lateral">
+                            <div className=""><IconoUsuario/></div>
+                            <div className="">Mis direcciones</div>
+                        </div>
+
+                        <div hidden={false} 
+                            onClick={()=>this.cambiarPagina("usuario")} 
+                            className="boton_barra_lateral">
+                            <div className=""><IconoUsuario/></div>
+                            <div className="">Mis productos</div>
+                        </div>
+
+                        <div hidden={false} 
+                            onClick={()=>this.cambiarPagina("usuario")} 
+                            className="boton_barra_lateral">
+                            <div className=""><IconoUsuario/></div>
+                            <div className="">Mis Ventas</div>
+                        </div>
                     </div>
                 </div>
                 <div className="cuepo_aplicacion">
