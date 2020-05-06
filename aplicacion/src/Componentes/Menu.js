@@ -14,6 +14,9 @@ import IconoSinNotificacion from '../SVG/IconoSinNotificacion';
 import IconoUsuario from '../SVG/IconoUsuario';
 import IconoMercado from '../SVG/IconoMercado';
 import IconoPedidoMenu from '../SVG/IconoPedidoMenu';
+import IconoPedidos from '../SVG/IconoPedidos';
+import IconoDireccion from '../SVG/IconoDireccion';
+import IconoVentas from '../SVG/IconoVentas';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
@@ -86,28 +89,28 @@ export class Menu extends React.Component {
                         <div hidden={false} 
                             onClick={()=>this.cambiarPagina("usuario")} 
                             className="boton_barra_lateral">
-                            <div className=""><IconoUsuario/></div>
+                            <div className=""><IconoPedidos/></div>
                             <div className="">Pedidos</div>
                         </div>
 
                         <div hidden={false} 
                             onClick={()=>this.cambiarPagina("usuario")} 
                             className="boton_barra_lateral">
-                            <div className=""><IconoUsuario/></div>
+                            <div className=""><IconoDireccion/></div>
                             <div className="">Mis direcciones</div>
                         </div>
 
                         <div hidden={false} 
                             onClick={()=>this.cambiarPagina("usuario")} 
                             className="boton_barra_lateral">
-                            <div className=""><IconoUsuario/></div>
+                            <div className=""><IconoMercado/></div>
                             <div className="">Mis productos</div>
                         </div>
 
                         <div hidden={false} 
                             onClick={()=>this.cambiarPagina("usuario")} 
                             className="boton_barra_lateral">
-                            <div className=""><IconoUsuario/></div>
+                            <div className=""><IconoVentas/></div>
                             <div className="">Mis Ventas</div>
                         </div>
                     </div>
