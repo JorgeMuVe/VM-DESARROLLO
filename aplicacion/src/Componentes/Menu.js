@@ -51,12 +51,12 @@ export class Menu extends React.Component {
     render(){
         return(
             <div className="Menu">
-                <div className="logo_aplicacion centrado">
-                    <img src={this.props.urlAplicacion + "/vinocanchon.png"} alt="Logo Negocio"/>
+                <div className="logo_aplicacion">
+                    PERÚ<br/>REACTIVA
                 </div>
                 <div className="barra_herramientas">
-                    <div className="barra_herramientas_titulo">
-                        <div className="centrado"> MERCADO VIRTUAL </div>
+                    <div className="barra_herramientas_titulo centrado">
+                        <div> <b>MERCADO VIRTUAL</b> </div>
                     </div>
                     <div className="barra_herramientas_items">
                         <div> {(this.props.notificaciones||[]).length>0?<IconoNotificacion/>:<IconoSinNotificacion/>} </div>
@@ -99,14 +99,14 @@ export class Menu extends React.Component {
                             <div className=""><IconoDireccion/></div>
                             <div className="">Mis direcciones</div>
                         </div>
-
+                    </div>
+                    <div className="barra_lateral_items ocultar">
                         <div hidden={false} 
                             onClick={()=>this.cambiarPagina("usuario")} 
                             className="boton_barra_lateral">
                             <div className=""><IconoMercado/></div>
                             <div className="">Mis productos</div>
                         </div>
-
                         <div hidden={false} 
                             onClick={()=>this.cambiarPagina("usuario")} 
                             className="boton_barra_lateral">
