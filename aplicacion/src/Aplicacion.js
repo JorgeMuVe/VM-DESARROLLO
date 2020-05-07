@@ -21,7 +21,8 @@ import PedidoCuadro from './Componentes/PedidoCuadro';
 /* *********  I N T E R F A Z   **********/
 import Principal from './UI/Paginas/Principal.js';
 import Producto from './UI/Producto/Producto';
-import Usuario from './UI/Usuario/Usuario';
+// import Usuario from './UI/Usuario/Usuario';
+import Contacto from './UI/Contacto/Conctacto';
 
 /* ********* M O D A L ************* */
 import ModalIngreso from './Componentes/ModalIngreso';
@@ -247,7 +248,7 @@ export class Aplicacion extends Component {
             <Switch>
               <Route exact path="/" component={Principal}/>
               <Route path="/negocios" component={Producto}/>
-              <Route path="/contacto" component={Usuario}/>
+              <Route path="/contacto" component={Contacto}/>
             </Switch>
           </BrowserRouter>
         </div>

@@ -177,6 +177,92 @@ input:focus{outline:none;}
 .entrega_cuerpo{display:grid;grid-gap:20px;margin:20px;}
 .entrega_siguiente{width:170px;height:50px;font-size:20px;}
 
+/* Contacto */
+
+.Contacto{
+    background-color: #ebedf3;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    margin-top: 50px;
+    padding: 70px;
+}
+.Contacto div{
+    background-color: #ebedf3;
+    margin-bottom: 10px;
+}
+
+.Contacto .Contacto1{
+    background-color: #ebedf3;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    margin-top: 20px;
+}
+
+.Contacto .title{
+    display: block;
+    color: #999ba3;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    line-height: 20px;
+}
+
+.Contacto strong{
+    display: block;
+    font-size: 24px;
+    color: #2f313a;
+    font-weight: 400;
+    line-height: 36px;
+    letter-spacing: 1px;
+
+}
+
+.panel-group {
+    margin-bottom: 0;
+}
+.panel-group .panel {
+    border-radius: 0;
+    box-shadow: none;
+}
+.panel-group .panel .panel-heading {
+    padding: 0;
+}
+.panel-group .panel .panel-heading h4 a {
+    background: #f6f9fc;
+    display: block;
+    font-size: 15px;
+    line-height: 20px;
+    padding: 15px;
+    text-decoration: none;
+    transition: 0.15s all ease-in-out;
+}
+.panel-group .panel .panel-heading h4 a:hover, .panel-group .panel .panel-heading h4 a:not(.collapsed) {
+    /*background: #fff;*/
+    transition: 0.15s all ease-in-out;
+}
+.panel-group .panel .panel-heading h4 a:not(.collapsed) i:before {
+    content: "-";
+    font-size: 30px;
+    line-height: 10px;
+}
+.panel-group .panel .panel-heading h4 a i {
+    color: #999;
+    font-size: 12px;
+}
+.panel-group .panel .panel-body {
+    padding-top: 0;
+}
+.panel-group .panel .panel-heading + .panel-collapse > .list-group,
+.panel-group .panel .panel-heading + .panel-collapse > .panel-body {
+    border-top: none;
+}
+.panel-group .panel + .panel {
+    border-top: none;
+    margin-top: 0;
+}
+
+/* Contacto */
+
 @media (max-width: 400px){
     .menu_item_ocultar{display: none;}
     .menu_item_mercados{border:1.2px solid #e51b1b;color:#e51b1b !important;border-radius:8px;box-shadow: 1px 2px 2px 0 rgba(0,0,0,0.5);}
