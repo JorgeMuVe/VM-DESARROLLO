@@ -21,12 +21,9 @@ export class Producto extends React.Component {
     }
 
     render(){
-        if(this.props.tipoUsuario.split("-")[0]==="producto"){
-            var tipoUsuario = this.props.tipoUsuario.split("-")[1];
             return(
                 <div className="Producto">
                     <div className="producto_tipo"
-                        hidden={tipoUsuario !== "cliente"}
                         onClick={()=>this.cambiarPagina('verduras' , 1)}
                     > <div className="principal_boton" style={{height:'100%'}}>
                         <img src={this.props.urlAplicacion + "/img/fondos/verduras.jpg"} alt="Fondo Entrega"/>
@@ -34,7 +31,6 @@ export class Producto extends React.Component {
                     </div> </div>
 
                     <div className="producto_tipo"
-                        hidden={tipoUsuario !=="cliente"}
                         onClick={()=>this.cambiarPagina('carnes' , 2)}
                     > <div className="principal_boton"> 
                         <img src={this.props.urlAplicacion + "/img/fondos/carnes.jpg"} alt="Fondo Entrega"/>
@@ -42,7 +38,6 @@ export class Producto extends React.Component {
                     </div> </div>
 
                     <div className="producto_tipo"
-                        hidden={tipoUsuario !== "cliente"}
                         onClick={()=>this.cambiarPagina('lacteos', 3)}
                     > <div className="principal_boton"> 
                         <img src={this.props.urlAplicacion + "/img/fondos/lacteos.jpg"} alt="Fondo Entrega"/>
@@ -50,7 +45,6 @@ export class Producto extends React.Component {
                     </div> </div>
                     
                     <div className="producto_tipo"
-                        hidden={tipoUsuario !== "cliente"}
                         onClick={()=>this.cambiarPagina('bebidas',4)}
                     > <div className="principal_boton"> 
                         <img src={this.props.urlAplicacion + "/img/fondos/bebidas.jpg"} alt="Fondo Entrega"/>
@@ -58,7 +52,6 @@ export class Producto extends React.Component {
                     </div> </div>
 
                     <div className="producto_tipo"
-                        hidden={tipoUsuario !== "cliente"}
                         onClick={()=>this.cambiarPagina('limpieza',5)}
                     > <div className="principal_boton"> 
                         <img src={this.props.urlAplicacion + "/img/fondos/limpieza.jpg"} alt="Fondo Entrega"/>
@@ -66,7 +59,6 @@ export class Producto extends React.Component {
                     </div> </div>
 
                     <div className="producto_tipo"
-                        hidden={tipoUsuario !== "cliente"}
                         onClick={()=>this.cambiarPagina('ofertas',6)}
                     > <div className="principal_boton">
                         <img src={this.props.urlAplicacion + "/img/fondos/ofertas.jpg"} alt="Fondo Entrega"/>
@@ -74,17 +66,15 @@ export class Producto extends React.Component {
                     </div> </div>
 
                     <div className="producto_tipo"
-                        hidden={tipoUsuario !== "negocio"}
                         onClick={()=>this.cambiarPagina('misProductos',7)}
                     > <div className="producto_tipo_boton"> Mis Productos </div> </div>
 
                     <div className="producto_tipo"
-                        hidden={tipoUsuario !== "negocio"}
                         onClick={()=>this.cambiarPagina('misOfertas',8)}
                     > <div className="producto_tipo_boton"> Mis ofertas </div> </div>
                 </div>
             )
-        } else { return null }
+        //} else { return null }
     }
 }
 

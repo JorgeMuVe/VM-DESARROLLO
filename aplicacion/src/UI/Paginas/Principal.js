@@ -26,7 +26,7 @@ export class Principal extends React.Component {
                     </div>
                     <div className="principal_buscador_cuadro">
                         <div className="centrado"><IconoLupa/></div>
-                        <input type="text" placeHolder="Nombre Producto"/>
+                        <input type="text" placeholder="Nombre del Producto"/>
                         <button>BUSCAR</button>
                     </div>
                 </div>

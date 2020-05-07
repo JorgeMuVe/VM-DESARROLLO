@@ -20,18 +20,13 @@ import PedidoCuadro from './Componentes/PedidoCuadro';
 
 /* *********  I N T E R F A Z   **********/
 import Principal from './UI/Paginas/Principal.js';
-import Venta from './UI/Negocio/Ventas/Ventas';
-import Entrega from './UI/Entrega/Entrega';
-
 import Producto from './UI/Producto/Producto';
-import ProductoLista from './UI/Producto/ProductoLista';
-
-import Pedido from './UI/Pedido/Pedido';
-import Direccion from './UI/Direccion/Direccion';
 import Usuario from './UI/Usuario/Usuario';
 
-import Ingresar from './UI/Ingreso/Ingreso';
-import Registro from './UI/Registro/Registro';
+/* ********* M O D A L ************* */
+import ModalIngreso from './Componentes/ModalIngreso';
+
+
 /* *******   V A R I A B L E S  G L O B A L E S **********/
 const estadoInicial = {
 
@@ -39,19 +34,6 @@ const estadoInicial = {
   urlAplicacion : urlAplicacionDesarrollo,
   //urlAplicacion : urlAplicacionPublica,
   urlAplicacionPublica: urlAplicacionPublica,
-
-  /**** PAGINAS DE APLICACION ****/
-  paginasApp:[
-    {numeroPagina:0,nombrePagina:'principal',titulo:''},
-    {numeroPagina:1,nombrePagina:'productos',titulo:''},
-    {numeroPagina:2,nombrePagina:'pedido',titulo:''},
-    {numeroPagina:3,nombrePagina:'direccion',titulo:''},
-    {numeroPagina:4,nombrePagina:'ventas',titulo:''},
-    {numeroPagina:5,nombrePagina:'usuario',titulo:''},
-
-  ],
-  paginaAnterior:'principal',
-  paginaActual:'principal',
   
   /**** CUADRO DE MENSAJE ****/
   mostrarMensaje:false,
@@ -60,6 +42,7 @@ const estadoInicial = {
 
   /**** DATOS DE APLICACION *******/
   //Usuario
+  mostrarModalIngreso:false,
   usuarioAplicacion: { 
     nombreCompleto:"Usuario Invitado",
     apellidoPaterno:"",
@@ -67,7 +50,6 @@ const estadoInicial = {
     tipoUsuario:"invitado",
     codigoUsuario:""
   },
-  
   
   // Productos
   productosPorTipo: [],
@@ -221,6 +203,8 @@ export class Aplicacion extends Component {
     this.obtenerUsuario();
   }
 
+  controlModalIngreso =()=> this.setState({mostrarModalIngreso:!this.state.mostrarModalIngreso});
+
   componentDidMount(){
     this.inicarAplicacion();
     //window.addEventListener('popstate',()=>this.cambiarPagina(this.state.paginaAnterior));
@@ -234,22 +218,36 @@ export class Aplicacion extends Component {
   render() {
     return (
       <div className="Aplicacion">
+        <ModalIngreso
+          mostrarModalIngreso={this.state.mostrarModalIngreso}
+          controlModalIngreso={this.controlModalIngreso}
+        ></ModalIngreso>
+
         <PedidoCuadro
           mostrarPedido={this.state.mostrarPedido}
           abrirPedido={this.abrirPedido}
           pedidoUsuario={this.state.pedidoUsuario} 
         ></PedidoCuadro>
 
-        <Mensaje mostrarMensaje={this.state.mostrarMensaje}
-            textoMensaje={this.state.textoMensaje}
-            tipoMensaje={this.state.tipoMensaje}
+        <Mensaje 
+          mostrarMensaje={this.state.mostrarMensaje}
+          textoMensaje={this.state.textoMensaje}
+          tipoMensaje={this.state.tipoMensaje}
         ></Mensaje>
-        <Menu usuarioAplicacion={this.state.usuarioAplicacion} abrirPedido={this.abrirPedido}></Menu>
+
+        <Menu
+          abrirPedido={this.abrirPedido}
+          controlModalIngreso={this.controlModalIngreso}
+          urlAplicacion={this.state.urlAplicacion}
+          usuarioAplicacion={this.state.usuarioAplicacion} 
+        ></Menu>
+
         <div className="Paginas">
           <BrowserRouter>
             <Switch>
               <Route exact path="/" component={Principal}/>
-              <Route exact path="/*" component={Principal}/>
+              <Route path="/negocios" component={Producto}/>
+              <Route path="/contacto" component={Usuario}/>
             </Switch>
           </BrowserRouter>
         </div>

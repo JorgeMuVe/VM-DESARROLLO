@@ -6,9 +6,6 @@
 /* COMPONENTES */
 import React from 'react';
 
-/* IMPORT SVG */
-import IconoPedido from '../SVG/IconoPedido';
-
 /* VARIABLES GLOBALES */
 const estadoInicial = {
     pedido : false, // Abrir - Cerrar El Pedido
