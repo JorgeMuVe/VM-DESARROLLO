@@ -3,9 +3,16 @@
 -- @Copyright        Jorge.Muvez - World Connect Perú - 2020-00-00
 */
 
-/* COMPONENTES */
+/****** COMPONENTES ******/
 import React from 'react';
 import Modal from './Modal';
+
+/***** ICONO SVG *******/
+import IconoMercado from '../SVG/IconoMercado';
+import IconoUsuario from '../SVG/IconoUsuario';
+import IconoContrasena from '../SVG/IconoContrasena';
+
+
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
@@ -28,17 +35,17 @@ export class PedidoCuadro extends React.Component {
             >
             <div className="ModalIngreso">
                 <div className="modal_ingreso_tipo">
-                    <div> <button>Tienda</button> </div>
-                    <div> <button>Cliente</button> </div>                    
+                    <div style={{background:"red"}}><IconoMercado/><label className="centrado">Negocio</label></div>
+                    <div style={{background:"green"}}><IconoUsuario fill="whitesmoke"/><label className="centrado">Cliente</label></div>
                 </div>
                 <div className="modal_ingreo_datos">
-                    <div><input type="text" placeholder="Usuario o Correo"/></div>
-                    <div><input type="password" placeholder="Contraseña"/></div>
+                    <div><IconoUsuario fill="#d1d3d8"/><input type="text" placeholder="Usuario o Correo"/></div>
+                    <div><IconoContrasena fill="#d1d3d8"/><input type="password" placeholder="Contraseña"/></div>
                 </div>
                 <div className="modal_ingreso_ingreso">
-                    <div> Olvido su contraeña? </div>
+                    <div> <a href="/recuperar">Olvido su contraseña?</a></div>
                     <div> <button> INGRESAR </button> </div>
-                    <div> Nuevo aqui? <a href="/registro">Registrarse</a></div>
+                    <label> Nuevo aqui? <a href="/registro">Registrarse</a></label>
                 </div>
                 <div className="modal_ingreso_internet">
                     <div> INGRESAR CON </div>

@@ -6,11 +6,45 @@ input:focus{outline:none;}
 .cuadro_mensaje{position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,0.1);}
 .error{font-size:3vh;color:#ee6e6e;background-color:#f3cdcd;margin:15% auto;padding:15px;border:2px solid #ee6e6e;border-radius:8px;width:max-content;}
 
-.modal{position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,0.4);}
-.modal_ventana{background:whitesmoke;margin:15% auto;padding:15px;border-radius:8px;width:max-content;box-shadow:10px 5px 10px 0 rgba(0, 0, 0, 0.5);}
+.modal{position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,0.5);}
+.modal_ventana{background:whitesmoke;margin:15vh auto;padding:15px;border-radius:4px;width:max-content;box-shadow:10px 5px 10px 0 rgba(0, 0, 0, 0.5);}
 .modal_encabezado{font-size:20px;display:grid;grid-template-columns:90%10%;}
 .boton_cerrar{cursor:pointer;border:solid 2px #e51b1b;color:#e51b1b;border-radius:8px;text-align:center;width:20px;height:20px;justify-self:end;font-weight:bold;margin-left:10px;}
 .boton_cerrar:hover,.boton_cerrar:focus{color:red;border-color:red;}
+
+.ModalIngreso {display:grid;grid-gap:10px;}
+.modal_ingreso_tipo{
+    background: #eeeeee; 
+    padding: 10px;
+    border: solid 1px #d1d3d8;
+    display:grid;grid-gap:20px;
+    grid-template-columns: repeat(2,1fr);
+}
+.modal_ingreso_tipo div{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+    box-shadow:10px 5px 10px 0 rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    color:whitesmoke;
+    padding: 15px 10px;
+}
+.modal_ingreso_tipo div svg{width:25px;height:25px;margin-right:3px;}
+
+.modal_ingreo_datos {display:grid;grid-gap:10px;}
+.modal_ingreo_datos div{
+    border:solid 1px #d1d3d8;border-radius:5px;padding:5px;
+    display:flex;flex-direction:row;justify-content:space-between;
+    background: white;
+}
+.modal_ingreo_datos div svg{width:20px;height:20px;margin-right:3px;}
+.modal_ingreo_datos div input{width:100%;border-style:none;height:100%;background:white;font-size:15px;}
+
+
+
 
 .Menu_{margin:auto;width:100%;display:grid;grid-template-columns:15% 85%;}
 .Menu{width:100%;height:50px;position:sticky;top:0;z-index:100;display:flex;justify-content:center;}
