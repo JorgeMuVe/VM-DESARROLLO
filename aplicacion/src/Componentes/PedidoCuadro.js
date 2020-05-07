@@ -23,25 +23,25 @@ export class PedidoCuadro extends React.Component {
     abrirPedido = () => { this.setState({pedido:!this.state.pedido}) }
 
     render(){
-        return(
-            <div className="PedidoCuadro">
-                <input type="checkbox" id="checkbox_pedido" checked={this.state.pedido} onChange={()=>this.abrirPedido()}/>
-                <label htmlFor="checkbox_pedido" className="boton_pedido"><IconoPedido/></label>
-                <div className="lista_pedido">
-                    <div> Lista de Pedidos</div>
-                    <div>
-                        {(this.props.pedidoUsuario||[]).map((producto,i)=>{
-                            return (
-                            <div key={i}>Producto {i}</div>
-                            );
-                        })}
-                    </div>
-                    <div className="centrado">
-                        <button>Comprar</button>
+        if(this.props.mostrarPedido){
+            return(
+                <div className="PedidoCuadro centrado">
+                    <div className="pedido_modal">
+                        <h3> Lista de Pedidos</h3>
+                        <div className="lista_pedido">
+                            {(this.props.pedidoUsuario||[]).map((producto,i)=>{
+                                return (
+                                <div key={i}>Producto {i}</div>
+                                );
+                            })}
+                        </div>
+                        <div className="centrado">
+                            <button onClick={()=>this.props.abrirPedido}>Comprar</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        )
+            )
+        } else { return null }
     }
 }
 

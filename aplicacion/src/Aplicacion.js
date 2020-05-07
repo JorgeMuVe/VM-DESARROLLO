@@ -11,6 +11,7 @@ import { urlAplicacionDesarrollo } from './Componentes/Funciones'
 import { urlAplicacionPublica } from './Componentes/Funciones'
 
 /* *********  C O M P O N E N T E S   ************/
+import { BrowserRouter , Route , Switch } from 'react-router-dom'; // Libreria React-Router
 import React, { Component } from 'react';
 import Menu from './Componentes/Menu.js';
 import Mensaje from './Componentes/Mensaje.js';
@@ -72,6 +73,7 @@ const estadoInicial = {
   productosPorTipo: [],
 
   // Pedido Usuario
+  mostrarPedido:false,
   pedidoUsuario:[1],
 
   // Notificaciones
@@ -97,6 +99,11 @@ export class Aplicacion extends Component {
     this.setState({mostrarMensaje:true,textoMensaje:mensaje,tipoMensaje:'error'},()=>{
       setTimeout(()=>this.setState({mostrarMensaje:false,textoMensaje:'',tipoMensaje:''}),tiempo)
     })
+  }
+
+  /* MOSTRAR PEDIDO LISTA */
+  abrirPedido =()=>{
+    this.setState({mostrarPedido:!this.state.mostrarPedido});
   }
   
   /* VERIFICACION */
@@ -221,27 +228,43 @@ export class Aplicacion extends Component {
   }
 
   componentWillUnmount() {
-    window.history.pushState({name: "browserBack"}, "on browser back click", window.location.href);
+    //window.history.pushState({name: "browserBack"}, "on browser back click", window.location.href);
   }
 
   render() {
-    const { paginaActual } = this.state;
     return (
       <div className="Aplicacion">
-        <PedidoCuadro       
-          cambiarPagina={this.cambiarPagina}
-          pedidoUsuario={this.state.pedidoUsuario}
+        <PedidoCuadro
+          mostrarPedido={this.state.mostrarPedido}
+          abrirPedido={this.abrirPedido}
+          pedidoUsuario={this.state.pedidoUsuario} 
         ></PedidoCuadro>
-        <Menu usuarioAplicacion={this.state.usuarioAplicacion} 
-              notificaciones={this.state.notificaciones}
-              cambiarPagina={this.cambiarPagina}
-              urlAplicacion={this.state.urlAplicacion}>
-          <div className="Paginas">
-            <Mensaje
-              mostrarMensaje={this.state.mostrarMensaje}
-              textoMensaje={this.state.textoMensaje}
-              tipoMensaje={this.state.tipoMensaje}
-            ></Mensaje>
+
+        <Mensaje mostrarMensaje={this.state.mostrarMensaje}
+            textoMensaje={this.state.textoMensaje}
+            tipoMensaje={this.state.tipoMensaje}
+        ></Mensaje>
+        <Menu usuarioAplicacion={this.state.usuarioAplicacion} abrirPedido={this.abrirPedido}></Menu>
+        <div className="Paginas">
+          <BrowserRouter>
+            <Switch>
+              <Route exact path="/" component={Principal}/>
+              <Route exact path="/*" component={Principal}/>
+            </Switch>
+          </BrowserRouter>
+        </div>
+      </div>
+    )
+  }
+}
+
+export default Aplicacion;
+
+/*
+
+
+          
+
             <div className={paginaActual==='principal'?'':'ocultar'}>
               <Principal            
                 urlAplicacion={this.state.urlAplicacion}
@@ -311,10 +334,5 @@ export class Aplicacion extends Component {
               ></Registro>
             </div>
           </div>
-        </Menu>
-      </div>
-    )
-  }
-}
 
-export default Aplicacion;
+*/
