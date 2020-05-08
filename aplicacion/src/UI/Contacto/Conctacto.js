@@ -15,44 +15,33 @@ export class Contacto extends React.Component {
         this.state = estadoInicial;
     }
 
-    abrirSeccion = () => {
-        console.log("abrir");
-        var acc = document.getElementsByClassName("accordion");
-        var i;
-
-        for (i = 0; i < acc.length;) {
-            acc[i].addEventListener("click", function () {
-                this.classList.toggle("active");
-                var panel = this.nextElementSibling;
-                if (panel.style.maxHeight) {
-                    panel.style.maxHeight = null;
-                } else {
-                    panel.style.maxHeight = panel.scrollHeight + "px";
-                }
-            });
-        }
+    abrirSection = (idSection) => {
+        var section = document.getElementById(idSection);
+        if(section.style.maxHeight){
+            section.style.maxHeight=null
+        } else { section.style.maxHeight='150px' }
     }
+    
     
     render() {
         return (
             <div className="Contacto">
                 <div className="faq">
                     <h2>PREGUNTAS FRECUENTES.</h2>
-                    <button class="accordion">Section 1</button>
-                    <div class="panel">
+                    <button className="accordion" onClick={()=>this.abrirSection('section1')}>Section 1</button>
+                    <div className="panel" id="section1">
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                     </div>
 
-                    <button class="accordion">Section 2</button>
-                    <div class="panel">
+                    <button className="accordion" onClick={()=>this.abrirSection('section2')}>Section 2</button>
+                    <div className="panel" id="section2">
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                     </div>
 
-                    <button class="accordion">Section 3</button>
-                    <div class="panel">
+                    <button className="accordion" onClick={()=>this.abrirSection('section3')}>Section 3</button>
+                    <div className="panel" id="section3">
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                    </div>
-                    {()=>this.abrirSeccion()}                    
+                    </div>                    
                 </div>
 
                 <div className="Contact">
@@ -60,16 +49,16 @@ export class Contacto extends React.Component {
                         <h2>CONTÁCTENOS</h2>
                         <div className="contacto1">
                             <div>
-                                <span class="title">Celular</span>
+                                <span className="title">Celular</span>
                                 <strong>987654321</strong>
                             </div>
                             <div>
-                                <span class="title">Correo Electrónico</span>
+                                <span className="title">Correo Electrónico</span>
                                 <strong>Correo@electronico.com</strong>
                             </div>
                         </div>
                         <div className="direccion">
-                            <span class="title">Dirección</span>
+                            <span className="title">Dirección</span>
                             <strong>121, Calle Los Girasoles, Victoria 3000 Cusco</strong>
                         </div>
                     </div>
@@ -80,23 +69,23 @@ export class Contacto extends React.Component {
                         <p className="obligatorio">*Todos los campos son obligatorios</p>
                         <form className="formulario1" action="">
                             <div className="info">
-                                <label for="nombres">Nombres *</label>
+                                <label htmlFor="nombres">Nombres *</label>
                                 <input type="text" name="nombres" id="nombres" required></input>
                             </div>
                             <div className="info">
-                                <label for="apellidos">Apellidos *</label>
+                                <label htmlFor="apellidos">Apellidos *</label>
                                 <input type="text" name="apellidos" id="apellidos" required></input>
                             </div>
                             <div className="info">
-                                <label for="email">email:</label>
+                                <label htmlFor="email">email:</label>
                                 <input type="email" name="email" id="email" required></input>
                             </div>
                             <div className="info">
-                                <label for="telefono">telefono:</label>
+                                <label htmlFor="telefono">telefono:</label>
                                 <input type="text" name="telefono" id="telefono"></input>
                             </div>
                             <div className="mensaje">
-                                <label for="mensaje">mensaje:</label>
+                                <label htmlFor="mensaje">mensaje:</label>
                                 <textarea rows="6" id="mensaje" name="mensaje" required></textarea>
                             </div>
                             <div>
