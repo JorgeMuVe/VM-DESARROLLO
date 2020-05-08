@@ -32,32 +32,32 @@ export class Negocio extends React.Component {
         return(
             <div className="Negocio centrado">
 
-                <div className="negocio_componentes">
+                <div className="usuario_componentes">
 
-                    <div className="negocio_navegador">
+                    <div className="usuario_navegador">
 
-                        <div className={"negocio_navegador_boton " + (this.state.paginaActual==="ventas"?"activo":"")}
+                        <div className={"usuario_navegador_boton " + (this.state.paginaActual==="ventas"?"activo":"")}
                             onClick={()=>this.cambiarPagina("ventas")}>
                             <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
                             <label>Ventas</label>
                         </div>
-                        <div className={"negocio_navegador_boton " + (this.state.paginaActual==="pedidos"?"activo":"")}
+                        <div className={"usuario_navegador_boton " + (this.state.paginaActual==="pedidos"?"activo":"")}
                             onClick={()=>this.cambiarPagina("pedidos")}>
                             <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
                             <label>Pedidos</label>
                         </div>
-                        <div className={"negocio_navegador_boton " + (this.state.paginaActual==="productos"?"activo":"")}
+                        <div className={"usuario_navegador_boton " + (this.state.paginaActual==="productos"?"activo":"")}
                             onClick={()=>this.cambiarPagina("productos")}>
                             <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
                             <label>Productos</label>
                         </div>
-                        <div className="negocio_navegador_boton">
+                        <div className="usuario_navegador_boton">
                             <div className="centrado"><IconoGoogle fill="#d1d3d8"/></div>
                             <label>Salir</label>
                         </div>
                     </div>
 
-                    <div className="negocio_paginas centrado">
+                    <div className="usuario_paginas centrado">
                         <div className={(this.state.paginaActual==="ventas"?"":"ocultar")}><Ventas/></div>
                         <div className={(this.state.paginaActual==="pedidos"?"":"ocultar")}><Pedidos/></div>
                         <div className={(this.state.paginaActual==="productos"?"":"ocultar")}><Productos/></div>

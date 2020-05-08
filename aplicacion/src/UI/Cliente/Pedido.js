@@ -9,7 +9,7 @@ import React from 'react';
 /* VARIABLES GLOBALES */
 const estadoInicial = {};
 
-export class Negocio extends React.Component {
+export class ClientePedido extends React.Component {
     constructor(props){
         super(props);
         this.state = estadoInicial;
@@ -17,29 +17,22 @@ export class Negocio extends React.Component {
 
     render(){
         return(
-            <div className="NegocioVentas">
-                <table className="tabla_ventas">
-                    <thead>
-                        <tr>
-                            <th> NR PEDIDO</th>
-                            <th> FECHA </th>
-                            <th> PRECIO<br/>TOTAL</th>
-                            <th> CARGOS </th>
-                            <th> RECIBIDO </th>
-                            <th> ESTADO</th>
-                            <th> DETALLE</th>
-                        </tr>
-                    </thead>
-                    {(this.state.ventasNegocio||[]).map((venta,i) => {
-                        return ( 
-                        <tbody key={i}>
-                            <tr>VENTA {i}</tr> 
-                        </tbody>
-                    )})}
-                </table>
+            <div className="ClientePedido">
+                <div className="cliene_pedido_encabezado">
+                    <label> PEDIDO ACTUAL </label>
+                </div>
+
+                <div className="cliene_pedido_tabla">
+                    {(this.state.pedidoCliente||[]).length > 0?
+                    <div className="cliente_pedido_tabla">
+                        {(this.state.pedidoCliente||[]).map(producto =>
+                        <div> Producto {producto} </div>)}
+                    </div> :
+                    <div> No se agregaron Productos al Pedido!.</div>}
+                </div>
             </div>
         )
     }
 }
 
-export default Negocio;
+export default ClientePedido;

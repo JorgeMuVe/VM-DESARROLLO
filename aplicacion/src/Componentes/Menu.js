@@ -23,10 +23,12 @@ export class Menu extends React.Component {
                 <div className="menu_items">
 
                     <div className="menu_item_ocultar" onClick={()=>this.redireccionar("/")}>INICIO</div>
-                    <div className="menu_item_mercados" onClick={()=>this.redireccionar("/negocios")}>MERCADOS</div>
+                    <div className="menu_item_mercados" onClick={()=>this.redireccionar("/negocios")}>TIENDAS</div>
+                    <div className="menu_item_mercados" onClick={()=>this.redireccionar("/negocios")}>ENVIOS</div>
                     <div className="menu_item_logo centrado" onClick={()=>this.props.abrirPedido()}>                    
                         <img src="/Logo.png" alt="Logo"></img>
                     </div>
+                    <div className="menu_item_ocultar" onClick={()=>this.redireccionar("/contacto")}>FORO</div>
                     <div className="menu_item_ocultar" onClick={()=>this.redireccionar("/contacto")}>CONTACTO</div>
                     <div className="menu_item_principal" onClick={()=>this.props.controlModalIngreso()}>INGRESAR</div>
                     

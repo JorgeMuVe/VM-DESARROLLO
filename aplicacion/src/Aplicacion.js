@@ -25,8 +25,9 @@ import Cliente from './UI/Cliente/Cliente';
 
 
 import Producto from './UI/Producto/Producto';
-import Contacto from './UI/Contacto/Conctacto';
+import Contacto from './UI/Contacto/Contacto';
 import PiePagina from './Componentes/PiePagina';
+
 
 
 /* ********* M O D A L ************* */

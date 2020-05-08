@@ -92,28 +92,29 @@ input:focus{outline:none;}
 .principal_categorias div{display:grid;color:whitesmoke;grid-gap:5px;}
 
 
-.Negocio{background: #ebedf3;margin-top:-50px;height: 100%;}
-.negocio_componentes{
+.Negocio{background: #ebedf3;margin-top:-50px;height:100%;}
+.Cliente{background: #ebedf3;margin-top:-50px;height:100%;}
+
+.usuario_componentes{
     display: grid;
-    grid-template-columns: 250px 1fr;
+    grid-template-columns: 180px 1fr;
     grid-gap: 20px;
     width: 60%;
     min-height: 500px;
     margin-top:60px;
     padding-bottom: 50px;
 }
-.negocio_navegador { background:white;display:grid;grid-template-columns: repeat(1,1fr);height:200px;box-shadow: 1px 1px 6px 0 rgba(0,0,0,0.5);}
-.negocio_paginas { background: white; box-shadow: 1px 1px 6px 0 rgba(0,0,0,0.5);}
+.usuario_navegador { background:white;display:grid;grid-template-columns: repeat(1,1fr);height:200px;box-shadow: 1px 1px 6px 0 rgba(0,0,0,0.5);}
+.usuario_paginas { background: white; box-shadow: 1px 1px 6px 0 rgba(0,0,0,0.5);}
 
-.negocio_navegador_boton{display:flex;flex-direction:row;align-items:center;font-size:16px;}
-.negocio_navegador_boton div{width:20%;height:35px;border-right:1px solid #d1d3d8;cursor:pointer;}
-.negocio_navegador_boton label{padding-left:15px;width:100%;color:#2f313a;letter-spacing:1px;font-size:18px;cursor:pointer;}
+.usuario_navegador_boton{display:flex;flex-direction:row;align-items:center;font-size:16px;}
+.usuario_navegador_boton div{width:20%;height:35px;border-right:1px solid #d1d3d8;cursor:pointer;}
+.usuario_navegador_boton label{padding-left:15px;width:80%;color:#2f313a;letter-spacing:1px;font-size:18px;cursor:pointer;}
 
-.negocio_navegador_boton:hover label{ transition: 0.40s all ease-in-out;color:#e51b1b;}
-.negocio_navegador_boton:hover div svg{ transition: 0.40s all ease-in-out;fill:#e51b1b;}
+.usuario_navegador_boton:hover label{ transition: 0.40s all ease-in-out;color:#e51b1b;}
+.usuario_navegador_boton:hover div svg{ transition: 0.40s all ease-in-out;fill:#e51b1b;}
 
-.activo label{color:#e51b1b;}
-.activo div svg{fill:#e51b1b;}
+.activo label{color:#e51b1b;}.activo div svg{fill:#e51b1b;}
 
 
 
@@ -168,7 +169,6 @@ input:focus{outline:none;}
 .pedido_pago{display:grid;grid-gap:20px;}
 
 .Error404{background-color:transparent;}
-.Cliente{display:grid;grid-template-columns:1fr;grid-gap:10px;margin:10px;}
 .Registro{display:grid;grid-gap:20px;margin:10px;}
 
 .ocultar {display:none;}

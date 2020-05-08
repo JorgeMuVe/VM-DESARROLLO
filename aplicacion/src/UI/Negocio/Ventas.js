@@ -9,7 +9,7 @@ import React from 'react';
 /* VARIABLES GLOBALES */
 const estadoInicial = {};
 
-export class Negocio extends React.Component {
+export class NegocioVentas extends React.Component {
     constructor(props){
         super(props);
         this.state = estadoInicial;
@@ -18,28 +18,37 @@ export class Negocio extends React.Component {
     render(){
         return(
             <div className="NegocioVentas">
-                <table className="tabla_ventas">
-                    <thead>
-                        <tr>
-                            <th> NR PEDIDO</th>
-                            <th> FECHA </th>
-                            <th> PRECIO<br/>TOTAL</th>
-                            <th> CARGOS </th>
-                            <th> RECIBIDO </th>
-                            <th> ESTADO</th>
-                            <th> DETALLE</th>
-                        </tr>
-                    </thead>
-                    {(this.state.ventasNegocio||[]).map((venta,i) => {
-                        return ( 
-                        <tbody key={i}>
-                            <tr>VENTA {i}</tr> 
-                        </tbody>
-                    )})}
-                </table>
+
+                <div className="negocio_ventas_encabezado">
+                    <label> REGISTRO DE VENTAS </label>
+                </div>
+                
+                {(this.state.ventasNegocio||[]).length > 0?
+                <div className="negocio_ventas_tabla">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th> NR PEDIDO</th>
+                                <th> FECHA </th>
+                                <th> PRECIO<br/>TOTAL</th>
+                                <th> CARGOS </th>
+                                <th> RECIBIDO </th>
+                                <th> ESTADO</th>
+                                <th> DETALLE</th>
+                            </tr>
+                        </thead>
+                        {(this.state.ventasNegocio||[]).map((venta,i) => {
+                            return ( 
+                            <tbody key={i}>
+                                <tr>VENTA {i}</tr> 
+                            </tbody>
+                        )})}
+                    </table>
+                </div> :
+                <div> No Existen Ventas Registradas</div>}
             </div>
         )
     }
 }
 
-export default Negocio;
+export default NegocioVentas;
