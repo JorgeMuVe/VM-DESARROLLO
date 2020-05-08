@@ -5,70 +5,70 @@
 
 /* COMPONENTES */
 import React from 'react';
-import Productos from '../Producto/Productos';
-import Pedido from '../Pedido/Pedido';
-import Oferta from '../Oferta/Oferta';
+
+import Pedido from './Pedido';
+import Compras from './Compras';
+import Direcciones from './Direcciones';
+
+
+/* ICONOS */
+import IconoGoogle from '../../SVG/IconoGoogle';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
-    paginaAnterior:0,
-    paginaActual:0,
-    paginas:[
-        {numero:0,titulo:'Delipedido'},
-        {numero:1,titulo:'Productos'},
-        {numero:2,titulo:'Mi Canasta'},
-        {numero:3,titulo:'Pagar Pedido'},
-    ]
+    ventasNegocio:[1],
+
+    /**** P A G I N A S     N E G O C I O ****/
+    paginaActual:'compras'
 };
 
-export class Negocio extends React.Component {
+export class Cliente extends React.Component {
     constructor(props){
         super(props);
         this.state = estadoInicial;
     }
-    paginaAnterior =()=> {
-        const {paginaAnterior,paginaActual} = this.state;
-        this.setState({paginaActual:paginaAnterior,paginaAnterior:paginaActual});
-    }
-    cambiarPagina =(pagina)=> {        
-        const {paginaActual} = this.state;
-        this.setState({paginaActual:parseInt(pagina),paginaAnterior:paginaActual});
-    }
+
+    cambiarPagina = (pagina) => { this.setState({paginaActual:pagina}) }
+
     render(){
         return(
-            <div className="Cliente">
-                <div className="cliente_productos">
-                    <a href="/negocio"><div className="cliente_productos_boton">
-                        Verduras
-                    </div></a>
-                    <a href="/negocio"><div className="cliente_productos_boton">
-                        Carnes
-                    </div></a>
-                    <a href="/negocio"><div className="cliente_productos_boton">
-                        Lacteos
-                    </div></a>
-                    <a href="/negocio"><div className="cliente_productos_boton">
-                        Bebidas
-                    </div></a>
-                    <a href="/negocio"><div className="cliente_productos_boton">
-                        Comidas
-                    </div></a>
-                    <a href="/negocio"><div className="cliente_productos_boton">
-                        Ofertas
-                    </div></a>
-                </div>
-                <div hidden={true}>
-                    <Productos></Productos>
-                </div>
-                <div hidden={true}>
-                    <Oferta></Oferta>
-                </div>
-                <div hidden={true}>
-                    <Pedido></Pedido>
+            <div className="Negocio centrado">
+
+                <div className="negocio_componentes">
+
+                    <div className="negocio_navegador">
+
+                        <div className={"negocio_navegador_boton " + (this.state.paginaActual==="pedido"?"activo":"")}
+                            onClick={()=>this.cambiarPagina("pedido")}>
+                            <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
+                            <label>Pedido</label>
+                        </div>
+                        <div className={"negocio_navegador_boton " + (this.state.paginaActual==="compras"?"activo":"")}
+                            onClick={()=>this.cambiarPagina("compras")}>
+                            <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
+                            <label>Compras</label>
+                        </div>
+                        <div className={"negocio_navegador_boton " + (this.state.paginaActual==="direcciones"?"activo":"")}
+                            onClick={()=>this.cambiarPagina("direcciones")}>
+                            <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
+                            <label>Direcciones</label>
+                        </div>
+                        <div className="negocio_navegador_boton">
+                            <div className="centrado"><IconoGoogle fill="#d1d3d8"/></div>
+                            <label>Salir</label>
+                        </div>
+                    </div>
+
+                    <div className="negocio_paginas centrado">
+                        <div className={(this.state.paginaActual==="pedido"?"":"ocultar")}><Pedido/></div>
+                        <div className={(this.state.paginaActual==="compras"?"":"ocultar")}><Compras/></div>
+                        <div className={(this.state.paginaActual==="direcciones"?"":"ocultar")}><Direcciones/></div>
+                    </div>
+
                 </div>
             </div>
         )
     }
 }
 
-export default Negocio;
+export default Cliente;

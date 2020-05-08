@@ -15,10 +15,6 @@ export class Menu extends React.Component {
         this.state = estadoInicial;
     }
 
-    componentDidMount(){
-        console.log(this.props);
-    }
-
     redireccionar =(ruta)=>{ window.location.href = (this.props.urlAplicacion+ruta) }
 
     render(){

@@ -42,17 +42,6 @@ export class Principal extends React.Component {
                     <div className="centrado"><IconoMercado/><label>Servicios</label></div>
 
                 </div>
-                <div className="principal_destacados centrado">
-                    <div>
-                        TIENDA MOLINO
-                    </div>
-                    <div>
-                        TIENDA EL CARMEN
-                    </div>
-                    <div>
-                        TIENDA PARAISO
-                    </div>
-                </div>
             </div>
         )
     }

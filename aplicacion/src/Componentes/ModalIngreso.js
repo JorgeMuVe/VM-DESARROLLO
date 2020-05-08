@@ -12,6 +12,10 @@ import IconoMercado from '../SVG/IconoMercado';
 import IconoUsuario from '../SVG/IconoUsuario';
 import IconoContrasena from '../SVG/IconoContrasena';
 
+import IconoFacebook from '../SVG/IconoFacebook';
+import IconoTwitter from '../SVG/IconoTwitter';
+import IconoGoogle from '../SVG/IconoGoogle';
+
 
 
 /* VARIABLES GLOBALES */
@@ -25,6 +29,8 @@ export class PedidoCuadro extends React.Component {
         this.state = estadoInicial;
     }
 
+    redireccionar =(ruta)=>{ window.location.href = ("http://192.168.1.170:3000"+ruta) }
+
     render(){
         if(this.props.mostrarModalIngreso){
         return(
@@ -35,23 +41,36 @@ export class PedidoCuadro extends React.Component {
             >
             <div className="ModalIngreso">
                 <div className="modal_ingreso_tipo">
-                    <div style={{background:"red"}}><IconoMercado/><label className="centrado">Negocio</label></div>
-                    <div style={{background:"green"}}><IconoUsuario fill="whitesmoke"/><label className="centrado">Cliente</label></div>
+                    <div style={{background:"#e51b1b"}} onClick={()=>this.redireccionar('/usuario/negocio')}>
+                        <IconoMercado/><label className="centrado">Negocio</label>
+                    </div>
+                    <div style={{background:"#2ECC71"}} onClick={()=>this.redireccionar('/usuario/cliente')}>
+                        <IconoUsuario fill="whitesmoke"/><label className="centrado">Cliente</label>
+                    </div>
                 </div>
                 <div className="modal_ingreo_datos">
                     <div><IconoUsuario fill="#d1d3d8"/><input type="text" placeholder="Usuario o Correo"/></div>
                     <div><IconoContrasena fill="#d1d3d8"/><input type="password" placeholder="Contraseña"/></div>
                 </div>
-                <div className="modal_ingreso_ingreso">
+                <div className="modal_ingreso_opciones">
                     <div> <a href="/recuperar">Olvido su contraseña?</a></div>
-                    <div> <button> INGRESAR </button> </div>
-                    <label> Nuevo aqui? <a href="/registro">Registrarse</a></label>
+                    <div className="centrado" onClick={()=>this.redireccionar('/usuario/negocio')}> <button> INGRESAR </button> </div>
+                    <div> Nuevo aqui? <a href="/registro">Registrarse</a></div>
                 </div>
                 <div className="modal_ingreso_internet">
-                    <div> INGRESAR CON </div>
-                    <div><button>Ingresar con Facebook</button></div>
-                    <div><button>Ingresar con Twitter</button></div>
-                    <div><button>Ingresar con Google</button></div>
+                    <label className="centrado"> INGRESAR CON </label>
+                    <div className="ingreso_internet_boton" style={{backgroundColor:'#4267B2'}}>
+                        <div className="centrado"><IconoFacebook fill="#d1d3d8"/></div>
+                        <label>Ingresar con Facebook</label>
+                    </div>
+                    <div className="ingreso_internet_boton" style={{backgroundColor:'#00aced'}}>
+                        <div className="centrado"><IconoTwitter fill="#d1d3d8"/></div>
+                        <label>Ingresar con Twitter</label>
+                    </div>
+                    <div className="ingreso_internet_boton" style={{backgroundColor:'#b63a2b'}}>
+                        <div className="centrado"><IconoGoogle fill="#d1d3d8"/></div>
+                        <label>Ingresar con Google</label>
+                    </div>
                 </div>
             </div>
             </Modal>

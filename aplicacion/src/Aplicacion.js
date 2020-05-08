@@ -20,9 +20,13 @@ import PedidoCuadro from './Componentes/PedidoCuadro';
 
 /* *********  I N T E R F A Z   **********/
 import Principal from './UI/Paginas/Principal.js';
+import Negocio from './UI/Negocio/Negocio';
+import Cliente from './UI/Cliente/Cliente';
+
+
 import Producto from './UI/Producto/Producto';
-// import Usuario from './UI/Usuario/Usuario';
 import Contacto from './UI/Contacto/Conctacto';
+
 
 /* ********* M O D A L ************* */
 import ModalIngreso from './Componentes/ModalIngreso';
@@ -150,7 +154,7 @@ export class Aplicacion extends Component {
           this.setState({usuarioAplicacion:res});
         } else { this.abrirError(4000, res.error) }
       });
-    } else { console.log("Usuario Invitado");}
+    } else {}// console.log("Usuario Invitado") }
   }
 
   /* OBTENER PRODUCTOS */
@@ -247,10 +251,15 @@ export class Aplicacion extends Component {
           <BrowserRouter>
             <Switch>
               <Route exact path="/" component={Principal}/>
+              <Route path="/usuario/negocio" render={(props) => <Negocio usuarioAplicacion={this.state.usuarioAplicacion} {...props}/> } />
+              <Route path="/usuario/cliente" render={(props) => <Cliente usuarioAplicacion={this.state.usuarioAplicacion} {...props}/> } />
               <Route path="/negocios" component={Producto}/>
               <Route path="/contacto" component={Contacto}/>
             </Switch>
           </BrowserRouter>
+        </div>
+        <div className="PiePagina">
+          <img src="/img/fondos/piePagina.jpg" alt="Pie de pagina"></img>
         </div>
       </div>
     )
