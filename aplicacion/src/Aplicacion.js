@@ -14,9 +14,11 @@ import { urlAplicacionPublica } from './Componentes/Funciones'
 import { BrowserRouter , Route , Switch } from 'react-router-dom'; // Libreria React-Router
 import React, { Component } from 'react';
 import Menu from './Componentes/Menu.js';
+import Contacto from './Componentes/Contacto';
+import PiePagina from './Componentes/PiePagina';
+
 import Mensaje from './Componentes/Mensaje.js';
 import PedidoCuadro from './Componentes/PedidoCuadro';
-
 
 /* *********  I N T E R F A Z   **********/
 import Principal from './UI/Paginas/Principal.js';
@@ -25,8 +27,6 @@ import Cliente from './UI/Cliente/Cliente';
 
 
 import Producto from './UI/Producto/Producto';
-import Contacto from './UI/Contacto/Contacto';
-import PiePagina from './Componentes/PiePagina';
 
 
 
@@ -246,10 +246,9 @@ export class Aplicacion extends Component {
           abrirPedido={this.abrirPedido}
           controlModalIngreso={this.controlModalIngreso}
           urlAplicacion={this.state.urlAplicacion}
-          usuarioAplicacion={this.state.usuarioAplicacion} 
         ></Menu>
 
-        <div className="Paginas">
+        <div className="Paginas" id="paginas">
           <BrowserRouter>
             <Switch>
               <Route exact path="/" component={Principal}/>
@@ -259,8 +258,11 @@ export class Aplicacion extends Component {
               <Route path="/contacto" component={Contacto}/>
             </Switch>
           </BrowserRouter>
-        </div>  
-          <PiePagina/>
+        </div>
+        <div id="contacto">
+          <Contacto/>
+        </div>
+        <PiePagina/>
       </div>
     )
   }
