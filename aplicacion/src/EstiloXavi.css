@@ -115,7 +115,7 @@
 /* faqs */
 
 .accordion {
-    background-color: #eee;
+    background-color: #ebedf3;
     color: #444;
     cursor: pointer;
     padding: 18px;
@@ -133,7 +133,7 @@
   
   .accordion:after {
     content: '\002B';
-    color: #777;
+    color: #444;
     font-weight: bold;
     float: right;
     margin-left: 5px;
@@ -145,11 +145,50 @@
   
   .panel {
     padding: 0 18px;
-    background-color: white;
+    background-color: #ebedf3;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
   }
   /* faqs */
-
   /* Contacto */
+
+  /* Pie de Pagina */
+
+    .PiePagina{
+        display: grid;
+        grid-template-columns: repeat(5,1fr);
+        margin: 50px;
+    }
+
+    .PiePagina img{
+        width: 40px;
+        height: 40px;
+    }
+
+    .Comunicate{
+        display: grid;   
+        grid-template-rows: 80px 60px 1fr;
+    }
+
+    .PiePagina .numeros{
+        font: Normal 20px/30px "Poppins", sans-serif;
+        grid-template-rows: 1/3;
+    }
+
+    .RedesSociales{
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+    }
+
+    .PiePagina h3{
+        display: grid;
+        grid-column: 1/5;
+        grid-template-rows: 50px;
+        font: 600 Normal 17px/20px "Poppins", sans-serif !important;
+        letter-spacing: 1px !important;
+        text-transform: uppercase !important;
+        color: #e51b1b !important;
+    }
+
+/* Pie de Pagina */

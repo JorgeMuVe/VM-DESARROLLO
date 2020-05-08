@@ -26,6 +26,7 @@ import Cliente from './UI/Cliente/Cliente';
 
 import Producto from './UI/Producto/Producto';
 import Contacto from './UI/Contacto/Conctacto';
+import PiePagina from './Componentes/PiePagina';
 
 
 /* ********* M O D A L ************* */
@@ -257,10 +258,8 @@ export class Aplicacion extends Component {
               <Route path="/contacto" component={Contacto}/>
             </Switch>
           </BrowserRouter>
-        </div>
-        <div className="PiePagina">
-          <img src="/img/fondos/piePagina.jpg" alt="Pie de pagina"></img>
-        </div>
+        </div>  
+          <PiePagina/>
       </div>
     )
   }
