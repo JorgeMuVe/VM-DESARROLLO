@@ -1,103 +1,211 @@
-  /* Pie de Pagina */
+    /* Contacto */
 
+    .Contacto{
+        margin: 0 auto;
+        box-sizing: border-box;
+        background-color: #ebedf3;
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 2em;}
+
+    .Contacto .faq,
+    .Contacto .Contact{
+        padding: 20px;
+    }
+
+    .info_contacto{
+        display: grid;
+        grid-template-rows: repeat(3,1fr);}
+    .contacto1{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);}
+    .obligatorio{
+        color: red;}
+    .Contacto .title{
+        display: block;
+        color: #999ba3;
+        font-size: 20px;}
+    .Contacto strong{
+        display: block;
+        font-size: 24px;
+        color: #2f313a;}
+    .formulario h2{
+        margin-bottom: 0;}
+    .formulario1{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 1em;}
+    .formulario1 .info{
+        display: grid;
+        gap: 1em;
+        grid-template-rows: auto auto;}
+    .formulario1 textarea{
+        resize: none;}
+    .mensaje{
+        display: grid;
+        grid-column: 1/3;}
+    :focus{outline: none;}
+    .formulario1 input, .formulario1 textarea{
+        border: none;
+        padding: 8px 0px 5px;
+        border-bottom: 2px solid #d1d1d1;
+        font-family: 'Open sans';
+        color: #5a5a5a;
+        font-size: 14px;}
+    .formulario1 button{
+        width: 180px;    
+        background: gray;
+        padding: 10px;
+        border: none;
+        border-radius: 25px;
+    
+        font-family: 'Open sans';
+        color: white;
+        font-size: 20px;
+        font-weight: 600;
+        cursor: pointer;}
+    .formulario1 button:hover{
+        background: white;
+        color: black;}
+        
+    .accordion {
+        background-color: #ebedf3;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        transition: 0.4s;}
+
+    .active, .accordion:hover {
+    background-color: #ccc;}
+    .accordion:after {
+    content: '\002B';
+    color: #444;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;}
+    .active:after {
+    content: "\2212";}
+    .panel {
+    padding: 0 18px;
+    background-color: #ebedf3;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;}
+
+    /* Contacto */
+
+  /* Pie de Pagina */
+  
   .PiePagina {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       margin: 50px;
   }
-
+  
   .PiePagina h3 {
       font: 600 Normal 18px/20px "Poppins", sans-serif !important;
       letter-spacing: 1px !important;
       text-transform: uppercase !important;
       color: #e51b1b !important;
   }
-
+  
   .PiePagina img {
       width: 40px;
       height: 40px;
   }
-
+  
   .Comunicate {
       display: grid;
       grid-template-rows: 80px 50px 1fr;
   }
-
+  
   .PiePagina .numeros {
       font: Normal 20px/30px "Poppins", sans-serif;
   }
-
+  
   .RedesSociales {
       display: grid;
       grid-template-rows: repeat(2, 1fr);
   }
-
+  
   .RedesSociales div {
       display: grid;
       grid-template-columns: repeat(4, 50px);
   }
-
-  .PiePagina .Nosotros, .PiePagina .TeInformamos, .PiePagina .AtencionCliente, .PiePagina .PoliticasCondiciones {
+  
+  .PiePagina .Nosotros,
+  .PiePagina .TeInformamos,
+  .PiePagina .AtencionCliente,
+  .PiePagina .PoliticasCondiciones {
       display: grid;
       grid-template-rows: 80px;
   }
-
+  
   .PiePagina a {
       color: black;
   }
-
+  
   .PiePagina .logo {
       height: 35%;
       width: 100%;
   }
-
   /* Pie de Pagina */
-
   /* Mejores Restaurantes */
-
+  
   .MejoresRestaurantes {
-      margin: 20px 150px 100px 150px;
-      /* margin: 20px auto; */
+      margin: 100px auto;
+      /* display: grid;
+      grid-template-columns: repeat(1, 1fr); */
+      justify-content: center;
+      align-content: center;
+      width: 100%;
+      max-width: 1200px;
+  }
+  
+  .MejoresRestaurantes .Titulo {
+      /* background: rgb(206, 207, 200); */
       color: #3d4d67;
       font-size: 28px;
+      font-family: 'Roboto', sans-serif;
       letter-spacing: 1px;
       line-height: 34px;
       text-align: Center;
-      display: grid;
-      grid-template-rows: repeat(2, 1fr);
-      grid-template-rows: 130px;
-      
+      padding: 20px;
+      /* grid-column: 1/-1; */
   }
-
+  
   .MejoresRestaurantes .TopRest {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
+      text-align: center;
       gap: 40px;
+      width: 100%;
   }
-
-  .MejoresRestaurantes .TopRest a {
-      display: block;
-  }
-
+  
   .MejoresRestaurantes .TopRest .tops {
-      display: grid;
-      grid-template-rows: 1fr 200px;
       border: 1px solid rgb(241, 236, 236);
       transition: all 1s ease;
+      width: 100%;
+      height: auto;
   }
-
+  
   .tops:hover {
       -webkit-transform: scale(1.01);
       -ms-transform: scale(1.01);
       transform: scale(1.01);
       box-shadow: 1px 1px 20px rgb(131, 128, 128);
   }
-
+  
   .MejoresRestaurantes .TopRest .tops .topImagen {
-      display: grid;
-      grid-template-rows: 210px 40px;
+      width: 100%;
+      height: 18em;
   }
-
+  
   .MejoresRestaurantes figcaption {
       position: relative;
       bottom: 50px;
@@ -109,16 +217,49 @@
       width: 100px;
       height: 100px;
   }
-
+  
   .MejoresRestaurantes figcaption img {
       width: 100%;
       vertical-align: middle;
       border-radius: 50%;
   }
-
+  
   .MejoresRestaurantes .TopRest .tops .topTexto {
-      display: grid;
-      grid-template-rows: 50px 80px 20px;
+      line-height: 30px;
+  }
+
+  @media screen and (max-width: 1200px) {
+    .MejoresRestaurantes .TopRest {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-column: 1/-1;
+        text-align: center;
+        padding: 20px;
+        gap: 40px;
+    }
+
+    .PiePagina{
+        grid-template-columns: repeat(3, 1fr);
+      }
+}
+  
+  @media screen and (max-width: 800px) {
+      .MejoresRestaurantes .TopRest {
+          display: grid;
+          grid-template-columns: repeat(1, 1fr);
+          grid-column: 1/-1;
+          text-align: center;
+          padding: 20px;
+          gap: 40px;
+      }
+
+      .Contacto{
+          grid-template-columns: 1fr;
+      }
+
+      .PiePagina{
+        grid-template-columns: repeat(2, 1fr);
+      }
   }
 
   /* Mejores Restaurantes */

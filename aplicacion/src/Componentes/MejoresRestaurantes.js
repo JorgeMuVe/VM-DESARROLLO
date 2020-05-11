@@ -20,11 +20,11 @@ export class MejoresRestaurantes extends React.Component {
     render() {
         return (
             <div className="MejoresRestaurantes">
-                <h2>Mejores Restaurantes</h2>
+                <h2 className="Titulo">Mejores Restaurantes</h2>
                 <div className="TopRest">
                     <div className="tops">
                         <div className="topImagen">
-                            <a href="/"><img width="359" height="212" src="/img/productos/topPolloBraza.jpg" alt=""></img></a>
+                            <a href="/"><img className="imagenR" width="359" height="212" src="/img/productos/topPolloBraza.jpg" alt=""></img></a>
                             <figcaption><a href="/"><img src="/img/negocios/lagranja.png" alt=""></img></a></figcaption>
                         </div>
                         <div className="topTexto">
@@ -34,7 +34,7 @@ export class MejoresRestaurantes extends React.Component {
                         </div>
                     </div>
                     <div className="tops">
-                    <div className="topImagen">
+                        <div className="topImagen">
                             <a href="/"><img width="359" height="212" src="/img/productos/topPizza.jpg" alt=""></img></a>
                             <figcaption><a href="/"><img src="/img/negocios/orion.jpg" alt=""></img></a></figcaption>
                         </div>
@@ -45,7 +45,7 @@ export class MejoresRestaurantes extends React.Component {
                         </div>
                     </div>
                     <div className="tops">
-                    <div className="topImagen">
+                        <div className="topImagen">
                             <a href="/"><img width="359" height="212" src="/img/productos/topParrilla.jpeg" alt=""></img></a>
                             <figcaption><a href="/"><img src="/img/negocios/lagranja.png" alt=""></img></a></figcaption>
                         </div>
@@ -56,7 +56,7 @@ export class MejoresRestaurantes extends React.Component {
                         </div>
                     </div>
                     <div className="tops">
-                    <div className="topImagen">
+                        <div className="topImagen">
                             <a href="/"><img width="359" height="212" src="/img/productos/topHamburguesa.jpg" alt=""></img></a>
                             <figcaption><a href="/"><img src="/img/negocios/lagranja.png" alt=""></img></a></figcaption>
                         </div>
@@ -67,7 +67,7 @@ export class MejoresRestaurantes extends React.Component {
                         </div>
                     </div>
                     <div className="tops">
-                    <div className="topImagen">
+                        <div className="topImagen">
                             <a href="/"><img width="359" height="212" src="/img/productos/topCaldo.jpg" alt=""></img></a>
                             <figcaption><a href="/"><img src="/img/negocios/lagranja.png" alt=""></img></a></figcaption>
                         </div>
@@ -78,7 +78,7 @@ export class MejoresRestaurantes extends React.Component {
                         </div>
                     </div>
                     <div className="tops">
-                    <div className="topImagen">
+                        <div className="topImagen">
                             <a href="/"><img width="359" height="212" src="/img/productos/topChifa.jpg" alt=""></img></a>
                             <figcaption><a href="/"><img src="/img/negocios/lagranja.png" alt=""></img></a></figcaption>
                         </div>
