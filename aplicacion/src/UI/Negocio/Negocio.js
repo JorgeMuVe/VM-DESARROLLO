@@ -6,7 +6,7 @@
 /* COMPONENTES */
 import React from 'react';
 import Ventas from './Ventas';
-import Pedidos from './Pedidos';
+import Cuenta from './Cuenta';
 import Productos from './Productos';
 
 /* ICONOS */
@@ -28,6 +28,16 @@ export class Negocio extends React.Component {
 
     cambiarPagina = (pagina) => { this.setState({paginaActual:pagina}) }
 
+    mostrarPagina =()=> {
+        const pagina = this.state.paginaActual;
+        switch (pagina) {
+            case "ventas": return (<Ventas/>);
+            case "productos": return (<Productos/>);
+            case "cuenta": return (<Cuenta/>);
+            default: return null;
+        }
+    }
+
     render(){
         return(
             <div className="Negocio centrado">
@@ -41,26 +51,24 @@ export class Negocio extends React.Component {
                             <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
                             <label>Ventas</label>
                         </div>
-                        <div className={"usuario_navegador_boton " + (this.state.paginaActual==="pedidos"?"activo":"")}
-                            onClick={()=>this.cambiarPagina("pedidos")}>
-                            <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
-                            <label>Pedidos</label>
-                        </div>
                         <div className={"usuario_navegador_boton " + (this.state.paginaActual==="productos"?"activo":"")}
                             onClick={()=>this.cambiarPagina("productos")}>
                             <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
                             <label>Productos</label>
                         </div>
+                        <div className={"usuario_navegador_boton " + (this.state.paginaActual==="cuenta"?"activo":"")}
+                            onClick={()=>this.cambiarPagina("cuenta")}>
+                            <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
+                            <label>Perfil</label>
+                        </div>
                         <div className="usuario_navegador_boton">
                             <div className="centrado"><IconoGoogle fill="#d1d3d8"/></div>
-                            <label>Salir</label>
+                            <label>Salir </label>
                         </div>
                     </div>
 
-                    <div className="usuario_paginas centrado">
-                        <div className={(this.state.paginaActual==="ventas"?"":"ocultar")}><Ventas/></div>
-                        <div className={(this.state.paginaActual==="pedidos"?"":"ocultar")}><Pedidos/></div>
-                        <div className={(this.state.paginaActual==="productos"?"":"ocultar")}><Productos/></div>
+                    <div className="usuario_paginas">
+                        {this.mostrarPagina()}
                     </div>
 
                 </div>

@@ -9,6 +9,7 @@ import React from 'react';
 import Pedido from './Pedido';
 import Compras from './Compras';
 import Direcciones from './Direcciones';
+import Cuenta from './Cuenta';
 
 
 /* ICONOS */
@@ -29,6 +30,17 @@ export class Cliente extends React.Component {
     }
 
     cambiarPagina = (pagina) => { this.setState({paginaActual:pagina}) }
+    
+    mostrarPagina =()=> {
+        const pagina = this.state.paginaActual;
+        switch (pagina) {
+            case "pedido": return (<Pedido/>);
+            case "compras": return (<Compras/>);
+            case "direcciones": return (<Direcciones/>);
+            case "cuenta": return (<Cuenta/>);
+            default: return null;
+        }
+    }
 
     render(){
         return(
@@ -53,16 +65,19 @@ export class Cliente extends React.Component {
                             <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
                             <label>Direcciones</label>
                         </div>
+                        <div className={"usuario_navegador_boton " + (this.state.paginaActual==="cuenta"?"activo":"")}
+                            onClick={()=>this.cambiarPagina("cuenta")}>
+                            <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
+                            <label>Perfil</label>
+                        </div>
                         <div className="usuario_navegador_boton">
                             <div className="centrado"><IconoGoogle fill="#d1d3d8"/></div>
                             <label>Salir</label>
                         </div>
                     </div>
 
-                    <div className="usuario_paginas centrado">
-                        <div className={(this.state.paginaActual==="pedido"?"":"ocultar")}><Pedido/></div>
-                        <div className={(this.state.paginaActual==="compras"?"":"ocultar")}><Compras/></div>
-                        <div className={(this.state.paginaActual==="direcciones"?"":"ocultar")}><Direcciones/></div>
+                    <div className="usuario_paginas">
+                        {this.mostrarPagina()}
                     </div>
 
                 </div>

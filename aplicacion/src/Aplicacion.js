@@ -18,7 +18,6 @@ import Contacto from './Componentes/Contacto';
 import PiePagina from './Componentes/PiePagina';
 
 import Mensaje from './Componentes/Mensaje.js';
-import PedidoCuadro from './Componentes/PedidoCuadro';
 
 /* *********  I N T E R F A Z   **********/
 import Principal from './UI/Paginas/Principal.js';
@@ -26,7 +25,9 @@ import Negocio from './UI/Negocio/Negocio';
 import Cliente from './UI/Cliente/Cliente';
 
 
-import Producto from './UI/Producto/Producto';
+import ProductoLista from './UI/Producto/ProductoLista';
+import ProductoBuscador from './UI/Producto/ProductoBuscador';
+
 
 
 
@@ -59,6 +60,9 @@ const estadoInicial = {
   },
   
   // Productos
+  buscadorProducto:{
+  },
+
   productosPorTipo: [],
 
   // Pedido Usuario
@@ -167,6 +171,12 @@ export class Aplicacion extends Component {
     });
   }
 
+  buscarProducto =(Buscador)=> {
+    this.setState({buscadorProducto:Buscador},()=>{
+      window.location.href = this.state.urlAplicacion + "/productos/buscador"
+    });
+  }
+
   /* AGREGAR PRODUCTO A CANASTA */
   agregarCanasta =(producto)=> {
     this.setState({pedidoUsuario:this.state.pedidoUsuario.concat([producto])});
@@ -180,29 +190,6 @@ export class Aplicacion extends Component {
       pedidoUsuario.splice(index,1);
       this.setState({pedidoUsuario});
     }
-  }
-
-  /* CAMBIAR PAGINA */
-  cambiarPagina =(nombrePagina)=> {
-    const { invitado } = this.state.usuarioAplicacion;
-    var paginaActual = nombrePagina;
-
-    switch (nombrePagina) {
-      case 'direccion':
-      case 'usuario':
-        if(invitado){ paginaActual='ingresar-cliente' }
-        break;
-      case 'venta':
-      case 'producto-negocio':
-        if(invitado){ paginaActual='ingresar-negocio' }
-        break;
-      default: break;
-    }
-    //console.log("Pg. Actual: ", paginaActual);
-
-    this.setState({ paginaAnterior:this.state.paginaActual,paginaActual },()=>{
-      window.history.pushState({name:"browserBack"},"on browser back click", window.location.href);
-    });
   }
 
   /* EJECUTAR FUNCIONES AL INICIAR APP */
@@ -230,12 +217,6 @@ export class Aplicacion extends Component {
           controlModalIngreso={this.controlModalIngreso}
         ></ModalIngreso>
 
-        <PedidoCuadro
-          mostrarPedido={this.state.mostrarPedido}
-          abrirPedido={this.abrirPedido}
-          pedidoUsuario={this.state.pedidoUsuario} 
-        ></PedidoCuadro>
-
         <Mensaje 
           mostrarMensaje={this.state.mostrarMensaje}
           textoMensaje={this.state.textoMensaje}
@@ -251,11 +232,11 @@ export class Aplicacion extends Component {
         <div className="Paginas" id="paginas">
           <BrowserRouter>
             <Switch>
-              <Route exact path="/" component={Principal}/>
+              <Route exact path="/" render={(props) => <Principal usuarioAplicacion={this.state.usuarioAplicacion} buscarProducto={this.buscarProducto} {...props}/> } />
               <Route path="/usuario/negocio" render={(props) => <Negocio usuarioAplicacion={this.state.usuarioAplicacion} {...props}/> } />
               <Route path="/usuario/cliente" render={(props) => <Cliente usuarioAplicacion={this.state.usuarioAplicacion} {...props}/> } />
-              <Route path="/negocios" component={Producto}/>
-              <Route path="/contacto" component={Contacto}/>
+              <Route path="/productos/buscador" render={(props) => <ProductoBuscador buscarPor={this.state.buscadorProducto} {...props}/> }/>
+              <Route path="/productos/lista" render={(props) => <ProductoLista listarPor={"NEGOCIO"} {...props}/> }/>
             </Switch>
           </BrowserRouter>
         </div>

@@ -16,6 +16,15 @@ export class Principal extends React.Component {
         super(props);
         this.state = estadoInicial;
     }
+
+    buscarProducto =(evento)=> {
+        var textoBuscar = document.getElementById("textoBuscar").value
+        evento.preventDefault();
+        if(textoBuscar.length){
+            this.props.buscarProducto({textoBuscar});
+        }else { alert ("Ingrese algun texto")}
+    }
+
     render(){
         return(
             <div className="Principal centrado">
@@ -24,11 +33,11 @@ export class Principal extends React.Component {
                         <h1>ENCUENTRA EL PRODUCTO QUE ESTAS BUSCANDO</h1>
                         <div>DELIVERY A LA PUERTA DE TU CASA</div>
                     </div>
-                    <div className="principal_buscador_cuadro">
+                    <form noValidate onSubmit={this.buscarProducto} className="principal_buscador_cuadro" style={{margin:"10px",padding:"5px"}}>
                         <div className="centrado"><IconoLupa/></div>
-                        <input type="text" placeholder="Nombre del Producto"/>
-                        <button>BUSCAR</button>
-                    </div>
+                        <input type="text" id="textoBuscar" placeholder="Nombre del Producto"/>
+                        <button type="submit">BUSCAR</button>
+                    </form>
                 </div>
                 <div className="principal_categorias centrado">
                     

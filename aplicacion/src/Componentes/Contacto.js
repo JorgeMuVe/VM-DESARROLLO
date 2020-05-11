@@ -28,7 +28,7 @@ export class Contacto extends React.Component {
             <div className="Contacto">
                 <div className="faq">
                     <h2>PREGUNTAS FRECUENTES.</h2>
-                    <button className="accordion" onClick={()=>this.abrirSection('section1')}>Section 1</button>
+                    <div><button className="accordion" onClick={()=>this.abrirSection('section1')}>Section 1</button></div>
                     <div className="panel" id="section1">
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                     </div>

@@ -9,7 +9,8 @@ import Modal from '../../Componentes/Modal';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
-    mostrarModalAgregar: false
+    mostrarModalAgregar: false,
+    productoSeleccionado:[],
 };
 
 export class Productos extends React.Component {
@@ -23,28 +24,36 @@ export class Productos extends React.Component {
     render(){
         return(
             <div className="NegocioProductos">
-                <div className="negocio_productos_encabezado">
+                <div className="usuario_encabezado">
                     <label> PRODUCTOS PUBLICADOS</label>
-                    <button onClick={this.controlModalAgregar}> Agregar Producto </button>
+                    <div className="usuario_encabezado_opciones"><button onClick={this.controlModalAgregar}> Agregar Producto </button></div>
                 </div>
-                {(this.state.productosNegocio||[]).length > 0?
-                <div className="negocio_productos_tabla">
-                    <table className="tabla_productos">
+                {(this.state.productosNegocio||[1]).length > 0?
+                <div className="usuario_tabla centrado">
+                    <table>
                         <thead>
-                            <tr>
+                            <tr>                            
+                                <th> PRODUCTO </th>
                                 <th> NOMBRE </th>
-                                <th> UNIDAD </th>
                                 <th> PRECIO<br/>UNIDAD</th>
-                                <th> DETALLE</th>
+                                <th> UNIDAD </th>
                             </tr>
                         </thead>
-                        {(this.state.productosNegocio||[]).map((producto,i) => {
+                        {(this.state.productosNegocio||[1,2,3,4,5,6]).map((producto,i) => {
                             return ( 
                             <tbody key={i}>
-                                <tr>PRODUCTO {i}</tr> 
+                                <tr className={(i%2!==0?" interlinea":"")}>
+                                    <td> Ejemplo </td>
+                                    <td> Producto {i}</td>
+                                    <td> S/. 10.00 </td>
+                                    <td> KG </td>
+                                </tr>
                             </tbody>
                         )})}
                     </table>
+                    <div className="usuario_tabla_paginado">
+                        Paginado
+                    </div>
                 </div> :
                 <div>No Hay Productos Registrados</div> }
 
@@ -53,8 +62,43 @@ export class Productos extends React.Component {
                     controlModal = {this.controlModalAgregar}
                     tituloModal = {"Agregar Producto"}
                 >
-                <div className="">
-                    Modal para Agregar
+                <div className="negocio_agregar_producto">
+                    <div className="negocio_agregar_producto_general">
+                        <fieldset><legend align="left">Nombre</legend>
+                            <input type="text" id="nombreProducto" placeholder="Ej. Zapatilla Nike" defaultValue={this.state.productoSeleccionado.nombre||""}/>
+                        </fieldset>
+                        <fieldset><legend align="left">Unidad</legend>
+                            <select id="tipoUnidad">                            
+                                <option>UNI</option>
+                                <option>KG</option>
+                            </select>
+                        </fieldset>
+                    </div>
+                    <div className="negocio_agregar_producto_costo">
+                        <fieldset><legend align="left">Precio</legend>
+                            <input type="text" id="precioPorUnidad" placeholder="S/. 10.00" defaultValue={this.state.productoSeleccionado.ruc||""}/>
+                        </fieldset>
+                        <fieldset><legend align="left">cantidad</legend>
+                            <input type="text" id="unidadCantidad" placeholder="1 KG" defaultValue={this.state.productoSeleccionado.correo||""}/>
+                        </fieldset>
+                        <fieldset><legend align="left">Descuento</legend>
+                            <input type="text" id="descuentoUnidad" placeholder="Ej. 10%" defaultValue={this.state.productoSeleccionado.telefono||""}/>
+                        </fieldset>
+                    </div>
+
+                    <fieldset><legend align="left">Detalle</legend>
+                        <textarea rows="6" id="detalleProducto" placeholder="Ej. Zapatillas Nike Originales de Excelente Canlidad" defaultValue={this.state.productoSeleccionado.descripcion||""}></textarea>
+                    </fieldset>
+
+                    <div className="centrado">
+                        <fieldset><legend align="left">Imagen</legend>
+                            <input type="file" id="imagenProducto"/>
+                        </fieldset>
+                    </div>
+
+                    <div className="centrado">
+                        <button> Guardar Cambios </button>
+                    </div>
                 </div>
                 </Modal>   
             </div>

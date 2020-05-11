@@ -9,7 +9,8 @@ import Modal from '../../Componentes/Modal';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
-    mostrarModalAgregar: false
+    mostrarModalAgregar: false,
+    productoSeleccionado:[],
 };
 
 export class ClienteDirecciones extends React.Component {
@@ -23,27 +24,60 @@ export class ClienteDirecciones extends React.Component {
     render(){
         return(
             <div className="ClienteDirecciones">
-                
-                <div className="cliene_direcciones_encabezado">
-                    <label> DIRECCIONES REGISTRADAS</label>
-                    <button onClick={this.controlModalAgregar}> Agregar Direccion </button>
+                <div className="usuario_encabezado">
+                    <label> DIRECCIONES DE CLIENTE </label>
+                    <div className="usuario_encabezado_opciones"><button onClick={this.controlModalAgregar}> Agregar Dirección </button></div>
                 </div>
-                
-                {(this.state.direccionesCliente||[]).length > 0?
-                <div className="cliente_direcciones_tabla">
-                    {(this.state.direccionesCliente||[]).map(direccion =>
-                    <div> San Jeronimo N° 457 1</div>)}
+                {(this.state.direccionesCliente||[1]).length > 0?
+                <div className="usuario_tabla centrado">
+                    <table>
+                        <thead>
+                            <tr>                            
+                                <th> DIRECCION </th>
+                                <th> REFERENCIA </th>
+                                <th> UBICACIÓN </th>
+                            </tr>
+                        </thead>
+                        {(this.state.direccionesCliente||[1,2,3]).map((producto,i) => {
+                            return ( 
+                            <tbody key={i}>
+                                <tr className={(i%2!==0?" interlinea":"")}>
+                                    <td> San Sebastian Quispiquilla Chico D-26{i} </td>
+                                    <td> Al frente del Aeropuerto</td>
+                                    <td> - 14.67890  ,  - 75.67873</td>
+                                </tr>
+                            </tbody>
+                        )})}
+                    </table>
+                    <div className="usuario_tabla_paginado">
+                        Paginado
+                    </div>
                 </div> :
-                <div> No Existen Direcciones Registradas</div>}
+                <div>No Existen Direcciones Registradas</div> }
+
                 <Modal
                     mostrarModal = {this.state.mostrarModalAgregar}
                     controlModal = {this.controlModalAgregar}
                     tituloModal = {"Agregar Direccion"}
                 >
-                <div className="">
-                    Modal para Agregar
+                <div className="cliente_agregar_direccion">
+                    <fieldset><legend align="left">Dirección</legend>
+                        <input type="text" id="denominacionDireccion" placeholder="Ej. Urb. Santa Monica A-45" defaultValue={this.state.productoSeleccionado.ruc||""}/>
+                    </fieldset>
+                    <fieldset><legend align="left">Ubicación</legend>
+                        <div className="cliente_agregar_direccion_ubicacion">
+                            <button>Mi Ubicación</button>
+                            <button>Seleccionar</button>
+                        </div>
+                    </fieldset>
+                    <fieldset><legend align="left">Referencia</legend>
+                        <textarea rows="6" id="referenciaDireccion" placeholder="Ej. Alfrente de Real Plaza, Casa con Puerta Azul" defaultValue={this.state.productoSeleccionado.descripcion||""}></textarea>
+                    </fieldset>
+                    <div className="centrado">
+                        <button>Guardar Cambios</button>
+                    </div>
                 </div>
-                </Modal>  
+                </Modal>
             </div>
         )
     }
