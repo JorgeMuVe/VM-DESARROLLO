@@ -41,6 +41,16 @@ export class Contacto extends React.Component {
                     <button className="accordion" onClick={()=>this.abrirSection('section3')}>Section 3</button>
                     <div className="panel" id="section3">
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    </div>
+
+                    <button className="accordion" onClick={()=>this.abrirSection('section4')}>Section 4</button>
+                    <div className="panel" id="section4">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    </div>    
+
+                    <button className="accordion" onClick={()=>this.abrirSection('section5')}>Section 5</button>
+                    <div className="panel" id="section5">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                     </div>                    
                 </div>
 
@@ -69,15 +79,15 @@ export class Contacto extends React.Component {
                         <p className="obligatorio">*Todos los campos son obligatorios</p>
                         <form className="formulario1" action="">
                             <div className="info">
-                                <label htmlFor="nombres">Nombres *</label>
+                                <label htmlFor="nombres">Nombres*</label>
                                 <input type="text" name="nombres" id="nombres" required></input>
                             </div>
                             <div className="info">
-                                <label htmlFor="apellidos">Apellidos *</label>
+                                <label htmlFor="apellidos">Apellidos*</label>
                                 <input type="text" name="apellidos" id="apellidos" required></input>
                             </div>
                             <div className="info">
-                                <label htmlFor="email">email:</label>
+                                <label htmlFor="email">email*</label>
                                 <input type="email" name="email" id="email" required></input>
                             </div>
                             <div className="info">
@@ -85,7 +95,7 @@ export class Contacto extends React.Component {
                                 <input type="text" name="telefono" id="telefono"></input>
                             </div>
                             <div className="mensaje">
-                                <label htmlFor="mensaje">mensaje:</label>
+                                <label htmlFor="mensaje">mensaje*</label>
                                 <textarea rows="6" id="mensaje" name="mensaje" required></textarea>
                             </div>
                             <div>

@@ -16,6 +16,7 @@ import React, { Component } from 'react';
 import Menu from './Componentes/Menu.js';
 import Contacto from './Componentes/Contacto';
 import PiePagina from './Componentes/PiePagina';
+import MejoresRestaurantes from './Componentes/MejoresRestaurantes';
 
 import Mensaje from './Componentes/Mensaje.js';
 import PedidoCuadro from './Componentes/PedidoCuadro';
@@ -259,6 +260,7 @@ export class Aplicacion extends Component {
             </Switch>
           </BrowserRouter>
         </div>
+        <MejoresRestaurantes/>
         <div id="contacto">
           <Contacto/>
         </div>
