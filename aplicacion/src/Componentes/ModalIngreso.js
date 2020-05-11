@@ -6,7 +6,6 @@
 /****** COMPONENTES ******/
 import React from 'react';
 import Modal from './Modal';
-import { urlAplicacionDesarrollo} from './Funciones';
 
 /***** ICONO SVG *******/
 import IconoMercado from '../SVG/IconoMercado';
@@ -30,7 +29,7 @@ export class PedidoCuadro extends React.Component {
         this.state = estadoInicial;
     }
 
-    redireccionar =(ruta)=>{ window.location.href = (urlAplicacionDesarrollo+ruta) }
+    redireccionar =(ruta)=>{ window.location.href = (this.props.urlAplicacion+ruta) }
 
     render(){
         if(this.props.mostrarModalIngreso){

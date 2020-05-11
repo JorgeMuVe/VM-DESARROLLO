@@ -19,7 +19,7 @@ export class Menu extends React.Component {
         this.state = estadoInicial;
     }
 
-    redireccionar =(ruta)=>{ window.location.href = (urlAplicacionDesarrollo+ruta) }
+    redireccionar =(ruta)=>{ window.location.href = (this.props.urlAplicacion+ruta) }
 
     abrirPedido =()=>{
         this.setState({mostrarPedido:!this.state.mostrarPedido});

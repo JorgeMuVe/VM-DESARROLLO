@@ -6,6 +6,8 @@
 /* COMPONENTES */
 import React from 'react';
 
+import { unidadMedidaProducto } from '../Componentes/Funciones';
+
 /* VARIABLES GLOBALES */
 const estadoInicial = {
     pedido : false, // Abrir - Cerrar El Pedido
@@ -24,7 +26,33 @@ export class PedidoCuadro extends React.Component {
             return(            
                 <div className="PedidoCuadro">  
                     <div className="pedido_modal">
-                        <h3> Lista de Pedidos</h3>
+                        <div className="usuario_encabezado">
+                            <label> PEDIDO ACTUAL </label>
+                        </div>
+                        <div className="pedido_lista">
+                            {(this.state.pedidoCliente||[1]).length > 0?
+                            <div className="producto_buscador_lista">
+                                {(this.state.pedidoCliente||[1,2,3]).map((producto,i) =>
+                                    <div className="producto_buscador_lista_item" style={{background:"url(/img/fondos/verduras.jpg)"}} key={i}>
+                                        <div className="producto_buscador_lista_item_datos">
+                                            <div>
+                                                <label><b>Producto {producto.nombreProducto}</b></label>
+                                                <label>
+                                                    Precio: S/: {parseFloat(producto.precioPorUnidad||0).toFixed(2) + " x " + unidadMedidaProducto(producto.unidadCantidad,producto.tipoUnidad)}
+                                                    <b> - Disponible:  </b> {"5 KG"} <b> Tienda:  </b>{producto.nombreNegocio}
+                                                </label>
+                                                <label> Description -> (Más Información!...)</label>
+                                            </div>
+                                            <button onClick={()=>this.props.agregarCanasta(producto)}> - </button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div> :
+                            <div> No se agregaron Productos al Pedido!.</div>}
+                        </div>
+                        <div className="centrado">
+                            <button> Comprar </button>
+                        </div>
                     </div>
                 </div>
             )

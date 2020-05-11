@@ -7,7 +7,7 @@
 import { agregarUsuario_DB,ingresarSistema_DB, buscarUsuarioCliente_DB } from './DB/usuarioDB';
 import { listarProductoPorTipo_DB } from './DB/productoDB';
 
-import { urlAplicacionDesarrollo } from './Componentes/Funciones'
+//import { urlAplicacionDesarrollo } from './Componentes/Funciones'
 import { urlAplicacionPublica } from './Componentes/Funciones'
 
 /* *********  C O M P O N E N T E S   ************/
@@ -40,8 +40,8 @@ import ModalIngreso from './Componentes/ModalIngreso';
 const estadoInicial = {
 
   /**** URL DE APLICACION Y SERVIDOR ****/
-  urlAplicacion : urlAplicacionDesarrollo,
-  //urlAplicacion : urlAplicacionPublica,
+  //urlAplicacion : urlAplicacionDesarrollo,
+  urlAplicacion : urlAplicacionPublica,
   urlAplicacionPublica: urlAplicacionPublica,
   
   /**** CUADRO DE MENSAJE ****/
@@ -213,7 +213,8 @@ export class Aplicacion extends Component {
   render() {
     return (
       <div className="Aplicacion">
-        <ModalIngreso
+        <ModalIngreso      
+          urlAplicacion={this.state.urlAplicacion}
           mostrarModalIngreso={this.state.mostrarModalIngreso}
           controlModalIngreso={this.controlModalIngreso}
         ></ModalIngreso>
@@ -241,7 +242,10 @@ export class Aplicacion extends Component {
             </Switch>
           </BrowserRouter>
         </div>
-        <MejoresRestaurantes/>
+        <div id="tiendas">
+          <MejoresRestaurantes/>
+        </div>
+
         <div id="contacto">
           <Contacto/>
         </div>

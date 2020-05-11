@@ -24,8 +24,8 @@ export class MejoresRestaurantes extends React.Component {
                 <div className="TopRest">
                     <div className="tops">
                         <div className="topImagen">
-                            <a href="##"><img width="359" height="212" src="/img/productos/topPolloBraza.jpg" class="" alt=""></img></a>
-                            <figcaption><a><img src="/img/negocios/lagranja.png"></img></a></figcaption>
+                            <a href="/"><img width="359" height="212" src="/img/productos/topPolloBraza.jpg" alt=""></img></a>
+                            <figcaption><a href="/"><img src="/img/negocios/lagranja.png" alt=""></img></a></figcaption>
                         </div>
                         <div className="topTexto">
                             <h4>La Granja</h4>
@@ -35,8 +35,8 @@ export class MejoresRestaurantes extends React.Component {
                     </div>
                     <div className="tops">
                     <div className="topImagen">
-                            <a href="##"><img width="359" height="212" src="/img/productos/topPizza.jpg" class="" alt=""></img></a>
-                            <figcaption><a><img src="/img/negocios/orion.jpg"></img></a></figcaption>
+                            <a href="/"><img width="359" height="212" src="/img/productos/topPizza.jpg" alt=""></img></a>
+                            <figcaption><a href="/"><img src="/img/negocios/orion.jpg" alt=""></img></a></figcaption>
                         </div>
                         <div className="topTexto">
                             <h4>La Granja</h4>
@@ -46,8 +46,8 @@ export class MejoresRestaurantes extends React.Component {
                     </div>
                     <div className="tops">
                     <div className="topImagen">
-                            <a href="##"><img width="359" height="212" src="/img/productos/topParrilla.jpeg" class="" alt=""></img></a>
-                            <figcaption><a><img src="/img/negocios/lagranja.png"></img></a></figcaption>
+                            <a href="/"><img width="359" height="212" src="/img/productos/topParrilla.jpeg" alt=""></img></a>
+                            <figcaption><a href="/"><img src="/img/negocios/lagranja.png" alt=""></img></a></figcaption>
                         </div>
                         <div className="topTexto">
                             <h4>La Granja</h4>
@@ -57,8 +57,8 @@ export class MejoresRestaurantes extends React.Component {
                     </div>
                     <div className="tops">
                     <div className="topImagen">
-                            <a href="##"><img width="359" height="212" src="/img/productos/topHamburguesa.jpg" class="" alt=""></img></a>
-                            <figcaption><a><img src="/img/negocios/lagranja.png"></img></a></figcaption>
+                            <a href="/"><img width="359" height="212" src="/img/productos/topHamburguesa.jpg" alt=""></img></a>
+                            <figcaption><a href="/"><img src="/img/negocios/lagranja.png" alt=""></img></a></figcaption>
                         </div>
                         <div className="topTexto">
                             <h4>La Granja</h4>
@@ -68,8 +68,8 @@ export class MejoresRestaurantes extends React.Component {
                     </div>
                     <div className="tops">
                     <div className="topImagen">
-                            <a href="##"><img width="359" height="212" src="/img/productos/topCaldo.jpg" class="" alt=""></img></a>
-                            <figcaption><a><img src="/img/negocios/lagranja.png"></img></a></figcaption>
+                            <a href="/"><img width="359" height="212" src="/img/productos/topCaldo.jpg" alt=""></img></a>
+                            <figcaption><a href="/"><img src="/img/negocios/lagranja.png" alt=""></img></a></figcaption>
                         </div>
                         <div className="topTexto">
                             <h4>La Granja</h4>
@@ -79,8 +79,8 @@ export class MejoresRestaurantes extends React.Component {
                     </div>
                     <div className="tops">
                     <div className="topImagen">
-                            <a href="##"><img width="359" height="212" src="/img/productos/topChifa.jpg" class="" alt=""></img></a>
-                            <figcaption><a><img src="/img/negocios/lagranja.png"></img></a></figcaption>
+                            <a href="/"><img width="359" height="212" src="/img/productos/topChifa.jpg" alt=""></img></a>
+                            <figcaption><a href="/"><img src="/img/negocios/lagranja.png" alt=""></img></a></figcaption>
                         </div>
                         <div className="topTexto">
                             <h4>La Granja</h4>
