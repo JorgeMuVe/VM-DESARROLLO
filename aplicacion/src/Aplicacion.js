@@ -7,7 +7,7 @@
 import { agregarUsuario_DB,ingresarSistema_DB, buscarUsuarioCliente_DB } from './DB/usuarioDB';
 import { listarProductoPorTipo_DB } from './DB/productoDB';
 
-//import { urlAplicacionDesarrollo } from './Componentes/Funciones'
+import { urlAplicacionDesarrollo } from './Componentes/Funciones'
 import { urlAplicacionPublica } from './Componentes/Funciones'
 
 /* *********  C O M P O N E N T E S   ************/
@@ -40,8 +40,8 @@ import ModalIngreso from './Componentes/ModalIngreso';
 const estadoInicial = {
 
   /**** URL DE APLICACION Y SERVIDOR ****/
-  //urlAplicacion : urlAplicacionDesarrollo,
   urlAplicacion : urlAplicacionPublica,
+  //urlAplicacion : urlAplicacionDesarrollo,
   urlAplicacionPublica: urlAplicacionPublica,
   
   /**** CUADRO DE MENSAJE ****/
