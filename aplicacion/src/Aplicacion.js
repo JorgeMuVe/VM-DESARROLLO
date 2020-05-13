@@ -224,6 +224,7 @@ export class Aplicacion extends Component {
       <div className="Paginas" id="paginas">
         <BrowserRouter>
           <Switch>
+
             <Route exact path="/" render={(props) => 
               <Principal usuarioAplicacion={this.state.usuarioAplicacion} buscarProducto={this.buscarProducto} {...props}/>}/>
            
@@ -240,21 +241,28 @@ export class Aplicacion extends Component {
               <ProductoLista listarPor={"NEGOCIO"} {...props}/>}/>
 
           </Switch>
-        </BrowserRouter >
+        </BrowserRouter>
       </div>
-
-      <div id="tiendas" >
-        <MejoresRestaurantes />
+      <div id="piepagina">
+        <PiePagina />
       </div>
-
-      <div id="contacto" >
-        <Contacto />
-      </div> 
-      
-      <PiePagina />
     </div>
     )
   }
 }
 
 export default Aplicacion;
+
+/*
+
+  <div id="tiendas" >
+    <MejoresRestaurantes />
+  </div>
+
+  <div id="contacto" >
+    <Contacto />
+  </div> 
+  
+  
+
+*/

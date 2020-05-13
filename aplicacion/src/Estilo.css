@@ -77,9 +77,9 @@ input:focus{outline:none;}
 .principal_buscador_mensaje{text-align:center;color:whitesmoke;}
 
 .principal_buscador_cuadro{display:flex;flex-direction:row;justify-content:space-between;}
-.principal_buscador_cuadro{border:6px solid #596275;border-radius:50px;width:100%;background:white;color:#cecece;}
+.principal_buscador_cuadro{border:6px solid #596275;border-radius:50px;width:90%;background:white;color:#cecece;}
 .principal_buscador_cuadro input{border-style:none;width:100%;margin-left:10px;color:#b3b1b1;font-size:17px;}
-.principal_buscador_cuadro button{border-radius:50px;border-style:none;background:#e51b1b;color:whitesmoke;padding:5px 20px;margin-right:2px;font-size:16px;}
+.principal_buscador_cuadro button{border-radius:50px;border-style:none;background:#e51b1b;color:whitesmoke;padding:5px 20px;margin-right:0px;font-size:16px;}
 
 .principal_categorias{display:flex;flex-direction:row;justify-content:space-around;width:70%;margin-top:10%;margin-bottom: 10%;}
 .principal_categorias div{display:grid;color:whitesmoke;grid-gap:5px;}
@@ -156,11 +156,6 @@ input:focus{outline:none;}
 .producto_buscador_lista_item_datos button{
     border-top-right-radius:20px;border-bottom-right-radius:20px; 
     border-style:none;background:#2ECC71;}
-
-
-
-
-
 
 
 
@@ -254,7 +249,6 @@ input:focus{outline:none;}
     .menu_item_mercados{border:1.2px solid #e51b1b;color:#e51b1b !important;border-radius:8px;box-shadow: 1px 2px 2px 0 rgba(0,0,0,0.5);}
     .Contacto{grid-template-columns: repeat(1,1fr);}
     
-    .principal_buscador_cuadro{width:100%;}
     .principal_categorias{display:grid;grid-template-columns:repeat(4,1fr);grid-gap:20px;margin-top:10%;}
 
     .pedido_modal {left:1%;width:350px;}

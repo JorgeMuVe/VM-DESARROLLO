@@ -6,6 +6,9 @@
 /* COMPONENTES */
 import React from 'react';
 
+/* ICONOS */
+import IconoGoogle from '../SVG/IconoGoogle';
+
 /* VARIABLES GLOBALES */
 const estadoInicial = {};
 
@@ -20,59 +23,67 @@ export class PiePagina extends React.Component {
     render() {
         return (
             <div className="PiePagina">
-                <div className="Comunicate">
-                    <h3>Comunícate con Nosotros</h3>
 
-                    <div className="numeros">
-                        <span>Cusco: 084-123456</span>
-                    </div>
-
-                    <div className="RedesSociales">
-                        <h3>Siguenos en:</h3>
-                        <div>
-                            <a href="https://www.facebook.com/">
-                                <img className="facebook" src="/img/RedesSociales/facebook.png" alt="Icono Facebook"></img>
-                            </a>
-                            <a href="https://twitter.com/explore">
-                                <img className="ig" src="/img/RedesSociales/IG.png" alt="Icono Instagram"></img>
-                            </a>
-                            <a href="https://www.instagram.com/">
-                                <img className="twitter" src="/img/RedesSociales/twitter.png" alt="IconoTwitter"></img>
-                            </a>
-                            <a href="https://www.whatsapp.com/">
-                                <img className="wpp" src="/img/RedesSociales/wpp.png" alt="Icono Whatsapp"></img>
-                            </a>
-                        </div>
-
-                    </div>
-                </div>
-                <div className="Nosotros">
-                    <h3>Nosotros</h3>
-                    <span><a href="##">Conocénos</a></span>
-                    <span><a href="##">Club</a></span>
-                    <span><a href="##">Trabaja con nosotros</a></span>
-                    <span><a href="##">Responsabilidad Social</a></span>
-                    <span><a href="##">Nuestras tiendas</a></span>
-                    <span><a href="##">Ventas</a></span>
-                </div>
-                <div className="TeInformamos">
-                    <h3>Te Informamos</h3>
-                    <span><a href="##">Ubicación</a></span>
-                </div>
                 <div className="AtencionCliente">
-                    <h3>Atencion al Cliente</h3>
+                    <label>Atencion al Cliente</label>
                     <span><a href="##">Horarios de Atención</a></span>
                     <span><a href="##">Preguntas frecuentes</a></span>
                     <span><a href="##">Cambios y devoluciones</a></span>
                 </div>
+
                 <div className="PoliticasCondiciones">
-                    <h3>Politicas y Condiciones</h3>
+                    <label>Politicas y Condiciones</label>
                     <span><a href="##">Política de datos personales</a></span>
                     <span><a href="##">Condiciones de promociones</a></span>
-                    <span><a href="##">Términos y condiciones</a></span>
-                    <img className="logo" src="/img/negocios/vinocanchonvirtual.png" alt="Logo vinocanchon virtual"></img>
+                    <span><a href="##">Términos y condiciones</a></span>            
                 </div>
 
+                <div className="Nosotros">
+                    <label>Nosotros</label>
+                    <span><a href="##">Conocénos</a></span>
+                    <span><a href="##">Trabaja con nosotros</a></span>
+                    <span><a href="##">Nuestras tiendas</a></span>
+                </div>
+                <div className="Comunicate">
+                    <label>Comunícate</label>
+
+                    <div className="centrado">
+                        <div className="comunicate_item">
+                            <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
+                            <span>Telefono</span>
+                        </div>
+                    </div>
+
+                    <div className="centrado">
+                        <div className="comunicate_item">
+                            <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
+                            <span>Ubicacion</span>
+                        </div>
+                    </div>
+
+                    <div className="centrado">
+                        <div className="comunicate_item">
+                            <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
+                            <span>Correo</span>
+                        </div>
+                    </div>
+
+                    <label>Siguenos en:</label>
+                    <div className="comunicate_redes">
+                        <a href="https://www.facebook.com/">
+                            <img className="facebook" src="/img/RedesSociales/facebook.png" alt="Icono Facebook"></img>
+                        </a>
+                        <a href="https://twitter.com/explore">
+                            <img className="ig" src="/img/RedesSociales/IG.png" alt="Icono Instagram"></img>
+                        </a>
+                        <a href="https://www.instagram.com/">
+                            <img className="twitter" src="/img/RedesSociales/twitter.png" alt="IconoTwitter"></img>
+                        </a>
+                        <a href="https://www.whatsapp.com/">
+                            <img className="wpp" src="/img/RedesSociales/wpp.png" alt="Icono Whatsapp"></img>
+                        </a>
+                    </div>
+                </div>
             </div>
         )
     }
