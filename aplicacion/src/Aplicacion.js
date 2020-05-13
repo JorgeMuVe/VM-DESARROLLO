@@ -40,13 +40,8 @@ import ModalIngreso from './Componentes/ModalIngreso';
 const estadoInicial = {
 
   /**** URL DE APLICACION Y SERVIDOR ****/
-<<<<<<< HEAD
-  urlAplicacion : urlAplicacionPublica,
-  //urlAplicacion : urlAplicacionDesarrollo,
-=======
-  urlAplicacion: urlAplicacionDesarrollo,
-  // urlAplicacion: urlAplicacionPublica,
->>>>>>> 30a5905cf4e869acb71b47f38a95258f71f3c11e
+  urlAplicacion_ : urlAplicacionPublica,
+  urlAplicacion : urlAplicacionDesarrollo,
   urlAplicacionPublica: urlAplicacionPublica,
 
   /**** CUADRO DE MENSAJE ****/
@@ -205,12 +200,9 @@ export class Aplicacion extends Component {
 
   componentDidMount() {
     this.inicarAplicacion();
-    //window.addEventListener('popstate',()=>this.cambiarPagina(this.state.paginaAnterior));
-    //window.history.pushState({name:"browserBack"},"on browser back click", window.location.href);
   }
 
   componentWillUnmount() {
-    //window.history.pushState({name: "browserBack"}, "on browser back click", window.location.href);
   }
 
   render() {
@@ -229,119 +221,40 @@ export class Aplicacion extends Component {
         urlAplicacion={this.state.urlAplicacion} >
       </Menu>
 
-      <div className="Paginas"
-        id="paginas">
-        <BrowserRouter >
-          <Switch >
-            <Route exact path="/"
-              render={
-                (props) => < Principal usuarioAplicacion={this.state.usuarioAplicacion}
-                  buscarProducto={this.buscarProducto} {...props}
-                />} />
-            <Route path="/usuario/negocio"
-              render={
-                (props) => < Negocio usuarioAplicacion={this.state.usuarioAplicacion} {...props}
-                />} />
-            <Route path="/usuario/cliente"
-              render={
-                (props) => < Cliente usuarioAplicacion={this.state.usuarioAplicacion} {...props}
-                />} />
-            <Route path="/productos/buscador"
-              render={
-                (props) => < ProductoBuscador buscarPor={this.state.buscadorProducto} {...props}/>} />
-            <Route path="/productos/lista"
-              render={
-                (props) => < ProductoLista listarPor={"NEGOCIO"} {...props}
-                />} />
-          </Switch> </BrowserRouter > </div> <
-            div id="tiendas" >
+      <div className="Paginas" id="paginas">
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/" render={(props) => 
+              <Principal usuarioAplicacion={this.state.usuarioAplicacion} buscarProducto={this.buscarProducto} {...props}/>}/>
+           
+            <Route path="/usuario/negocio" render={(props) =>
+              <Negocio usuarioAplicacion={this.state.usuarioAplicacion} {...props}/>}/>
+
+            <Route path="/usuario/cliente" render={(props) => 
+              <Cliente usuarioAplicacion={this.state.usuarioAplicacion} {...props}/>}/>
+
+            <Route path="/productos/buscador" render={(props) => 
+                <ProductoBuscador buscarPor={this.state.buscadorProducto} {...props}/>}/>
+
+            <Route path="/productos/lista" render={(props) =>
+              <ProductoLista listarPor={"NEGOCIO"} {...props}/>}/>
+
+          </Switch>
+        </BrowserRouter >
+      </div>
+
+      <div id="tiendas" >
         <MejoresRestaurantes />
       </div>
 
       <div id="contacto" >
         <Contacto />
-      </div> <
-        PiePagina />
+      </div> 
+      
+      <PiePagina />
     </div>
     )
   }
 }
 
 export default Aplicacion;
-
-/*
-
-
-
-
-            <div className={paginaActual === 'principal' ? '' : 'ocultar'}>
-<Principal
-urlAplicacion={this.state.urlAplicacion}
-cambiarPagina={this.cambiarPagina}
-></Principal>
-</div>
-<div className={paginaActual === 'venta' ? '' : 'ocultar'}>
-<Venta
-cambiarPagina={this.cambiarPagina}
-></Venta>
-</div>
-<div className={paginaActual === 'entrega' ? '' : 'ocultar'}>
-<Entrega
-cambiarPagina={this.cambiarPagina}
-></Entrega>
-</div>
-<div className={paginaActual.split("-")[0] === 'producto' ? '' : 'ocultar'}>
-<Producto
-urlAplicacion={this.state.urlAplicacion}
-tipoUsuario={paginaActual}
-cambiarPagina={this.cambiarPagina}
-listarProductoPorTipo={this.listarProductoPorTipo}
-></Producto>
-</div>
-
-<div className={paginaActual.split("-")[0] === 'productoLista' ? '' : 'ocultar'}>
-<ProductoLista
-tipoProducto={paginaActual.split("-")[1]}
-productos={this.state.productosPorTipo}
-agregarCanasta={this.agregarCanasta}
-cambiarPagina={this.cambiarPagina}
-></ProductoLista>
-</div>
-<div className={paginaActual === 'pedido' ? '' : 'ocultar'}>
-<Pedido
-cambiarPagina={this.cambiarPagina}
-sacarProducto={this.sacarProducto}
-pedidoUsuario={this.state.pedidoUsuario}
-paginaActual={this.state.paginaActual}
-></Pedido>
-</div>
-<div className={paginaActual === 'direccion' ? '' : 'ocultar'}>
-<Direccion
-></Direccion>
-</div>
-
-<div className={paginaActual === 'usuario' ? '' : 'ocultar'}>
-<Usuario
-usuarioAplicacion={this.state.usuarioAplicacion}
-cambiarPagina={this.cambiarPagina}
-paginaActual={this.state.paginaActual}
-></Usuario>
-</div>
-
-<div className={paginaActual.split("-")[0] === 'ingresar' ? '' : 'ocultar'}>
-<Ingresar
-tipoUsuario={paginaActual.split("-")[1]}
-ingresarSistema={this.ingresarSistema}
-cambiarPagina={this.cambiarPagina}
-></Ingresar>
-</div>
-<div className={paginaActual.split("-")[0] === 'registroUsuario' ? '' : 'ocultar'}>
-<Registro
-tipoUsuario={paginaActual.split("-")[1]}
-agregarUsuario={this.agregarUsuario}
-cambiarPagina={this.cambiarPagina}
-></Registro>
-</div>
-</div>
-
-*/

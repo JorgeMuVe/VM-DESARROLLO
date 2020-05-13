@@ -6,7 +6,6 @@
 /* COMPONENTES */
 import React from 'react';
 import PedidoCuadro from './PedidoCuadro';
-import { urlAplicacionDesarrollo } from './Funciones';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
