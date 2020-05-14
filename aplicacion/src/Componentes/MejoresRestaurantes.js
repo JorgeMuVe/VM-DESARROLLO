@@ -31,8 +31,8 @@ export class MejoresRestaurantes extends React.Component {
             <div className="MejoresRestaurantes">
                 <h2>Mejores Restaurantes</h2>
                 <div className="lista_restaurantes">
-                    {(this.state.listaMejoresRestaurantes||[]).map(restaurante=>
-                        <div className="lista_restaurantes_item">
+                    {(this.state.listaMejoresRestaurantes||[]).map((restaurante,i)=>
+                        <div className="lista_restaurantes_item" key={i}>
                             <div className="restaurante_item_imagen">
                                 <a href="/"><img className="imagenR" alt="Imagen Producto" width="330" height="200" src={restaurante.imgProducto}></img></a>
                                 <figcaption><a href="/"><img alt="Logo Negocio" src={restaurante.imgLogo}></img></a></figcaption>

@@ -21,6 +21,13 @@ export class ClienteDirecciones extends React.Component {
 
     controlModalAgregar =()=> this.setState({mostrarModalAgregar:!this.state.mostrarModalAgregar});
 
+    obtenerUbicacion =()=> {
+        if(navigator.geolocation){
+            console.log("Si tiene");
+            //navigator.geolocation.getCurrentPosition(function(){console.log("Coords :", position.coords)});
+        } else { alert("Geolocation is not Suported byt his browser.") }
+    }
+
     render(){
         return(
             <div className="ClienteDirecciones">
@@ -66,7 +73,7 @@ export class ClienteDirecciones extends React.Component {
                     </fieldset>
                     <fieldset><legend align="left">Ubicación</legend>
                         <div className="cliente_agregar_direccion_ubicacion">
-                            <button>Mi Ubicación</button>
+                            <button onClick={()=>this.obtenerUbicacion()}>Mi Ubicación</button>
                             <button>Seleccionar</button>
                         </div>
                     </fieldset>
