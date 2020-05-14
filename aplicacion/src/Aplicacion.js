@@ -243,6 +243,12 @@ export class Aplicacion extends Component {
           </Switch>
         </BrowserRouter>
       </div>
+      <div id="tiendas">
+        <MejoresRestaurantes />
+      </div>
+      <div id="contacto" >
+        <Contacto />
+      </div> 
       <div id="piepagina">
         <PiePagina />
       </div>
@@ -252,17 +258,3 @@ export class Aplicacion extends Component {
 }
 
 export default Aplicacion;
-
-/*
-
-  <div id="tiendas" >
-    <MejoresRestaurantes />
-  </div>
-
-  <div id="contacto" >
-    <Contacto />
-  </div> 
-  
-  
-
-*/

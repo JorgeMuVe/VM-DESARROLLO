@@ -7,7 +7,16 @@
 import React from 'react';
 
 /* VARIABLES GLOBALES */
-const estadoInicial = {};
+const estadoInicial = {
+    listaMejoresRestaurantes:[
+        { imgProducto:'/img/productos/topPolloBraza.jpg', imgLogo:'/img/negocios/lagranja.png', nombreTienda:'La Granja', descripcion:'Tipo de comida : Pollos a la braza' },
+        { imgProducto:'/img/productos/topPizza.jpg', imgLogo:'/img/negocios/orion.jpg', nombreTienda:'Orion', descripcion:'Tipo de comida : Pollos a la braza' },
+        { imgProducto:'/img/productos/topParrilla.jpeg', imgLogo:'/img/negocios/lagranja.png', nombreTienda:'La Granja', descripcion:'Tipo de comida : Pollos a la braza' },
+        { imgProducto:'/img/productos/topHamburguesa.jpg', imgLogo:'/img/negocios/lagranja.png', nombreTienda:'La Granja', descripcion:'Tipo de comida : Pollos a la braza' },
+        { imgProducto:'/img/productos/topCaldo.jpg', imgLogo:'/img/negocios/lagranja.png', nombreTienda:'La Granja', descripcion:'Tipo de comida : Pollos a la braza' },
+        { imgProducto:'/img/productos/topChifa.jpg', imgLogo:'/img/negocios/lagranja.png', nombreTienda:'La Granja', descripcion:'Tipo de comida : Pollos a la braza' },
+    ]
+};
 
 export class MejoresRestaurantes extends React.Component {
     constructor(props) {
@@ -20,74 +29,20 @@ export class MejoresRestaurantes extends React.Component {
     render() {
         return (
             <div className="MejoresRestaurantes">
-                <h2 className="Titulo">Mejores Restaurantes</h2>
-                <div className="TopRest">
-                    <div className="tops">
-                        <div className="topImagen">
-                            <a href="/"><img className="imagenR" width="359" height="212" src="/img/productos/topPolloBraza.jpg" alt=""></img></a>
-                            <figcaption><a href="/"><img src="/img/negocios/lagranja.png" alt=""></img></a></figcaption>
+                <h2>Mejores Restaurantes</h2>
+                <div className="lista_restaurantes">
+                    {(this.state.listaMejoresRestaurantes||[]).map(restaurante=>
+                        <div className="lista_restaurantes_item">
+                            <div className="restaurante_item_imagen">
+                                <a href="/"><img className="imagenR" alt="Imagen Producto" width="330" height="200" src={restaurante.imgProducto}></img></a>
+                                <figcaption><a href="/"><img alt="Logo Negocio" src={restaurante.imgLogo}></img></a></figcaption>
+                            </div>
+                            <div className="restaurante_item_datos">
+                                <h4>{restaurante.nombreTienda}</h4>
+                                <h5>{restaurante.descripcion}</h5>
+                            </div>
                         </div>
-                        <div className="topTexto">
-                            <h4>La Granja</h4>
-                            <h5>Tipo de comida : Pollos a la braza</h5>
-                            <div>icono</div>
-                        </div>
-                    </div>
-                    <div className="tops">
-                        <div className="topImagen">
-                            <a href="/"><img width="359" height="212" src="/img/productos/topPizza.jpg" alt=""></img></a>
-                            <figcaption><a href="/"><img src="/img/negocios/orion.jpg" alt=""></img></a></figcaption>
-                        </div>
-                        <div className="topTexto">
-                            <h4>La Granja</h4>
-                            <h5>Tipo de comida : Pollos a la braza</h5>
-                            <div>icono</div>
-                        </div>
-                    </div>
-                    <div className="tops">
-                        <div className="topImagen">
-                            <a href="/"><img width="359" height="212" src="/img/productos/topParrilla.jpeg" alt=""></img></a>
-                            <figcaption><a href="/"><img src="/img/negocios/lagranja.png" alt=""></img></a></figcaption>
-                        </div>
-                        <div className="topTexto">
-                            <h4>La Granja</h4>
-                            <h5>Tipo de comida : Pollos a la braza</h5>
-                            <div>icono</div>
-                        </div>
-                    </div>
-                    <div className="tops">
-                        <div className="topImagen">
-                            <a href="/"><img width="359" height="212" src="/img/productos/topHamburguesa.jpg" alt=""></img></a>
-                            <figcaption><a href="/"><img src="/img/negocios/lagranja.png" alt=""></img></a></figcaption>
-                        </div>
-                        <div className="topTexto">
-                            <h4>La Granja</h4>
-                            <h5>Tipo de comida : Pollos a la braza</h5>
-                            <div>icono</div>
-                        </div>
-                    </div>
-                    <div className="tops">
-                        <div className="topImagen">
-                            <a href="/"><img width="359" height="212" src="/img/productos/topCaldo.jpg" alt=""></img></a>
-                            <figcaption><a href="/"><img src="/img/negocios/lagranja.png" alt=""></img></a></figcaption>
-                        </div>
-                        <div className="topTexto">
-                            <h4>La Granja</h4>
-                            <h5>Tipo de comida : Pollos a la braza</h5>
-                            <div>icono</div>
-                        </div>
-                    </div>
-                    <div className="tops">
-                        <div className="topImagen">
-                            <a href="/"><img width="359" height="212" src="/img/productos/topChifa.jpg" alt=""></img></a>
-                            <figcaption><a href="/"><img src="/img/negocios/lagranja.png" alt=""></img></a></figcaption>
-                        </div>
-                        <div className="topTexto">
-                            <h4>La Granja</h4>
-                            <h5>Tipo de comida : Pollos a la braza</h5>
-                            <div>icono</div>
-                        </div>
-                    </div>
+                    )}
                 </div>
             </div>
         )

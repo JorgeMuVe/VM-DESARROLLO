@@ -1,226 +1,98 @@
-    /* Contacto */
+/** TOP RESTAURANTES **/
 
-    .Contacto{
-        margin: 0 auto;
-        box-sizing: border-box;
-        background-color: #ebedf3;
-        display: grid;
-        grid-template-columns: repeat(2,1fr);
-        gap: 2em;}
+.MejoresRestaurantes{justify-content:center;align-content:center;padding-bottom:10px;}
+.MejoresRestaurantes h2{color:#3d4d67;font-size:28px;font-family:'Roboto',sans-serif;letter-spacing:1px;text-align:Center;}
 
-    .Contacto .faq,
-    .Contacto .Contact{
-        padding: 20px;
-    }
+.lista_restaurantes{display:grid;grid-template-columns:repeat(3,1fr);text-align:center;gap:40px;}
+.lista_restaurantes_item{border:1px solid #e2e4e9;transition:all 1s ease;}
+.lista_restaurantes_item:hover {
+    -webkit-transform: scale(1.01);
+    -ms-transform: scale(1.01);
+    transform: scale(1.01);
+    box-shadow: 1px 1px 20px rgb(131, 128, 128);}
 
-    .info_contacto{
-        display: grid;
-        grid-template-rows: repeat(3,1fr);}
-    .contacto1{
-        display: grid;
-        grid-template-columns: repeat(2,1fr);}
-    .obligatorio{
-        color: red;}
-    .Contacto .title{
-        display: block;
-        color: #999ba3;
-        font-size: 20px;}
-    .Contacto strong{
-        display: block;
-        font-size: 24px;
-        color: #2f313a;}
-    .formulario h2{
-        margin-bottom: 0;}
-    .formulario1{
-        display: grid;
-        grid-template-columns: repeat(2,1fr);
-        gap: 1em;}
-    .formulario1 .info{
-        display: grid;
-        gap: 1em;
-        grid-template-rows: auto auto;}
-    .formulario1 textarea{
-        resize: none;}
-    .mensaje{
-        display: grid;
-        grid-column: 1/3;}
-    :focus{outline: none;}
-    .formulario1 input, .formulario1 textarea{
-        border: none;
-        padding: 8px 0px 5px;
-        border-bottom: 2px solid #d1d1d1;
-        font-family: 'Open sans';
-        color: #5a5a5a;
-        font-size: 14px;}
-    .formulario1 button{
-        width: 180px;    
-        background: gray;
-        padding: 10px;
-        border: none;
-        border-radius: 25px;
-    
-        font-family: 'Open sans';
-        color: white;
-        font-size: 20px;
-        font-weight: 600;
-        cursor: pointer;}
-    .formulario1 button:hover{
-        background: white;
-        color: black;}
-        
-    .accordion {
-        background-color: #ebedf3;
-        color: #444;
-        cursor: pointer;
-        padding: 18px;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        font-size: 15px;
-        transition: 0.4s;}
+.restaurante_item_imagen{width:100%;height:18em;}
+.restaurante_item_imagen figcaption{
+    position:relative;bottom:50px;left:50%;margin-left:-50px;
+    background:#fff;padding:10px;border-radius:50%;width:100px;height:100px;}
+.restaurante_item_imagen figcaption img{width:100%;vertical-align:middle;border-radius:50%;}
 
-    .active, .accordion:hover {
-    background-color: #ccc;}
-    .accordion:after {
-    content: '\002B';
+/** TOP RESTAURANTES **/
+
+/****** CONTACTO ******/
+
+.Contacto{background-color:#ebedf3;display:grid;grid-template-columns:repeat(2,1fr);}
+.preguntas_frecuentes,.contacto_informacion{padding:2vh;}
+
+.preguntas_frecuentes_lista{display:grid;grid-gap:10px;}
+.preguntas_frecuentes_item button:hover {background-color:#ccc;}
+.preguntas_frecuentes_item button{
     color: #444;
-    font-weight: bold;
-    float: right;
-    margin-left: 5px;}
-    .active:after {
-    content: "\2212";}
-    .panel {
-    padding: 0 18px;
     background-color: #ebedf3;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+    transition: 0.4s;
+    outline: none;
+    text-align: left;
+    border: none;
+    padding-top: 8px;
+    border-top:1px solid #e2e4e9;}
+.preguntas_frecuentes_item div{
+    padding: 0 18px;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;}
+.preguntas_frecuentes_item button:after {
+    content: '\002B';
+    color: #444;
+    font-weight: bold;
+    float: right;}
+.pregunta_activa:after {content:"\2212";}
 
-    /* Contacto */
+.contacto_datos,.contacto_datos div{display:grid;grid-gap:10px;}
+.contacto_datos_comunicacion{grid-template-columns:repeat(2,1fr);}
 
-  /* Pie de Pagina */
-  
-  .PiePagina {display: grid;grid-gap:10px;margin:5vh;grid-template-columns:repeat(4,1fr);}
-  
-  .PiePagina span,a{color:#3d4d67;font:400 Normal 18px/19px "Poppins",sans-serif;}
-  .PiePagina label{font:600 Normal 18px/20px "Poppins",sans-serif;
-      letter-spacing:1px;text-transform:uppercase;color:#e51b1b;}
+.contacto_formulario {display:grid;grid-template-columns:repeat(2,1fr);gap:1em;}
+.contacto_formulario textarea{resize: none;}
+.contacto_formulario div{display:grid;grid-gap:5px;}
+.contacto_formulario_mensaje{grid-column: 1/3;}
+.contacto_formulario button{
+    width:180px;background:gray;padding:10px;
+    border:none;border-radius: 25px;
+    font-family:'Open sans';color:white;
+    font-size:20px;font-weight:600;cursor:pointer;}
+.contacto_formulario button:hover{background:white;color:black;}
+.contacto_formulario input,.contacto_formulario textarea{
+    border:none;padding:3px;border-bottom: 2px solid #d1d1d1;
+    font-family:'Open sans';color:#5a5a5a;font-size:14px;}
+ 
+/****** CONTACTO ******/
 
-  .AtencionCliente,.PoliticasCondiciones,.Nosotros,.Comunicate
-  {display:grid;text-align:center;grid-gap:3vh;border-bottom:1.5px dotted #3d4d67;padding-bottom:10px;}
+/***** PIE PAGINA *****/
 
-  .comunicate_item{display:flex;flex-direction:row;align-items:center;cursor:pointer;justify-content:space-around;width:80%;}
-  .comunicate_item div{height:35px;background:red;border-radius:50%;width:35px;height:35px;}
+ .PiePagina {display: grid;grid-gap:10px;margin:5vh;grid-template-columns:repeat(4,1fr);}
+  
+ .PiePagina span,a{color:#afb8c7;font:400 Normal 18px/19px "Poppins",sans-serif;}
+ .PiePagina label{font:600 Normal 18px/20px "Poppins",sans-serif;
+     letter-spacing:1px;text-transform:uppercase;color:#e51b1b;}
 
-  .comunicate_redes{display:flex;justify-content:space-around;}
-  .comunicate_redes img{width:40px;height:40px;}
+ .AtencionCliente,.PoliticasCondiciones,.Nosotros,.Comunicate{display:grid;text-align:center;grid-gap:3vh;border-bottom:1px solid #ebedf3;padding-bottom:10px;}
+
+ .comunicate_item{display:grid;grid-template-columns:20% 80%;align-items:center;cursor:pointer;width:50%;}
+ .comunicate_item div{height:35px;background:#e51b1b;border-radius:50%;width:35px;height:35px;}
+
+ .comunicate_redes{display:flex;justify-content:space-around;}
+ .comunicate_redes img{width:40px;height:40px;}
+
+ /***** PIE PAGINA *****/
 
 
-  /* Pie de Pagina */
-  /* Mejores Restaurantes */
-  
-  .MejoresRestaurantes {
-      margin: 100px auto;
-      justify-content: center;
-      align-content: center;
-      width: 100%;
-      max-width: 1200px;
-  }
-  
-  .MejoresRestaurantes .Titulo {
-      /* background: rgb(206, 207, 200); */
-      color: #3d4d67;
-      font-size: 28px;
-      font-family: 'Roboto', sans-serif;
-      letter-spacing: 1px;
-      line-height: 34px;
-      text-align: Center;
-      padding: 20px;
-      /* grid-column: 1/-1; */
-  }
-  
-  .MejoresRestaurantes .TopRest {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      text-align: center;
-      gap: 40px;
-      width: 100%;
-  }
-  
-  .MejoresRestaurantes .TopRest .tops {
-      border: 1px solid rgb(241, 236, 236);
-      transition: all 1s ease;
-      width: 100%;
-      height: auto;
-  }
-  
-  .tops:hover {
-      -webkit-transform: scale(1.01);
-      -ms-transform: scale(1.01);
-      transform: scale(1.01);
-      box-shadow: 1px 1px 20px rgb(131, 128, 128);
-  }
-  
-  .MejoresRestaurantes .TopRest .tops .topImagen {
-      width: 100%;
-      height: 18em;
-  }
-  
-  .MejoresRestaurantes figcaption {
-      position: relative;
-      bottom: 50px;
-      left: 50%;
-      margin-left: -50px;
-      background: #fff;
-      padding: 10px;
-      border-radius: 50%;
-      width: 100px;
-      height: 100px;
-  }
-  
-  .MejoresRestaurantes figcaption img {
-      width: 100%;
-      vertical-align: middle;
-      border-radius: 50%;
-  }
-  
-  .MejoresRestaurantes .TopRest .tops .topTexto {
-      line-height: 30px;
-  }
-
-  @media screen and (max-width: 1200px) {
-    .MejoresRestaurantes .TopRest {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-column: 1/-1;
-        text-align: center;
-        padding: 20px;
-        gap: 40px;
-    }
-
-    .PiePagina{
-        grid-template-columns: repeat(3, 1fr);
-      }
+@media screen and (max-width: 1200px) {
+    .PiePagina,.lista_restaurantes{grid-template-columns:repeat(2,1fr)}
 }
-  
-  @media screen and (max-width: 800px) {
-      .MejoresRestaurantes .TopRest {
-          display: grid;
-          grid-template-columns: repeat(1, 1fr);
-          grid-column: 1/-1;
-          text-align: center;
-          padding: 20px;
-          gap: 40px;
-      }
 
-      .Contacto{
-          grid-template-columns: 1fr;
-      }
-
-      .PiePagina{
-        grid-template-columns: repeat(1, 1fr);
-      }
-  }
-
-  /* Mejores Restaurantes */
+@media screen and (max-width: 800px) {
+    .Contacto,.PiePagina,.lista_restaurantes,.contacto_formulario{grid-template-columns:1fr;}
+    .contacto_formulario_mensaje{grid-column:1;}
+}

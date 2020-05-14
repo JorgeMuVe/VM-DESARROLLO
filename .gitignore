@@ -2,6 +2,8 @@
 
 # dependencies
 /aplicacion/node_modules
+/data/node_modules
+
 
 /aplicacion/.pnp
 /aplicacion/.pnp.js

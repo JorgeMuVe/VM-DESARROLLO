@@ -72,7 +72,7 @@ input:focus{outline:none;}
 .menu_item_principal{background-color:#e51b1b ;border:1.2px solid #e51b1b;border-radius:4px;box-shadow: 5px 3px 10px 0 rgba(0,0,0,0.5);}
 .menu_item_principal:hover{background: transparent;}
 
-.Principal{height: 100%;display:grid;grid-template-columns:repeat(1,1fr);background:url('/img/fondos/fondo.jpg') no-repeat center/cover;margin-top:-50px;}
+.Principal{height:100%;display:grid;grid-template-columns:repeat(1,1fr);background:url('/img/fondos/fondo.jpg') no-repeat center/cover;margin-top:-50px;}
 .principal_buscador{display:grid;grid-template-columns:repeat(1,1fr);grid-gap:10px;margin-top:10%;}
 .principal_buscador_mensaje{text-align:center;color:whitesmoke;}
 
@@ -94,9 +94,9 @@ input:focus{outline:none;}
 .usuario_navegador_boton:hover div svg{ transition: 0.40s all ease-in-out;fill:#e51b1b;}
 .usuario_paginas {background: white; box-shadow: 1px 1px 6px 0 rgba(0,0,0,0.5);padding: 10px;}
 .usuario_encabezado{display:grid;grid-template-columns:repeat(2,1fr);letter-spacing:2px;font-size:19px;}
-.usuario_encabezado_opciones{display:flex;justify-content:flex-end;}
+.usuario_encabezado_opciones {display:flex;justify-content:flex-end;}
 .usuario_encabezado_opciones select {font-size:19px;border: 1px solid #8b8b8b;color:#8b8b8b;}
-.usuario_encabezado_opciones label {margin-left: 20px;border:1px solid #8b8b8b;padding:3px;color:#8b8b8b;cursor: pointer;}
+.usuario_encabezado_opciones label {margin-left: 20px;border:1px solid #8b8b8b;color:#8b8b8b;cursor:pointer;padding:3px;font-family:sans-serif;}
 .usuario_encabezado_opciones label:after {content:'\25BC';width:10px;}
 .usuario_tabla {padding:0px 10px;display:flex;flex-direction:column;}.usuario_tabla_paginado {background-color: red;padding:2px;margin:5px;}
 .usuario_datos {display:grid;grid-gap:20px;width:70%;}
@@ -247,7 +247,6 @@ input:focus{outline:none;}
 @media (max-width: 400px){
     .menu_item_ocultar{display: none;}
     .menu_item_mercados{border:1.2px solid #e51b1b;color:#e51b1b !important;border-radius:8px;box-shadow: 1px 2px 2px 0 rgba(0,0,0,0.5);}
-    .Contacto{grid-template-columns: repeat(1,1fr);}
     
     .principal_categorias{display:grid;grid-template-columns:repeat(4,1fr);grid-gap:20px;margin-top:10%;}
 
