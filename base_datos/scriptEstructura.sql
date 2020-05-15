@@ -3,10 +3,10 @@ DROP DATABASE IF EXISTS vm; $$
 DELIMITER ;
 DELIMITER $$
 CREATE DATABASE IF NOT EXISTS vm;
+USE vm;
 $$
 DELIMITER ;
 -- ======================================================================= --
-DELIMITER $$
 DELIMITER $$
 DROP TABLE IF EXISTS tipoNegocio; $$
 DELIMITER ;
@@ -18,7 +18,6 @@ CREATE TABLE IF NOT EXISTS tipoNegocio(
 $$
 DELIMITER ;
 
-DELIMITER $$
 DELIMITER $$
 DROP TABLE IF EXISTS negocio; $$
 DELIMITER ;
@@ -65,6 +64,7 @@ CREATE TABLE IF NOT EXISTS usuario(
 $$
 DELIMITER ;
 -- ======================================================================= --
+DELIMITER $$
 DROP TABLE IF EXISTS tipoProducto; $$
 DELIMITER ;
 DELIMITER $$
@@ -76,6 +76,7 @@ CREATE TABLE IF NOT EXISTS tipoProducto(
 $$
 DELIMITER ;
 
+DELIMITER $$
 DROP TABLE IF EXISTS tipoUnidad; $$
 DELIMITER ;
 DELIMITER $$
@@ -86,6 +87,7 @@ CREATE TABLE IF NOT EXISTS tipoUnidad(
 $$
 DELIMITER ;
 
+DELIMITER $$
 DROP TABLE IF EXISTS producto; $$
 DELIMITER ;
 DELIMITER $$
@@ -105,6 +107,15 @@ $$
 DELIMITER ;
 -- ======================================================================= --
 DELIMITER $$
+CREATE TABLE venta(
+    idVenta INT(10) unsigned PRIMARY KEY AUTO_INCREMENT UNIQUE NOT NULL,
+    idNegocio INT(10) unsigned,
+    idPedido INT(10) unsigned
+);
+$$
+DELIMITER ;
+
+DELIMITER $$
 CREATE TABLE pedido(
     idPedido INT(10) unsigned PRIMARY KEY AUTO_INCREMENT UNIQUE NOT NULL,
     tipoUsuario VARCHAR(250),
@@ -120,7 +131,17 @@ CREATE TABLE pedido(
 $$
 DELIMITER ;
 
+DELIMITER $$
+CREATE TABLE pedidoDetalle(
+    idPedidoDetalle INT(10) unsigned PRIMARY KEY AUTO_INCREMENT UNIQUE NOT NULL,
+    idPedido INT(10) unsigned,
+    idProducto INT(10) unsigned,
+    cantidadProducto DECIMAL(6,2)
+);
+$$
+DELIMITER ;
 
+-- ======================================================================= --
 
 DELIMITER $$
 CREATE TABLE movimiento(
@@ -147,17 +168,6 @@ CREATE TABLE detalle_movimiento(
     loteProducto VARCHAR(20),
     fechaVencimiento VARCHAR(10),
     cantidad INT(10)
-);
-$$
-DELIMITER ;
-
--- ======================================================================= --
-
-DELIMITER $$
-CREATE TABLE venta(
-    idVenta INT(10) unsigned PRIMARY KEY AUTO_INCREMENT UNIQUE NOT NULL,
-    idMovimiento INT (10) unsigned,
-    montoTotal DECIMAL(18,3)
 );
 $$
 DELIMITER ;
@@ -192,21 +202,21 @@ INSERT INTO negocio(idTipoNegocio,nombreNegocio,ruc,logo,correo,telefono,razonSo
 
 INSERT INTO 
 producto(idNegocio,idTipoProducto,tipoUnidad,nombreProducto,detalleProducto,precioPorUnidad,unidadCantidad,descuentoUnidad,imagenProducto) VALUES
-(1,1,'GR','Tomate Rojo','Tomates Rojos', 7.50 , 1000 , 10 ,'/img/productos/tomate.jpg'),
-(1,1,'GR','Cebola Roja','Cebolla Roja', 5.00 , 1000 , 10 ,'/img/productos/cebolla.jpg'),
-(1,1,'GR','Zanahoria','Zahanoria', 6.00 , 1000 , 10 ,'/img/productos/zanahoria.jpg'),
-(1,2,'GR','Pollo','Pollo', 12.00 , 1000 , 10 ,'/img/productos/pollo.jpg'),
-(1,2,'GR','Res','Res', 16.00 , 1000 , 10 ,'/img/productos/res.jpg'),
-(1,2,'GR','Pescado','Pescado', 13.00 , 1000 , 10 ,'/img/productos/pescado.jpg'),
-(1,3,'ML','Leche','Leche', 9.90 , 1000 , 10 ,'/img/productos/leche.jpg'),
-(1,3,'GR','Queso','Queso', 8.00 , 1000 , 10 ,'/img/productos/queso.jpg'),
-(1,3,'GR','Mantequilla','Mantequilla', 2.50 , 250 , 10 ,'/img/productos/huevo.jpg'),
-(2,4,'ML','Geseosa','Geseosa', 5.00 , 1800 , 10 ,'/img/productos/gaseosa.jpg'),
-(2,4,'ML','Agua','Agua', 2.50 , 1000 , 10 ,'/img/productos/agua.jpg'),
-(2,4,'ML','Zumo','Zumo', 7.00 , 2000 , 10 ,'/img/productos/zumo.jpg'),
-(2,5,'UNIDAD','Guantes/Barbigo','Guantes/Barbigo', 7.00 , 1 , 10 ,'/img/productos/guantes.jpg'),
-(2,5,'BOTELLA','Clorox','Clorox', 5.50 , 1 , 10 ,'/img/productos/clorox.jpg'),
-(2,5,'CAJA','Jabon','Jabon', 6.00 , 1 , 10 ,'/img/productos/jabon.jpg'),
-(3,6,'PLATO','Pollo a la Braza 1/4','Pollo a la Braza', 15.00 , 1 , 10 ,'/img/productos/polloBraza.jpg'),
-(3,6,'PLATO','Parrilla','Parilla', 10.00 , 1 , 10 ,'/img/productos/parrilla.jpg'),
-(3,6,'PLATO','Anticucho','Anticucho', 10.00 , 1 , 10 ,'/img/productos/anticucho.jpg');
+(1,2,'GR','Tomate Rojo','Tomates Rojos', 7.50 , 1000 , 10 ,'/img/productos/tomate.jpg'),
+(1,2,'GR','Cebola Roja','Cebolla Roja', 5.00 , 1000 , 10 ,'/img/productos/cebolla.jpg'),
+(1,2,'GR','Zanahoria','Zahanoria', 6.00 , 1000 , 10 ,'/img/productos/zanahoria.jpg'),
+(1,3,'GR','Pollo','Pollo', 12.00 , 1000 , 10 ,'/img/productos/pollo.jpg'),
+(1,3,'GR','Res','Res', 16.00 , 1000 , 10 ,'/img/productos/res.jpg'),
+(1,3,'GR','Pescado','Pescado', 13.00 , 1000 , 10 ,'/img/productos/pescado.jpg'),
+(1,4,'ML','Leche','Leche', 9.90 , 1000 , 10 ,'/img/productos/leche.jpg'),
+(1,4,'GR','Queso','Queso', 8.00 , 1000 , 10 ,'/img/productos/queso.jpg'),
+(1,4,'GR','Mantequilla','Mantequilla', 2.50 , 250 , 10 ,'/img/productos/huevo.jpg'),
+(2,5,'ML','Geseosa','Geseosa', 5.00 , 1800 , 10 ,'/img/productos/gaseosa.jpg'),
+(2,5,'ML','Agua','Agua', 2.50 , 1000 , 10 ,'/img/productos/agua.jpg'),
+(2,5,'ML','Zumo','Zumo', 7.00 , 2000 , 10 ,'/img/productos/zumo.jpg'),
+(2,6,'UNIDAD','Guantes/Barbigo','Guantes/Barbigo', 7.00 , 1 , 10 ,'/img/productos/guantes.jpg'),
+(2,6,'BOTELLA','Clorox','Clorox', 5.50 , 1 , 10 ,'/img/productos/clorox.jpg'),
+(2,6,'CAJA','Jabon','Jabon', 6.00 , 1 , 10 ,'/img/productos/jabon.jpg'),
+(3,7,'PLATO','Pollo a la Braza 1/4','Pollo a la Braza', 15.00 , 1 , 10 ,'/img/productos/polloBraza.jpg'),
+(3,7,'PLATO','Parrilla','Parilla', 10.00 , 1 , 10 ,'/img/productos/parrilla.jpg'),
+(3,7,'PLATO','Anticucho','Anticucho', 10.00 , 1 , 10 ,'/img/productos/anticucho.jpg');

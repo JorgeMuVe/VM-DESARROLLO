@@ -35,14 +35,18 @@ export class Cliente extends React.Component {
 
     obtenerPedidos =()=> {
         const { codigoUsuario } = this.props.usuarioAplicacion;
-        listarPedidoCliente_DB({codigoUsuario:codigoUsuario}).then(res=>{
-            if(!res.error){
-                this.setState({clientePedidos:res});
+        listarPedidoCliente_DB({codigoUsuario:codigoUsuario}).then(pedidos=>{
+            if(!pedidos.error){
+                this.setState({clientePedidos:pedidos});
             }
         });
     }
 
-    cambiarPagina = (pagina) => { this.setState({paginaActual:pagina}) }
+    cambiarPagina =(pagina)=> { 
+        if(pagina==="compras"){ this.obtenerPedidos() }
+        this.setState({paginaActual:pagina});
+
+    }
     
     mostrarPagina =()=> {
         const pagina = this.state.paginaActual;
@@ -57,9 +61,7 @@ export class Cliente extends React.Component {
                     cambiarPagina={this.cambiarPagina}
                     usuarioAplicacion={this.props.usuarioAplicacion}
                 />);
-            case "compras": 
-                this.obtenerPedidos();
-                return (
+            case "compras": return (
                 <Compras
                     clientePedidos={this.state.clientePedidos}
                 />);

@@ -17,10 +17,6 @@ export class ClienteCompras extends React.Component {
         this.state = estadoInicial;
     }
     
-    componentDidMount(){
-        console.log(this.props.clientePedidos);
-    }
-
     render(){
         return(
             <div className="NegocioVentas">

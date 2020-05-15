@@ -1,14 +1,14 @@
 module.exports = {
     baseDeDatos:{
-        host : 'localhost',
+        host : '127.0.0.1',
         user : 'root',
-        password : '',
+        password : 'worldconnect',
         database : 'vm'
     },
     baseDeDatosPublica:{
-        host : 'localhost',
-        user : 'root',
-        password : '',
-        database : 'vm'
+        host : '35.209.157.186',
+        user : 'uxvremg7qnx4t',
+        password : 'Worldconnect2020',
+        database : 'dbbt84b9hvuq64'
     }  
 }

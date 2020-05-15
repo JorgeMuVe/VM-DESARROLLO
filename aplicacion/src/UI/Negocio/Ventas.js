@@ -18,13 +18,11 @@ export class NegocioVentas extends React.Component {
         this.state = estadoInicial;
     }
 
-    controlModalFechas =()=> {
-        this.setState({mostrarModalFechas:!this.state.mostrarModalFechas},()=>{
-            console.log(this.state.mostrarModalFechas);
-        });
-    }
-
+    controlModalFechas =()=> this.setState({mostrarModalFechas:!this.state.mostrarModalFechas})
+    
     render(){
+
+        console.log(this.props);
         return(
             <div className="NegocioVentas">
                 <div className="usuario_encabezado">
@@ -50,7 +48,7 @@ export class NegocioVentas extends React.Component {
                     </div>
                 </div>
                 
-                {(this.state.ventasNegocio||[1]).length > 0?
+                {(this.props.ventasNegocio||[]).length > 0?
                 <div className="usuario_tabla centrado">
                     <table>
                         <thead>
@@ -64,17 +62,17 @@ export class NegocioVentas extends React.Component {
                                 <th> DETALLE</th>
                             </tr>
                         </thead>
-                        {(this.state.ventasNegocio||[1,2,3,4,5,6]).map((venta,i) => {
+                        {(this.props.ventasNegocio||[]).map((venta,i) => {
                             return ( 
                             <tbody key={i}>
                                 <tr className={(i%2!==0?" interlinea":"")}>
-                                    <td>N° 000{i}</td>
-                                    <td>Enero 20, 2020</td>
-                                    <td>S/. 10.00</td>
+                                    <td>N° {venta.idVenta}</td>
+                                    <td>{venta.fechaRegistro}</td>
+                                    <td>S/. {venta.totalPagar.toFixed(2)}</td>
                                     <td>S/. 0.80</td>
                                     <td>S/. 9.20</td>
-                                    <td>Entregado</td>
-                                    <td> + </td>
+                                    <td>{venta.estadoPedido.toUpperCase()}</td>
+                                    <td onClick={()=>alert(venta.idPedido)}> + </td>
                                 </tr> 
                             </tbody>
                         )})}

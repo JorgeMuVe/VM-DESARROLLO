@@ -11,7 +11,7 @@ import Productos from './Productos';
 
 
 /***  FUNCIONES  ***/
-
+import { listarVentaNegocio_DB } from '../../DB/ventaDB';
 
 /***   ICONOS   ***/
 import IconoGoogle from '../../SVG/IconoGoogle';
@@ -19,7 +19,7 @@ import IconoGoogle from '../../SVG/IconoGoogle';
 /***  VARIABLES GLOBALES  ***/
 const estadoInicial = {
     productosNegocio:[],
-    ventasNegocio:[1],
+    ventasNegocio:[],
 
     /**** P A G I N A S     N E G O C I O ****/
     paginaActual:'ventas'
@@ -31,12 +31,18 @@ export class Negocio extends React.Component {
         this.state = estadoInicial;
     }
 
-    cambiarPagina = (pagina) => { this.setState({paginaActual:pagina}) }
+    cambiarPagina = (pagina) => { 
+        if(pagina==="ventas"){this.obtenerVentas()}
+        this.setState({paginaActual:pagina});
+    }
 
     mostrarPagina =()=> {
         const pagina = this.state.paginaActual;
         switch (pagina) {
-            case "ventas": return (<Ventas/>);
+            case "ventas": return (
+                <Ventas
+                    ventasNegocio={this.state.ventasNegocio}
+                />);
             case "productos": return (
                 <Productos 
                     usuarioAplicacion={this.props.usuarioAplicacion}
@@ -46,10 +52,20 @@ export class Negocio extends React.Component {
         }
     }
 
+    obtenerVentas =()=> {
+        const { codigoUsuario } = this.props.usuarioAplicacion;
+        listarVentaNegocio_DB({codigoUsuario:codigoUsuario}).then(ventas=>{
+            if(!ventas.error){
+                this.setState({ ventasNegocio: ventas });
+            } else { console.log("ERROR >> LISTAR VENTAS NEGOCIO"); }
+        });
+    }
+
     inicarFunciones =()=> {
         const { usuarioAplicacion } = this.props;
         if(usuarioAplicacion.tipoUsuario !== "negocio"){
             /*  CONTROL PARA USUARIO NEGOCIO  */
+            this.obtenerVentas();
         } else { alert("No es Un negocio"); }
     }
 

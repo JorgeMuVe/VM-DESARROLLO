@@ -8,12 +8,17 @@ import React from 'react';
 import Modal from '../../Componentes/Modal';
 
 /***  F U N C I O N E S  ***/
-import { agregarPedido_DB } from '../../DB/pedidoDB';
+import { agregarPedido_DB, agregarPedidoDetalle_DB } from '../../DB/pedidoDB';
+import { agregarVenta_DB } from '../../DB/ventaDB';
+
 import { obtenerFechaHoy } from '../../Componentes/Funciones';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
+
     pedidoUsuario:[],
+    pedidoDetalle:[],
+
     datosConfirmacion:{},
     mostrarModalConfirmar:false
 };
@@ -25,23 +30,48 @@ export class ConfirmarPedido extends React.Component {
     }
 
     confirmarPedido =()=> {
-        const {datosConfirmacion} = this.state;
+        const { pedidoDetalles,ventasNegocios,datosConfirmacion } = this.state;
         agregarPedido_DB(datosConfirmacion).then(res=>{
-            if(!res.error){        
+            if(!res.error){
+                var idPedido = (res[0][0].idPedido||"0");
+                pedidoDetalles.forEach(detalle=>{
+                    detalle["idPedido"] = idPedido;
+                    console.log(detalle);
+                    agregarPedidoDetalle_DB(detalle).then(_=>console.log(_));
+                })
+                ventasNegocios.forEach(venta=>{
+                    venta["idPedido"] = idPedido;
+                    console.log(venta);
+                    agregarVenta_DB(venta).then(_=>console.log(_));
+                })
                 this.setState({mostrarModalConfirmar:false},()=>{
                     this.props.cambiarPagina("compras")
                 });
-            }
+            } else {console.log("ERROR >> AGREGAR PEDIDO!!..",res.error);}
         });
     }
 
     confirmarDatos =()=> {
-        const { pedidoUsuario,datosConfirmacion } = this.state;
+        const { pedidoUsuario } = this.state;
        
-        var totalPagar = 0;
-        pedidoUsuario.forEach(p=>totalPagar=totalPagar+p.precioPorUnidad);
+        // DETALLE DEL PEDIDO DEL CLIENTE
+        var pedidoDetalles = [], detalle = {}, totalPagar = 0;
+        pedidoUsuario.forEach(p=>{
+            detalle["idProducto"] = p.idProducto;
+            detalle["cantidadProducto"] = (p.cantidadProducto||"1.45");
+            totalPagar = totalPagar + p.precioPorUnidad
+            pedidoDetalles.push(detalle);
+        });
+        
+        // REGISTRO DE VENTA A NEGOCIO
+        var ventasNegocios = [];
+        pedidoUsuario.forEach(p=>{ var existeNegocio = false;
+            ventasNegocios.forEach(n=>{if(n.idNegocio===p.idNegocio){ existeNegocio=true } })
+            if(!existeNegocio){ ventasNegocios.push({idNegocio:p.idNegocio}) }
+        });
 
         // DATOS EN GENERAL DEL PEDIDO DE CLIENTE
+        var datosConfirmacion = {};
         datosConfirmacion["tipoUsuario"] = (this.props.usuarioAplicacion.tipoUsuario||"");
         datosConfirmacion["codigoUsuario"] = (this.props.usuarioAplicacion.codigoUsuario||"");
         datosConfirmacion["telefonoReferencia"] = document.getElementById("telefonoReferencia").value;
@@ -52,31 +82,9 @@ export class ConfirmarPedido extends React.Component {
         datosConfirmacion["fechaRegistro"] = obtenerFechaHoy();
         datosConfirmacion["estadoPedido"] = "Registrado";
 
-        this.setState({datosConfirmacion},()=> this.controlModalConfirmar() );
+        // ABRIR MODAL DE CONFIRMARCION
+        this.setState({pedidoDetalles,ventasNegocios,datosConfirmacion},()=> this.controlModalConfirmar() );
 
-        
-        /* 
-        VAMOS A INTERAR EL PEDIDO EN BUSCA DE NEGOCIOS
-        const negocios = [];
-        pedidoUsuario.filter(p=>p.idNegocio).forEach(p=>{
-            var existeNegocio = false;
-            totalPagar = totalPagar + p.precioPorUnidad;
-            negocios.forEach(n => {
-                if(n.idNegocio===p.idNegocio){ existeNegocio = true; }
-            });
-            if(!existeNegocio){ 
-                negocios.push({idNegocio:p.idNegocio,productos:[],valorTotal:0,fecha:"HOY"});
-            }
-        });
-
-        // VAMOS A INTERAR EL PEDIDO EN BUSCA DE PRODUCTOS
-        negocios.forEach(negocio=>{
-            pedidoUsuario.filter(p=>p.idNegocio===negocio.idNegocio).forEach(p=>{
-                negocio.productos.push(p);
-                negocio.valorTotal = negocio.valorTotal+p.precioPorUnidad
-            });
-        });
-        */
     }
 
     controlModalConfirmar =()=> this.setState({mostrarModalConfirmar:!this.state.mostrarModalConfirmar})

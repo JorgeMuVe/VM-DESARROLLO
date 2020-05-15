@@ -19,6 +19,8 @@ aplicacion.use(express.json({ limit : '10mb' }));
 /* Sección de las rutas para publicar las API(s) */
 aplicacion.use('/api/producto', require('./api/producto.js'));
 aplicacion.use('/api/pedido', require('./api/pedido.js'));
+aplicacion.use('/api/venta', require('./api/venta.js'));
+
 
 
 /* APLICACION MEDI-SEDA */

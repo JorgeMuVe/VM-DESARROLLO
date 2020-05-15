@@ -9,12 +9,33 @@ gestorPedido.post('/agregar', async (solicitud, respuesta) => {
         const { tipoUsuario,codigoUsuario,telefonoReferencia,correoReferencia,lat,lng,
             totalProductos,totalPagar,fechaRegistro,estadoPedido } = solicitud.body;
 
-        await proveedorDeDatos.query(`
-        INSERT INTO pedido (tipoUsuario,codigoUsuario,telefonoReferencia,correoReferencia,lat,lng,
-            totalProductos,totalPagar,fechaRegistro,estadoPedido) VALUES(?,?,?,?,?,?,?,?,?,?);`,
+        await proveedorDeDatos.query(`CALL agregarPedido(?,?,?,?,?,?,?,?,?,?);`,
 
         [ tipoUsuario,codigoUsuario,telefonoReferencia,correoReferencia,lat,lng,
             totalProductos,totalPagar,fechaRegistro,estadoPedido] ,
+
+        (error, resultado) => {
+            if (error)
+            respuesta.json({ error : (error.sqlMessage + " - " + error.sql) }); // Enviar error en JSON
+            else
+            respuesta.send(resultado); // Enviar resultado de consulta en JSON
+        })
+
+        proveedorDeDatos.release();
+    }catch(error){ respuesta.json({ error : error.code }) }  // Enviar error en JSON
+});
+
+/********  A G R E G A R   P E D I  D O   D E T A L L E  *************/
+gestorPedido.post('/agregar/detalle', async (solicitud, respuesta) => {
+    try {
+
+        const { idPedido,idProducto,cantidadProducto } = solicitud.body;
+
+        await proveedorDeDatos.query(`
+            INSERT INTO pedidoDetalle(idPedido,idProducto,cantidadProducto)
+            VALUES (? , ? , ?);`,
+
+        [ idPedido,idProducto,cantidadProducto ] ,
 
         (error, resultado) => {
             if (error)
