@@ -8,12 +8,20 @@ import React from 'react';
 import { unidadMedidaProducto } from '../../Componentes/Funciones';
 
 /* VARIABLES GLOBALES */
-const estadoInicial = {};
+const estadoInicial = {
+    pedidoUsuario:[]
+};
 
 export class ClientePedido extends React.Component {
     constructor(props){
         super(props);
         this.state = estadoInicial;
+    }
+
+    componentDidMount(){
+        let pedidoUsuario = sessionStorage.getItem('pedidoUsuario');
+        pedidoUsuario = JSON.parse(pedidoUsuario);
+        this.setState({pedidoUsuario});
     }
 
     render(){
@@ -26,9 +34,9 @@ export class ClientePedido extends React.Component {
 
                 </div>
                 <div className="usuario_tabla">
-                    {(this.state.pedidoCliente||[1]).length > 0?
+                    {(this.state.pedidoUsuario||[]).length > 0?
                     <div className="productos_lista">
-                        {(this.state.pedidoCliente||[1,2,3]).map(producto =>
+                        {(this.state.pedidoUsuario||[]).map(producto =>
                             <div className="producto_item" key={producto.idProducto}>
                                 <img src={producto.imagenTipoProducto} alt={producto.nombreProducto}/>
                                 <div className="centrado">
@@ -48,7 +56,7 @@ export class ClientePedido extends React.Component {
                     <div> No se agregaron Productos al Pedido!.</div>}
                 </div>
                 <div className="centrado">
-                    <button> Comprar </button>
+                    <button onClick={()=>this.props.cambiarPagina('confirmar')}> Comprar </button>
                 </div>
             </div>
         )

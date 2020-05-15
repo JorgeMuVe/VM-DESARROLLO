@@ -33,7 +33,7 @@ export class Principal extends React.Component {
                         <h1>ENCUENTRA EL PRODUCTO QUE ESTAS BUSCANDO</h1>
                         <div>DELIVERY A LA PUERTA DE TU CASA</div>
                     </div>
-                    <form noValidate onSubmit={this.buscarProducto} className="principal_buscador_cuadro" style={{margin:"10px",padding:"5px"}}>
+                    <form onSubmit={this.buscarProducto} className="principal_buscador_cuadro" style={{margin:"10px",padding:"5px"}}>
                         <div className="centrado"><IconoLupa/></div>
                         <input type="text" id="textoBuscar" placeholder="Nombre del Producto"/>
                         <button type="submit">BUSCAR</button>

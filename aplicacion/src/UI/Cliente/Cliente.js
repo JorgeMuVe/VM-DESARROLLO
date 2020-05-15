@@ -7,20 +7,24 @@
 import React from 'react';
 
 import Pedido from './Pedido';
+import Confirmar from './Confirmar';
 import Compras from './Compras';
 import Direcciones from './Direcciones';
 import Cuenta from './Cuenta';
 
+/***  F U N C I O N E S  ***/
+import { listarPedidoCliente_DB } from '../../DB/pedidoDB';
 
 /* ICONOS */
 import IconoGoogle from '../../SVG/IconoGoogle';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
-    ventasusuario:[1],
+    /*** D A T O S   A P L I C A C I O N */
+    clientePedidos:[],
 
     /**** P A G I N A S     N E G O C I O ****/
-    paginaActual:'compras'
+    paginaActual:'pedido'
 };
 
 export class Cliente extends React.Component {
@@ -29,17 +33,49 @@ export class Cliente extends React.Component {
         this.state = estadoInicial;
     }
 
+    obtenerPedidos =()=> {
+        const { codigoUsuario } = this.props.usuarioAplicacion;
+        listarPedidoCliente_DB({codigoUsuario:codigoUsuario}).then(res=>{
+            if(!res.error){
+                this.setState({clientePedidos:res});
+            }
+        });
+    }
+
     cambiarPagina = (pagina) => { this.setState({paginaActual:pagina}) }
     
     mostrarPagina =()=> {
         const pagina = this.state.paginaActual;
         switch (pagina) {
-            case "pedido": return (<Pedido/>);
-            case "compras": return (<Compras/>);
+            case "pedido": return (
+                <Pedido 
+                    cambiarPagina={this.cambiarPagina}
+                    usuarioAplicacion={this.props.usuarioAplicacion}
+                />);
+            case "confirmar": return (
+                <Confirmar
+                    cambiarPagina={this.cambiarPagina}
+                    usuarioAplicacion={this.props.usuarioAplicacion}
+                />);
+            case "compras": 
+                this.obtenerPedidos();
+                return (
+                <Compras
+                    clientePedidos={this.state.clientePedidos}
+                />);
             case "direcciones": return (<Direcciones/>);
             case "cuenta": return (<Cuenta/>);
             default: return null;
         }
+    
+    }
+
+    inicarFunciones =()=> {
+        this.obtenerPedidos();
+    }
+
+    componentDidMount(){
+        this.inicarFunciones();
     }
 
     render(){
@@ -49,7 +85,6 @@ export class Cliente extends React.Component {
                 <div className="usuario_componentes">
 
                     <div className="usuario_navegador">
-
                         <div className={"usuario_navegador_boton " + (this.state.paginaActual==="pedido"?"activo":"")}
                             onClick={()=>this.cambiarPagina("pedido")}>
                             <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>

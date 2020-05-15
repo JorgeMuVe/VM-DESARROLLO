@@ -96,14 +96,31 @@ CREATE TABLE IF NOT EXISTS producto(
     tipoUnidad VARCHAR(250),
     nombreProducto VARCHAR(250),
     detalleProducto VARCHAR(250),
-    precioPorUnidad DECIMAL(18,3),
-    unidadCantidad DECIMAL(18,3),
-    descuentoUnidad INT(3),
+    precioPorUnidad DECIMAL(6,2),
+    unidadCantidad DECIMAL(6,2),
+    descuentoUnidad DECIMAL(6,2),
     imagenProducto VARCHAR(250)
 );
 $$
 DELIMITER ;
 -- ======================================================================= --
+DELIMITER $$
+CREATE TABLE pedido(
+    idPedido INT(10) unsigned PRIMARY KEY AUTO_INCREMENT UNIQUE NOT NULL,
+    tipoUsuario VARCHAR(250),
+    codigoUsuario INT(10) unsigned,
+    telefonoReferencia VARCHAR(20),
+    correoReferencia VARCHAR(250),
+    lat VARCHAR(30), lng VARCHAR(30),
+    totalProductos INT(10) unsigned,
+    totalPagar DECIMAL(6,2),
+    fechaRegistro VARCHAR(30),
+    estadoPedido VARCHAR(30)
+);
+$$
+DELIMITER ;
+
+
 
 DELIMITER $$
 CREATE TABLE movimiento(
@@ -157,6 +174,7 @@ INSERT INTO tipoUnidad(nombreTipoUnidad) VALUES
 ('GR'),('ML'),('UNIDAD'),('BOTELLA'),('CAJA'),('PLATO');
 
 INSERT INTO tipoProducto(nombreTipoProducto,imagenTipoProducto) VALUES
+('TIPO','/img/fondos/tipo.jpg'),
 ('VERDURA','/img/fondos/verduras.jpg'),
 ('CARNE','/img/fondos/carnes.jpg'),
 ('LACTEO','/img/fondos/lacteos.jpg'),

@@ -3,17 +3,22 @@
 -- @Copyright        Jorge.Muvez - World Connect Perú - 2020-00-00
 */
 
-/* COMPONENTES */
+/***  COMPONENTES  ***/
 import React from 'react';
 import Ventas from './Ventas';
 import Cuenta from './Cuenta';
 import Productos from './Productos';
 
-/* ICONOS */
+
+/***  FUNCIONES  ***/
+
+
+/***   ICONOS   ***/
 import IconoGoogle from '../../SVG/IconoGoogle';
 
-/* VARIABLES GLOBALES */
+/***  VARIABLES GLOBALES  ***/
 const estadoInicial = {
+    productosNegocio:[],
     ventasNegocio:[1],
 
     /**** P A G I N A S     N E G O C I O ****/
@@ -32,10 +37,24 @@ export class Negocio extends React.Component {
         const pagina = this.state.paginaActual;
         switch (pagina) {
             case "ventas": return (<Ventas/>);
-            case "productos": return (<Productos/>);
+            case "productos": return (
+                <Productos 
+                    usuarioAplicacion={this.props.usuarioAplicacion}
+                />);
             case "cuenta": return (<Cuenta/>);
             default: return null;
         }
+    }
+
+    inicarFunciones =()=> {
+        const { usuarioAplicacion } = this.props;
+        if(usuarioAplicacion.tipoUsuario !== "negocio"){
+            /*  CONTROL PARA USUARIO NEGOCIO  */
+        } else { alert("No es Un negocio"); }
+    }
+
+    componentDidMount(){
+        this.inicarFunciones();
     }
 
     render(){

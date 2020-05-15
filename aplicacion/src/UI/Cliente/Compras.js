@@ -16,6 +16,10 @@ export class ClienteCompras extends React.Component {
         super(props);
         this.state = estadoInicial;
     }
+    
+    componentDidMount(){
+        console.log(this.props.clientePedidos);
+    }
 
     render(){
         return(
@@ -43,30 +47,28 @@ export class ClienteCompras extends React.Component {
                     </div>
                 </div>
                 
-                {(this.state.comprasCliente||[1]).length > 0?
+                {(this.props.clientePedidos||[]).length > 0?
                 <div className="usuario_tabla centrado">
                     <table>
                         <thead>
                             <tr>
                                 <th> NR PEDIDO</th>
                                 <th> FECHA </th>
-                                <th> PRECIO<br/>TOTAL</th>
-                                <th> CARGOS </th>
-                                <th> RECIBIDO </th>
+                                <th> PRECIO<br/>TOTAL </th>
+                                <th> CANTIDAD<br/>PRODUCTOS </th>
                                 <th> ESTADO</th>
                                 <th> DETALLE</th>
                             </tr>
                         </thead>
-                        {(this.state.comprasCliente||[1,2,3,4,5,6]).map((compra,i) => {
+                        {(this.props.clientePedidos||[]).map((pedido,i) => {
                             return ( 
                             <tbody key={i}>
                                 <tr className={(i%2!==0?" interlinea":"")}>
-                                    <td>N° 000{i}</td>
-                                    <td>Enero 20, 2020</td>
-                                    <td>S/. 10.00</td>
-                                    <td>S/. 0.80</td>
-                                    <td>S/. 9.20</td>
-                                    <td>Entregado</td>
+                                    <td>N° {pedido.idPedido}</td>
+                                    <td>{pedido.fechaRegistro}</td>
+                                    <td>{pedido.totalPagar}</td>
+                                    <td>{pedido.totalProductos}</td>
+                                    <td>{pedido.estadoPedido}</td>
                                     <td> + </td>
                                 </tr> 
                             </tbody>

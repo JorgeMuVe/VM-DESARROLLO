@@ -43,8 +43,9 @@ export class Menu extends React.Component {
 
                 <PedidoCuadro
                     mostrarPedido={this.state.mostrarPedido}
+                    pedidoUsuario={this.props.pedidoUsuario}
+                    redireccionar={this.redireccionar}
                     abrirPedido={this.abrirPedido}
-                    pedidoUsuario={this.state.pedidoUsuario} 
                 ></PedidoCuadro>
             </div>
         )

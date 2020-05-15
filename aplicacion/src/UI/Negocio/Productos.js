@@ -3,20 +3,32 @@
 -- @Copyright        Jorge.Muvez - World Connect Perú - 2020-00-00
 */
 
-/* COMPONENTES */
+/*** COMPONENTES ***/
 import React from 'react';
 import Modal from '../../Componentes/Modal';
 
-/** ICONO SVG **/
+/*** FUNCIONES ***/
+import { 
+    agregarProducto_DB,
+    editarProducto_DB,
+    listarProductoPorNegocio_DB,
+    listarTiposProducto_DB,
+    listarUnidadesProducto_DB } from '../../DB/productoDB';
+
+
+/*** ICONO SVG ***/
 import IconoGoogle from '../../SVG/IconoGoogle';
 
-/* VARIABLES GLOBALES */
+/*** VARIABLES GLOBALES ***/
 
 const estadoInicial = {
-    mostrarModalAgregar: false,
 
-    productoSeleccionado: {
-    },
+    tiposProducto:[],
+    unidadesProducto:[],
+    productosNegocio:[],
+    
+    mostrarModalProducto: false,
+    productoSeleccionado: {},
 
     archivoImagenNuevo:null,
     archivoImagenTempo:null
@@ -28,7 +40,79 @@ export class Productos extends React.Component {
         this.state = estadoInicial;
     }
 
-    controlModalAgregar =()=> this.setState({mostrarModalAgregar:!this.state.mostrarModalAgregar});
+    /********  L I S T A R   *******/
+
+    obtenerTiposProducto =()=> {
+        listarTiposProducto_DB().then(lista=>{
+            if(!lista.error){
+                console.log("TIPOS: ",lista);
+                this.setState({ tiposProducto: lista });
+            } else { console.log("ERROR >> LISTAR TIPOS DE PRODUCTO!!..")}
+        });
+    }
+
+    obtenerUnidadesProducto =()=> {
+        listarUnidadesProducto_DB().then(lista=>{
+            if(!lista.error){
+                console.log("UNIDADES: ",lista);
+                this.setState({ unidadesProducto: lista });
+            } else { console.log("ERROR >> LISTAR UNIDADES DE PRODUCTO!!..")}
+        });
+    }
+
+    obtenerProductosNegocio =()=> {
+        var idNegocio = this.props.usuarioAplicacion.codigoUsuario;
+        listarProductoPorNegocio_DB({idNegocio}).then(lista=>{
+            if(!lista.error){
+                this.setState({ productosNegocio: lista });
+            } else { console.log("ERROR >> LISTAR PRODUCTOS DEL NEGOCIO!!..")}
+        });
+    }
+
+    /*******   G U A R D A R   *****/
+    guardarDatosProducto =(evento)=> {
+        evento.preventDefault();
+        var tp = document.getElementById('tipoProducto');
+        var idTipoProducto = tp.options[tp.selectedIndex].value;
+
+        const datoProducto = {
+            idProducto:this.state.productoSeleccionado.idProducto,
+            idNegocio:this.props.usuarioAplicacion.codigoUsuario||"1",
+            idTipoProducto:idTipoProducto,
+            tipoUnidad:document.getElementById('tipoUnidad').value,
+            nombreProducto:document.getElementById('nombreProducto').value,
+            detalleProducto:document.getElementById('detalleProducto').value,
+            precioPorUnidad:(parseFloat(document.getElementById('precioPorUnidad').value)||0).toFixed(2),
+            unidadCantidad:(parseFloat(document.getElementById('unidadCantidad').value)||0).toFixed(2),
+            descuentoUnidad:(parseFloat(document.getElementById('descuentoUnidad').value)||0).toFixed(2),
+            imagenProducto:(this.state.archivoImagenNuevo||{}).name||"/img/fondo/",
+        }
+        if(datoProducto.idProducto){            
+            editarProducto_DB(datoProducto).then(res=>{
+                if(!res.error){
+                    this.obtenerProductosNegocio();
+                    this.controlModalProducto();
+                    this.setState({productoSeleccionado:[]});
+                } else { console.log("ERROR >> CAMBIAR PRODUCTO") }
+            });
+        }else {
+            agregarProducto_DB(datoProducto).then(res=>{
+                if(!res.error){
+                    this.obtenerProductosNegocio();
+                    this.controlModalProducto();
+                    this.setState({productoSeleccionado:[]});
+                } else { console.log("ERROR >> AGREGAR PRODUCTO") }
+            });
+        }
+    }
+
+
+    /*******  C O N T R O L E S   *****/
+    abrirProducto =(Producto)=> {
+        this.setState({productoSeleccionado:Producto,mostrarModalProducto:true});
+    }
+
+    controlModalProducto =()=> this.setState({mostrarModalProducto:!this.state.mostrarModalProducto});
 
     setFileMedia = (evento) => {
         if(evento.target.files[0]){
@@ -38,19 +122,18 @@ export class Productos extends React.Component {
         }        
     }
 
-    guardarDatosProducto =(evento)=> {
-        evento.preventDefault();
-        const datoProducto = {
-            nombreProducto:document.getElementById('nombreProducto').value,
-            tipoUnidad:document.getElementById('tipoUnidad').value,
-            precioPorUnidad:(parseFloat(document.getElementById('precioPorUnidad').value)||0).toFixed(2),
-            unidadCantidad:document.getElementById('unidadCantidad').value,
-            descuentoUnidad:document.getElementById('descuentoUnidad').value,
-            detalleProducto:document.getElementById('detalleProducto').value,
-            imagenProducto:(this.state.archivoImagenNuevo||{}).name,
-        }
-        console.log(datoProducto);
-        //alert("Se agregara producto");
+    /******  I N I C I O   ******/
+    iniciarFunciones =()=> {
+        this.obtenerTiposProducto();
+        this.obtenerUnidadesProducto();
+        this.obtenerProductosNegocio();
+    }
+
+    componentDidMount(){
+        const {usuarioAplicacion} = this.props;
+        if(usuarioAplicacion){
+            this.iniciarFunciones();
+        } else { alert("¡¡USUARIO NO RECONOCIDO!!") }
     }
 
     render(){
@@ -58,9 +141,9 @@ export class Productos extends React.Component {
             <div className="NegocioProductos">
                 <div className="usuario_encabezado">
                     <label> PRODUCTOS PUBLICADOS</label>
-                    <div className="usuario_encabezado_opciones"><button onClick={this.controlModalAgregar}> Agregar Producto </button></div>
+                    <div className="usuario_encabezado_opciones"><button onClick={this.controlModalProducto}> Agregar Producto </button></div>
                 </div>
-                {(this.state.productosNegocio||[1]).length > 0?
+                {(this.state.productosNegocio||[]).length > 0?
                 <div className="usuario_tabla centrado">
                     <table>
                         <thead>
@@ -71,14 +154,14 @@ export class Productos extends React.Component {
                                 <th> UNIDAD </th>
                             </tr>
                         </thead>
-                        {(this.state.productosNegocio||[1,2,3,4,5,6]).map((producto,i) => {
+                        {(this.state.productosNegocio||[]).map((producto,i) => {
                             return ( 
                             <tbody key={i}>
-                                <tr className={(i%2!==0?" interlinea":"")}>
-                                    <td> Ejemplo </td>
-                                    <td> Producto {i}</td>
-                                    <td> S/. 10.00 </td>
-                                    <td> KG </td>
+                                <tr className={(i%2!==0?" interlinea":"")} onClick={()=>this.abrirProducto(producto)}>
+                                    <td> {producto.nombreTipoProducto} </td>
+                                    <td> {producto.nombreProducto} </td>
+                                    <td> S/. {producto.precioPorUnidad}</td>
+                                    <td> {producto.unidadCantidad +" "+producto.tipoUnidad} </td>
                                 </tr>
                             </tbody>
                         )})}
@@ -90,48 +173,53 @@ export class Productos extends React.Component {
                 <div>No Hay Productos Registrados</div> }
 
                 <Modal
-                    mostrarModal = {this.state.mostrarModalAgregar}
-                    controlModal = {this.controlModalAgregar}
+                    mostrarModal = {this.state.mostrarModalProducto}
+                    controlModal = {this.controlModalProducto}
                     tituloModal = {"Agregar Producto"}
                 >
                 <form className="negocio_agregar_producto" validate="true" onSubmit={this.guardarDatosProducto}>
-                    <div className="negocio_agregar_producto_general">
-                        <fieldset><legend align="left">Nombre</legend>
-                            <input required type="text" id="nombreProducto" placeholder="Ej. Zapatilla Nike" defaultValue={this.state.productoSeleccionado.nombre||""}/>
-                        </fieldset>
-                        <fieldset><legend align="left">Unidad</legend>
-                            <select id="tipoUnidad">                            
-                                <option>UNI</option>
-                                <option>KG</option>
+                    
+                    <fieldset><legend align="left">Producto</legend>
+                        <div>
+                            <input required type="text" id="nombreProducto" placeholder="Nombre de Producto" defaultValue={this.state.productoSeleccionado.nombreProducto||""}/>&nbsp;
+                            <select id="tipoProducto" defaultValue={this.state.productoSeleccionado.idTipoProducto||"1"}>
+                                {(this.state.tiposProducto||[]).map(tipo=>
+                                    <option key={tipo.idtipoProducto} value={tipo.idtipoProducto}>{tipo.nombreTipoProducto}</option>
+                                )}
                             </select>
-                        </fieldset>
-                    </div>
+                        </div>
+                    </fieldset>
+
                     <div className="negocio_agregar_producto_costo">
-                        <fieldset><legend align="left">Precio</legend>
+                        <fieldset><legend align="left">Precio x Cantidad</legend>
                             <div>
-                                <label>S/.&nbsp;</label>
-                                <input required type="number" id="precioPorUnidad" placeholder="10.00" defaultValue={this.state.productoSeleccionado.ruc||""}/>
-                            </div>
-                        </fieldset>
-                        <fieldset><legend align="left">cantidad</legend>
-                            <div>
-                                <input required type="number" id="unidadCantidad" placeholder="1" defaultValue={this.state.productoSeleccionado.correo||""}/>                            
-                                <label>&nbsp;UNI</label>
+                                <label>S/.</label>&nbsp;
+                                <input required type="decimal" id="precioPorUnidad" placeholder="0.00" 
+                                    defaultValue={(parseFloat(this.state.productoSeleccionado.precioPorUnidad)||0).toFixed(2)||"0.00"}/>&nbsp;
+                                <label>Por</label>&nbsp;
+                                <input required type="decimal" id="unidadCantidad" placeholder="0" 
+                                    defaultValue={(parseFloat(this.state.productoSeleccionado.unidadCantidad)||0).toFixed(2)||"0"}/>&nbsp;
+                                <select id="tipoUnidad" defaultValue={this.state.productoSeleccionado.tipoUnidad||""}>
+                                    {(this.state.unidadesProducto||[]).map(tipo=>
+                                        <option key={tipo.nombreTipoUnidad} value={tipo.nombreTipoUnidad}>{tipo.nombreTipoUnidad}</option>
+                                    )}
+                                </select>
                             </div>
                         </fieldset>
                         <fieldset><legend align="left">Descuento</legend>
                             <div>
-                                <input type="number" min="0" max="100" id="descuentoUnidad" placeholder="10.5" defaultValue={this.state.productoSeleccionado.telefono||""}/>
+                                <input type="decimal" min="0" max="100" id="descuentoUnidad" placeholder="0" 
+                                    defaultValue={(parseFloat(this.state.productoSeleccionado.descuentoUnidad)||0).toFixed(2)||"0"}/>&nbsp;
                                 <label>&nbsp;%</label>
                             </div>
                         </fieldset>
                     </div>
 
                     <fieldset><legend align="left">Detalle</legend>
-                        <textarea rows="6" id="detalleProducto" placeholder="Ej. Zapatillas Nike Originales de Excelente Canlidad" defaultValue={this.state.productoSeleccionado.descripcion||""}></textarea>
+                        <textarea rows="6" id="detalleProducto" placeholder="Ej. Zapatillas Nike Originales de Excelente Canlidad" 
+                            defaultValue={this.state.productoSeleccionado.detalleProducto||""}></textarea>
                     </fieldset>
-
-                   
+   
                     <fieldset><legend align="left">Imagen</legend>
                         <div className="negocio_agregar_producto_imagen">
                             {this.state.archivoImagenTempo===null?null:
@@ -149,6 +237,7 @@ export class Productos extends React.Component {
                     <div className="centrado">
                         <button type="submit"> Guardar Cambios </button>
                     </div>
+
                 </form>
                 </Modal>   
             </div>

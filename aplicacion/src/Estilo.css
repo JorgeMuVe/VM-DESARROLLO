@@ -150,10 +150,9 @@ fieldset div{display:flex;align-items:center;}input:focus{outline:none;}
 .Negocio{background: #ebedf3;margin-top:-50px;height:100%;}
 .NegocioVentas,.NegocioProductos,.NegocioPerfil{display:grid;grid-gap:20px;}
 .negocio_agregar_producto {display:grid;grid-gap:20px;}
-.negocio_agregar_producto_general {display:grid;grid-template-columns:1fr 30%;grid-gap:20px;}
-.negocio_agregar_producto_costo {display:grid;grid-template-columns:repeat(3,1fr);grid-gap:20px;}
+.negocio_agregar_producto_costo {display:grid;grid-template-columns:300px 150px;grid-gap:20px;}
 .negocio_agregar_producto_imagen {display:grid;grid-gap:10px;cursor:pointer;}
-.negocio_agregar_producto_imagen img{width:500px;}
+.negocio_agregar_producto_imagen img{width:300px;}
 .negocio_agregar_producto_imagen input[type="file"]{display:none;}
 .negocio_agregar_producto_imagen label{display:flex;justify-content:space-around;align-items:center;width:60%;}
 .negocio_agregar_producto_imagen_boton {

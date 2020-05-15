@@ -2,7 +2,7 @@
 
 # dependencies
 /aplicacion/node_modules
-/data/node_modules
+/servidor/node_modules
 
 
 /aplicacion/.pnp

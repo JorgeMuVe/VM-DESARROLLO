@@ -50,24 +50,22 @@ const estadoInicial = {
   tipoMensaje: '',
 
   /**** DATOS DE APLICACION *******/
-  //Usuario
+  // Usuario
   mostrarModalIngreso: false,
   usuarioAplicacion: {
     nombreCompleto: "Usuario Invitado",
     apellidoPaterno: "",
     apellidoMaterno: "",
-    tipoUsuario: "invitado",
-    codigoUsuario: ""
+    tipoUsuario: "cliente",
+    codigoUsuario: "1"
   },
 
   // Productos
-  buscadorProducto: {},
-
   productosPorTipo: [],
 
   // Pedido Usuario
   mostrarPedido: false,
-  pedidoUsuario: [1],
+  pedidoUsuario: [],
 
   // Notificaciones
   notificaciones: [1],
@@ -121,7 +119,7 @@ export class Aplicacion extends Component {
         console.log(res);
         if (!res.error) {
           this.setState({ usuarioAplicacion: res }, () => {
-            localStorage.setItem('codigoUsuario', res.codigoUsuario);
+            sessionStorage.setItem('codigoUsuario', res.codigoUsuario);
             this.cambiarPagina("producto-cliente");
           });
         } else { this.abrirError(4000, res.error); }
@@ -141,7 +139,7 @@ export class Aplicacion extends Component {
       ingresarSistema_DB(ingresoUsuario).then(res => {
         if (!res.error) {
           this.setState({ usuarioAplicacion: res }, () => {
-            localStorage.setItem('codigoUsuario', res.codigoUsuario);
+            sessionStorage.setItem('codigoUsuario', res.codigoUsuario);
             this.cambiarPagina("producto-cliente");
           });
         } else { this.abrirError(4000, res.error); }
@@ -151,7 +149,7 @@ export class Aplicacion extends Component {
 
   /* OBTENER USUARIO */
   obtenerUsuario = () => {
-    const codigoUsuario = localStorage.getItem("codigoUsuario");
+    const codigoUsuario = sessionStorage.getItem("codigoUsuario");
     if (codigoUsuario) {
       const buscaUsuario = { codigoUsuario: codigoUsuario };
       buscarUsuarioCliente_DB(buscaUsuario).then(res => {
@@ -171,23 +169,27 @@ export class Aplicacion extends Component {
   }
 
   buscarProducto = (Buscador) => {
-    this.setState({ buscadorProducto: Buscador }, () => {
-      window.location.href = this.state.urlAplicacion + "/productos/buscador"
-    });
+    window.location.href = this.state.urlAplicacion+"/productos/buscador/"+
+      (Buscador.tipoBuscar||"TODO")+"/"+(Buscador.textoBuscar||" ");
   }
 
   /* AGREGAR PRODUCTO A CANASTA */
   agregarCanasta = (producto) => {
-    this.setState({ pedidoUsuario: this.state.pedidoUsuario.concat([producto]) });
+    let pedidoUsuario = sessionStorage.getItem('pedidoUsuario');
+    pedidoUsuario = JSON.parse(pedidoUsuario);
+    pedidoUsuario = (pedidoUsuario||[]).concat([producto]);
+    sessionStorage.setItem('pedidoUsuario',JSON.stringify(pedidoUsuario));
   }
 
   /* SACAR PRODUCTO DE CANASTA */
   sacarProducto = (producto) => {
-    const { pedidoUsuario } = this.state;
+    let pedidoUsuario = sessionStorage.getItem('pedidoUsuario');
+    pedidoUsuario = JSON.parse(pedidoUsuario);
+
     var index = pedidoUsuario.indexOf(producto);
     if (index > -1) {
       pedidoUsuario.splice(index, 1);
-      this.setState({ pedidoUsuario });
+      sessionStorage.setItem('pedidoUsuario',JSON.stringify(pedidoUsuario));
     }
   }
 
@@ -207,19 +209,23 @@ export class Aplicacion extends Component {
 
   render() {
     return (<div className="Aplicacion" >
-      <ModalIngreso urlAplicacion={this.state.urlAplicacion}
+      <ModalIngreso 
+        urlAplicacion={this.state.urlAplicacion}
         mostrarModalIngreso={this.state.mostrarModalIngreso}
         controlModalIngreso={this.controlModalIngreso} >
       </ModalIngreso>
-      <Mensaje mostrarMensaje={this.state.mostrarMensaje}
+      <Mensaje 
+        mostrarMensaje={this.state.mostrarMensaje}
         textoMensaje={this.state.textoMensaje}
         tipoMensaje={this.state.tipoMensaje} >
       </Mensaje>
 
-      <Menu abrirPedido={this.abrirPedido}
+      <Menu     
+        urlAplicacion={this.state.urlAplicacion}
+        pedidoUsuario={this.state.pedidoUsuario}
+        abrirPedido={this.abrirPedido}
         controlModalIngreso={this.controlModalIngreso}
-        urlAplicacion={this.state.urlAplicacion} >
-      </Menu>
+      ></Menu>
 
       <div className="Paginas" id="paginas">
         <BrowserRouter>
@@ -234,8 +240,8 @@ export class Aplicacion extends Component {
             <Route path="/usuario/cliente" render={(props) => 
               <Cliente usuarioAplicacion={this.state.usuarioAplicacion} {...props}/>}/>
 
-            <Route path="/productos/buscador" render={(props) => 
-                <ProductoBuscador buscarPor={this.state.buscadorProducto} {...props}/>}/>
+            <Route path="/productos/buscador/:tipo/:texto" render={(props) =>
+              <ProductoBuscador agregarCanasta={this.agregarCanasta}{...props}/>}/>
 
             <Route path="/productos/lista" render={(props) =>
               <ProductoLista listarPor={"NEGOCIO"} {...props}/>}/>
