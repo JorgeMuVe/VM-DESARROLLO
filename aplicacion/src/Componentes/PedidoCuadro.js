@@ -26,32 +26,30 @@ export class PedidoCuadro extends React.Component {
             return(            
                 <div className="PedidoCuadro">  
                     <div className="pedido_modal">
-                        <div className="usuario_encabezado">
+                        <div className="pedido_modal_titulo">
                             <label> PEDIDO ACTUAL </label>
                         </div>
+                        {(pedidoUsuario||[]).length > 0?
                         <div className="pedido_lista">
-                            {(pedidoUsuario||[]).length > 0?
-                            <div className="producto_buscador_lista">
-                                {(pedidoUsuario||[]).map((producto,i) =>
-                                    <div className="producto_buscador_lista_item" style={{background:"url(/img/fondos/verduras.jpg)"}} key={i}>
-                                        <div className="producto_buscador_lista_item_datos">
-                                            <div>
-                                                <label><b>Producto {producto.nombreProducto}</b></label>
-                                                <label>
-                                                    Precio: S/: {parseFloat(producto.precioPorUnidad||0).toFixed(2) + " x " + unidadMedidaProducto(producto.unidadCantidad,producto.tipoUnidad)}
-                                                    <b> - Disponible:  </b> {"5 KG"} <b> Tienda:  </b>{producto.nombreNegocio}
-                                                </label>
-                                                <label> Description -> (Más Información!...)</label>
-                                            </div>
-                                            <button onClick={()=>this.props.agregarCanasta(producto)}> - </button>
+                            {(pedidoUsuario||[]).map((producto,i) =>
+                                <div className="pedido_lista_item" style={{background:"url(/img/fondos/verduras.jpg)"}} key={i}>
+                                    <div className="pedido_lista_item_datos">
+                                        <div>
+                                            <label><b>Producto {producto.nombreProducto}</b></label>
+                                            <label>
+                                                Precio: S/: {parseFloat(producto.precioPorUnidad||0).toFixed(2) + " x " + unidadMedidaProducto(producto.unidadCantidad,producto.tipoUnidad)}
+                                                <b> - Disponible:  </b> {"5 KG"} <b> Tienda:  </b>{producto.nombreNegocio}
+                                            </label>
+                                            <label> Description -> (Más Información!...)</label>
                                         </div>
+                                        <button onClick={()=>this.props.agregarCanasta(producto)}> - </button>
                                     </div>
-                                )}
-                            </div> :
-                            <div> No se agregaron Productos al Pedido!.</div>}
-                        </div>
-                        <div className="centrado">
-                            <button onClick={()=>this.props.redireccionar('/usuario/cliente')}> Comprar </button>
+                                </div>
+                            )}
+                        </div> :
+                        <div> No se agregaron Productos al Pedido!.</div>}
+                        <div className="pedido_modal_boton centrado">
+                            <button onClick={()=>this.props.redireccionar('/usuario/cliente')}> COMPRAR </button>
                         </div>
                     </div>
                 </div>

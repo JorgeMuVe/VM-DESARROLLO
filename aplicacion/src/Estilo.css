@@ -60,6 +60,31 @@ fieldset div{display:flex;align-items:center;}input:focus{outline:none;}
 .ingreso_internet_boton label{padding-left:15px;width:100%;color:whitesmoke;letter-spacing:1px;}
 
 
+.PedidoCuadro{width:500px;height:500px;position:absolute;top:60px;z-index:100;display:flex;align-items: center;justify-content: center;justify-items: center;}
+.pedido_modal{
+    box-shadow: 1px 1px 6px 0 rgba(0,0,0,0.8);
+    position:sticky;display:flex; flex-direction:column;
+    justify-content:space-around; align-items:center;
+    background:rgba(0,0,0,0.7);border-radius:10px; 
+    width:100%; height:100%;color:whitesmoke;}
+.pedido_modal_titulo{padding:10px;font-weight:bold;letter-spacing:2px;font-size:20px;}
+.pedido_lista{height:95%;width:95%;
+    display:flex;flex-direction:column;}
+.pedido_lista_item{margin-top:10px;border-radius:20px;}
+.pedido_lista_item_datos{
+    display: grid;
+    grid-template-columns: 90% 10%;
+    background:rgba(0,0,0,0.5);
+    border-radius:20px;height:100%;}
+.pedido_lista_item_datos div{display:grid;gap:1px;padding:7px;font-size:17px;letter-spacing:1px;}
+.pedido_lista_item_datos button{border-top-right-radius:20px;border-bottom-right-radius:20px; 
+    border-style:none;background:#2ECC71;}
+
+.pedido_modal_boton {padding:15px;}
+.pedido_modal_boton button{border-radius:20px;border-style:none;width:110px;height:50px;
+    background:#2ECC71;color:#ebedf3;font-size:20px;}
+
+
 .Aplicacion{height:100%;}
 
 
@@ -228,14 +253,6 @@ fieldset div{display:flex;align-items:center;}input:focus{outline:none;}
 .registro_siguiente{display:flex;justify-content:center;align-items:center;}
 .registro_siguiente button{width:150px;height:50px;font-size:20px;}
 
-.PedidoCuadro{width:500px;height:500px;position:absolute;top:60px;z-index:100;display:flex;align-items: center;justify-content: center;justify-items: center;}
-.pedido_modal{
-    box-shadow: 1px 1px 6px 0 rgba(0,0,0,0.8);
-    position:sticky;display:flex; flex-direction:column;
-    justify-content:space-around; align-items:center;
-    font-weight:bold; font-family:sans-serif;
-    font-size:16px; background:rgba(0,0,0,0.7);
-    border-radius:10px; width:100%; height:100%;}
 
 
 .Ingreso{display:grid;grid-gap:20px;}
