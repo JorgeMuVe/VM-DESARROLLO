@@ -1,5 +1,5 @@
-export const urlServidorDesarrollo = 'http://192.168.1.17:5000'; // SERVIDOR NODE JS
-export const urlAplicacionDesarrollo = 'http://192.168.1.17:3000';
+export const urlServidorDesarrollo = 'http://192.168.1.170:5000'; // SERVIDOR NODE JS
+export const urlAplicacionDesarrollo = 'http://192.168.1.170:3000';
 
 export const urlServidorPublica = 'http://reactiva-peru.com/data';
 export const urlAplicacionPublica = 'http://reactiva-peru.com';

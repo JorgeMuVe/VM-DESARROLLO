@@ -17,7 +17,8 @@ import { unidadMedidaProducto } from '../../Componentes/Funciones';
 /***  V A R I A B L E S   G L O B A L E S  ***/
 const estadoInicial = {
     listaProductos:[],
-    mostrarModalCantidad:false
+    productoSeleccionado:{},
+    mostrarModalCantidad:false,
 };
 
 export class ProductoLista extends React.Component {
@@ -50,12 +51,18 @@ export class ProductoLista extends React.Component {
     /***   A G R E G A R   P R O D U C T O    ***/
     controlModalCantidad =()=> this.setState({mostrarModalCantidad:!this.state.mostrarModalCantidad});
 
+    seleccionarProductoCantidad =(productoSeleccionado)=> {
+        this.setState({productoSeleccionado},()=>this.controlModalCantidad());
+    }
+
     agregarCantidadProducto =(evento)=> {
         evento.preventDefault();
-        //this.props.agregarCanasta(producto)
+        const { productoSeleccionado } = this.state;
         var cantidadProducto = document.getElementById("cantidadProducto").value;
-        console.log("Cantidad:__", cantidadProducto);
-        //this.props.agregarCanasta(producto)
+        productoSeleccionado["cantidadProducto"] = cantidadProducto;
+        console.log("Cantidad:__", productoSeleccionado);
+        this.props.agregarCanasta(productoSeleccionado);
+        this.controlModalCantidad();
     }
     
     /****   I N I C A R   F U N C I O N E S   ****/
@@ -99,7 +106,7 @@ export class ProductoLista extends React.Component {
                                             </label>
                                             <label> Description -> (Más Información!...)</label>
                                         </div>
-                                        <button onClick={()=>this.controlModalCantidad()}> + </button>
+                                        <button onClick={()=>this.seleccionarProductoCantidad(producto)}> + </button>
                                     </div>
                                 </div>
                             )}

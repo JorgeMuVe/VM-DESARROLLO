@@ -8,7 +8,7 @@ gestorPedido.post('/agregar', async (solicitud, respuesta) => {
 
         const { idNegocio,idPedido } = solicitud.body;
 
-        await proveedorDeDatos.query(`INSERT INTO venta(idNEgocio,idPedido) VALUES (?,?);`,
+        await proveedorDeDatos.query(`INSERT INTO venta(idNegocio,idPedido) VALUES (?,?);`,
 
         [ idNegocio,idPedido ] ,
 
