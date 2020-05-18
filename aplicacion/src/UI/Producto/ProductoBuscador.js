@@ -5,6 +5,7 @@
 
 /***  C O M P O N E N T E S   ***/
 import React from 'react';
+import Modal from '../../Componentes/Modal';
 
 /***  I C O N O   S V G  ***/
 import IconoLupa from '../../SVG/IconoLupa';
@@ -16,6 +17,7 @@ import { unidadMedidaProducto } from '../../Componentes/Funciones';
 /***  V A R I A B L E S   G L O B A L E S  ***/
 const estadoInicial = {
     listaProductos:[],
+    mostrarModalCantidad:false
 };
 
 export class ProductoLista extends React.Component {
@@ -45,6 +47,16 @@ export class ProductoLista extends React.Component {
         this.buscadorProducto(Buscador);
     }
 
+    /***   A G R E G A R   P R O D U C T O    ***/
+    controlModalCantidad =()=> this.setState({mostrarModalCantidad:!this.state.mostrarModalCantidad});
+
+    agregarCantidadProducto =(evento)=> {
+        evento.preventDefault();
+        //this.props.agregarCanasta(producto)
+        var cantidadProducto = document.getElementById("cantidadProducto").value;
+        console.log("Cantidad:__", cantidadProducto);
+        //this.props.agregarCanasta(producto)
+    }
     
     /****   I N I C A R   F U N C I O N E S   ****/
     inicarFuniones =()=> {
@@ -87,7 +99,7 @@ export class ProductoLista extends React.Component {
                                             </label>
                                             <label> Description -> (Más Información!...)</label>
                                         </div>
-                                        <button onClick={()=>this.props.agregarCanasta(producto)}> + </button>
+                                        <button onClick={()=>this.controlModalCantidad()}> + </button>
                                     </div>
                                 </div>
                             )}
@@ -96,6 +108,15 @@ export class ProductoLista extends React.Component {
                     </div>
                 </div>
             </div>
+            <Modal
+                controlMolda={this.controlModalCantidad}
+                mostrarModal={this.state.mostrarModalCantidad}
+                titulo="Cantidad de Producto"
+            >
+                Agregar Cantidad de Producto
+                <input type="number" placeholder="Cantidad" id="cantidadProducto"/>
+                <button onClick={this.agregarCantidadProducto}> AGREGAR </button>
+            </Modal>
         </div>
         )
     }

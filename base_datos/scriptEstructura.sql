@@ -108,7 +108,7 @@ DELIMITER ;
 -- ======================================================================= --
 DELIMITER $$
 CREATE TABLE venta(
-    idVenta INT(10) unsigned PRIMARY KEY AUTO_INCREMENT UNIQUE NOT NULL,
+    idVenta INT(10) unsigned PRIMARY KEY AUTO_INCREMENT NOT NULL,
     idNegocio INT(10) unsigned,
     idPedido INT(10) unsigned
 );
@@ -117,7 +117,7 @@ DELIMITER ;
 
 DELIMITER $$
 CREATE TABLE pedido(
-    idPedido INT(10) unsigned PRIMARY KEY AUTO_INCREMENT UNIQUE NOT NULL,
+    idPedido INT(10) unsigned PRIMARY KEY AUTO_INCREMENT NOT NULL,
     tipoUsuario VARCHAR(250),
     codigoUsuario INT(10) unsigned,
     telefonoReferencia VARCHAR(20),
@@ -133,7 +133,7 @@ DELIMITER ;
 
 DELIMITER $$
 CREATE TABLE pedidoDetalle(
-    idPedidoDetalle INT(10) unsigned PRIMARY KEY AUTO_INCREMENT UNIQUE NOT NULL,
+    idPedidoDetalle INT(10) unsigned PRIMARY KEY AUTO_INCREMENT NOT NULL,
     idPedido INT(10) unsigned,
     idProducto INT(10) unsigned,
     cantidadProducto DECIMAL(6,2)
@@ -145,7 +145,7 @@ DELIMITER ;
 
 DELIMITER $$
 CREATE TABLE movimiento(
-    idMovimiento INT(10) unsigned PRIMARY KEY AUTO_INCREMENT UNIQUE NOT NULL,
+    idMovimiento INT(10) unsigned PRIMARY KEY AUTO_INCREMENT NOT NULL,
     idNegocio INT(10) unsigned,
     idLocal INT(10) unsigned,
     idUsuario INT(10) unsigned, -- Quien registra
