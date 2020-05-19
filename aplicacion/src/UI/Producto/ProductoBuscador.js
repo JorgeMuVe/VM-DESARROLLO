@@ -65,6 +65,14 @@ export class ProductoLista extends React.Component {
         this.controlModalCantidad();
     }
     
+    calcularPrecioProducto =(producto)=> {
+        //console.log(producto);
+        return <b>S/: {
+            parseFloat(producto.precioPorUnidad||0).toFixed(2)+" x "+
+            unidadMedidaProducto(producto.unidadCantidad,producto.tipoUnidad)+
+            (producto.descuentoUnidad>0?(" (-"+producto.descuentoUnidad+"%)"):"")}</b>
+    }
+    
     /****   I N I C A R   F U N C I O N E S   ****/
     inicarFuniones =()=> {
         this.buscarProductoInicial();
@@ -99,12 +107,12 @@ export class ProductoLista extends React.Component {
                                 <div className="producto_buscador_lista_item" style={{background:"url(/img/fondos/verduras.jpg)"}} key={producto.idProducto}>
                                     <div className="producto_buscador_lista_item_datos">
                                         <div>
-                                            <label><b>{producto.nombreTipoProducto+" "+producto.nombreProducto}</b></label>
-                                            <label>
-                                                Precio: S/: {parseFloat(producto.precioPorUnidad||0).toFixed(2) + " x " + unidadMedidaProducto(producto.unidadCantidad,producto.tipoUnidad)}
-                                                <b> - Disponible:  </b> {"5 KG"} <b> Tienda:  </b>{producto.nombreNegocio}
+                                            <label><b>{producto.nombreTipoProducto+" "+producto.nombreProducto} ({producto.nombreNegocio})</b></label>
+                                            <label>Precio: 
+                                                {this.calcularPrecioProducto(producto)}
                                             </label>
-                                            <label> Description -> (Más Información!...)</label>
+                                            <label>Disponible:  <b> {"5 "+producto.tipoUnidad}</b></label>
+                                            <label>Description -> (Más Información!...)</label>
                                         </div>
                                         <button onClick={()=>this.seleccionarProductoCantidad(producto)}> + </button>
                                     </div>

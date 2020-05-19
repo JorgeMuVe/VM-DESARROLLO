@@ -19,6 +19,17 @@ export class PedidoCuadro extends React.Component {
         this.state = estadoInicial;
     }
 
+    calcularPrecioProducto =(producto)=> {
+        var cantidadProducto = parseFloat(producto.unidadCantidad) * parseFloat(producto.cantidadProducto);
+        var precioProducto = parseFloat(producto.precioPorUnidad) * parseFloat(producto.cantidadProducto);
+        var descuentoUnidad = producto.descuentoUnidad/100;
+        return <b>S/. {
+            parseFloat(precioProducto-(precioProducto*descuentoUnidad)||0).toFixed(2)+" x "+
+            unidadMedidaProducto(cantidadProducto,producto.tipoUnidad)+
+            (descuentoUnidad>0?(" (-"+producto.descuentoUnidad+"%)"):"")
+        }</b>
+    }
+
     render(){
         if(this.props.mostrarPedido){
             let pedidoUsuario = sessionStorage.getItem('pedidoUsuario');
@@ -35,12 +46,11 @@ export class PedidoCuadro extends React.Component {
                                 <div className="pedido_lista_item" style={{background:"url(/img/fondos/verduras.jpg)"}} key={i}>
                                     <div className="pedido_lista_item_datos">
                                         <div>
-                                            <label><b>Producto {producto.nombreProducto}</b></label>
-                                            <label>
-                                                Precio: S/: {parseFloat(producto.precioPorUnidad||0).toFixed(2) + " x " + unidadMedidaProducto(producto.unidadCantidad,producto.tipoUnidad)}
-                                                <b> - Disponible:  </b> {"5 KG"} <b> Tienda:  </b>{producto.nombreNegocio}
+                                            <label><b>{producto.nombreTipoProducto+" "+producto.nombreProducto} ({producto.nombreNegocio})</b></label>
+                                            <label>Precio: 
+                                                {this.calcularPrecioProducto(producto)}
                                             </label>
-                                            <label> Description -> (Más Información!...)</label>
+                                            <label>Description -> (Más Información!...)</label>
                                         </div>
                                         <button onClick={()=>this.props.agregarCanasta(producto)}> - </button>
                                     </div>

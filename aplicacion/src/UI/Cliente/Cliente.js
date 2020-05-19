@@ -85,7 +85,6 @@ export class Cliente extends React.Component {
             <div className="Cliente centrado">
 
                 <div className="usuario_componentes">
-
                     <div className="usuario_navegador">
                         <div className={"usuario_navegador_boton " + (this.state.paginaActual==="pedido"?"activo":"")}
                             onClick={()=>this.cambiarPagina("pedido")}>
