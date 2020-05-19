@@ -27,7 +27,7 @@ export class PedidoCuadro extends React.Component {
                 <div className="PedidoCuadro">  
                     <div className="pedido_modal">
                         <div className="pedido_modal_titulo">
-                            <label> PEDIDO ACTUAL </label>
+                            <label> Mi Pedido </label>
                         </div>
                         {(pedidoUsuario||[]).length > 0?
                         <div className="pedido_lista">

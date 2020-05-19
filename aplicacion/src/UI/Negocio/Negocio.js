@@ -5,6 +5,7 @@
 
 /***  COMPONENTES  ***/
 import React from 'react';
+import Pedidos from './Pedidos';
 import Ventas from './Ventas';
 import Cuenta from './Cuenta';
 import Productos from './Productos';
@@ -22,7 +23,7 @@ const estadoInicial = {
     ventasNegocio:[],
 
     /**** P A G I N A S     N E G O C I O ****/
-    paginaActual:'ventas'
+    paginaActual:'pedidos'
 };
 
 export class Negocio extends React.Component {
@@ -39,6 +40,10 @@ export class Negocio extends React.Component {
     mostrarPagina =()=> {
         const pagina = this.state.paginaActual;
         switch (pagina) {
+            case "pedidos": return (
+                <Pedidos
+                    pedidosNegocio={this.state.ventasNegocio}
+                />);
             case "ventas": return (
                 <Ventas
                     ventasNegocio={this.state.ventasNegocio}
@@ -80,7 +85,11 @@ export class Negocio extends React.Component {
                 <div className="usuario_componentes">
 
                     <div className="usuario_navegador">
-
+                        <div className={"usuario_navegador_boton " + (this.state.paginaActual==="pedidos"?"activo":"")}
+                            onClick={()=>this.cambiarPagina("pedidos")}>
+                            <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
+                            <label>Pedidos</label>
+                        </div>
                         <div className={"usuario_navegador_boton " + (this.state.paginaActual==="ventas"?"activo":"")}
                             onClick={()=>this.cambiarPagina("ventas")}>
                             <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>

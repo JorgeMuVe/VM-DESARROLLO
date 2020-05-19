@@ -51,7 +51,8 @@ export class ConfirmarPedido extends React.Component {
         });
     }
 
-    confirmarDatos =()=> {
+    confirmarDatos =(evento)=> {
+        evento.preventDefault();
         const { pedidoUsuario } = this.state;
        
         // DETALLE DEL PEDIDO DEL CLIENTE
@@ -79,12 +80,12 @@ export class ConfirmarPedido extends React.Component {
         datosConfirmacion["lat"] = "-13.9093"; datosConfirmacion["lng"] = " -40.3e223"; 
         datosConfirmacion["totalProductos"] = pedidoUsuario.length;
         datosConfirmacion["totalPagar"] = totalPagar;
+        datosConfirmacion["tipoPago"] = document.getElementById("tipoPago").value;
         datosConfirmacion["fechaRegistro"] = obtenerFechaHoy();
         datosConfirmacion["estadoPedido"] = "Registrado";
 
         // ABRIR MODAL DE CONFIRMARCION
         this.setState({pedidoDetalles,ventasNegocios,datosConfirmacion},()=> this.controlModalConfirmar() );
-
     }
 
     controlModalConfirmar =()=> this.setState({mostrarModalConfirmar:!this.state.mostrarModalConfirmar})
@@ -97,41 +98,58 @@ export class ConfirmarPedido extends React.Component {
 
     render(){
         return(
-            <div>
-                <div className="pedido_datos">
-                    <div className="usuario_direccion">
-                        <div className="item_direccion">
-                            <div className="tipo_direccion">Casa</div>
-                            <div className="tipo_direccion">San Jeronimo Calle Rodriguez Pastor 475</div>
-                            <div className="tipo_direccion">Cerca a edficio de Telefonica</div>
+            <div className="ConfirmarPedidoCliente">
+                <div className="Titulo">
+                    <button>{"<"}</button>
+                    <div>Mi Pedido</div>
+                </div>
+                <form className="confirmar_pedido" validate="true" onSubmit={this.confirmarDatos}>
+                    <div className="confirmar_pedido_direccion">
+                        <label>Direccion<hr/></label>
+                        <div className="">
+                            <span>
+                                <b>{"San Jeronimo Calle Rodriguez Pastor 475"}</b><br/>
+                                {"Cerca a edficio de Telefonica"}
+                            </span>
+                            <button>Cambiar</button>
                         </div>
                     </div>
-                    <div className="usuario_datos">
-                        <input required type="text" id="telefonoReferencia" placeholder="Telefono Referencia"/>
-                        <input required type="email" id="correoReferencia" placeholder="Correo Referencia"/>
+                    <div className="confirmar_pedido_datos">                    
+                        <label>Datos<hr/></label>
+                        <div>                        
+                            <input required type="email" id="correoReferencia" placeholder="Correo Referencia"/>
+                            <input required type="text" id="telefonoReferencia" placeholder="Telefono Referencia"/>
+                            <div className="">                                
+                                <label><input type="radio" name="tipoPago" id="tipoPago" required/>Pago en Efectivo</label>
+                                <label><input type="radio" name="tipoPago" required/>Pago con Tarjeta</label>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div className="pedido_pago">
-                    <div className="tipo_pago">
-                        <label><input type="checkbox"/>Pago en Efectivo</label>
-                        <label><input type="checkbox"/>Pago con Tarjeta</label>
+                    <div className="centrado">
+                        <div className="confirmar_pedido_boton centrado">
+                            <button type="submit"> Proceder al pago </button>
+                        </div>
                     </div>
-                    <div className={(this.state.pedidoUsuario||[]).length>0 ? "pedido_siguiente":"ocultar"}>
-                        <button onClick={()=>this.confirmarDatos()}> CONFIRMAR </button>
-                    </div>
-                </div>
+                </form>
 
                 <Modal
                     mostrarModal={this.state.mostrarModalConfirmar}
                     controlModal={this.controlModalConfirmar}
                     tituloModal="CONFIRMAR PEDIDO"
                 >
-                    <div> TOTAL PRODUCTOS: {this.state.datosConfirmacion.totalProductos}</div> -
-                    <div> TOTAL A PAGAR: {this.state.datosConfirmacion.totalPagar}</div> - 
-                    <div className="centrado">
-                        <button onClick={()=>this.confirmarPedido()}> CONFIRMAR </button>
+                    <div className="modal_confirmar">
+                        <label> 
+                            Recibira una llamada para confirmar el pedido,
+                            <br/>al numero {(document.getElementById("telefonoReferencia")||{}).value}. 
+                        </label>
+                        <div> Productos en total: {this.state.datosConfirmacion.totalProductos}</div>
+                        <div> Total a pagar: <b> S/. {this.state.datosConfirmacion.totalPagar}</b></div>
+                        <div className="centrado">
+                            <div className="modal_confirmar_boton">
+                                <button onClick={()=>this.confirmarPedido()}> CONFIRMAR </button>
+                            </div>
+                        </div>
                     </div>
-
                 </Modal>
             </div>
         )

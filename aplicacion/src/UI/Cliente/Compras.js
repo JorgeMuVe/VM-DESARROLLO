@@ -62,7 +62,7 @@ export class ClienteCompras extends React.Component {
                                 <tr className={(i%2!==0?" interlinea":"")}>
                                     <td>N° {pedido.idPedido}</td>
                                     <td>{pedido.fechaRegistro}</td>
-                                    <td>{pedido.totalPagar}</td>
+                                    <td>S/. {pedido.totalPagar.toFixed(2)}</td>
                                     <td>{pedido.totalProductos}</td>
                                     <td>{pedido.estadoPedido}</td>
                                     <td> + </td>

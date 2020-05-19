@@ -12,7 +12,7 @@ const estadoInicial = {
     mostrarModalFechas:false,
 };
 
-export class NegocioVentas extends React.Component {
+export class NegocioPedidos extends React.Component {
     constructor(props){
         super(props);
         this.state = estadoInicial;
@@ -27,7 +27,7 @@ export class NegocioVentas extends React.Component {
             <div className="NegocioVentas">
                 <div className="Titulo">
                     <button>{"<"}</button>
-                    <div>Ventas Realizadas</div>
+                    <div>Pedidos registrados</div>
                 </div>
                 <div className="usuario_encabezado_opciones">
                     <select>
@@ -46,34 +46,37 @@ export class NegocioVentas extends React.Component {
                         <input type="date"/>
                     </div>
                     </Modal>
-
                 </div>
                 
-                {(this.props.ventasNegocio||[]).length > 0?
+                {(this.props.pedidosNegocio||[]).length > 0?
                 <div className="usuario_tabla centrado">
                     <table>
                         <thead>
                             <tr>
                                 <th> NR<br/>PEDIDO</th>
                                 <th> FECHA </th>
-                                <th> CLIENTE </th>
-                                <th> PRECIO</th>
+                                <th> CANT </th>
+                                <th> PRECIO<br/>TOTAL </th>
+                                <th> REFERENCIA </th>
+                                <th> ESTADO </th>
                                 <th> </th>
                             </tr>
                         </thead>
-                        {(this.props.ventasNegocio||[]).map((venta,i) => {
+                        {(this.props.pedidosNegocio||[]).map((venta,i) => {
                             return ( 
                             <tbody key={i}>
                                 <tr className={(i%2!==0?" interlinea":"")}>
                                     <td>N° {venta.idVenta}</td>
-                                    <td>{venta.fechaRegistro}</td>
-                                    <td> Mia Skharlet</td>
-                                    <td>
-                                        <label>
-                                            Total: S/. {venta.totalPagar.toFixed(2)}<br/>
-                                            Cargo S/. 0.80
-                                        </label>
+                                    <td style={{textAlign:'center'}}>{venta.fechaRegistro}</td>
+                                    <td style={{textAlign:'center'}}>10</td>
+                                    <td>S/. {venta.totalPagar.toFixed(2)}</td>
+                                    <td>                       
+                                        <span><b>{"San Jeronimo Calle Rodriguez Pastor 475"}</b><br/>
+                                        {"Cerca a edficio de Telefonica"}<br/>
+                                        {"Correo: miaskharlet@gmail.com"}<br/>
+                                        {"Telefono: 213213"}</span>
                                     </td>
+                                    <td>{venta.estadoPedido.toUpperCase()}</td>
                                     <td onClick={()=>alert(venta.idPedido)}> + </td>
                                 </tr> 
                             </tbody>
@@ -83,10 +86,10 @@ export class NegocioVentas extends React.Component {
                         Paginado
                     </div>
                 </div> :
-                <div> No Existen Ventas Registradas</div>}
+                <div> No Existen Pedidos Registradas</div>}
             </div>
         )
     }
 }
 
-export default NegocioVentas;
+export default NegocioPedidos;

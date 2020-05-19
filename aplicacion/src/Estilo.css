@@ -7,6 +7,10 @@ fieldset{border-radius:5px;}fieldset legend{color:#e51b1b;font-weight:bold;font-
 fieldset input{border:none;font-size:15px;width:100%;padding:2px;}fieldset textarea{border:none;font-size:15px;width:100%;height:50px;}
 fieldset div{display:flex;align-items:center;}input:focus{outline:none;}
 
+.Aplicacion{height:100%;}
+.Titulo{display:flex;flex-direction:row;color:#e51b1b;font-size:20px;margin-bottom:10px;}
+.Titulo div{text-align:center;width:100%;font-weight:bold;letter-spacing:2px;}
+
 .centrado{display:flex;justify-items:center;align-items:center;justify-content:center;}
 .cuadro_mensaje{position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,0.1);}
 .error{font-size:3vh;color:#ee6e6e;background-color:#f3cdcd;margin:15% auto;padding:15px;border:2px solid #ee6e6e;border-radius:8px;width:max-content;}
@@ -60,32 +64,30 @@ fieldset div{display:flex;align-items:center;}input:focus{outline:none;}
 .ingreso_internet_boton label{padding-left:15px;width:100%;color:whitesmoke;letter-spacing:1px;}
 
 
+.Pedido{display:grid;grid-gap:20px;margin:10px;}
+.pedido_encabezado{display:grid;grid-template-columns:20% 80%;grid-gap:10px;margin:10px;}
 .PedidoCuadro{width:500px;height:500px;position:absolute;top:60px;z-index:100;display:flex;align-items: center;justify-content: center;justify-items: center;}
 .pedido_modal{
     box-shadow: 1px 1px 6px 0 rgba(0,0,0,0.8);
     position:sticky;display:flex; flex-direction:column;
     justify-content:space-around; align-items:center;
-    background:rgba(0,0,0,0.7);border-radius:10px; 
-    width:100%; height:100%;color:whitesmoke;}
-.pedido_modal_titulo{padding:10px;font-weight:bold;letter-spacing:2px;font-size:20px;}
+    border-radius:10px;width:100%; height:100%;
+    background:whitesmoke;}
+.pedido_modal_titulo{padding:10px;font-weight:bold;letter-spacing:2px;font-size:20px;color:#e51b1b;}
 .pedido_lista{height:95%;width:95%;
     display:flex;flex-direction:column;}
 .pedido_lista_item{margin-top:10px;border-radius:20px;}
 .pedido_lista_item_datos{
-    display: grid;
+    display: grid;color:whitesmoke;
     grid-template-columns: 90% 10%;
     background:rgba(0,0,0,0.5);
     border-radius:20px;height:100%;}
 .pedido_lista_item_datos div{display:grid;gap:1px;padding:7px;font-size:17px;letter-spacing:1px;}
 .pedido_lista_item_datos button{border-top-right-radius:20px;border-bottom-right-radius:20px; 
     border-style:none;background:#2ECC71;}
-
-.pedido_modal_boton {padding:15px;}
-.pedido_modal_boton button{border-radius:20px;border-style:none;width:110px;height:50px;
-    background:#2ECC71;color:#ebedf3;font-size:20px;}
-
-
-.Aplicacion{height:100%;}
+.pedido_modal_boton {background:#e51b1b;border-radius:20px;margin:10px;max-width:150px;}
+.pedido_modal_boton button{cursor:pointer;padding:15px;border-style:none;background:transparent;
+    color:#ebedf3;font-size:20px;font-weight:bold;letter-spacing:2px;}
 
 
 .Menu{width:100%;height:50px;position:sticky;top:0;z-index:100;display:flex;justify-content:center;}
@@ -192,10 +194,29 @@ fieldset div{display:flex;align-items:center;}input:focus{outline:none;}
 .ClienteCompras,.ClienteDirecciones,.ClientePedido{display:grid;grid-gap:20px;}
 .cliente_agregar_direccion{display:grid;grid-gap:20px;}
 .cliente_agregar_direccion_ubicacion{display:grid;grid-template-columns:repeat(2,1fr);grid-gap:20px;}
+.cliente_pedido{display:flex;flex-direction:column;align-items:center;
+    border-radius:10px;min-height:500px}
+
+.ConfirmarPedidoCliente{background:transparent;}
+.confirmar_pedido{display:grid;grid-gap:20px;}
+.confirmar_pedido_direccion div{display:grid;grid-template-columns:80% 20%;}
+.confirmar_pedido_datos{min-height:300px;}
+.confirmar_pedido_datos div{display:grid;grid-gap:10px;width:320px;}
+.confirmar_pedido_datos div div{display:grid;grid-template-columns:repeat(2,1fr);}
+
+.confirmar_pedido_boton {background:#e51b1b;border-radius:20px;margin:10px;max-width:300px;}
+.confirmar_pedido_boton button{cursor:pointer;padding:15px;border-style:none;background:transparent;
+    color:#ebedf3;font-size:20px;font-weight:bold;letter-spacing:2px;}
+
+.modal_confirmar{display:grid;grid-gap:10px;font-size:20px;letter-spacing:2px;}
+.modal_confirmar_boton {background:#e51b1b;border-radius:20px;margin:10px;max-width:300px;}
+.modal_confirmar_boton button{cursor:pointer;padding:10px;border-style:none;background:transparent;
+    color:#ebedf3;font-size:16px;font-weight:bold;}
 
 
 
 
+/* ----------------------------------- */
 
 
 .boton_imagen {
@@ -229,17 +250,11 @@ fieldset div{display:flex;align-items:center;}input:focus{outline:none;}
 .opcion_menu a img{width:45px;}
 
 
-.tipo_pago{display:grid;grid-gap:20px;}
 
-.usuario_direccion{display:grid;grid-template-columns:90%10%;}
 .eliminar_direccion{display:flex;justify-content:center;align-items: center;}
 
-.Pedido{display:grid;grid-gap:20px;margin:10px;}
-.pedido_encabezado{display:grid;grid-template-columns:20% 80%;grid-gap:10px;margin:10px;}
-.pedido_siguiente{display:flex;justify-content:center;align-items:center;}
-.pedido_siguiente button{width:150px;height:60px;font-size:25px;}
-.pedido_datos{display:grid;}
-.pedido_pago{display:grid;grid-gap:20px;}
+
+
 
 .Error404{background-color:transparent;}
 .Registro{display:grid;grid-gap:20px;margin:10px;}

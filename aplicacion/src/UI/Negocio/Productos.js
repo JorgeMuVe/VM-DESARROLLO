@@ -139,9 +139,12 @@ export class Productos extends React.Component {
     render(){
         return(
             <div className="NegocioProductos">
-                <div className="usuario_encabezado">
-                    <label> PRODUCTOS PUBLICADOS</label>
-                    <div className="usuario_encabezado_opciones"><button onClick={this.controlModalProducto}> Agregar Producto </button></div>
+                <div className="Titulo">
+                    <button>{"<"}</button>
+                    <div>Pedidos registrados</div>
+                </div>
+                <div className="usuario_encabezado_opciones">
+                    <button onClick={this.controlModalProducto}> Agregar Producto </button>
                 </div>
                 {(this.state.productosNegocio||[]).length > 0?
                 <div className="usuario_tabla centrado">
