@@ -17,15 +17,60 @@ export class ClienteDirecciones extends React.Component {
     constructor(props){
         super(props);
         this.state = estadoInicial;
+        this.obtenerUbicacion = this.obtenerUbicacion.bind(this)
     }
 
     controlModalAgregar =()=> this.setState({mostrarModalAgregar:!this.state.mostrarModalAgregar});
 
     obtenerUbicacion =()=> {
         if(navigator.geolocation){
-            console.log("Si tiene");
-            //navigator.geolocation.getCurrentPosition(function(){console.log("Coords :", position.coords)});
-        } else { alert("Geolocation is not Suported byt his browser.") }
+            var options = {
+                enableHighAccuracy:true,
+                timeout:5000,
+                maximumAge:0
+            };
+            
+            function success(pos) {
+                var crd = pos.coords;
+                console.log("Si tiene");
+                console.log('Your current position is:');
+                console.log('Latitude : ' + crd.latitude);
+                console.log('Longitude: ' + crd.longitude);
+                console.log('More or less ' + crd.accuracy + ' meters.');
+            };
+            
+            function error(err) {
+                console.warn('ERROR(' + err.code + '): ' + err.message);
+            };
+
+            //console.log("Si tiene",navigator.geolocation.getCurrentPosition(success,error));
+            //navigator.geolocation.watchPosition(success, error, options);
+            //chrome://flags/#unsafely-treat-insecure-origin-as-secure
+            navigator.geolocation.getCurrentPosition(success, error, options);
+
+        } else { alert("Geolocation is not Suported by this browser.") }
+    }
+
+    obtenerCoordenadas =(position)=> {
+        console.log("Coords :", position)
+    }
+
+    mostrarError =(error)=> {
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+              console.log("User denied the request for Geolocation.");
+              break;
+            case error.POSITION_UNAVAILABLE:
+              console.log("Location information is unavailable.");
+              break;
+            case error.TIMEOUT:
+              console.log("The request to get user location timed out.");
+              break;
+            case error.UNKNOWN_ERROR:
+              console.log("An unknown error occurred.");
+              break;
+            default: console.log("ERROR DESCONOCIDO", error); break;
+          }
     }
 
     render(){

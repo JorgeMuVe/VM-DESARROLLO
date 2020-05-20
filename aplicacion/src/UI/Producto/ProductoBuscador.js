@@ -60,7 +60,6 @@ export class ProductoLista extends React.Component {
         const { productoSeleccionado } = this.state;
         var cantidadProducto = document.getElementById("cantidadProducto").value;
         productoSeleccionado["cantidadProducto"] = cantidadProducto;
-        console.log("Cantidad:__", productoSeleccionado);
         this.props.agregarCanasta(productoSeleccionado);
         this.controlModalCantidad();
     }
