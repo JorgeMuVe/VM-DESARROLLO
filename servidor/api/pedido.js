@@ -72,10 +72,12 @@ gestorPedido.post('/lista/negocio', async (solicitud, respuesta) => {
         const { codigoUsuario } = solicitud.body;
         await proveedorDeDatos.query(`
 
-            SELECT p.idPedido,p.correoReferencia,p.telefonoReferencia,p.estadoPedido,p.totalProductos,p.totalPagar,p.fechaRegistro,
+            SELECT p.idPedido,p.fechaRegistro,p.correoReferencia,p.telefonoReferencia,p.estadoPedido,
+            COUNT(pd.idPedido) as totalProductos,p.totalPagar,
             c.nombreCompleto,c.apellidoPaterno,d.denominacionDireccion,d.referenciaDireccion
             FROM venta v
             INNER JOIN pedido p ON v.idPedido = p.idPedido
+            INNER JOIN pedidoDetalle pd ON v.idPedido = pd.idPedido
             INNER JOIN cliente c ON c.idCliente = p.codigoUsuario
             INNER JOIN direccion d ON d.idDireccion = p.idDireccion
             WHERE v.idNegocio = ?;
