@@ -66,12 +66,12 @@ fieldset div{display:flex;align-items:center;}input:focus{outline:none;}
 
 .Pedido{display:grid;grid-gap:20px;margin:10px;}
 .pedido_encabezado{display:grid;grid-template-columns:20% 80%;grid-gap:10px;margin:10px;}
-.PedidoCuadro{width:500px;height:500px;position:absolute;top:60px;z-index:100;display:flex;align-items: center;justify-content: center;justify-items: center;}
+.PedidoCuadro{width:500px;min-height:500px;position:absolute;top:60px;z-index:100;display:flex;align-items:center;justify-content:center;justify-items:center;}
 .pedido_modal{
     box-shadow: 1px 1px 6px 0 rgba(0,0,0,0.8);
-    position:sticky;display:flex; flex-direction:column;
-    justify-content:space-around; align-items:center;
-    border-radius:10px;width:100%; height:100%;
+    display:flex;flex-direction:column;
+    justify-content:space-around;align-items:center;
+    border-radius:10px;width:100%;height:100%;
     background:whitesmoke;}
 .pedido_modal_titulo{padding:10px;font-weight:bold;letter-spacing:2px;font-size:20px;color:#e51b1b;}
 .pedido_lista{height:95%;width:95%;
@@ -141,8 +141,8 @@ fieldset div{display:flex;align-items:center;}input:focus{outline:none;}
 .producto_buscador_encabezado{display:grid;grid-template-columns:10% 80% 10%;grid-gap:10px;}
 .producto_buscador_paginacion{display:flex;justify-content:center;}
 
-.producto_buscador_lista{display:grid;grid-template-columns:repeat(1,1fr);grid-gap:10px;width:100%;}
-.producto_buscador_lista_item {border-radius:20px;cursor:pointer;height:12vh;width:100%;}
+.producto_buscador_lista{width:100%;display:flex;flex-direction:column;}
+.producto_buscador_lista_item {border-radius:20px;cursor:pointer;height:100%;width:100%;margin-bottom:10px;}
 .producto_buscador_lista_item_datos{
     display: grid;
     grid-template-columns: 90% 10%;
@@ -155,7 +155,7 @@ fieldset div{display:flex;align-items:center;}input:focus{outline:none;}
     border-style:none;background:#2ECC71;}
 
 
-.usuario_componentes{display:grid;grid-template-columns: 180px 1fr;grid-gap:20px;width:60%;min-height:500px;margin-top:60px;padding-bottom:50px;}
+.usuario_componentes{display:grid;grid-template-columns:180px 1fr;grid-gap:20px;width:60%;min-height:300px;margin-top:60px;padding-bottom:50px;}
 .usuario_navegador { background:white;display:grid;grid-template-columns: repeat(1,1fr);height:200px;box-shadow: 1px 1px 6px 0 rgba(0,0,0,0.5);}
 .usuario_navegador_boton{display:flex;flex-direction:row;align-items:center;font-size:16px;}
 .usuario_navegador_boton.activo label{color:#e51b1b;}.usuario_navegador_boton.activo div svg{fill:#e51b1b;}
@@ -191,20 +191,20 @@ fieldset div{display:flex;align-items:center;}input:focus{outline:none;}
 
 
 .Cliente{background: #ebedf3;margin-top:-50px;height:100%;}
-.ClienteCompras,.ClienteDirecciones,.ClientePedido{display:grid;grid-gap:20px;}
+.ClienteCompras,.ClienteDirecciones,.ClientePedido{display:grid;grid-gap:10px;}
+.cliente_pedido_datos{display:grid;grid-template-columns:repeat(2,1fr);grid-gap:10px;}
 .cliente_agregar_direccion{display:grid;grid-gap:20px;}
 .cliente_agregar_direccion_ubicacion{display:grid;grid-template-columns:repeat(2,1fr);grid-gap:20px;}
 .cliente_pedido{display:flex;flex-direction:column;align-items:center;
-    border-radius:10px;min-height:500px}
+    border-radius:10px;min-height:250px}
 
-.ConfirmarPedidoCliente{background:transparent;}
+.ConfirmarPedidoCliente{display:grid;grid-gap:10px;}
 .confirmar_pedido{display:grid;grid-gap:20px;}
 .confirmar_pedido_direccion div{display:grid;grid-template-columns:80% 20%;}
-.confirmar_pedido_datos{min-height:300px;}
 .confirmar_pedido_datos div{display:grid;grid-gap:10px;width:320px;}
 .confirmar_pedido_datos div div{display:grid;grid-template-columns:repeat(2,1fr);}
 
-.confirmar_pedido_boton {background:#e51b1b;border-radius:20px;margin:10px;max-width:300px;}
+.confirmar_pedido_boton {background:#e51b1b;border-radius:20px;}
 .confirmar_pedido_boton button{cursor:pointer;padding:15px;border-style:none;background:transparent;
     color:#ebedf3;font-size:20px;font-weight:bold;letter-spacing:2px;}
 

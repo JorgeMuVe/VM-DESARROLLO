@@ -30,6 +30,12 @@ export class ClientePedido extends React.Component {
                 <div className="pedido_modal_titulo centrado">
                     <label> Mi Pedido </label>
                 </div>
+                <div className="centrado">
+                    <div className="cliente_pedido_datos">
+                        <div>Cantidad: {(this.state.pedidoUsuario||[]).length}</div>
+                        <div>Precio: S/. {(this.state.pedidoUsuario||[]).length}</div>
+                    </div>
+                </div>
                 <div className="cliente_pedido">
                     {(this.state.pedidoUsuario||[]).length > 0?
                     <div className="pedido_lista" style={{width:"80%"}}>

@@ -1,5 +1,5 @@
-export const urlServidorDesarrollo = 'http://192.168.1.170:5000'; // SERVIDOR NODE JS
-export const urlAplicacionDesarrollo = 'http://192.168.1.170:3000';
+export const urlServidorDesarrollo = 'http://192.168.0.170:5000'; // SERVIDOR NODE JS
+export const urlAplicacionDesarrollo = 'http://192.168.0.170:3000';
 
 export const urlServidorPublica = 'http://reactiva-peru.com/data';
 export const urlAplicacionPublica = 'http://reactiva-peru.com';
@@ -44,7 +44,7 @@ export const unidadMedidaProducto =(unidadCantidad,tipoUnidad)=> {
                 case '500': textoUnidad = "1/2 KG"; break;
                 case '250': textoUnidad = "1/4 KG"; break;
                 case '125': textoUnidad = "1/8 KG"; break;
-                default: break;
+                default:if(cantidad>1000)textoUnidad=(cantidad/1000)+" KG"; break;
             }
         break;
         default:break;
