@@ -31,6 +31,8 @@ END IF;
 END $$
 DELIMITER ;
 
+-- CALL agregarUsuario('72947621','Jorge K.','Muñiz','Velasquez','jorge.muvez@gmail.com','coco','cliente');
+
 -- == BUSCAR USUARIO ==>>
 DELIMITER $$
 DROP PROCEDURE IF EXISTS buscarUsuarioCliente; $$

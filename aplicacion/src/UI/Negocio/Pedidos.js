@@ -7,8 +7,12 @@
 import React from 'react';
 import Modal from '../../Componentes/Modal';
 
+/***  F U N C I O N E S  ***/
+import { listarPedidoNegocio_DB } from '../../DB/pedidoDB';
+
 /* VARIABLES GLOBALES */
 const estadoInicial = {
+    pedidosNegocio:[],
     mostrarModalFechas:false,
 };
 
@@ -19,10 +23,21 @@ export class NegocioPedidos extends React.Component {
     }
 
     controlModalFechas =()=> this.setState({mostrarModalFechas:!this.state.mostrarModalFechas})
+
+    obtenerPedidos =()=> {
+        const { codigoUsuario } = this.props.usuarioAplicacion;
+        listarPedidoNegocio_DB({codigoUsuario:codigoUsuario}).then(pedidos=>{
+            if(!pedidos.error){
+                this.setState({ pedidosNegocio: pedidos });
+            } else { console.log("ERROR >> LISTAR PEDIDOS NEGOCIO"); }
+        });
+    }
+
+    componentDidMount(){
+        this.obtenerPedidos();
+    }
     
     render(){
-
-        console.log(this.props);
         return(
             <div className="NegocioVentas">
                 <div className="Titulo">
@@ -48,36 +63,40 @@ export class NegocioPedidos extends React.Component {
                     </Modal>
                 </div>
                 
-                {(this.props.pedidosNegocio||[]).length > 0?
+                {(this.state.pedidosNegocio||[]).length > 0?
                 <div className="usuario_tabla centrado">
                     <table>
                         <thead>
                             <tr>
                                 <th> NR<br/>PEDIDO</th>
                                 <th> FECHA </th>
+                                <th> REFERENCIA </th>
                                 <th> CANT </th>
                                 <th> PRECIO<br/>TOTAL </th>
-                                <th> REFERENCIA </th>
                                 <th> ESTADO </th>
                                 <th> </th>
                             </tr>
                         </thead>
-                        {(this.props.pedidosNegocio||[]).map((venta,i) => {
+                        {(this.state.pedidosNegocio||[]).map((pedido,i) => {
                             return ( 
                             <tbody key={i}>
                                 <tr className={(i%2!==0?" interlinea":"")}>
-                                    <td>N° {venta.idVenta}</td>
-                                    <td style={{textAlign:'center'}}>{venta.fechaRegistro}</td>
-                                    <td style={{textAlign:'center'}}>10</td>
-                                    <td>S/. {venta.totalPagar.toFixed(2)}</td>
-                                    <td>                       
-                                        <span><b>{"San Jeronimo Calle Rodriguez Pastor 475"}</b><br/>
-                                        {"Cerca a edficio de Telefonica"}<br/>
-                                        {"Correo: miaskharlet@gmail.com"}<br/>
-                                        {"Telefono: 213213"}</span>
+                                    <td>N° {pedido.idPedido}</td>
+                                    <td style={{textAlign:'center'}}>
+                                        {pedido.fechaRegistro.split(" ")[0]}<br/>
+                                        {pedido.fechaRegistro.split(" ")[1]}
                                     </td>
-                                    <td>{venta.estadoPedido.toUpperCase()}</td>
-                                    <td onClick={()=>alert(venta.idPedido)}> + </td>
+                                    <td>
+                                        Cliente: {pedido.nombreCompleto+" "+pedido.apellidoPaterno}<br/>
+                                        <b>{pedido.denominacionDireccion}</b><br/>
+                                        {pedido.referenciaDireccion}<br/>
+                                        Correo: {pedido.correoReferencia}<br/>
+                                        Telefono: {pedido.telefonoReferencia}
+                                    </td>
+                                    <td style={{textAlign:'center'}}>{pedido.totalProductos}</td>
+                                    <td>S/. {pedido.totalPagar.toFixed(2)}</td>
+                                    <td>{pedido.estadoPedido.toUpperCase()}</td>
+                                    <td onClick={()=>alert(pedido.idPedido)}> + </td>
                                 </tr> 
                             </tbody>
                         )})}

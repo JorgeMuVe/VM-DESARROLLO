@@ -8,6 +8,7 @@ import React from 'react';
 import Modal from '../../Componentes/Modal';
 
 /***  F U N C I O N E S  ***/
+import { listarDirecciones_DB, agregarDireccion_DB } from '../../DB/direccionDB';
 import { agregarPedido_DB, agregarPedidoDetalle_DB } from '../../DB/pedidoDB';
 import { agregarVenta_DB } from '../../DB/ventaDB';
 
@@ -15,6 +16,8 @@ import { obtenerFechaHoy } from '../../Componentes/Funciones';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
+
+    direccionesCliente:[],
 
     pedidoUsuario:[],
     pedidoDetalle:[],
@@ -28,6 +31,28 @@ export class ConfirmarPedido extends React.Component {
         super(props);
         this.state = estadoInicial;
     }
+
+    obtenerPedidoUsuario =()=> {
+        let pedidoUsuario = sessionStorage.getItem('pedidoUsuario');
+        pedidoUsuario = JSON.parse(pedidoUsuario);
+        this.setState({pedidoUsuario});
+    }
+
+    obtenerDirecciones =()=> {
+        const {usuarioAplicacion} = this.props;
+        listarDirecciones_DB(usuarioAplicacion.codigoUsuario).then(lista=>{
+            if(!lista.error){
+                this.setState({direccionesCliente:lista},()=>console.log(this.state.direccionesCliente));
+            }else {console.log("ERROR >> LISTAR DIERCCIONES CLIENTE")}
+        });
+
+    }
+
+    guardarDatosDireccion =()=> {
+        agregarDireccion_DB().then();
+    }
+
+    controlModalConfirmar =()=> this.setState({mostrarModalConfirmar:!this.state.mostrarModalConfirmar});
 
     confirmarPedido =()=> {
         const { pedidoDetalles,ventasNegocios,datosConfirmacion } = this.state;
@@ -59,7 +84,7 @@ export class ConfirmarPedido extends React.Component {
         var pedidoDetalles = [], detalle = {}, totalPagar = 0;
         pedidoUsuario.forEach(p=>{
             detalle["idProducto"] = p.idProducto;
-            detalle["cantidadProducto"] = (p.cantidadProducto||"1.45");
+            detalle["cantidadProducto"] = (p.cantidadProducto||0);
             totalPagar = totalPagar + p.precioPorUnidad
             pedidoDetalles.push(detalle);
         });
@@ -73,11 +98,13 @@ export class ConfirmarPedido extends React.Component {
 
         // DATOS EN GENERAL DEL PEDIDO DE CLIENTE
         var datosConfirmacion = {};
+        var direccionesCliente = document.getElementById('direccionesCliente');
+        
         datosConfirmacion["tipoUsuario"] = (this.props.usuarioAplicacion.tipoUsuario||"");
         datosConfirmacion["codigoUsuario"] = (this.props.usuarioAplicacion.codigoUsuario||"");
+        datosConfirmacion["idDireccion"] = direccionesCliente.options[direccionesCliente.selectedIndex].value;
         datosConfirmacion["telefonoReferencia"] = document.getElementById("telefonoReferencia").value;
         datosConfirmacion["correoReferencia"] = document.getElementById("correoReferencia").value;
-        datosConfirmacion["lat"] = "-13.9093"; datosConfirmacion["lng"] = " -40.3e223"; 
         datosConfirmacion["totalProductos"] = pedidoUsuario.length;
         datosConfirmacion["totalPagar"] = totalPagar;
         datosConfirmacion["tipoPago"] = document.getElementById("tipoPago").value;
@@ -88,12 +115,9 @@ export class ConfirmarPedido extends React.Component {
         this.setState({pedidoDetalles,ventasNegocios,datosConfirmacion},()=> this.controlModalConfirmar() );
     }
 
-    controlModalConfirmar =()=> this.setState({mostrarModalConfirmar:!this.state.mostrarModalConfirmar})
-
     componentDidMount(){
-        let pedidoUsuario = sessionStorage.getItem('pedidoUsuario');
-        pedidoUsuario = JSON.parse(pedidoUsuario);
-        this.setState({pedidoUsuario});
+        this.obtenerPedidoUsuario();
+        this.obtenerDirecciones();
     }
 
     render(){
@@ -107,10 +131,13 @@ export class ConfirmarPedido extends React.Component {
                     <div className="confirmar_pedido_direccion">
                         <label>Direccion<hr/></label>
                         <div className="">
-                            <span>
-                                <b>{"San Jeronimo Calle Rodriguez Pastor 475"}</b><br/>
-                                {"Cerca a edficio de Telefonica"}
-                            </span>
+                            <select id="direccionesCliente">
+                                {(this.state.direccionesCliente||[]).map(direccion=>
+                                    <option key={direccion.idDireccion} value={direccion.idDireccion}>
+                                        {direccion.denominacionDireccion}
+                                    </option>
+                                )}
+                            </select>
                             <button>Cambiar</button>
                         </div>
                     </div>

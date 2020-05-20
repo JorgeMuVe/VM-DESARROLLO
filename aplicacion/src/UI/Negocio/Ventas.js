@@ -7,8 +7,12 @@
 import React from 'react';
 import Modal from '../../Componentes/Modal';
 
+/***  F U N C I O N E S  ***/
+import { listarVentaNegocio_DB } from '../../DB/ventaDB';
+
 /* VARIABLES GLOBALES */
 const estadoInicial = {
+    ventasNegocio:[],
     mostrarModalFechas:false,
 };
 
@@ -19,10 +23,21 @@ export class NegocioVentas extends React.Component {
     }
 
     controlModalFechas =()=> this.setState({mostrarModalFechas:!this.state.mostrarModalFechas})
+
+    obtenerVentas =()=> {
+        const { codigoUsuario } = this.props.usuarioAplicacion;
+        listarVentaNegocio_DB({codigoUsuario:codigoUsuario}).then(ventas=>{
+            if(!ventas.error){
+                this.setState({ ventasNegocio: ventas });
+            } else { console.log("ERROR >> LISTAR VENTAS NEGOCIO"); }
+        });
+    }
+
+    componentDidMount(){
+        this.obtenerVentas();
+    }
     
     render(){
-
-        console.log(this.props);
         return(
             <div className="NegocioVentas">
                 <div className="Titulo">
@@ -49,7 +64,7 @@ export class NegocioVentas extends React.Component {
 
                 </div>
                 
-                {(this.props.ventasNegocio||[]).length > 0?
+                {(this.state.ventasNegocio||[]).length > 0?
                 <div className="usuario_tabla centrado">
                     <table>
                         <thead>
@@ -57,24 +72,32 @@ export class NegocioVentas extends React.Component {
                                 <th> NR<br/>PEDIDO</th>
                                 <th> FECHA </th>
                                 <th> CLIENTE </th>
-                                <th> PRECIO</th>
+                                <th> INGRESO </th>
                                 <th> </th>
                             </tr>
                         </thead>
-                        {(this.props.ventasNegocio||[]).map((venta,i) => {
+                        {(this.state.ventasNegocio||[]).map((venta,i) => {
                             return ( 
                             <tbody key={i}>
                                 <tr className={(i%2!==0?" interlinea":"")}>
                                     <td>N° {venta.idVenta}</td>
-                                    <td>{venta.fechaRegistro}</td>
-                                    <td> Mia Skharlet</td>
-                                    <td>
-                                        <label>
-                                            Total: S/. {venta.totalPagar.toFixed(2)}<br/>
-                                            Cargo S/. 0.80
-                                        </label>
+                                    <td style={{textAlign:'center'}}>
+                                        {venta.fechaRegistro.split(" ")[0]}<br/>
+                                        {venta.fechaRegistro.split(" ")[1]}
                                     </td>
-                                    <td onClick={()=>alert(venta.idPedido)}> + </td>
+                                    <td> 
+                                        Cliente: {venta.nombreCompleto+" "+venta.apellidoPaterno}<br/>
+                                        <b>{venta.denominacionDireccion}</b><br/>
+                                        {venta.referenciaDireccion}<br/>
+                                        Correo: {venta.correoReferencia}<br/>
+                                        Telefono: {venta.telefonoReferencia}
+                                    </td>
+                                    <td style={{textAlign:'center'}}>
+                                        N° Productos: {venta.totalProductos}<br/>
+                                        Total: S/. {(venta.totalPagar||0).toFixed(2)}<br/>
+                                        Cargo: S/. 0.00
+                                    </td>
+                                    <td onClick={()=>alert(venta.idVenta)}> + </td>
                                 </tr> 
                             </tbody>
                         )})}

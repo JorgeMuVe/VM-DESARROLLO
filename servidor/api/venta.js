@@ -28,9 +28,17 @@ gestorPedido.post('/lista/negocio', async (solicitud, respuesta) => {
     try {
         const { codigoUsuario } = solicitud.body;
         await proveedorDeDatos.query(`
-        SELECT p.*, v.* FROM pedido p INNER JOIN venta v ON p.idPedido = v.idPedido 
-        WHERE p.codigoUsuario = ? AND p.tipoUsuario='cliente';`,
-        [ codigoUsuario ],
+
+        SELECT v.idVenta,
+        p.fechaRegistro,p.correoReferencia,p.telefonoReferencia,p.totalProductos,p.totalPagar,
+        c.nombreCompleto,c.apellidoPaterno,d.denominacionDireccion,d.referenciaDireccion
+        FROM venta v 
+        INNER JOIN pedido p ON p.idPedido = v.idPedido
+        INNER JOIN cliente c ON c.idCliente = p.codigoUsuario
+        INNER JOIN direccion d ON d.idDireccion = p.idDireccion
+        WHERE v.idNegocio = ?;
+        
+        `,[ codigoUsuario ],
 
         (error, resultado) => {
             if (error)

@@ -51,6 +51,20 @@ $$
 DELIMITER ;
 
 DELIMITER $$
+DROP TABLE IF EXISTS direccion; $$
+DELIMITER ;
+DELIMITER $$
+CREATE TABLE IF NOT EXISTS direccion(
+    idDireccion INT(10) unsigned PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    idCliente INT(10) unsigned,
+    denominacionDireccion VARCHAR (250),
+    referenciaDireccion VARCHAR(250),
+    lat VARCHAR(30), lng VARCHAR(30)
+);
+$$
+DELIMITER ;
+
+DELIMITER $$
 DROP TABLE IF EXISTS usuario; $$
 DELIMITER ;
 DELIMITER $$
@@ -120,9 +134,9 @@ CREATE TABLE pedido(
     idPedido INT(10) unsigned PRIMARY KEY AUTO_INCREMENT NOT NULL,
     tipoUsuario VARCHAR(250),
     codigoUsuario INT(10) unsigned,
+    idDireccion INT(10) unsigned,
     telefonoReferencia VARCHAR(20),
     correoReferencia VARCHAR(250),
-    lat VARCHAR(30), lng VARCHAR(30),
     totalProductos INT(10) unsigned,
     totalPagar DECIMAL(6,2),
     fechaRegistro VARCHAR(30),
@@ -143,36 +157,6 @@ DELIMITER ;
 
 -- ======================================================================= --
 
-DELIMITER $$
-CREATE TABLE movimiento(
-    idMovimiento INT(10) unsigned PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    idNegocio INT(10) unsigned,
-    idLocal INT(10) unsigned,
-    idUsuario INT(10) unsigned, -- Quien registra
-    idCliente INT(10) unsigned NULL, -- Quien ecargado
-    idMotivo INT(10) unsigned,
-    tipoMovimiento INT(10) unsigned,
-    documentacion VARCHAR(200), -- GUIA DE REMISON FACTURA BOLETA 
-    fechaRegistro VARCHAR(10),
-    observacion TEXT CHARACTER SET utf8 NULL
-);
-$$
-DELIMITER ;
-
-DELIMITER $$
-CREATE TABLE detalle_movimiento(
-    idDetalleMovimiento INT(10) unsigned PRIMARY KEY AUTO_INCREMENT UNIQUE NOT NULL,
-    idMovimiento INT(10) unsigned,
-    idProducto INT(10) unsigned,
-    idPresentacion INT(10) unsigned,
-    loteProducto VARCHAR(20),
-    fechaVencimiento VARCHAR(10),
-    cantidad INT(10)
-);
-$$
-DELIMITER ;
-
--- ======================================================================= --
 TRUNCATE tipoUnidad;
 TRUNCATE tipoProducto;
 TRUNCATE tipoNegocio;

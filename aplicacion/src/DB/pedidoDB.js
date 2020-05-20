@@ -41,3 +41,17 @@ export function listarPedidoCliente_DB(Pedido){
         .catch(error => rechazar(error));
     });
 }
+
+// LISTA PEDIDO NEGOCIO
+export function listarPedidoNegocio_DB(Pedido){ 
+    return new Promise((resolver,rechazar) => {
+        fetch(Url + "lista/negocio",{ // Fetch para consumir API de SERVER NODE JS
+            method:'POST',
+            body: JSON.stringify(Pedido),
+            headers: new Headers({ 'Content-type':'application/json' })
+        })
+        .then(respuesta => resolver(respuesta.json()))
+        .catch(error => rechazar(error));
+    });
+}
+
