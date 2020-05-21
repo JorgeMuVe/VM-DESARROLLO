@@ -29,13 +29,13 @@ gestorPedido.post('/agregar', async (solicitud, respuesta) => {
 gestorPedido.post('/agregar/detalle', async (solicitud, respuesta) => {
     try {
 
-        const { idPedido,idProducto,cantidadProducto } = solicitud.body;
+        const { idPedido,idNegocio,idProducto,cantidadProducto,precioPorUnidad } = solicitud.body;
 
         await proveedorDeDatos.query(`
-            INSERT INTO pedidoDetalle(idPedido,idProducto,cantidadProducto)
-            VALUES (? , ? , ?);`,
+            INSERT INTO pedidoDetalle(idPedido,idNegocio,idProducto,cantidadProducto,precioPorUnidad)
+            VALUES (? , ? , ? , ? , ?);`,
 
-        [ idPedido,idProducto,cantidadProducto ] ,
+        [ idPedido,idNegocio,idProducto,cantidadProducto,precioPorUnidad ] ,
 
         (error, resultado) => {
             if (error)
@@ -72,15 +72,7 @@ gestorPedido.post('/lista/negocio', async (solicitud, respuesta) => {
         const { codigoUsuario } = solicitud.body;
         await proveedorDeDatos.query(`
 
-            SELECT p.idPedido,p.fechaRegistro,p.correoReferencia,p.telefonoReferencia,p.estadoPedido,
-            COUNT(pd.idPedido) as totalProductos,p.totalPagar,
-            c.nombreCompleto,c.apellidoPaterno,d.denominacionDireccion,d.referenciaDireccion
-            FROM venta v
-            INNER JOIN pedido p ON v.idPedido = p.idPedido
-            INNER JOIN pedidoDetalle pd ON v.idPedido = pd.idPedido
-            INNER JOIN cliente c ON c.idCliente = p.codigoUsuario
-            INNER JOIN direccion d ON d.idDireccion = p.idDireccion
-            WHERE v.idNegocio = ?;
+            CALL listarPedidoNegocio(?);
 
         `,[ codigoUsuario ],
 
@@ -88,7 +80,7 @@ gestorPedido.post('/lista/negocio', async (solicitud, respuesta) => {
             if (error)
             respuesta.json({ error : (error.sqlMessage + " - " + error.sql) }); // Enviar error en JSON
             else
-            respuesta.send(resultado); // Enviar resultado de consulta en JSON
+            respuesta.send(resultado[0]); // Enviar resultado de consulta en JSON
         })
 
         proveedorDeDatos.release();

@@ -65,7 +65,10 @@ export class Cliente extends React.Component {
                 <Compras
                     clientePedidos={this.state.clientePedidos}
                 />);
-            case "direcciones": return (<Direcciones/>);
+            case "direcciones": return (
+                <Direcciones
+                    usuarioAplicacion={this.props.usuarioAplicacion}
+                />);
             case "cuenta": return (<Cuenta/>);
             default: return null;
         }

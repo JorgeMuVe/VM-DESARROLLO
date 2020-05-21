@@ -23,3 +23,16 @@ export function agregarDireccion_DB(Direccion){
         .catch(error => rechazar(error));
     });
 }
+
+// EDITAR DIRECCION
+export function editarDireccion_DB(Direccion){ 
+    return new Promise((resolver,rechazar) => {
+        fetch(Url + "editar",{ // Fetch para consumir API de SERVER NODE JS
+            method:'POST',
+            body: JSON.stringify(Direccion),
+            headers: new Headers({ 'Content-type':'application/json' })
+        })
+        .then(respuesta => resolver(respuesta.json()))
+        .catch(error => rechazar(error));
+    });
+}

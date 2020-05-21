@@ -60,8 +60,8 @@ gestorProducto.post('/buscar', async (solicitud, respuesta) => {
         const {tipo,texto} = solicitud.body;
 
         await proveedorDeDatos.query(`
-        SELECT tp.nombreTipoProducto,p.nombreProducto,p.detalleProducto,p.precioPorUnidad,p.unidadCantidad,
-        p.tipoUnidad,p.descuentoUnidad,n.nombreNegocio,p.idProducto,n.idNegocio
+        SELECT tp.nombreTipoProducto,p.nombreProducto,p.detalleProducto,p.imagenProducto,tp.imagenTipoProducto,
+        p.precioPorUnidad,p.unidadCantidad,p.tipoUnidad,p.descuentoUnidad,n.nombreNegocio,p.idProducto,n.idNegocio
         FROM producto p INNER JOIN tipoProducto tp ON p.idTipoProducto = tp.idTipoProducto AND tp.nombreTipoProducto LIKE ?
         INNER JOIN negocio n ON p.idNegocio = n.idNegocio
         WHERE p.nombreProducto LIKE ? OR tp.nombreTipoProducto LIKE ?;`, // Consulta a procedimiento almacenado
@@ -86,8 +86,8 @@ gestorProducto.post('/lista/negocio', async (solicitud, respuesta) => {
         const {idNegocio} = solicitud.body;
 
         await proveedorDeDatos.query(`
-        SELECT tp.nombreTipoProducto,p.nombreProducto,p.detalleProducto,p.precioPorUnidad,p.unidadCantidad,
-        p.tipoUnidad,p.descuentoUnidad,tp.imagenTipoProducto,p.idProducto,tp.idTipoProducto 
+        SELECT tp.nombreTipoProducto,p.nombreProducto,p.detalleProducto,p.imagenProducto,tp.imagenTipoProducto,
+        p.precioPorUnidad,p.unidadCantidad,p.tipoUnidad,p.descuentoUnidad,p.idProducto,tp.idTipoProducto 
         FROM producto p INNER JOIN tipoProducto tp ON p.idTipoProducto = tp.idTipoProducto
         WHERE p.idNegocio = ?;`, // Consulta a procedimiento almacenado
 

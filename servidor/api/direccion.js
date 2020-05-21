@@ -45,5 +45,27 @@ gestorDireccion.post('/agregar', async (solicitud, respuesta) => {
     }catch(error){ respuesta.json({ error : error.code }) }  // Enviar error en JSON
 });
 
+/***************  E D I T A R   D I R E C C I O N  *******************/
+gestorDireccion.post('/editar', async (solicitud, respuesta) => {
+    try {
+
+        const { idCliente,denominacionDireccion,referenciaDireccion,lat,lng,idDireccion } = solicitud.body;
+
+        await proveedorDeDatos.query(`
+        UPDATE direccion SET idCliente = ?, denominacionDireccion = ?, referenciaDireccion = ?,
+        lat = ?, lng = ? WHERE idDireccion = ?
+        `, [ idCliente,denominacionDireccion,referenciaDireccion,lat,lng,idDireccion ] ,
+
+        (error, resultado) => {
+            if (error)
+            respuesta.json({ error : (error.sqlMessage + " - " + error.sql) }); // Enviar error en JSON
+            else
+            respuesta.send(resultado); // Enviar resultado de consulta en JSON
+        })
+
+        proveedorDeDatos.release();
+    }catch(error){ respuesta.json({ error : error.code }) }  // Enviar error en JSON
+});
+
 module.exports = gestorDireccion;
 

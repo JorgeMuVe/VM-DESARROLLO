@@ -43,7 +43,7 @@ export class PedidoCuadro extends React.Component {
                         {(pedidoUsuario||[]).length > 0?
                         <div className="pedido_lista">
                             {(pedidoUsuario||[]).map((producto,i) =>
-                                <div className="pedido_lista_item" style={{background:"url(/img/fondos/verduras.jpg)"}} key={i}>
+                                <div className="pedido_lista_item" style={{background:"url("+producto.imagenProducto+")no-repeat center/cover"}} key={i}>
                                     <div className="pedido_lista_item_datos">
                                         <div>
                                             <label><b>{producto.nombreTipoProducto+" "+producto.nombreProducto} ({producto.nombreNegocio})</b></label>

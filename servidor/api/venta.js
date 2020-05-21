@@ -29,14 +29,7 @@ gestorPedido.post('/lista/negocio', async (solicitud, respuesta) => {
         const { codigoUsuario } = solicitud.body;
         await proveedorDeDatos.query(`
 
-        SELECT v.idVenta,
-        p.fechaRegistro,p.correoReferencia,p.telefonoReferencia,p.totalProductos,p.totalPagar,
-        c.nombreCompleto,c.apellidoPaterno,d.denominacionDireccion,d.referenciaDireccion
-        FROM venta v 
-        INNER JOIN pedido p ON p.idPedido = v.idPedido
-        INNER JOIN cliente c ON c.idCliente = p.codigoUsuario
-        INNER JOIN direccion d ON d.idDireccion = p.idDireccion
-        WHERE v.idNegocio = ?;
+        CALL listarPedidoNegocio(?);
         
         `,[ codigoUsuario ],
 
@@ -44,7 +37,7 @@ gestorPedido.post('/lista/negocio', async (solicitud, respuesta) => {
             if (error)
             respuesta.json({ error : (error.sqlMessage + " - " + error.sql) }); // Enviar error en JSON
             else
-            respuesta.send(resultado); // Enviar resultado de consulta en JSON
+            respuesta.send(resultado[0]); // Enviar resultado de consulta en JSON
         })
 
         proveedorDeDatos.release();

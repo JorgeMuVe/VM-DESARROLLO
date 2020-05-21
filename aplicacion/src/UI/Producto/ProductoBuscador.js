@@ -30,6 +30,7 @@ export class ProductoLista extends React.Component {
     /****  B U S Q U E D A   ****/
     buscadorProducto =(Buscador)=> {
         buscarProducto_DB(Buscador).then(lista=>{
+            console.log(lista);
             if(!lista.error){ this.setState({ listaProductos: lista })}
         });
     }
@@ -103,7 +104,7 @@ export class ProductoLista extends React.Component {
                         {(this.state.listaProductos||[]).length > 0?
                         <div className="producto_buscador_lista">
                             {(this.state.listaProductos||[]).map(producto =>
-                                <div className="producto_buscador_lista_item" style={{background:"url(/img/fondos/verduras.jpg)"}} key={producto.idProducto}>
+                                <div className="producto_buscador_lista_item" style={{background:"url("+producto.imagenProducto+")no-repeat center/cover"}} key={producto.idProducto}>
                                     <div className="producto_buscador_lista_item_datos">
                                         <div>
                                             <label><b>{producto.nombreTipoProducto+" "+producto.nombreProducto} ({producto.nombreNegocio})</b></label>

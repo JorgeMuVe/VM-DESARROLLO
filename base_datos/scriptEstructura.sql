@@ -148,9 +148,11 @@ DELIMITER ;
 DELIMITER $$
 CREATE TABLE pedidoDetalle(
     idPedidoDetalle INT(10) unsigned PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    idNegocio INT(10) unsigned,
     idPedido INT(10) unsigned,
     idProducto INT(10) unsigned,
-    cantidadProducto DECIMAL(6,2)
+    cantidadProducto DECIMAL(6,2),
+    precioPorUnidad DECIMAL(6,2)
 );
 $$
 DELIMITER ;

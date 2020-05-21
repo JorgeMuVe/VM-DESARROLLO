@@ -194,7 +194,7 @@ fieldset div{display:flex;align-items:center;}input:focus{outline:none;}
 .ClienteCompras,.ClienteDirecciones,.ClientePedido{display:grid;grid-gap:10px;}
 .cliente_pedido_datos{display:grid;grid-template-columns:repeat(2,1fr);grid-gap:10px;}
 .cliente_agregar_direccion{display:grid;grid-gap:20px;}
-.cliente_agregar_direccion_ubicacion{display:grid;grid-template-columns:repeat(2,1fr);grid-gap:20px;}
+.cliente_agregar_direccion_ubicacion{width:450px; height:450px}
 .cliente_pedido{display:flex;flex-direction:column;align-items:center;
     border-radius:10px;min-height:250px}
 
@@ -211,10 +211,7 @@ fieldset div{display:flex;align-items:center;}input:focus{outline:none;}
 .modal_confirmar{display:grid;grid-gap:10px;font-size:20px;letter-spacing:2px;}
 .modal_confirmar_boton {background:#e51b1b;border-radius:20px;margin:10px;max-width:300px;}
 .modal_confirmar_boton button{cursor:pointer;padding:10px;border-style:none;background:transparent;
-    color:#ebedf3;font-size:16px;font-weight:bold;}
-
-
-
+    color:#ebedf3;font-size:16px;font-weight:bold;} 
 
 /* ----------------------------------- */
 

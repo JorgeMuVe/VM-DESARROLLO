@@ -6,6 +6,7 @@
 /*** COMPONENTES ***/
 import React from 'react';
 import Modal from '../../Componentes/Modal';
+import { guardarArchivo_DB } from '../../DB/archivoDB';
 
 /*** FUNCIONES ***/
 import { 
@@ -28,8 +29,8 @@ const estadoInicial = {
     productosNegocio:[],
     
     mostrarModalProducto: false,
-    productoSeleccionado: {},
 
+    productoSeleccionado: {},
     archivoImagenNuevo:null,
     archivoImagenTempo:null
 };
@@ -45,7 +46,6 @@ export class Productos extends React.Component {
     obtenerTiposProducto =()=> {
         listarTiposProducto_DB().then(lista=>{
             if(!lista.error){
-                console.log("TIPOS: ",lista);
                 this.setState({ tiposProducto: lista });
             } else { console.log("ERROR >> LISTAR TIPOS DE PRODUCTO!!..")}
         });
@@ -54,7 +54,6 @@ export class Productos extends React.Component {
     obtenerUnidadesProducto =()=> {
         listarUnidadesProducto_DB().then(lista=>{
             if(!lista.error){
-                console.log("UNIDADES: ",lista);
                 this.setState({ unidadesProducto: lista });
             } else { console.log("ERROR >> LISTAR UNIDADES DE PRODUCTO!!..")}
         });
@@ -75,6 +74,9 @@ export class Productos extends React.Component {
         var tp = document.getElementById('tipoProducto');
         var idTipoProducto = tp.options[tp.selectedIndex].value;
 
+
+
+
         const datoProducto = {
             idProducto:this.state.productoSeleccionado.idProducto,
             idNegocio:this.props.usuarioAplicacion.codigoUsuario||"1",
@@ -85,8 +87,11 @@ export class Productos extends React.Component {
             precioPorUnidad:(parseFloat(document.getElementById('precioPorUnidad').value)||0).toFixed(2),
             unidadCantidad:(parseFloat(document.getElementById('unidadCantidad').value)||0).toFixed(2),
             descuentoUnidad:(parseFloat(document.getElementById('descuentoUnidad').value)||0).toFixed(2),
-            imagenProducto:(this.state.archivoImagenNuevo||{}).name||"/img/fondo/",
+            imagenProducto:"/img/productos/"+(this.state.archivoImagenNuevo||{}).name||"",
         }
+        if(this.state.archivoImagenNuevo){
+            guardarArchivo_DB(this.state.archivoImagenNuevo);
+        } else{ console.log("No se selecciono imagen");}
         if(datoProducto.idProducto){            
             editarProducto_DB(datoProducto).then(res=>{
                 if(!res.error){
@@ -109,16 +114,21 @@ export class Productos extends React.Component {
 
     /*******  C O N T R O L E S   *****/
     abrirProducto =(Producto)=> {
-        this.setState({productoSeleccionado:Producto,mostrarModalProducto:true});
+        this.setState({productoSeleccionado:Producto,archivoImagenNuevo:null,archivoImagenTempo:Producto.imagenProducto||""});
+        this.controlModalProducto();
     }
+
+    agregarProducto =()=> {
+        this.setState({productoSeleccionado:{},archivoImagenNuevo:null,archivoImagenTempo:null});
+        this.controlModalProducto();
+    }    
 
     controlModalProducto =()=> this.setState({mostrarModalProducto:!this.state.mostrarModalProducto});
 
-    setFileMedia = (evento) => {
+    cambiarArchivo = (evento) => {
         if(evento.target.files[0]){
             let archivoImagenNuevo = evento.target.files[0];
-            this.setState({archivoImagenNuevo,archivoImagenTempo:URL.createObjectURL(archivoImagenNuevo),
-            }, console.log(this.state));
+            this.setState({archivoImagenNuevo,archivoImagenTempo:URL.createObjectURL(archivoImagenNuevo)});
         }        
     }
 
@@ -144,7 +154,7 @@ export class Productos extends React.Component {
                     <div>Pedidos registrados</div>
                 </div>
                 <div className="usuario_encabezado_opciones">
-                    <button onClick={this.controlModalProducto}> Agregar Producto </button>
+                    <button onClick={this.agregarProducto}> Agregar Producto </button>
                 </div>
                 {(this.state.productosNegocio||[]).length > 0?
                 <div className="usuario_tabla centrado">
@@ -231,7 +241,7 @@ export class Productos extends React.Component {
                             </div>}
 
                             <div className="negocio_agregar_producto_imagen_boton">
-                                <input type="file" id="imagenProducto" accept="image/*" onChange={(e)=> this.setFileMedia(e)}/>
+                                <input type="file" id="imagenProducto" accept="image/*" onChange={(e)=> this.cambiarArchivo(e)}/>
                                 <label htmlFor="imagenProducto"> <IconoGoogle fill="#fefefe"/> Subir Imagen</label>
                             </div>
                         </div>
@@ -249,24 +259,3 @@ export class Productos extends React.Component {
 }
 
 export default Productos;
-
-
-/*
-
-
-<div>
-    <label for="mediaProducto"> Imagen:</label>
-    <div class="custom-file">
-        <input type="file" class="custom-file-input" id="customFileLang" lang="es"
-            onChange = { e => this.setFileMedia(e) }
-        />
-        <label data-browse="Buscar" class="custom-file-label" for="customFileLang">{ this.state.nombreFile}</label>
-    </div>
-</div>
-
-<div>
-    <img src={this.state.fileTemporal} alt={this.state.producto.descripcionProducto} className="imagenProducto"/>
-</div>
-
-
-*/
