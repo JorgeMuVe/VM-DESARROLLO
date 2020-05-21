@@ -5,7 +5,6 @@
 
 /***  C O M P O N E N T E S   ***/
 import React from 'react';
-import Modal from '../../Componentes/Modal';
 
 /***  I C O N O   S V G  ***/
 import IconoLupa from '../../SVG/IconoLupa';
@@ -18,7 +17,6 @@ import { unidadMedidaProducto } from '../../Componentes/Funciones';
 const estadoInicial = {
     listaProductos:[],
     productoSeleccionado:{},
-    mostrarModalCantidad:false,
 };
 
 export class ProductoLista extends React.Component {
@@ -26,11 +24,17 @@ export class ProductoLista extends React.Component {
         super(props);
         this.state = estadoInicial;
     }
+    
+    calcularPrecioProducto =(producto)=> {
+        return <b>S/: {
+            parseFloat(producto.precioPorUnidad||0).toFixed(2)+" x "+
+            unidadMedidaProducto(producto.unidadCantidad,producto.tipoUnidad)+
+            (producto.descuentoUnidad>0?(" (-"+producto.descuentoUnidad+"%)"):"")}</b>
+    }
 
     /****  B U S Q U E D A   ****/
     buscadorProducto =(Buscador)=> {
         buscarProducto_DB(Buscador).then(lista=>{
-            console.log(lista);
             if(!lista.error){ this.setState({ listaProductos: lista })}
         });
     }
@@ -45,34 +49,15 @@ export class ProductoLista extends React.Component {
 
     buscarProductoInicial =()=> {
         const {tipo,texto} = this.props.match.params;
-        const Buscador={tipo,texto};
+        const Buscador={tipo,texto:texto==="_"?"":texto};
         this.buscadorProducto(Buscador);
     }
 
-    /***   A G R E G A R   P R O D U C T O    ***/
-    controlModalCantidad =()=> this.setState({mostrarModalCantidad:!this.state.mostrarModalCantidad});
-
+    /***   S E L E C C I O N A R   P R O D U C T O  C A N T I D A D  ***/
     seleccionarProductoCantidad =(productoSeleccionado)=> {
-        this.setState({productoSeleccionado},()=>this.controlModalCantidad());
+        this.props.seleccionarProductoCantidad(productoSeleccionado);
     }
-
-    agregarCantidadProducto =(evento)=> {
-        evento.preventDefault();
-        const { productoSeleccionado } = this.state;
-        var cantidadProducto = document.getElementById("cantidadProducto").value;
-        productoSeleccionado["cantidadProducto"] = cantidadProducto;
-        this.props.agregarCanasta(productoSeleccionado);
-        this.controlModalCantidad();
-    }
-    
-    calcularPrecioProducto =(producto)=> {
-        //console.log(producto);
-        return <b>S/: {
-            parseFloat(producto.precioPorUnidad||0).toFixed(2)+" x "+
-            unidadMedidaProducto(producto.unidadCantidad,producto.tipoUnidad)+
-            (producto.descuentoUnidad>0?(" (-"+producto.descuentoUnidad+"%)"):"")}</b>
-    }
-    
+        
     /****   I N I C A R   F U N C I O N E S   ****/
     inicarFuniones =()=> {
         this.buscarProductoInicial();
@@ -123,15 +108,6 @@ export class ProductoLista extends React.Component {
                     </div>
                 </div>
             </div>
-            <Modal
-                controlMolda={this.controlModalCantidad}
-                mostrarModal={this.state.mostrarModalCantidad}
-                titulo="Cantidad de Producto"
-            >
-                Agregar Cantidad de Producto
-                <input type="number" placeholder="Cantidad" id="cantidadProducto"/>
-                <button onClick={this.agregarCantidadProducto}> AGREGAR </button>
-            </Modal>
         </div>
         )
     }

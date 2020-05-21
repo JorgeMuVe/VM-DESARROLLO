@@ -1,8 +1,3 @@
-/*
--- Description:      PEDIDO DE CLIENTE DE APLICACION MERCADO VIRTUAL
--- @Copyright        Jorge.Muvez - World Connect Perú - 2020-00-00
-*/
-
 /****** COMPONENTES ******/
 import React from 'react';
 import Modal from './Modal';
@@ -17,13 +12,10 @@ import IconoTwitter from '../SVG/IconoTwitter';
 import IconoGoogle from '../SVG/IconoGoogle';
 
 
-
 /* VARIABLES GLOBALES */
-const estadoInicial = {
-    pedido : false, // Abrir - Cerrar El Pedido
-};
+const estadoInicial = {};
 
-export class PedidoCuadro extends React.Component {
+export class ModalIngreso extends React.Component {
     constructor(props){
         super(props);
         this.state = estadoInicial;
@@ -78,4 +70,4 @@ export class PedidoCuadro extends React.Component {
     }
 }
 
-export default PedidoCuadro;
+export default ModalIngreso;

@@ -82,7 +82,6 @@ export class ConfirmarPedido extends React.Component {
         // DETALLE DEL PEDIDO DEL CLIENTE
         var pedidoDetalles = [], totalPagar = 0;
         pedidoUsuario.forEach(p=>{
-            console.log("Producto:", p);
             var detalle = {}
             detalle["idProducto"] = p.idProducto;
             detalle["idNegocio"] = p.idNegocio;

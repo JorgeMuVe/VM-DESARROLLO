@@ -18,23 +18,20 @@ import Contacto from './Componentes/Contacto';
 import PiePagina from './Componentes/PiePagina';
 import MejoresRestaurantes from './Componentes/MejoresRestaurantes';
 
-import Mensaje from './Componentes/Mensaje.js';
-
 /* *********  I N T E R F A Z   **********/
 import Principal from './UI/Paginas/Principal.js';
 import Negocio from './UI/Negocio/Negocio';
 import Cliente from './UI/Cliente/Cliente';
 
-
 import ProductoLista from './UI/Producto/ProductoLista';
 import ProductoBuscador from './UI/Producto/ProductoBuscador';
 
 
-
-
 /* ********* M O D A L ************* */
 import ModalIngreso from './Componentes/ModalIngreso';
+import ModalCantidad from './Componentes/ModalCantidad';
 
+import Mensaje from './Componentes/Mensaje.js';
 
 /* *******   V A R I A B L E S  G L O B A L E S **********/
 const estadoInicial = {
@@ -61,6 +58,8 @@ const estadoInicial = {
   },
 
   // Productos
+  mostrarModalCantidad: false,
+  productoSeleccionado: {},
   productosPorTipo: [],
 
   // Pedido Usuario
@@ -173,11 +172,37 @@ export class Aplicacion extends Component {
       (Buscador.tipoBuscar||"TODO")+"/"+(Buscador.textoBuscar||" ");
   }
 
-  /* AGREGAR PRODUCTO A CANASTA */
-  agregarCanasta = (producto) => {
+  /* SELECCIONAR PRODUCTO */
+  seleccionarProductoCantidad =(productoSeleccionado)=> {
     let pedidoUsuario = sessionStorage.getItem('pedidoUsuario');
     pedidoUsuario = JSON.parse(pedidoUsuario);
-    pedidoUsuario = (pedidoUsuario||[]).concat([producto]);
+    var indexProducto = this.buscarProductoPedido(pedidoUsuario,productoSeleccionado.idProducto);
+    productoSeleccionado["cantidadProducto"] = (pedidoUsuario[indexProducto]||{}).cantidadProducto;
+    this.setState({productoSeleccionado},()=>this.controlModalCantidad())
+  }
+
+  buscarProductoPedido =(pedidoUsuario,idProducto)=> {
+    var indexOf = -1;
+    (pedidoUsuario||[]).forEach((p,i)=>{if(p.idProducto===idProducto){indexOf=i}});
+    return indexOf;
+  }
+
+  /* AGREGAR CANTIDAD A PRODUCTO */
+  agregarCantidadProducto =(evento)=> {
+    evento.preventDefault();
+    const { productoSeleccionado } = this.state;
+    var cantidadProducto = document.getElementById("cantidadProducto").value;
+    productoSeleccionado["cantidadProducto"] = cantidadProducto;
+    this.agregarCanasta(productoSeleccionado);
+    this.controlModalCantidad();
+  }
+
+  /* AGREGAR PRODUCTO A CANASTA */
+  agregarCanasta = (producto) => {
+    let pedidoUsuario = JSON.parse(sessionStorage.getItem('pedidoUsuario'));
+    var indexProducto = this.buscarProductoPedido(pedidoUsuario,producto.idProducto);
+    if(indexProducto < 0){ pedidoUsuario = (pedidoUsuario||[]).concat([producto]);
+    } else { pedidoUsuario.splice(indexProducto, 1, producto) }
     sessionStorage.setItem('pedidoUsuario',JSON.stringify(pedidoUsuario));
   }
 
@@ -199,6 +224,8 @@ export class Aplicacion extends Component {
   }
 
   controlModalIngreso = () => this.setState({ mostrarModalIngreso: !this.state.mostrarModalIngreso });
+  
+  controlModalCantidad =()=> this.setState({mostrarModalCantidad:!this.state.mostrarModalCantidad});
 
   componentDidMount() {
     this.inicarAplicacion();
@@ -209,11 +236,13 @@ export class Aplicacion extends Component {
 
   render() {
     return (<div className="Aplicacion" >
+
       <ModalIngreso 
         urlAplicacion={this.state.urlAplicacion}
         mostrarModalIngreso={this.state.mostrarModalIngreso}
         controlModalIngreso={this.controlModalIngreso} >
       </ModalIngreso>
+
       <Mensaje 
         mostrarMensaje={this.state.mostrarMensaje}
         textoMensaje={this.state.textoMensaje}
@@ -226,6 +255,13 @@ export class Aplicacion extends Component {
         abrirPedido={this.abrirPedido}
         controlModalIngreso={this.controlModalIngreso}
       ></Menu>
+
+      <ModalCantidad   
+        controlModalCantidad={this.controlModalCantidad}
+        mostrarModalCantidad={this.state.mostrarModalCantidad}
+        productoSeleccionado={this.state.productoSeleccionado}
+        agregarCantidadProducto={this.agregarCantidadProducto}
+      ></ModalCantidad>
 
       <div className="Paginas" id="paginas">
         <BrowserRouter>
@@ -241,7 +277,10 @@ export class Aplicacion extends Component {
               <Cliente usuarioAplicacion={this.state.usuarioAplicacion} {...props}/>}/>
 
             <Route path="/productos/buscador/:tipo/:texto" render={(props) =>
-              <ProductoBuscador agregarCanasta={this.agregarCanasta}{...props}/>}/>
+              <ProductoBuscador 
+                agregarCanasta={this.agregarCanasta}{...props}
+                seleccionarProductoCantidad={this.seleccionarProductoCantidad}
+              />}/>
 
             <Route path="/productos/lista" render={(props) =>
               <ProductoLista listarPor={"NEGOCIO"} {...props}/>}/>

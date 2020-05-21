@@ -3,11 +3,11 @@ const gestorArchivo = require('express').Router();
 const multer = require('multer');
 var fs = require('fs');
 
-const storage = multer.diskStorage({
+const guardarImagenProducto = multer.diskStorage({
     destination : function(req,file,cb){
-        cb(null,'E:\\PROYECTOS\\VM\\VM-DESARROLLO\\aplicacion\\public\\img\\productos\\');
+        //cb(null,'E:\\PROYECTOS\\VM\\VM-DESARROLLO\\aplicacion\\public\\img\\productos\\');
 
-        //cb(null,'/home/software/Documentos/Proyectos/VM/VM-DESAROLLO/aplicacion/public/img');        
+        cb(null,'/home/software/Documentos/Proyectos/VM/VM-DESARROLLO/aplicacion/public/img/productos');        
     },
     filename: function(req,file,cb){
         cb(null,file.originalname);
@@ -19,7 +19,7 @@ const fileFilter = (req,file,cb) => {
     else{ cb(null,false) }
 };
 
-const upload = multer({storage:storage})//},limits:{ fileSize: 1024 * 1024 * 5 }, fileFilter:fileFilter});
+const upload = multer({storage:guardarImagenProducto})//},limits:{ fileSize: 1024 * 1024 * 5 }, fileFilter:fileFilter});
 
 gestorArchivo.delete('/:url', async (req,res) => {
     const { url } = req.params;

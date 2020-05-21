@@ -20,5 +20,5 @@ SELECT LAST_INSERT_ID() AS idDireccion;
 END $$
 DELIMITER ;
 
-CALL agregarDireccion('1','San Sebastian Calle Bolivar 709','Por el Cementerio de San Sebastian','-75,1234','13,7876');
-CALL agregarDireccion('1','Urb. Larapa 789','Espalda de Universidad Andina','-75,1234','13,7876');
+CALL agregarDireccion('1','San Sebastian Calle Bolivar 709','Por el Cementerio de San Sebastian','-13.537623654609476','-71.90437483693309');
+CALL agregarDireccion('1','Urb. Larapa 789','Espalda de Universidad Andina','-13.537623654609476','-71.90437483693309');

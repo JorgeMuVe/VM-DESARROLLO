@@ -1,11 +1,7 @@
-/*
--- Description:      PEDIDO DE CLIENTE DE APLICACION MERCADO VIRTUAL
--- @Copyright        Jorge.Muvez - World Connect Perú - 2020-00-00
-*/
-
 /* COMPONENTES */
 import React from 'react';
 
+/* FUNCIONES */
 import { unidadMedidaProducto } from '../Componentes/Funciones';
 
 /* VARIABLES GLOBALES */

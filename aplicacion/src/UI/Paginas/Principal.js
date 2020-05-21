@@ -19,10 +19,9 @@ export class Principal extends React.Component {
 
     buscarProducto =(evento)=> {
         evento.preventDefault();
-        var textoBuscar = document.getElementById("textoBuscar").value;
-        if(textoBuscar.length){
-            this.props.buscarProducto({textoBuscar});
-        }else { alert ("Ingrese algun texto")}
+        var textoBuscar = (document.getElementById("textoBuscar").value||"_");
+
+        this.props.buscarProducto({textoBuscar});
     }
 
     render(){

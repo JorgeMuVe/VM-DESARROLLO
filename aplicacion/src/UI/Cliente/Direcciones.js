@@ -27,7 +27,6 @@ export class ClienteDirecciones extends React.Component {
     constructor(props){
         super(props);
         this.state = estadoInicial;
-        //this.obtenerPosicion = this.obtenerPosicion.bind(this)
     }
 
     controlModalAgregar =()=> this.setState({mostrarModalAgregar:!this.state.mostrarModalAgregar});
@@ -41,7 +40,6 @@ export class ClienteDirecciones extends React.Component {
     }
 
     mostrarMapa =(position)=> {
-        console.log(document.getElementById('map'));
         map = new window.google.maps.Map(document.getElementById('map'),{
             center: new window.google.maps.LatLng(position.lat,position.lng),
             zoom: 14, mapTypeId: 'roadmap'
@@ -58,30 +56,24 @@ export class ClienteDirecciones extends React.Component {
     }
 
     obtenerPosicion =()=> {
-        if(navigator.geolocation){            
+        var position = { lat: -13.537623654609476, lng: -71.90437483693309 };  
+        if(navigator.geolocation){    
             navigator.geolocation.getCurrentPosition((myPosition)=>{
-                var position = {
-                    lat: myPosition.coords.latitude || -13.537623654609476,
-                    lng: myPosition.coords.longitude|| -71.90437483693309
-                }; 
+                position = {
+                    lat: myPosition.coords.latitude,
+                    lng: myPosition.coords.longitude
+                };
                 this.mostrarMapa(position);
-                
-            },(error) => console.log("ERROR >> ", error));
+            },(error) => { console.log("ERROR >> ",error); this.mostrarMapa(position); })
             //chrome://flags/#unsafely-treat-insecure-origin-as-secure
-        } else { alert("Geolocation is not Suported by this browser.") }
+        } else { alert("Geolocation is not Suported by this browser."); this.mostrarMapa(position); }
     }
 
     ubicarDireccion =()=> {
-        console.log("LAT: ", parseFloat(this.state.direccionSeleccionado.lat) );
-        console.log("LNG: ", parseFloat(this.state.direccionSeleccionado.lng) );
-        
-        //console.log("LNG: ", this.state.direccionSeleccionado.lng );
-
         var position = {
             lat: parseFloat(this.state.direccionSeleccionado.lat) || -13.537623654609476,
             lng: parseFloat(this.state.direccionSeleccionado.lng) || -71.90437483693309
         };
-        console.log(position); 
         this.mostrarMapa(position);
     }
 
@@ -95,7 +87,6 @@ export class ClienteDirecciones extends React.Component {
             lat:ubicacion.getPosition().lat(),
             lng:ubicacion.getPosition().lng()
         }
-        console.log("Direccion:_ ", Direccion);
         if(Direccion.idDireccion){
             editarDireccion_DB(Direccion).then(res=>{
                 if(!res.error){
@@ -117,7 +108,7 @@ export class ClienteDirecciones extends React.Component {
     agregarDireccion =()=> {
         this.setState({direccionSeleccionado:{}},()=>{
             this.controlModalAgregar();
-            this.obtenerPosicion();
+            setTimeout(this.obtenerPosicion,100);  
         });
     }
 
@@ -196,12 +187,3 @@ export class ClienteDirecciones extends React.Component {
 }
 
 export default ClienteDirecciones;
-
-/*
-
-<div className="cliente_agregar_direccion_ubicacion">
-    <button onClick={()=>this.obtenerPosicion()}>Mi Ubicación</button>
-    <button>Seleccionar</button>
-</div>
-
-*/
