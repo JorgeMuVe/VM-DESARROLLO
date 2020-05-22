@@ -13,7 +13,9 @@ import IconoGoogle from '../SVG/IconoGoogle';
 
 
 /* VARIABLES GLOBALES */
-const estadoInicial = {};
+const estadoInicial = {
+    esCliente:true
+};
 
 export class ModalIngreso extends React.Component {
     constructor(props){
@@ -21,7 +23,21 @@ export class ModalIngreso extends React.Component {
         this.state = estadoInicial;
     }
 
-    redireccionar =(ruta)=>{ window.location.href = (this.props.urlAplicacion+ruta) }
+    redireccionar =(ruta)=>{ window.location.href = (this.props.urlAplicacion+ruta) }// +  '/usuario/negocio'
+
+    cambiarEsCliente =(esCliente)=> {
+        this.setState({esCliente});
+    }
+
+    ingresarSistema =(evento)=> {
+        evento.preventDefault();
+        const usuarioIngreso = {};
+        usuarioIngreso["nombreUsuario"] = document.getElementById("nombreUsuario").value;
+        usuarioIngreso["contrasena"] = document.getElementById("contrasena").value;
+        usuarioIngreso["tipoUsuario"] = this.state.esCliente?"cliente":"negocio";
+        //usuarioIngreso["codigoUsuario"] = localStorage.getItem("codigoUsuario")||0;
+        this.props.ingresarSistema(usuarioIngreso);
+    }
 
     render(){
         if(this.props.mostrarModalIngreso){
@@ -31,22 +47,25 @@ export class ModalIngreso extends React.Component {
                 controlModal = {this.props.controlModalIngreso}
                 tituloModal = {"Inicar Sesión"}
             >
-            <div className="ModalIngreso">
+            <form className="ModalIngreso" validate="true" onSubmit={this.ingresarSistema}>
                 <div className="modal_ingreso_tipo">
-                    <div style={{background:"#e51b1b"}} onClick={()=>this.redireccionar('/usuario/negocio')}>
-                        <IconoMercado/><label className="centrado">Negocio</label>
-                    </div>
-                    <div style={{background:"#2ECC71"}} onClick={()=>this.redireccionar('/usuario/cliente')}>
+                    <div style={{background:this.state.esCliente?"#2ECC71":"#8b8b8b"}} 
+                        onClick={()=>this.cambiarEsCliente(true)}>
                         <IconoUsuario fill="whitesmoke"/><label className="centrado">Cliente</label>
+                    </div>
+                    <div style={{background:this.state.esCliente?"#8b8b8b":"#2ECC71"}} 
+                        onClick={()=>this.cambiarEsCliente(false)}>
+                        <IconoMercado fill="whitesmoke"/><label className="centrado">Negocio</label>
                     </div>
                 </div>
                 <div className="modal_ingreo_datos">
-                    <div><IconoUsuario fill="#d1d3d8"/><input type="text" placeholder="Usuario o Correo"/></div>
-                    <div><IconoContrasena fill="#d1d3d8"/><input type="password" placeholder="Contraseña"/></div>
+                    <div><IconoUsuario fill="#d1d3d8"/><input required id="nombreUsuario" type="text" placeholder="Usuario o Correo"/></div>
+                    <div><IconoContrasena fill="#d1d3d8"/><input required id="contrasena" type="password" placeholder="Contraseña"/></div>
                 </div>
                 <div className="modal_ingreso_opciones">
                     <div> <a href="/recuperar">Olvido su contraseña?</a></div>
-                    <div className="centrado" onClick={()=>this.redireccionar('/usuario/negocio')}> <button> INGRESAR </button> </div>
+                    <div className="centrado"> 
+                    <button type="submit"> INGRESAR </button> </div>
                     <div> Nuevo aqui? <a href="/registro">Registrarse</a></div>
                 </div>
                 <div className="modal_ingreso_internet">
@@ -64,7 +83,7 @@ export class ModalIngreso extends React.Component {
                         <label>Ingresar con Google</label>
                     </div>
                 </div>
-            </div>
+            </form>
             </Modal>
         ) } else { return null }
     }

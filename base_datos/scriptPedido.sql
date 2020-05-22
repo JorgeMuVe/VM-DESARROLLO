@@ -45,7 +45,7 @@ IF @totalProductos > 0
  THEN 
 	SELECT p.idPedido,p.fechaRegistro,p.correoReferencia,p.telefonoReferencia,p.estadoPedido,
 	@totalProductos as totalProductos,@totalPagar as totalPagar,
-	c.nombreCompleto,c.apellidoPaterno,d.denominacionDireccion,d.referenciaDireccion
+	c.nombreCompleto,c.apellidoPaterno,d.denominacionDireccion,d.referenciaDireccion,d.lat,d.lng
 	FROM venta v
 	INNER JOIN pedido p ON v.idPedido = p.idPedido
 	INNER JOIN cliente c ON c.idCliente = p.codigoUsuario

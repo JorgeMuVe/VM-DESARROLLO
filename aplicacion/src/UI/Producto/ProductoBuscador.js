@@ -53,11 +53,6 @@ export class ProductoLista extends React.Component {
         this.buscadorProducto(Buscador);
     }
 
-    /***   S E L E C C I O N A R   P R O D U C T O  C A N T I D A D  ***/
-    seleccionarProductoCantidad =(productoSeleccionado)=> {
-        this.props.seleccionarProductoCantidad(productoSeleccionado);
-    }
-        
     /****   I N I C A R   F U N C I O N E S   ****/
     inicarFuniones =()=> {
         this.buscarProductoInicial();
@@ -75,7 +70,7 @@ export class ProductoLista extends React.Component {
 
                     <form className="principal_buscador_cuadro" style={{margin:"1px",padding:"2px"}} noValidate onSubmit={this.buscarProductoTipo}>
                         <div className="centrado"><IconoLupa/></div>
-                        <input type="text" id="textoBuscar" placeholder="Nombre del Producto"/>
+                        <input type="text" id="textoBuscar" placeholder="Busca tu producto"/>
                         <button type="submit">BUSCAR</button>
                     </form>
 
@@ -90,16 +85,10 @@ export class ProductoLista extends React.Component {
                         <div className="producto_buscador_lista">
                             {(this.state.listaProductos||[]).map(producto =>
                                 <div className="producto_buscador_lista_item" style={{background:"url("+producto.imagenProducto+")no-repeat center/cover"}} key={producto.idProducto}>
-                                    <div className="producto_buscador_lista_item_datos">
-                                        <div>
-                                            <label><b>{producto.nombreTipoProducto+" "+producto.nombreProducto} ({producto.nombreNegocio})</b></label>
-                                            <label>Precio: 
-                                                {this.calcularPrecioProducto(producto)}
-                                            </label>
-                                            <label>Disponible:  <b> {"5 "+producto.tipoUnidad}</b></label>
-                                            <label>Description -> (Más Información!...)</label>
-                                        </div>
-                                        <button onClick={()=>this.seleccionarProductoCantidad(producto)}> + </button>
+                                    <div className="producto_buscador_lista_item_datos" onClick={()=>this.props.seleccionarProductoCantidad(producto)}>
+                                        <span>{(producto.nombreProducto||"").toUpperCase()}</span>
+                                        <span>{producto.nombreNegocio}</span>
+                                        <span>Precio:{this.calcularPrecioProducto(producto)}</span>
                                     </div>
                                 </div>
                             )}

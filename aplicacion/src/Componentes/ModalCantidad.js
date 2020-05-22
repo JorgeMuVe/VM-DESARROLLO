@@ -18,21 +18,21 @@ export class ModalCantidad extends React.Component {
         var cantidadProducto = parseFloat(producto.unidadCantidad);
         var precioProducto = parseFloat(producto.precioPorUnidad);
         var descuentoUnidad = producto.descuentoUnidad/100;
-        return <b>S/. {
+        return <div>S/. {
             //parseFloat(precioProducto-(precioProducto*descuentoUnidad)||0).toFixed(2)+" x "+
             parseFloat(precioProducto||0).toFixed(2)+" x "+
             unidadMedidaProducto(cantidadProducto,producto.tipoUnidad)+
             (descuentoUnidad>0?(" (-"+producto.descuentoUnidad+"%)"):"")
-        }</b>
+        }</div>
     }
 
     calcularPrecioTotalProducto =(producto)=> {
         var precioProducto = parseFloat(producto.precioPorUnidad) * parseFloat(producto.cantidadProducto);
         var descuentoUnidad = parseFloat(producto.descuentoUnidad);
-        return <b>
-            Total: S/. {parseFloat(precioProducto||0).toFixed(2)+" -("+(producto.descuentoUnidad)+"%)"}<br/>
-            Pagar: S/. {parseFloat(precioProducto-(precioProducto*(descuentoUnidad/100))||0).toFixed(2)}
-        </b>
+        return <div>
+            <b>Pagar: S/. {parseFloat(precioProducto-(precioProducto*(descuentoUnidad/100))||0).toFixed(2)+" (-"+(producto.descuentoUnidad)+"%)"}</b><br/>
+            Precio: S/. {parseFloat(precioProducto||0).toFixed(2)}
+        </div>
     }
 
 
@@ -46,23 +46,25 @@ export class ModalCantidad extends React.Component {
                 tituloModal="Cantidad de Producto"
             >
             <div className="ModalCantidad">
-                <div>
-                    <img src={productoSeleccionado.imagenProducto} alt="Imagen Producto"></img>
+                <img src={productoSeleccionado.imagenProducto} alt="Imagen Producto"></img>
+                <div> 
+                    <b>{productoSeleccionado.nombreProducto}</b><br/>
+                    {productoSeleccionado.detalleProducto}
                 </div>
-                <div>
-                    <div> {productoSeleccionado.nombreProducto} <br/> {productoSeleccionado.nombretipoProducto} </div>
-                    <div> {this.calcularPrecioProducto(productoSeleccionado)} </div>
-                </div>
-                <div>
-                    <button>(-)</button>
-                    <input type="number" placeholder="Cantidad" id="cantidadProducto" 
-                        defaultValue={this.props.productoSeleccionado.cantidadProducto}/>
-                    <button>(+)</button>
-                    <div> {this.calcularPrecioTotalProducto(productoSeleccionado)} </div>
-                </div>
-                <div>
+                <div> {this.calcularPrecioProducto(productoSeleccionado)} </div>
 
-                    <button onClick={this.props.agregarCantidadProducto}> AGREGAR </button>
+                <div className="modal_cantidad_agregar">
+                    <button onClick={()=>this.props.cambiarCantidadProducto(false)}>-</button>
+                        <b>{productoSeleccionado.cantidadProducto||"0.00"}</b>
+                    <button onClick={()=>this.props.cambiarCantidadProducto(true)}>+</button>
+                </div>
+                
+                <div className="modal_cantidad_precio">
+                    {this.calcularPrecioTotalProducto(productoSeleccionado)}
+                </div>
+
+                <div className="modal_cantidad_guardar">
+                    <button onClick={this.props.agregarCantidadProducto}> GUARDAR </button>
                 </div>
             </div>
             </Modal>

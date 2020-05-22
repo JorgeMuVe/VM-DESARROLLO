@@ -109,7 +109,7 @@ export class Cliente extends React.Component {
                             <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
                             <label>Perfil</label>
                         </div>
-                        <div className="usuario_navegador_boton">
+                        <div className="usuario_navegador_boton" onClick={this.props.salirSistema}>
                             <div className="centrado"><IconoGoogle fill="#d1d3d8"/></div>
                             <label>Salir</label>
                         </div>

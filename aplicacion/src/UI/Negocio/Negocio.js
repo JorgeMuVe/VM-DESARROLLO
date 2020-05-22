@@ -92,7 +92,7 @@ export class Negocio extends React.Component {
                         </div>
                     </div>
 
-                    <div className="usuario_paginas">
+                    <div className="usuario_paginas" onClick={this.props.salirSistema}>
                         {this.mostrarPagina()}
                     </div>
 

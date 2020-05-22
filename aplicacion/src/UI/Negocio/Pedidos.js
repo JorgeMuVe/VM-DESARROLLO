@@ -11,8 +11,10 @@ import Modal from '../../Componentes/Modal';
 import { listarPedidoNegocio_DB } from '../../DB/pedidoDB';
 
 /* VARIABLES GLOBALES */
+let map;
 const estadoInicial = {
     pedidosNegocio:[],
+    mostrarModalMapa:false,
     mostrarModalFechas:false,
 };
 
@@ -23,6 +25,7 @@ export class NegocioPedidos extends React.Component {
     }
 
     controlModalFechas =()=> this.setState({mostrarModalFechas:!this.state.mostrarModalFechas})
+    controlModalMapa =()=> this.setState({mostrarModalMapa:!this.state.mostrarModalMapa})
 
     obtenerPedidos =()=> {
         const { codigoUsuario } = this.props.usuarioAplicacion;
@@ -33,18 +36,44 @@ export class NegocioPedidos extends React.Component {
         });
     }
 
+    abrirMapaPedidos =()=>{
+        this.controlModalMapa();
+        setTimeout(this.mostrarMapa,100);
+    }
+
+    mostrarMapa =()=> {
+        map = new window.google.maps.Map(document.getElementById('map'),{
+            center: new window.google.maps.LatLng(-13.537623654609476,-71.90437483693309),
+            zoom: 14, mapTypeId: 'roadmap'
+        });
+
+        const {pedidosNegocio} = this.state;
+        (pedidosNegocio||[]).forEach(pedido=>{
+            var position = {
+                lat: parseFloat(pedido.lat || -13.537623654609476),
+                lng: parseFloat(pedido.lng || -71.90437483693309) 
+            };
+            var mark = new window.google.maps.Marker({position});
+            mark.setMap(map);
+        });
+
+    }
+
     componentDidMount(){
         this.obtenerPedidos();
     }
     
     render(){
         return(
-            <div className="NegocioVentas">
+            <div className="NegocioPedidos">
                 <div className="Titulo">
                     <button>{"<"}</button>
                     <div>Pedidos registrados</div>
                 </div>
                 <div className="usuario_encabezado_opciones">
+                    <a href="#map" onClick={()=>this.abrirMapaPedidos()} >
+                        Mostrar Mapa de Pedidos
+                    </a>
                     <select>
                         <option>Ordenar Por</option>
                         <option>Fecha</option>
@@ -106,6 +135,13 @@ export class NegocioPedidos extends React.Component {
                     </div>
                 </div> :
                 <div> No Existen Pedidos Registradas</div>}
+                <Modal
+                    controlModal={this.controlModalMapa}
+                    mostrarModal={this.state.mostrarModalMapa}
+                    tituloModal="Mapa de Pedidos"
+                >
+                    <div className="negocio_pedido_mapa" id="map"></div>
+                </Modal>
             </div>
         )
     }

@@ -31,9 +31,7 @@ END IF;
 END $$
 DELIMITER ;
 
--- CALL agregarUsuario('72947621','Jorge K.','Muñiz','Velasquez','jorge.muvez@gmail.com','coco','cliente');
-
--- == BUSCAR USUARIO ==>>
+-- == BUSCAR USUARIO CLIENTE ==>>
 DELIMITER $$
 DROP PROCEDURE IF EXISTS buscarUsuarioCliente; $$
 DELIMITER ;
@@ -42,8 +40,25 @@ CREATE PROCEDURE buscarUsuarioCliente (
 IN `@codigoUsuario` INT(10)
 ) BEGIN
 
-SELECT nombreCompleto,apellidoPaterno,apellidoMaterno,'cliente' AS tipoUsuario,`@codigoUsuario` AS codigoUsuario 
+SELECT nombreCompleto,apellidoPaterno,apellidoMaterno,
+'cliente' AS tipoUsuario,`@codigoUsuario` AS codigoUsuario 
 FROM cliente WHERE idCliente = `@codigoUsuario`;
+
+END; $$
+DELIMITER ;
+
+-- == BUSCAR USUARIO NEGOCIO ==>>
+DELIMITER $$
+DROP PROCEDURE IF EXISTS buscarUsuarioNegocio; $$
+DELIMITER ;
+DELIMITER $$
+CREATE PROCEDURE buscarUsuarioNegocio (
+IN `@codigoUsuario` INT(10)
+) BEGIN
+
+SELECT nombreNegocio,logo,correo,telefono,
+'negocio' AS tipoUsuario,`@codigoUsuario` AS codigoUsuario 
+FROM negocio WHERE idNegocio = `@codigoUsuario`;
 
 END; $$
 DELIMITER ;
@@ -72,3 +87,11 @@ ELSE SELECT "No existe Usuario" AS error;
 END IF;
 END $$
 DELIMITER ;
+
+-- CALL agregarUsuario('72947621','Jorge K.','Muñiz','Velasquez','jorge.muvez@gmail.com','coco','cliente');
+-- CALL agregarUsuario('12345678','Software','World','Connect','software@worldconnect.com','software','cliente');
+-- CALL agregarUsuario('12345678','Marketing','Tunki','Studios','marketing@tunki.com','marketing','cliente');
+-- INSERT INTO usuario(nombreUsuario,contrasena,tipoUsuario,codigoUsuario) VALUES
+-- ('vinocanchon@gmail.com',SHA1('vino'),'negocio',1),
+-- ('orion@gmail.com',SHA1('orion'),'negocio',2),
+-- ('lagranja@gmail.com',SHA1('lagranja'),'negocio',3);

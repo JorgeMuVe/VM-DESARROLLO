@@ -4,7 +4,7 @@
 */
 
 /* ********   F U N C I O N E S ************ */
-import { agregarUsuario_DB, ingresarSistema_DB, buscarUsuarioCliente_DB } from './DB/usuarioDB';
+import { agregarUsuario_DB, ingresarSistema_DB } from './DB/usuarioDB';
 import { listarProductoPorTipo_DB } from './DB/productoDB';
 
 import { urlAplicacionDesarrollo } from './Componentes/Funciones'
@@ -53,8 +53,8 @@ const estadoInicial = {
     nombreCompleto: "Usuario Invitado",
     apellidoPaterno: "",
     apellidoMaterno: "",
-    tipoUsuario: "cliente",
-    codigoUsuario: "1"
+    tipoUsuario: "invitado",
+    codigoUsuario: ""
   },
 
   // Productos
@@ -63,17 +63,13 @@ const estadoInicial = {
   productosPorTipo: [],
 
   // Pedido Usuario
-  mostrarPedido: false,
+  mostrarModalPedido: false,
   pedidoUsuario: [],
 
   // Notificaciones
   notificaciones: [1],
 
   /*  *************************** */
-
-  //oferta:[{codigoProducto:0},{codigoProducto:1}],
-  //pedidos:[{codigoPedido:0},{codigoPedido:1}],  
-  //venta:[{codigoPedido:0},{codigoPedido:1}],
 };
 
 /* ****************  --------------------------   *********/
@@ -91,14 +87,24 @@ export class Aplicacion extends Component {
     })
   }
 
-  /* MOSTRAR PEDIDO LISTA */
-  abrirPedido = () => {
-    this.setState({ mostrarPedido: !this.state.mostrarPedido });
+  /* CONTROL MODAL PEDIDO LISTA */
+  controlModalPedido = () => {
+    this.setState({ mostrarModalPedido: !this.state.mostrarModalPedido });
   }
 
+
+  /*******  U   S   U   A   R   I   O   ******/
   /* VERIFICACION */
   verificarDatosUsuario = (nuevoUsuario) => {
     if (nuevoUsuario) { return true } else { return false }
+  }
+
+  /* ABRIR MODAL INGRESO CUENTA */
+  abrirModalIngreso =()=> {
+    const {usuarioAplicacion} = this.state;
+    if(usuarioAplicacion.tipoUsuario==="invitado"){
+      this.controlModalIngreso();
+    }else { window.location.href = '/usuario/'+usuarioAplicacion.tipoUsuario; }
   }
 
   /* DATOS Y REGISTRO DE USUARIO*/
@@ -127,19 +133,13 @@ export class Aplicacion extends Component {
   }
 
   /* INGRESAR AL SISTEMA */
-  ingresarSistema = (tipoUsuario) => {
-    var ingresoUsuario = {
-      nombreUsuario: document.getElementById("correoUsuario").value,
-      contrasena: document.getElementById("contrasenaUsuario").value,
-      tipoUsuario: tipoUsuario
-    };
-
+  ingresarSistema = (ingresoUsuario) => {
     if (this.verificarDatosUsuario(ingresoUsuario)) {
       ingresarSistema_DB(ingresoUsuario).then(res => {
         if (!res.error) {
-          this.setState({ usuarioAplicacion: res }, () => {
-            sessionStorage.setItem('codigoUsuario', res.codigoUsuario);
-            this.cambiarPagina("producto-cliente");
+          this.setState({ usuarioAplicacion: res[0] }, () => {
+            sessionStorage.setItem('usuarioAplicacion',JSON.stringify(res[0]));
+            window.location.href = '/usuario/'+res[0].tipoUsuario;
           });
         } else { this.abrirError(4000, res.error); }
       });
@@ -148,17 +148,21 @@ export class Aplicacion extends Component {
 
   /* OBTENER USUARIO */
   obtenerUsuario = () => {
-    const codigoUsuario = sessionStorage.getItem("codigoUsuario");
-    if (codigoUsuario) {
-      const buscaUsuario = { codigoUsuario: codigoUsuario };
-      buscarUsuarioCliente_DB(buscaUsuario).then(res => {
-        if (!res.error) {
-          this.setState({ usuarioAplicacion: res });
-        } else { this.abrirError(4000, res.error) }
-      });
-    } else { } // console.log("Usuario Invitado") }
+    let usuarioAplicacion = JSON.parse(sessionStorage.getItem('usuarioAplicacion'));
+    if(usuarioAplicacion) this.setState({usuarioAplicacion});
   }
 
+  /* SALIR SISTEMA */
+  salirSistema =()=> {
+    this.setState({ usuarioAplicacion: {} }, () => {
+      sessionStorage.removeItem('usuarioAplicacion');
+      window.location.href = '/'
+    });
+  }
+
+
+  /***************************************************************/
+  /******   P   R   O   D   U   C   T   O    ******/
   /* OBTENER PRODUCTOS */
   listarProductoPorTipo = (idTipoProducto) => {
     const buscaProducto = { tipoProducto: idTipoProducto }
@@ -167,9 +171,11 @@ export class Aplicacion extends Component {
     });
   }
 
-  buscarProducto = (Buscador) => {
-    window.location.href = this.state.urlAplicacion+"/productos/buscador/"+
-      (Buscador.tipoBuscar||"TODO")+"/"+(Buscador.textoBuscar||" ");
+   /* OBTENER PEDIDO */
+  listarPedidoUsuario =()=> {
+    let pedidoUsuario = sessionStorage.getItem('pedidoUsuario');
+    pedidoUsuario = JSON.parse(pedidoUsuario);
+    this.setState({pedidoUsuario});
   }
 
   /* SELECCIONAR PRODUCTO */
@@ -177,10 +183,28 @@ export class Aplicacion extends Component {
     let pedidoUsuario = sessionStorage.getItem('pedidoUsuario');
     pedidoUsuario = JSON.parse(pedidoUsuario);
     var indexProducto = this.buscarProductoPedido(pedidoUsuario,productoSeleccionado.idProducto);
-    productoSeleccionado["cantidadProducto"] = (pedidoUsuario[indexProducto]||{}).cantidadProducto;
+    if(indexProducto>0)productoSeleccionado["cantidadProducto"] = (pedidoUsuario[indexProducto]||{}).cantidadProducto;
     this.setState({productoSeleccionado},()=>this.controlModalCantidad())
   }
 
+  /* CAMBIAR CANTIDAD PRODUCTO SELECCIONADO */
+  cambiarCantidadProducto =(aumentar)=> {
+    
+    const { productoSeleccionado } = this.state;
+    if(aumentar){
+      productoSeleccionado["cantidadProducto"]=(parseFloat(productoSeleccionado.cantidadProducto||0) + 1).toFixed(2)
+    }else {
+      if(productoSeleccionado.cantidadProducto>0){
+        productoSeleccionado["cantidadProducto"]=(parseFloat(productoSeleccionado.cantidadProducto||0) - 1).toFixed(2)
+      }
+    }
+    
+    //const { productoSeleccionado } = this.state;
+    //productoSeleccionado["cantidadProducto"] = evento.target.value;
+    this.setState({ productoSeleccionado });
+  }
+
+  /* BUSCAR PRODUCTO EN PEDIDO */
   buscarProductoPedido =(pedidoUsuario,idProducto)=> {
     var indexOf = -1;
     (pedidoUsuario||[]).forEach((p,i)=>{if(p.idProducto===idProducto){indexOf=i}});
@@ -191,8 +215,6 @@ export class Aplicacion extends Component {
   agregarCantidadProducto =(evento)=> {
     evento.preventDefault();
     const { productoSeleccionado } = this.state;
-    var cantidadProducto = document.getElementById("cantidadProducto").value;
-    productoSeleccionado["cantidadProducto"] = cantidadProducto;
     this.agregarCanasta(productoSeleccionado);
     this.controlModalCantidad();
   }
@@ -203,24 +225,32 @@ export class Aplicacion extends Component {
     var indexProducto = this.buscarProductoPedido(pedidoUsuario,producto.idProducto);
     if(indexProducto < 0){ pedidoUsuario = (pedidoUsuario||[]).concat([producto]);
     } else { pedidoUsuario.splice(indexProducto, 1, producto) }
-    sessionStorage.setItem('pedidoUsuario',JSON.stringify(pedidoUsuario));
+    this.setState({pedidoUsuario},()=>{    
+      sessionStorage.setItem('pedidoUsuario',JSON.stringify(pedidoUsuario));
+    });
   }
 
   /* SACAR PRODUCTO DE CANASTA */
   sacarProducto = (producto) => {
     let pedidoUsuario = sessionStorage.getItem('pedidoUsuario');
     pedidoUsuario = JSON.parse(pedidoUsuario);
-
-    var index = pedidoUsuario.indexOf(producto);
-    if (index > -1) {
-      pedidoUsuario.splice(index, 1);
-      sessionStorage.setItem('pedidoUsuario',JSON.stringify(pedidoUsuario));
+    var indexProducto = this.buscarProductoPedido(pedidoUsuario,producto.idProducto);
+    if (indexProducto > -1) {
+      pedidoUsuario.splice(indexProducto, 1);
+      this.setState({pedidoUsuario},()=>{    
+        sessionStorage.setItem('pedidoUsuario',JSON.stringify(pedidoUsuario));
+      });
     }
   }
 
+  /************************************************************** */
+
+
+  /**********  A   P   L   I   C   A   C   I   O   N    ***********/
   /* EJECUTAR FUNCIONES AL INICIAR APP */
   inicarAplicacion = () => {
     this.obtenerUsuario();
+    this.listarPedidoUsuario();
   }
 
   controlModalIngreso = () => this.setState({ mostrarModalIngreso: !this.state.mostrarModalIngreso });
@@ -233,12 +263,14 @@ export class Aplicacion extends Component {
 
   componentWillUnmount() {
   }
-
+  
+  /************************>>>>>>RENDER<<<<<<****************************** */
   render() {
     return (<div className="Aplicacion" >
 
       <ModalIngreso 
         urlAplicacion={this.state.urlAplicacion}
+        ingresarSistema={this.ingresarSistema}
         mostrarModalIngreso={this.state.mostrarModalIngreso}
         controlModalIngreso={this.controlModalIngreso} >
       </ModalIngreso>
@@ -251,15 +283,18 @@ export class Aplicacion extends Component {
 
       <Menu     
         urlAplicacion={this.state.urlAplicacion}
+        usuarioAplicacion={this.state.usuarioAplicacion}
         pedidoUsuario={this.state.pedidoUsuario}
-        abrirPedido={this.abrirPedido}
-        controlModalIngreso={this.controlModalIngreso}
+        seleccionarProductoCantidad={this.seleccionarProductoCantidad}
+        sacarProducto={this.sacarProducto}
+        controlModalIngreso={this.abrirModalIngreso}
       ></Menu>
 
       <ModalCantidad   
         controlModalCantidad={this.controlModalCantidad}
         mostrarModalCantidad={this.state.mostrarModalCantidad}
         productoSeleccionado={this.state.productoSeleccionado}
+        cambiarCantidadProducto={this.cambiarCantidadProducto}
         agregarCantidadProducto={this.agregarCantidadProducto}
       ></ModalCantidad>
 
@@ -268,13 +303,13 @@ export class Aplicacion extends Component {
           <Switch>
 
             <Route exact path="/" render={(props) => 
-              <Principal usuarioAplicacion={this.state.usuarioAplicacion} buscarProducto={this.buscarProducto} {...props}/>}/>
+              <Principal usuarioAplicacion={this.state.usuarioAplicacion} {...props}/>}/>
            
             <Route path="/usuario/negocio" render={(props) =>
-              <Negocio usuarioAplicacion={this.state.usuarioAplicacion} {...props}/>}/>
+              <Negocio usuarioAplicacion={this.state.usuarioAplicacion} salirSistema={this.salirSistema} {...props}/>}/>
 
             <Route path="/usuario/cliente" render={(props) => 
-              <Cliente usuarioAplicacion={this.state.usuarioAplicacion} {...props}/>}/>
+              <Cliente usuarioAplicacion={this.state.usuarioAplicacion} salirSistema={this.salirSistema} {...props}/>}/>
 
             <Route path="/productos/buscador/:tipo/:texto" render={(props) =>
               <ProductoBuscador 

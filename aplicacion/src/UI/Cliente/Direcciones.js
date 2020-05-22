@@ -168,13 +168,12 @@ export class ClienteDirecciones extends React.Component {
                         <input type="text" id="denominacionDireccion" placeholder="Ej. Urb. Santa Monica A-45" 
                             defaultValue={this.state.direccionSeleccionado.denominacionDireccion||""}/>
                     </fieldset>
-                    <fieldset><legend align="left">Ubicación</legend>
-                        <div className="cliente_agregar_direccion_ubicacion" id="map">
-                        </div>
-                    </fieldset>
                     <fieldset><legend align="left">Referencia</legend>
                         <textarea rows="6" id="referenciaDireccion" placeholder="Ej. Alfrente de Real Plaza, Casa con Puerta Azul" 
                             defaultValue={this.state.direccionSeleccionado.referenciaDireccion||""}></textarea>
+                    </fieldset>
+                    <fieldset><legend align="left">Ubicación</legend>
+                        <div className="cliente_agregar_direccion_ubicacion" id="map"></div>
                     </fieldset>
                     <div className="centrado">
                         <button onClick={this.guardarDireccion}>Guardar Cambios</button>

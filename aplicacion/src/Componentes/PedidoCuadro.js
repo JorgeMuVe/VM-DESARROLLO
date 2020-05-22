@@ -1,13 +1,12 @@
 /* COMPONENTES */
 import React from 'react';
+import IconoSacarProducto from '../SVG/IconoSacarPedido';
 
 /* FUNCIONES */
 import { unidadMedidaProducto } from '../Componentes/Funciones';
 
 /* VARIABLES GLOBALES */
-const estadoInicial = {
-    pedido : false, // Abrir - Cerrar El Pedido
-};
+const estadoInicial = {};
 
 export class PedidoCuadro extends React.Component {
     constructor(props){
@@ -26,29 +25,32 @@ export class PedidoCuadro extends React.Component {
         }</b>
     }
 
+    sacarProducto = (producto)=>{
+        this.props.sacarProducto(producto);
+        setTimeout(this.listarPedidoUsuario,100);
+    }
+    
     render(){
         if(this.props.mostrarPedido){
-            let pedidoUsuario = sessionStorage.getItem('pedidoUsuario');
-            pedidoUsuario = JSON.parse(pedidoUsuario);
             return(            
                 <div className="PedidoCuadro">  
                     <div className="pedido_modal">
                         <div className="pedido_modal_titulo">
                             <label> Mi Pedido </label>
                         </div>
-                        {(pedidoUsuario||[]).length > 0?
+                        {(this.props.pedidoUsuario||[]).length > 0?
                         <div className="pedido_lista">
-                            {(pedidoUsuario||[]).map((producto,i) =>
+                            {(this.props.pedidoUsuario||[]).map((producto,i) =>
                                 <div className="pedido_lista_item" style={{background:"url("+producto.imagenProducto+")no-repeat center/cover"}} key={i}>
                                     <div className="pedido_lista_item_datos">
-                                        <div>
-                                            <label><b>{producto.nombreTipoProducto+" "+producto.nombreProducto} ({producto.nombreNegocio})</b></label>
-                                            <label>Precio: 
-                                                {this.calcularPrecioProducto(producto)}
-                                            </label>
-                                            <label>Description -> (Más Información!...)</label>
+                                        <div onClick={()=>this.props.seleccionarProductoCantidad(producto)}>
+                                            <span>{(producto.nombreProducto||"").toUpperCase()}</span>
+                                            <span>{producto.nombreNegocio}</span>
+                                            <span>Precio:{this.calcularPrecioProducto(producto)}</span> 
                                         </div>
-                                        <button onClick={()=>this.props.agregarCanasta(producto)}> - </button>
+                                        <button onClick={()=>this.props.sacarProducto(producto)}>
+                                            <IconoSacarProducto/>
+                                        </button>
                                     </div>
                                 </div>
                             )}

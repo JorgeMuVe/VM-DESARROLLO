@@ -37,15 +37,18 @@ export class Menu extends React.Component {
                     </div>
                     <div className="menu_item_ocultar" onClick={()=>this.redireccionar("/#envios")}>ENVIOS</div>
                     <div className="menu_item_ocultar" onClick={()=>this.redireccionar("/productos/lista")}>PRODUCTOS</div>
-                    <div className="menu_item_principal" onClick={()=>this.props.controlModalIngreso()}>INGRESAR</div>
+                    <div className="menu_item_principal" onClick={()=>this.props.controlModalIngreso()}>
+                        {this.props.usuarioAplicacion.tipoUsuario!=="invitado"?"Mi Cuenta":"INGRESAR"}
+                    </div>
 
                 </div>
 
-                <PedidoCuadro
+                <PedidoCuadro            
+                    redireccionar={this.redireccionar}
                     mostrarPedido={this.state.mostrarPedido}
                     pedidoUsuario={this.props.pedidoUsuario}
-                    redireccionar={this.redireccionar}
-                    abrirPedido={this.abrirPedido}
+                    seleccionarProductoCantidad={this.props.seleccionarProductoCantidad}    
+                    sacarProducto={this.props.sacarProducto}
                 ></PedidoCuadro>
             </div>
         )

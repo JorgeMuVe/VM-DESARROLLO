@@ -18,7 +18,7 @@ export function agregarUsuario_DB(Usuario){
 // INGRESAR USUARIO AL SISTEMA
 export function ingresarSistema_DB(Usuario){ 
     return new Promise((resolver,rechazar) => {
-        fetch(Url + "ingresar.php",{ // Fetch para consumir API de SERVER NODE JS
+        fetch(Url + "ingresar",{ // Fetch para consumir API de SERVER NODE JS
             method:'POST',
             body: JSON.stringify(Usuario),
             headers: new Headers({ 'Content-type':'application/json' })
@@ -29,26 +29,18 @@ export function ingresarSistema_DB(Usuario){
 }
 
 // BUSCAR USUARIO CLIENTE
-export function buscarUsuarioCliente_DB(Usuario){ 
+export function buscarUsuarioCliente_DB(codigoUsuario){ 
     return new Promise((resolver,rechazar) => {
-        fetch(Url + "buscar.php",{ // Fetch para consumir API de SERVER NODE JS
-            method:'POST',
-            body: JSON.stringify(Usuario),
-            headers: new Headers({ 'Content-type':'application/json' })
-        })
+        fetch(Url + "buscar/cliente/"+codigoUsuario)
         .then(respuesta => resolver(respuesta.json()))
         .catch(error => rechazar(error));
     });
 }
 
 // BUSCAR USUARIO NEGOCIO
-export function buscarUsuarioNegocio_DB(Negocio){ 
+export function buscarUsuarioNegocio_DB(codigoUsuario){ 
     return new Promise((resolver,rechazar) => {
-        fetch(Url + "buscar/negocio",{ // Fetch para consumir API de SERVER NODE JS
-            method:'POST',
-            body: JSON.stringify(Negocio),
-            headers: new Headers({ 'Content-type':'application/json' })
-        })
+        fetch(Url + "buscar/negocio/"+codigoUsuario)
         .then(respuesta => resolver(respuesta.json()))
         .catch(error => rechazar(error));
     });

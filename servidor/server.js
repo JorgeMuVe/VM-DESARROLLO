@@ -20,8 +20,10 @@ aplicacion.use(express.json({ limit : '10mb' }));
 aplicacion.use('/api/direccion', require('./api/direccion.js'));
 aplicacion.use('/api/producto', require('./api/producto.js'));
 aplicacion.use('/api/archivo', require('./api/archivo.js'));
+aplicacion.use('/api/usuario', require('./api/usuario.js'));
 aplicacion.use('/api/pedido', require('./api/pedido.js'));
 aplicacion.use('/api/venta', require('./api/venta.js'));
+
 
 
 
