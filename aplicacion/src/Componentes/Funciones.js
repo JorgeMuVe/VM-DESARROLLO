@@ -4,6 +4,10 @@ export const urlAplicacionDesarrollo = 'http://192.168.1.170:3000';
 export const urlServidorPublica = 'http://reactiva-peru.com/data';
 export const urlAplicacionPublica = 'http://reactiva-peru.com';
 
+export const obtenerUsuario =()=> {
+    let usuarioAplicacion = JSON.parse(sessionStorage.getItem('usuarioAplicacion'));
+    if(usuarioAplicacion) return usuarioAplicacion;
+}
 
 export const obtenerFechaHoy = () => {
     var fecha = new Date();
@@ -51,5 +55,3 @@ export const unidadMedidaProducto =(unidadCantidad,tipoUnidad)=> {
     }
     return textoUnidad;
 }
-
-

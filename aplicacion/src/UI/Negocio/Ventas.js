@@ -7,9 +7,6 @@
 import React from 'react';
 import Modal from '../../Componentes/Modal';
 
-/***  F U N C I O N E S  ***/
-import { listarVentaNegocio_DB } from '../../DB/ventaDB';
-
 /* VARIABLES GLOBALES */
 const estadoInicial = {
     ventasNegocio:[],
@@ -24,18 +21,7 @@ export class NegocioVentas extends React.Component {
 
     controlModalFechas =()=> this.setState({mostrarModalFechas:!this.state.mostrarModalFechas})
 
-    obtenerVentas =()=> {
-        const { codigoUsuario } = this.props.usuarioAplicacion;
-        listarVentaNegocio_DB({codigoUsuario:codigoUsuario}).then(ventas=>{
-            if(!ventas.error){
-                this.setState({ ventasNegocio: ventas });
-            } else { console.log("ERROR >> LISTAR VENTAS NEGOCIO"); }
-        });
-    }
-
-    componentDidMount(){
-        this.obtenerVentas();
-    }
+    componentDidMount(){ }
     
     render(){
         return(
@@ -64,7 +50,7 @@ export class NegocioVentas extends React.Component {
 
                 </div>
                 
-                {(this.state.ventasNegocio||[]).length > 0?
+                {(this.props.ventasNegocio||[]).length > 0?
                 <div className="usuario_tabla centrado">
                     <table>
                         <thead>
@@ -76,7 +62,7 @@ export class NegocioVentas extends React.Component {
                                 <th> </th>
                             </tr>
                         </thead>
-                        {(this.state.ventasNegocio||[]).map((venta,i) => {
+                        {(this.props.ventasNegocio||[]).map((venta,i) => {
                             return ( 
                             <tbody key={i}>
                                 <tr className={(i%2!==0?" interlinea":"")}>

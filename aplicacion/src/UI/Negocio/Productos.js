@@ -9,6 +9,7 @@ import Modal from '../../Componentes/Modal';
 import { guardarArchivo_DB } from '../../DB/archivoDB';
 
 /*** FUNCIONES ***/
+import { obtenerUsuario } from '../../Componentes/Funciones';
 import { 
     agregarProducto_DB,
     editarProducto_DB,
@@ -74,9 +75,6 @@ export class Productos extends React.Component {
         var tp = document.getElementById('tipoProducto');
         var idTipoProducto = tp.options[tp.selectedIndex].value;
 
-
-
-
         const datoProducto = {
             idProducto:this.state.productoSeleccionado.idProducto,
             idNegocio:this.props.usuarioAplicacion.codigoUsuario||"1",
@@ -111,7 +109,6 @@ export class Productos extends React.Component {
         }
     }
 
-
     /*******  C O N T R O L E S   *****/
     abrirProducto =(Producto)=> {
         this.setState({productoSeleccionado:Producto,archivoImagenNuevo:null,archivoImagenTempo:Producto.imagenProducto||""});
@@ -140,7 +137,7 @@ export class Productos extends React.Component {
     }
 
     componentDidMount(){
-        const {usuarioAplicacion} = this.props;
+        const usuarioAplicacion = obtenerUsuario();
         if(usuarioAplicacion){
             this.iniciarFunciones();
         } else { alert("¡¡USUARIO NO RECONOCIDO!!") }

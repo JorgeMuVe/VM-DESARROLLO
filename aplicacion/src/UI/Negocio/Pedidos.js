@@ -7,13 +7,9 @@
 import React from 'react';
 import Modal from '../../Componentes/Modal';
 
-/***  F U N C I O N E S  ***/
-import { listarPedidoNegocio_DB } from '../../DB/pedidoDB';
-
 /* VARIABLES GLOBALES */
 let map;
 const estadoInicial = {
-    pedidosNegocio:[],
     mostrarModalMapa:false,
     mostrarModalFechas:false,
 };
@@ -27,15 +23,6 @@ export class NegocioPedidos extends React.Component {
     controlModalFechas =()=> this.setState({mostrarModalFechas:!this.state.mostrarModalFechas})
     controlModalMapa =()=> this.setState({mostrarModalMapa:!this.state.mostrarModalMapa})
 
-    obtenerPedidos =()=> {
-        const { codigoUsuario } = this.props.usuarioAplicacion;
-        listarPedidoNegocio_DB({codigoUsuario:codigoUsuario}).then(pedidos=>{
-            if(!pedidos.error){
-                this.setState({ pedidosNegocio: pedidos });
-            } else { console.log("ERROR >> LISTAR PEDIDOS NEGOCIO"); }
-        });
-    }
-
     abrirMapaPedidos =()=>{
         this.controlModalMapa();
         setTimeout(this.mostrarMapa,100);
@@ -47,7 +34,7 @@ export class NegocioPedidos extends React.Component {
             zoom: 14, mapTypeId: 'roadmap'
         });
 
-        const {pedidosNegocio} = this.state;
+        const {pedidosNegocio} = this.props;
         (pedidosNegocio||[]).forEach(pedido=>{
             var position = {
                 lat: parseFloat(pedido.lat || -13.537623654609476),
@@ -57,10 +44,6 @@ export class NegocioPedidos extends React.Component {
             mark.setMap(map);
         });
 
-    }
-
-    componentDidMount(){
-        this.obtenerPedidos();
     }
     
     render(){
@@ -92,7 +75,7 @@ export class NegocioPedidos extends React.Component {
                     </Modal>
                 </div>
                 
-                {(this.state.pedidosNegocio||[]).length > 0?
+                {(this.props.pedidosNegocio||[]).length > 0?
                 <div className="usuario_tabla centrado">
                     <table>
                         <thead>
@@ -106,7 +89,7 @@ export class NegocioPedidos extends React.Component {
                                 <th> </th>
                             </tr>
                         </thead>
-                        {(this.state.pedidosNegocio||[]).map((pedido,i) => {
+                        {(this.props.pedidosNegocio||[]).map((pedido,i) => {
                             return ( 
                             <tbody key={i}>
                                 <tr className={(i%2!==0?" interlinea":"")}>

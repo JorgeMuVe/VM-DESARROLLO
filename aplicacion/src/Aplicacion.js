@@ -11,7 +11,7 @@ import { urlAplicacionDesarrollo } from './Componentes/Funciones'
 import { urlAplicacionPublica } from './Componentes/Funciones'
 
 /* *********  C O M P O N E N T E S   ************/
-import { BrowserRouter, Route, Switch } from 'react-router-dom'; // Libreria React-Router
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'; // Libreria React-Router
 import React, { Component } from 'react';
 import Menu from './Componentes/Menu.js';
 import Contacto from './Componentes/Contacto';
@@ -305,8 +305,10 @@ export class Aplicacion extends Component {
             <Route exact path="/" render={(props) => 
               <Principal usuarioAplicacion={this.state.usuarioAplicacion} {...props}/>}/>
            
-            <Route path="/usuario/negocio" render={(props) =>
-              <Negocio usuarioAplicacion={this.state.usuarioAplicacion} salirSistema={this.salirSistema} {...props}/>}/>
+            <Route path="/usuario/negocio/:pagina" render={(props) =>
+              <Negocio usuarioAplicacion={this.state.usuarioAplicacion} {...props}
+              salirSistema={this.salirSistema} />}/>
+            <Redirect from="/usuario/negocio" to="/usuario/negocio/pedidos"></Redirect>
 
             <Route path="/usuario/cliente" render={(props) => 
               <Cliente usuarioAplicacion={this.state.usuarioAplicacion} salirSistema={this.salirSistema} {...props}/>}/>
