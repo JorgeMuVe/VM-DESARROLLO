@@ -5,15 +5,17 @@
 
 /* ********   F U N C I O N E S ************ */
 import { agregarUsuario_DB, ingresarSistema_DB } from './DB/usuarioDB';
+import { urlAplicacionDesarrollo,urlAplicacionPublica } from './Componentes/Funciones';
+
 import { listarProductoPorTipo_DB } from './DB/productoDB';
 
-import { urlAplicacionDesarrollo } from './Componentes/Funciones'
-import { urlAplicacionPublica } from './Componentes/Funciones'
 
 /* *********  C O M P O N E N T E S   ************/
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'; // Libreria React-Router
+import { BrowserRouter, Route, Switch } from 'react-router-dom'; // Libreria React-Router
 import React, { Component } from 'react';
 import Menu from './Componentes/Menu.js';
+import MenuUsuario from './Componentes/MenuUsuario';
+import MenuAplicacion from './Componentes/MenuAplicacion';
 import Contacto from './Componentes/Contacto';
 import PiePagina from './Componentes/PiePagina';
 import MejoresRestaurantes from './Componentes/MejoresRestaurantes';
@@ -30,6 +32,7 @@ import ProductoBuscador from './UI/Producto/ProductoBuscador';
 /* ********* M O D A L ************* */
 import ModalIngreso from './Componentes/ModalIngreso';
 import ModalCantidad from './Componentes/ModalCantidad';
+import ModalPedido from './Componentes/ModalPedido';
 
 import Mensaje from './Componentes/Mensaje.js';
 
@@ -37,9 +40,13 @@ import Mensaje from './Componentes/Mensaje.js';
 const estadoInicial = {
 
   /**** URL DE APLICACION Y SERVIDOR ****/
-  urlAplicacion_ : urlAplicacionPublica,
-  urlAplicacion : urlAplicacionDesarrollo,
+  urlAplicacion : urlAplicacionPublica,
+  urlAplicacion_ : urlAplicacionDesarrollo,
   urlAplicacionPublica: urlAplicacionPublica,
+
+  /***** M E N U  *****/
+  mostrarMenuUsuario:false,
+  mostrarMenuAplicacion:false,
 
   /**** CUADRO DE MENSAJE ****/
   mostrarMensaje: false,
@@ -80,31 +87,10 @@ export class Aplicacion extends Component {
     this.state = estadoInicial;
   }
 
-  /* MOSTRAR MENSAJE DE ERROR */
-  abrirError = (tiempo, mensaje) => {
-    this.setState({ mostrarMensaje: true, textoMensaje: mensaje, tipoMensaje: 'error' }, () => {
-      setTimeout(() => this.setState({ mostrarMensaje: false, textoMensaje: '', tipoMensaje: '' }), tiempo)
-    })
-  }
-
-  /* CONTROL MODAL PEDIDO LISTA */
-  controlModalPedido = () => {
-    this.setState({ mostrarModalPedido: !this.state.mostrarModalPedido });
-  }
-
-
   /*******  U   S   U   A   R   I   O   ******/
   /* VERIFICACION */
   verificarDatosUsuario = (nuevoUsuario) => {
     if (nuevoUsuario) { return true } else { return false }
-  }
-
-  /* ABRIR MODAL INGRESO CUENTA */
-  abrirModalIngreso =()=> {
-    const {usuarioAplicacion} = this.state;
-    if(usuarioAplicacion.tipoUsuario==="invitado"){
-      this.controlModalIngreso();
-    }else { window.location.href = '/usuario/'+usuarioAplicacion.tipoUsuario; }
   }
 
   /* DATOS Y REGISTRO DE USUARIO*/
@@ -121,15 +107,14 @@ export class Aplicacion extends Component {
 
     if (this.verificarDatosUsuario(nuevoUsuario)) {
       agregarUsuario_DB(nuevoUsuario).then(res => {
-        console.log(res);
         if (!res.error) {
           this.setState({ usuarioAplicacion: res }, () => {
             sessionStorage.setItem('codigoUsuario', res.codigoUsuario);
             this.cambiarPagina("producto-cliente");
           });
-        } else { this.abrirError(4000, res.error); }
+        } else { this.abrirMensajeError(4000, res.error); }
       }) //.catch(res => alert("Error"));
-    } else { this.abrirError(4000, 'DATOS INCOMPLETOS') }
+    } else { this.abrirMensajeError(4000, 'DATOS INCOMPLETOS') }
   }
 
   /* INGRESAR AL SISTEMA */
@@ -137,23 +122,28 @@ export class Aplicacion extends Component {
     if (this.verificarDatosUsuario(ingresoUsuario)) {
       ingresarSistema_DB(ingresoUsuario).then(res => {
         if (!res.error) {
-          this.setState({ usuarioAplicacion: res[0] }, () => {
-            sessionStorage.setItem('usuarioAplicacion',JSON.stringify(res[0]));
-            window.location.href = '/usuario/'+res[0].tipoUsuario;
-          });
-        } else { this.abrirError(4000, res.error); }
+          if(!res[0].error){
+            this.setState({ usuarioAplicacion: res[0] }, () => {
+              sessionStorage.setItem('usuarioAplicacion',JSON.stringify(res[0]));
+              window.location.href = '/usuario/'+res[0].tipoUsuario;
+            });
+          } else {this.abrirMensajeError(4000, res[0].error);}
+        } else { this.abrirMensajeError(4000, res.error); }
       });
-    } else { this.abrirError(4000, 'DATOS INCOMPLETOS') }
+    } else { this.abrirMensajeError(4000, 'DATOS INCOMPLETOS') }
   }
 
   /* OBTENER USUARIO */
   obtenerUsuario = () => {
     let usuarioAplicacion = JSON.parse(sessionStorage.getItem('usuarioAplicacion'));
-    if(usuarioAplicacion) this.setState({usuarioAplicacion});
+    if(usuarioAplicacion) this.setState({usuarioAplicacion},()=>{
+      this.listarPedidoUsuario();
+    });
   }
 
   /* SALIR SISTEMA */
   salirSistema =()=> {
+    console.log("SALIENDO DEL SISTEMA!!:.");
     this.setState({ usuarioAplicacion: {} }, () => {
       sessionStorage.removeItem('usuarioAplicacion');
       window.location.href = '/'
@@ -243,19 +233,44 @@ export class Aplicacion extends Component {
     }
   }
 
-  /************************************************************** */
+  confirmarPedido =()=> {
+    this.setState({pedidoUsuario:{}},()=>{    
+      sessionStorage.removeItem('pedidoUsuario');
+    });
+  }
 
 
   /**********  A   P   L   I   C   A   C   I   O   N    ***********/
+  
+  /* CONTROL MODAL */
+  abrirMensajeError = (tiempo, mensaje) => {
+    this.setState({ mostrarMensaje: true, textoMensaje: mensaje, tipoMensaje: 'error' }, () => {
+      setTimeout(() => this.setState({ mostrarMensaje: false, textoMensaje: '', tipoMensaje: '' }), tiempo)
+    })
+  }
+
+  abrirModalIngreso =()=> {
+    const {usuarioAplicacion} = this.state;
+    if(usuarioAplicacion.tipoUsuario==="invitado") this.controlModalIngreso()
+    else this.controlMenuUsuario()
+  }
+
+  cerrarMenuUsuario =()=> this.setState({mostrarMenuUsuario:false});
+
+  controlMenuAplicacion =()=> this.setState({mostrarMenuAplicacion:!this.state.mostrarMenuAplicacion});
+
+  controlMenuUsuario =()=> this.setState({mostrarMenuUsuario:!this.state.mostrarMenuUsuario});
+
+  controlModalIngreso = () => this.setState({mostrarModalIngreso:!this.state.mostrarModalIngreso});
+
+  controlModalPedido =()=> this.setState({mostrarModalPedido:!this.state.mostrarModalPedido});
+  
+  controlModalCantidad =()=> this.setState({mostrarModalCantidad:!this.state.mostrarModalCantidad});
+
   /* EJECUTAR FUNCIONES AL INICIAR APP */
   inicarAplicacion = () => {
     this.obtenerUsuario();
-    this.listarPedidoUsuario();
   }
-
-  controlModalIngreso = () => this.setState({ mostrarModalIngreso: !this.state.mostrarModalIngreso });
-  
-  controlModalCantidad =()=> this.setState({mostrarModalCantidad:!this.state.mostrarModalCantidad});
 
   componentDidMount() {
     this.inicarAplicacion();
@@ -267,7 +282,7 @@ export class Aplicacion extends Component {
   /************************>>>>>>RENDER<<<<<<****************************** */
   render() {
     return (<div className="Aplicacion" >
-
+      
       <ModalIngreso 
         urlAplicacion={this.state.urlAplicacion}
         ingresarSistema={this.ingresarSistema}
@@ -281,15 +296,6 @@ export class Aplicacion extends Component {
         tipoMensaje={this.state.tipoMensaje} >
       </Mensaje>
 
-      <Menu     
-        urlAplicacion={this.state.urlAplicacion}
-        usuarioAplicacion={this.state.usuarioAplicacion}
-        pedidoUsuario={this.state.pedidoUsuario}
-        seleccionarProductoCantidad={this.seleccionarProductoCantidad}
-        sacarProducto={this.sacarProducto}
-        controlModalIngreso={this.abrirModalIngreso}
-      ></Menu>
-
       <ModalCantidad   
         controlModalCantidad={this.controlModalCantidad}
         mostrarModalCantidad={this.state.mostrarModalCantidad}
@@ -297,31 +303,58 @@ export class Aplicacion extends Component {
         cambiarCantidadProducto={this.cambiarCantidadProducto}
         agregarCantidadProducto={this.agregarCantidadProducto}
       ></ModalCantidad>
+      
 
       <div className="Paginas" id="paginas">
         <BrowserRouter>
-          <Switch>
+          <Menu
+            usuarioAplicacion={this.state.usuarioAplicacion}
+            controlMenuAplicacion={this.controlMenuAplicacion}
+            controlModalPedido={this.controlModalPedido}
+            controlModalIngreso={this.abrirModalIngreso}
+          >
+            <MenuAplicacion
+              mostrarMenuAplicacion={this.state.mostrarMenuAplicacion}/>
 
+            <ModalPedido
+              mostrarPedido={this.state.mostrarModalPedido}
+              pedidoUsuario={this.state.pedidoUsuario}
+              seleccionarProductoCantidad={this.seleccionarProductoCantidad}
+              sacarProducto={this.sacarProducto}/>
+            
+            <MenuUsuario
+              mostrarMenuUsuario={this.state.mostrarMenuUsuario}
+              usuarioAplicacion={this.state.usuarioAplicacion}
+              salirSistema={this.salirSistema}
+              controlMenuUsuario={this.cerrarMenuUsuario}/>
+           </Menu>
+          <Switch>
+          
             <Route exact path="/" render={(props) => 
-              <Principal usuarioAplicacion={this.state.usuarioAplicacion} {...props}/>}/>
+              <Principal usuarioAplicacion={this.state.usuarioAplicacion} {...props}/>
+            }></Route>
            
-            <Route path="/usuario/negocio/:pagina" render={(props) =>
-              <Negocio usuarioAplicacion={this.state.usuarioAplicacion} {...props}
-              salirSistema={this.salirSistema} />}/>
-            <Redirect from="/usuario/negocio" to="/usuario/negocio/pedidos"></Redirect>
+            <Route path="/usuario/negocio" render={(props) => 
+              <Negocio salirSistema={this.salirSistema}
+              controlMenuUsuario={this.cerrarMenuUsuario}{...props} />
+            }></Route>
 
             <Route path="/usuario/cliente" render={(props) => 
-              <Cliente usuarioAplicacion={this.state.usuarioAplicacion} salirSistema={this.salirSistema} {...props}/>}/>
+              <Cliente salirSistema={this.salirSistema}
+              sacarProducto={this.sacarProducto}
+              confirmarPedido={this.confirmarPedido}
+              controlMenuUsuario={this.cerrarMenuUsuario}{...props}/>
+              }></Route>
 
             <Route path="/productos/buscador/:tipo/:texto" render={(props) =>
               <ProductoBuscador 
                 agregarCanasta={this.agregarCanasta}{...props}
-                seleccionarProductoCantidad={this.seleccionarProductoCantidad}
-              />}/>
+                seleccionarProductoCantidad={this.seleccionarProductoCantidad}/>
+            }></Route>
 
             <Route path="/productos/lista" render={(props) =>
-              <ProductoLista listarPor={"NEGOCIO"} {...props}/>}/>
-
+              <ProductoLista listarPor={"NEGOCIO"} {...props}/>
+            }></Route>
           </Switch>
         </BrowserRouter>
       </div>

@@ -5,7 +5,11 @@
 
 /* COMPONENTES */
 import React from 'react';
-import Modal from '../../Componentes/Modal';
+import { obtenerUsuario } from '../../Componentes/Funciones';
+import { listarVentaNegocio_DB } from '../../DB/ventaDB';
+
+/* ICONOS */
+import IconoAtras from '../../SVG/aplicacion/IconoAtras';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
@@ -21,69 +25,57 @@ export class NegocioVentas extends React.Component {
 
     controlModalFechas =()=> this.setState({mostrarModalFechas:!this.state.mostrarModalFechas})
 
-    componentDidMount(){ }
+    /* VENTAS */
+    obtenerVentasNegocio =(codigoUsuario)=> {
+        listarVentaNegocio_DB({codigoUsuario}).then(ventas=>{
+            if(ventas[0]){
+                if(!ventas[0].error){ this.setState({ ventasNegocio: ventas[0] }) } 
+                //else { console.log("ERROR >> LISTAR VENTAS NEGOCIO"); }
+            } //else { console.log("ERROR >> LISTAR VENTAS NEGOCIO"); }
+        });
+    }
+
+    componentDidMount(){ 
+        var usuarioAplicacion = obtenerUsuario();
+        this.obtenerVentasNegocio(usuarioAplicacion.codigoUsuario);
+    }
     
     render(){
         return(
             <div className="NegocioVentas">
-                <div className="Titulo">
-                    <button>{"<"}</button>
-                    <div>Ventas Realizadas</div>
-                </div>
-                <div className="usuario_encabezado_opciones">
-                    <select>
-                        <option>Ordenar Por</option>
-                        <option>Fecha</option>
-                        <option>Estado</option>
-                    </select>
-                    <label onClick={()=>this.controlModalFechas()}> Rango de Fechas </label>
-                    <Modal
-                        mostrarModal={this.state.mostrarModalFechas}
-                        controlModal={this.controlModalFechas}
-                        tituloModal={"Rango de fechas"}
-                    >
-                    <div className="rango_fechas">
-                        <input type="date"/>
-                        <input type="date"/>
-                    </div>
-                    </Modal>
-
+                <div className="usuario_encabezado">
+                    <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
+                    <label> Mis Ventas </label>
+                    <div onClick={this.props.history.goBack}></div>
                 </div>
                 
-                {(this.props.ventasNegocio||[]).length > 0?
+                {(this.state.ventasNegocio||[]).length > 0?
                 <div className="usuario_tabla centrado">
                     <table>
                         <thead>
                             <tr>
-                                <th> NR<br/>PEDIDO</th>
-                                <th> FECHA </th>
+                                <th> PEDIDO</th>
                                 <th> CLIENTE </th>
-                                <th> INGRESO </th>
-                                <th> </th>
                             </tr>
                         </thead>
-                        {(this.props.ventasNegocio||[]).map((venta,i) => {
+                        {(this.state.ventasNegocio||[]).map((venta,i) => {
                             return ( 
                             <tbody key={i}>
                                 <tr className={(i%2!==0?" interlinea":"")}>
-                                    <td>N° {venta.idVenta}</td>
                                     <td style={{textAlign:'center'}}>
-                                        {venta.fechaRegistro.split(" ")[0]}<br/>
-                                        {venta.fechaRegistro.split(" ")[1]}
+                                        N° <b>{venta.idVenta}</b><br/>
+                                        <b>S/. {venta.totalPagar.toFixed(2)}</b><br/>
+                                        Cant: {venta.totalProductos}<br/>
+                                        {(venta.fechaRegistro||"").split(" ")[0]}<br/>
+                                        <b>{venta.estadoPedido.toUpperCase()}</b><br/>
                                     </td>
-                                    <td> 
+                                    <td style={{textAlign:'center'}}>
                                         Cliente: {venta.nombreCompleto+" "+venta.apellidoPaterno}<br/>
                                         <b>{venta.denominacionDireccion}</b><br/>
                                         {venta.referenciaDireccion}<br/>
-                                        Correo: {venta.correoReferencia}<br/>
-                                        Telefono: {venta.telefonoReferencia}
+                                        Email: {venta.correoReferencia}<br/>
+                                        Teléfono: {venta.telefonoReferencia}
                                     </td>
-                                    <td style={{textAlign:'center'}}>
-                                        N° Productos: {venta.totalProductos}<br/>
-                                        Total: S/. {(venta.totalPagar||0).toFixed(2)}<br/>
-                                        Cargo: S/. 0.00
-                                    </td>
-                                    <td onClick={()=>alert(venta.idVenta)}> + </td>
                                 </tr> 
                             </tbody>
                         )})}

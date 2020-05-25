@@ -1,7 +1,8 @@
-/* IMPORTAR URL */
-import { urlServidorDesarrollo } from '../Componentes/Funciones';
-//import { urlServidorPublica } from '../Componentes/Funciones';
-const Url = urlServidorDesarrollo + '/api/pedido/';
+//import { urlServidorDesarrollo } from '../Componentes/Funciones';
+import { urlServidorPublica } from '../Componentes/Funciones';
+//const Url_ = urlServidorDesarrollo + '/api/pedido/';
+const Url = urlServidorPublica + '/api/pedido/';
+
 
 // AGREGAR NUEVO PEDIDO
 export function agregarPedido_DB(Pedido){ 
@@ -43,7 +44,7 @@ export function listarPedidoCliente_DB(Pedido){
 }
 
 // LISTA PEDIDO NEGOCIO
-export function listarPedidoNegocio_DB(Pedido){ 
+export function listarPedidoNegocio_DB(Pedido){
     return new Promise((resolver,rechazar) => {
         fetch(Url + "lista/negocio",{ // Fetch para consumir API de SERVER NODE JS
             method:'POST',

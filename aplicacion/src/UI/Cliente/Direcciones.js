@@ -8,15 +8,19 @@ import React from 'react';
 import Modal from '../../Componentes/Modal';
 
 /*** F U N C I O N E S ***/
+import { obtenerUsuario } from '../../Componentes/Funciones';
 import { agregarDireccion_DB, editarDireccion_DB, listarDirecciones_DB } from '../../DB/direccionDB';
 
+/* ICONOS */
+import IconoAgregar from '../../SVG/aplicacion/IconoAgregar';
+import IconoAtras from '../../SVG/aplicacion/IconoAtras';
 
 /* VARIABLES GLOBALES */
 let map;
 var ubicacion;
 
 const estadoInicial = {
-
+    usuarioAplicacion:{},
     direccionesCliente: [],
 
     mostrarModalAgregar: false,
@@ -32,7 +36,7 @@ export class ClienteDirecciones extends React.Component {
     controlModalAgregar =()=> this.setState({mostrarModalAgregar:!this.state.mostrarModalAgregar});
 
     obtenerDirecciones =()=> {
-        const {usuarioAplicacion} = this.props;
+        const { usuarioAplicacion}  = this.state;
         listarDirecciones_DB(usuarioAplicacion.codigoUsuario).then(lista=>{
             if(!lista.error){ this.setState({direccionesCliente:lista}) }
             else {console.log("ERROR >> LISTAR DIERCCIONES CLIENTE")}
@@ -120,16 +124,24 @@ export class ClienteDirecciones extends React.Component {
         });
     }
 
+    iniciarFunciones =(usuarioAplicacion)=> {
+        this.setState({usuarioAplicacion},()=>this.obtenerDirecciones())
+    }
+
     componentDidMount(){
-        this.obtenerDirecciones();
+        var usuarioAplicacion = obtenerUsuario();
+        if(usuarioAplicacion){
+            this.iniciarFunciones(usuarioAplicacion);
+        } else{this.props.history.push('/')}
     }
 
     render(){
         return(
             <div className="ClienteDirecciones">
                 <div className="usuario_encabezado">
-                    <label> DIRECCIONES DE CLIENTE </label>
-                    <div className="usuario_encabezado_opciones"><button onClick={this.agregarDireccion}> Agregar Dirección </button></div>
+                    <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
+                    <label> Mis Direcciones </label>
+                    <div onClick={this.agregarDireccion}><IconoAgregar fill="#23A24D"/></div>
                 </div>
                 {(this.state.direccionesCliente||[1]).length > 0?
                 <div className="usuario_tabla centrado">
@@ -138,7 +150,6 @@ export class ClienteDirecciones extends React.Component {
                             <tr>                            
                                 <th> DIRECCION </th>
                                 <th> REFERENCIA </th>
-                                <th> UBICACIÓN </th>
                             </tr>
                         </thead>
                         {(this.state.direccionesCliente||[1,2,3]).map((direccion,i) => {
@@ -147,7 +158,6 @@ export class ClienteDirecciones extends React.Component {
                                 <tr className={(i%2!==0?" interlinea":"")} onClick={()=>this.seleccionarDireccion(direccion)}>
                                     <td> {direccion.denominacionDireccion} </td>
                                     <td> {direccion.referenciaDireccion} </td>
-                                    <td> {direccion.lat+" , "+direccion.lng}</td>
                                 </tr>
                             </tbody>
                         )})}

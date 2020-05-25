@@ -5,120 +5,49 @@
 
 /* COMPONENTES */
 import React from 'react';
+import { Route, Redirect } from 'react-router-dom'; // Libreria React-Router
 
-import Pedido from './Pedido';
+import MenuCliente from '../../Componentes/MenuCliente';
+import Direcciones from './Direcciones';
 import Confirmar from './Confirmar';
 import Compras from './Compras';
-import Direcciones from './Direcciones';
+import Pedido from './Pedido';
 import Cuenta from './Cuenta';
 
 /***  F U N C I O N E S  ***/
-import { listarPedidoCliente_DB } from '../../DB/pedidoDB';
 
 /* ICONOS */
-import IconoGoogle from '../../SVG/IconoGoogle';
 
 /* VARIABLES GLOBALES */
-const estadoInicial = {
-    /*** D A T O S   A P L I C A C I O N */
-    clientePedidos:[],
-
-    /**** P A G I N A S     N E G O C I O ****/
-    paginaActual:'pedido'
-};
+const estadoInicial = {};
 
 export class Cliente extends React.Component {
     constructor(props){
         super(props);
         this.state = estadoInicial;
     }
-
-    obtenerPedidos =()=> {
-        const { codigoUsuario } = this.props.usuarioAplicacion;
-        listarPedidoCliente_DB({codigoUsuario:codigoUsuario}).then(pedidos=>{
-            if(!pedidos.error){
-                this.setState({clientePedidos:pedidos});
-            }
-        });
-    }
-
-    cambiarPagina =(pagina)=> { 
-        if(pagina==="compras"){ this.obtenerPedidos() }
-        this.setState({paginaActual:pagina});
-
-    }
     
-    mostrarPagina =()=> {
-        const pagina = this.state.paginaActual;
-        switch (pagina) {
-            case "pedido": return (
-                <Pedido 
-                    cambiarPagina={this.cambiarPagina}
-                    usuarioAplicacion={this.props.usuarioAplicacion}
-                />);
-            case "confirmar": return (
-                <Confirmar
-                    cambiarPagina={this.cambiarPagina}
-                    usuarioAplicacion={this.props.usuarioAplicacion}
-                />);
-            case "compras": return (
-                <Compras
-                    clientePedidos={this.state.clientePedidos}
-                />);
-            case "direcciones": return (
-                <Direcciones
-                    usuarioAplicacion={this.props.usuarioAplicacion}
-                />);
-            case "cuenta": return (<Cuenta/>);
-            default: return null;
-        }
-    
-    }
-
-    inicarFunciones =()=> {
-        this.obtenerPedidos();
-    }
-
-    componentDidMount(){
-        this.inicarFunciones();
-    }
-
     render(){
         return(
             <div className="Cliente centrado">
 
                 <div className="usuario_componentes">
-                    <div className="usuario_navegador">
-                        <div className={"usuario_navegador_boton " + (this.state.paginaActual==="pedido"?"activo":"")}
-                            onClick={()=>this.cambiarPagina("pedido")}>
-                            <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
-                            <label>Pedido</label>
-                        </div>
-                        <div className={"usuario_navegador_boton " + (this.state.paginaActual==="compras"?"activo":"")}
-                            onClick={()=>this.cambiarPagina("compras")}>
-                            <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
-                            <label>Compras</label>
-                        </div>
-                        <div className={"usuario_navegador_boton " + (this.state.paginaActual==="direcciones"?"activo":"")}
-                            onClick={()=>this.cambiarPagina("direcciones")}>
-                            <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
-                            <label>Direcciones</label>
-                        </div>
-                        <div className={"usuario_navegador_boton " + (this.state.paginaActual==="cuenta"?"activo":"")}
-                            onClick={()=>this.cambiarPagina("cuenta")}>
-                            <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
-                            <label>Perfil</label>
-                        </div>
-                        <div className="usuario_navegador_boton" onClick={this.props.salirSistema}>
-                            <div className="centrado"><IconoGoogle fill="#d1d3d8"/></div>
-                            <label>Salir</label>
-                        </div>
+                    <div className="usuario_menu">
+                        <MenuCliente 
+                            controlMenuUsuario={this.props.controlMenuUsuario} 
+                            salirSistema={this.props.salirSistema}/>
                     </div>
 
                     <div className="usuario_paginas">
-                        {this.mostrarPagina()}
-                    </div>
 
+                        <Route path="/usuario/cliente/pedido" render={(props)=> <Pedido sacarProducto={this.props.sacarProducto} {...props}/>}/>
+                        <Route path="/usuario/cliente/confirmar" render={(props)=> <Confirmar confirmarPedido={this.props.confirmarPedido}{...props}/>}/>
+                        <Route path="/usuario/cliente/compras" render={(props)=> <Compras {...props}/>}/>
+                        <Route path="/usuario/cliente/direcciones" component={Direcciones}/>
+                        <Route path="/usuario/cliente/cuenta" render={(props)=> <Cuenta {...props}/>}/>
+                        <Redirect from='/usuario/cliente/*' to='/usuario/cliente/pedido'/>
+
+                    </div>
                 </div>
             </div>
         )

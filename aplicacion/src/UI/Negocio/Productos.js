@@ -9,22 +9,25 @@ import Modal from '../../Componentes/Modal';
 import { guardarArchivo_DB } from '../../DB/archivoDB';
 
 /*** FUNCIONES ***/
-import { obtenerUsuario } from '../../Componentes/Funciones';
 import { 
     agregarProducto_DB,
     editarProducto_DB,
     listarProductoPorNegocio_DB,
     listarTiposProducto_DB,
     listarUnidadesProducto_DB } from '../../DB/productoDB';
+import { obtenerUsuario } from '../../Componentes/Funciones';
 
 
 /*** ICONO SVG ***/
 import IconoGoogle from '../../SVG/IconoGoogle';
+import IconoAtras from '../../SVG/aplicacion/IconoAtras';
+import IconoAgregar from '../../SVG/aplicacion/IconoAgregar';
 
 /*** VARIABLES GLOBALES ***/
 
 const estadoInicial = {
-
+    usuarioAplicacion:{},
+    
     tiposProducto:[],
     unidadesProducto:[],
     productosNegocio:[],
@@ -61,7 +64,7 @@ export class Productos extends React.Component {
     }
 
     obtenerProductosNegocio =()=> {
-        var idNegocio = this.props.usuarioAplicacion.codigoUsuario;
+        var idNegocio = this.state.usuarioAplicacion.codigoUsuario;
         listarProductoPorNegocio_DB({idNegocio}).then(lista=>{
             if(!lista.error){
                 this.setState({ productosNegocio: lista });
@@ -77,7 +80,7 @@ export class Productos extends React.Component {
 
         const datoProducto = {
             idProducto:this.state.productoSeleccionado.idProducto,
-            idNegocio:this.props.usuarioAplicacion.codigoUsuario||"1",
+            idNegocio:this.state.usuarioAplicacion.codigoUsuario||"1",
             idTipoProducto:idTipoProducto,
             tipoUnidad:document.getElementById('tipoUnidad').value,
             nombreProducto:document.getElementById('nombreProducto').value,
@@ -137,21 +140,17 @@ export class Productos extends React.Component {
     }
 
     componentDidMount(){
-        const usuarioAplicacion = obtenerUsuario();
-        if(usuarioAplicacion){
-            this.iniciarFunciones();
-        } else { alert("¡¡USUARIO NO RECONOCIDO!!") }
+        var usuarioAplicacion = obtenerUsuario();
+        if(usuarioAplicacion){ this.setState({usuarioAplicacion},()=>this.iniciarFunciones()) }
     }
 
     render(){
         return(
             <div className="NegocioProductos">
-                <div className="Titulo">
-                    <button>{"<"}</button>
-                    <div>Pedidos registrados</div>
-                </div>
-                <div className="usuario_encabezado_opciones">
-                    <button onClick={this.agregarProducto}> Agregar Producto </button>
+                <div className="usuario_encabezado">
+                    <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
+                    <label> Mis Productos </label>
+                    <div onClick={this.agregarProducto}><IconoAgregar fill="#23A24D"/></div>
                 </div>
                 {(this.state.productosNegocio||[]).length > 0?
                 <div className="usuario_tabla centrado">
@@ -159,19 +158,20 @@ export class Productos extends React.Component {
                         <thead>
                             <tr>                            
                                 <th> PRODUCTO </th>
-                                <th> NOMBRE </th>
                                 <th> PRECIO<br/>UNIDAD</th>
-                                <th> UNIDAD </th>
                             </tr>
                         </thead>
                         {(this.state.productosNegocio||[]).map((producto,i) => {
                             return ( 
                             <tbody key={i}>
                                 <tr className={(i%2!==0?" interlinea":"")} onClick={()=>this.abrirProducto(producto)}>
-                                    <td> {producto.nombreTipoProducto} </td>
-                                    <td> {producto.nombreProducto} </td>
-                                    <td> S/. {producto.precioPorUnidad}</td>
-                                    <td> {producto.unidadCantidad +" "+producto.tipoUnidad} </td>
+                                    <td> 
+                                        {producto.nombreTipoProducto}<br/>
+                                        {producto.nombreProducto}
+                                    </td>
+                                    <td style={{textAlign:'center'}}>
+                                        S/. {producto.precioPorUnidad} x {producto.unidadCantidad +" "+producto.tipoUnidad}
+                                    </td>
                                 </tr>
                             </tbody>
                         )})}

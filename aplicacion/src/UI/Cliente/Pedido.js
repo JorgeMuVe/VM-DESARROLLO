@@ -7,6 +7,10 @@
 import React from 'react';
 import { unidadMedidaProducto } from '../../Componentes/Funciones';
 
+/* ICONOS */
+import IconoAtras from '../../SVG/aplicacion/IconoAtras';
+import IconoSacarProducto from '../../SVG/IconoSacarPedido';
+
 /* VARIABLES GLOBALES */
 const estadoInicial = {
     pedidoUsuario:[]
@@ -29,19 +33,33 @@ export class ClientePedido extends React.Component {
         }</b>
     }
 
+    obtenerPedido =()=> {
+        setTimeout(() => {
+            let pedidoUsuario = sessionStorage.getItem('pedidoUsuario');
+            pedidoUsuario = JSON.parse(pedidoUsuario);
+            this.setState({pedidoUsuario});
+        }, 100);
+
+    }
+
+    sacarProducto =(producto)=>{
+        this.props.sacarProducto(producto);
+        this.obtenerPedido()
+    }
+
     componentDidMount(){
-        let pedidoUsuario = sessionStorage.getItem('pedidoUsuario');
-        pedidoUsuario = JSON.parse(pedidoUsuario);
-        this.setState({pedidoUsuario});
+        this.obtenerPedido();
     }
 
     render(){
         return(
             <div className="ClientePedido">
-                <div className="pedido_modal_titulo centrado">
+                <div className="usuario_encabezado">
+                    <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
                     <label> Mi Pedido </label>
+                    <div onClick={this.props.history.goBack}></div>
                 </div>
-                <div className="centrado">
+                <div className="centrado ocultar">
                     <div className="cliente_pedido_datos">
                         <div>Cantidad: {(this.state.pedidoUsuario||[]).length}</div>
                         <div>Precio: S/. {(this.state.pedidoUsuario||[]).length}</div>
@@ -60,7 +78,9 @@ export class ClientePedido extends React.Component {
                                         </label>
                                         <label>Description -> (Más Información!...)</label>
                                     </div>
-                                    <button onClick={()=>this.props.agregarCanasta(producto)}> - </button>
+                                    <button onClick={()=>this.sacarProducto(producto)}>
+                                        <IconoSacarProducto/>
+                                    </button>
                                 </div>
                             </div>
                         )}
@@ -69,7 +89,7 @@ export class ClientePedido extends React.Component {
                 </div>
                 <div className="centrado">
                     <div className="pedido_modal_boton">
-                        <button onClick={()=>this.props.cambiarPagina('confirmar')}> Comprar </button>
+                        <button onClick={()=>this.props.history.push('/usuario/cliente/confirmar')}> Comprar </button>
                     </div>
                 </div>
             </div>

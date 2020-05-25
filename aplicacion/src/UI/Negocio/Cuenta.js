@@ -6,6 +6,13 @@
 /* COMPONENTES */
 import React from 'react';
 
+import { buscarUsuarioNegocio_DB } from '../../DB/usuarioDB';
+import { obtenerUsuario } from '../../Componentes/Funciones';
+
+/*** ICONO SVG ***/
+import IconoAtras from '../../SVG/aplicacion/IconoAtras';
+import IconoUsuario from '../../SVG/IconoUsuario';
+
 /* VARIABLES GLOBALES */
 const estadoInicial = {
     usuarioAplicacion:[],
@@ -17,41 +24,58 @@ export class NegocioPerfil extends React.Component {
         this.state = estadoInicial;
     }
 
+    obtenerUsuarioNegocio =()=> {
+        var { usuarioAplicacion } = this.state
+        buscarUsuarioNegocio_DB(usuarioAplicacion.codigoUsuario).then(usuario=>{
+            if(!usuario.error && !usuario[0].error){
+                this.setState({usuarioAplicacion:usuario[0]});
+            }
+        })
+    }
+
+    inicarFunciones =()=> {
+        var usuarioAplicacion = obtenerUsuario();
+        if(usuarioAplicacion){this.setState({usuarioAplicacion},()=>{
+            this.obtenerUsuarioNegocio();
+        })}
+    }
+
+    componentDidMount(){
+        this.inicarFunciones();
+    }
+
     render(){
         return(
             <div className="NegocioPerfil">
                 <div className="usuario_encabezado">
-                    <label> DATOS TIENDA </label>
+                    <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
+                    <label> Mis Datos </label>
+                    <div onClick={this.props.history.goBack}></div>
                 </div>
 
                 <div className="centrado">
                     <div className="usuario_datos">
 
-                        <div className="usuario_datos_logo centrado"><img src="/img/negocios/orion.jpg" alt="Logo Negocio"/></div>
+                        <div className="usuario_datos_logo centrado"><img src={this.state.usuarioAplicacion.logo||"/img/clientes/sin_foto.jpg"} alt="Logo Negocio"/></div>
                         
                         <div className="usuario_datos_informacion">
-                            <fieldset><legend align="left">Nombre Tienda</legend>
-                                <input type="text" id="nombre" placeholder="Ej. Tienda Nueva L-101" defaultValue={this.state.usuarioAplicacion.nombre||""}/>
+                            <fieldset> <legend align="left">Empresa</legend>
+                                <div className="usuario_datos_informacion_negocio">
+                                    <div className="cuadro_texto"><IconoUsuario fill="#d1d3d8"/><input type="text" id="nombreNegocio" placeholder="Nombre Empresa" defaultValue={this.state.usuarioAplicacion.nombreNegocio||""}/></div>
+                                    <div className="cuadro_texto"><IconoUsuario fill="#d1d3d8"/><input type="text" id="apellidoPaterno" placeholder="RUC" defaultValue={this.state.usuarioAplicacion.ruc||""}/></div>
+                                </div>
                             </fieldset>
-                            <fieldset><legend align="left">RUC</legend>
-                                <input type="text" id="ruc" placeholder="Ej. 10452345893" defaultValue={this.state.usuarioAplicacion.ruc||""}/>
-                            </fieldset>
-                            <fieldset><legend align="left">Correo</legend>
-                                <input type="text" id="correo" placeholder="Ejem: (N-101) Tienda Nueva" defaultValue={this.state.usuarioAplicacion.correo||""}/>
-                            </fieldset>
-                            <fieldset><legend align="left">Telefono</legend>
-                                <input type="text" id="telefono" placeholder="Ej. tieda@nueva.com" defaultValue={this.state.usuarioAplicacion.telefono||""}/>
-                            </fieldset>
-                            <fieldset><legend align="left">Dirección</legend>
-                                <input type="text" id="direccion" placeholder="Ej. San Jeronimo" defaultValue={this.state.usuarioAplicacion.direccion||""}/>
-                            </fieldset>
-                            <fieldset><legend align="left">Ubicación</legend>
-                                <input type="text" id="direccion" placeholder="Ej. San Jeronimo" defaultValue={this.state.usuarioAplicacion.direccion||""}/>
+
+                            <fieldset> <legend align="left">Datos Negocio</legend>
+                                <div className="usuario_datos_informacion_negocio">
+                                    <div className="cuadro_texto"><IconoUsuario fill="#d1d3d8"/><input type="text" id="correoNegocio" placeholder="Correo Electronico" defaultValue={this.state.usuarioAplicacion.correoNegocio||""}/></div>
+                                    <div className="cuadro_texto"><IconoUsuario fill="#d1d3d8"/><input type="text" id="telefonoNegocio" placeholder="Teléfono" defaultValue={this.state.usuarioAplicacion.telefonoNegocio||""}/></div>
+                                </div>
                             </fieldset>
                         </div>
                         
                         <fieldset><legend align="left">Descripción</legend>
-                            <textarea rows="6" id="descripcion" placeholder="Ej. Productores de Ropa" defaultValue={this.state.usuarioAplicacion.descripcion||""}></textarea>
+                            <textarea rows="6" id="descripcion" placeholder="Ej. Productores de Ropa" defaultValue={this.state.usuarioAplicacion.descripcionNegocio||""}></textarea>
                         </fieldset>
                         
                         <div className="centrado">

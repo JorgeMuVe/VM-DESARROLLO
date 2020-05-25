@@ -1,6 +1,7 @@
-import { urlServidorDesarrollo } from '../Componentes/Funciones';
-//import { urlServidorPublica } from '../Componentes/Funciones';
-const Url = urlServidorDesarrollo + '/api/archivo/';
+//import { urlServidorDesarrollo } from '../Componentes/Funciones';
+import { urlServidorPublica } from '../Componentes/Funciones';
+//const Url_ = urlServidorDesarrollo + '/api/archivo/';
+const Url = urlServidorPublica + '/api/archivo/';
 
 //ELIMINAR ARCHIVO
 export function eliminarArchivo_DB(urlMedia){

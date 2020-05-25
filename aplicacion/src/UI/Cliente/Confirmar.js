@@ -12,7 +12,7 @@ import { listarDirecciones_DB, agregarDireccion_DB } from '../../DB/direccionDB'
 import { agregarPedido_DB, agregarPedidoDetalle_DB } from '../../DB/pedidoDB';
 import { agregarVenta_DB } from '../../DB/ventaDB';
 
-import { obtenerFechaHoy } from '../../Componentes/Funciones';
+import { obtenerFechaHoy,obtenerUsuario } from '../../Componentes/Funciones';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
@@ -38,8 +38,7 @@ export class ConfirmarPedido extends React.Component {
         this.setState({pedidoUsuario});
     }
 
-    obtenerDirecciones =()=> {
-        const {usuarioAplicacion} = this.props;
+    obtenerDirecciones =(usuarioAplicacion)=> {
         listarDirecciones_DB(usuarioAplicacion.codigoUsuario).then(lista=>{
             if(!lista.error){
                 this.setState({direccionesCliente:lista});
@@ -69,8 +68,11 @@ export class ConfirmarPedido extends React.Component {
                     venta["idPedido"] = idPedido;
                     agregarVenta_DB(venta);
                 })
+
                 this.setState({mostrarModalConfirmar:false},()=>{
-                    this.props.cambiarPagina("compras")
+                    sessionStorage.removeItem('pedidoUsuario');
+                    this.props.confirmarPedido();
+                    this.props.history.push("/usuario/cliente/compras")
                 });
             } else {console.log("ERROR >> AGREGAR PEDIDO!!..",res.error);}
         });
@@ -79,6 +81,8 @@ export class ConfirmarPedido extends React.Component {
     confirmarDatos =(evento)=> {
         evento.preventDefault();
         const { pedidoUsuario } = this.state;
+        const usuarioAplicacion = obtenerUsuario();
+
         // DETALLE DEL PEDIDO DEL CLIENTE
         var pedidoDetalles = [], totalPagar = 0;
         pedidoUsuario.forEach(p=>{
@@ -102,8 +106,8 @@ export class ConfirmarPedido extends React.Component {
         var datosConfirmacion = {};
         var direccionesCliente = document.getElementById('direccionesCliente');
         
-        datosConfirmacion["tipoUsuario"] = (this.props.usuarioAplicacion.tipoUsuario||"");
-        datosConfirmacion["codigoUsuario"] = (this.props.usuarioAplicacion.codigoUsuario||"");
+        datosConfirmacion["tipoUsuario"] = (usuarioAplicacion.tipoUsuario||"");
+        datosConfirmacion["codigoUsuario"] = (usuarioAplicacion.codigoUsuario||"");
         datosConfirmacion["idDireccion"] = direccionesCliente.options[direccionesCliente.selectedIndex].value;
         datosConfirmacion["telefonoReferencia"] = document.getElementById("telefonoReferencia").value;
         datosConfirmacion["correoReferencia"] = document.getElementById("correoReferencia").value;
@@ -120,14 +124,18 @@ export class ConfirmarPedido extends React.Component {
     }
 
     componentDidMount(){
-        this.obtenerPedidoUsuario();
-        this.obtenerDirecciones();
+        
+        const usuarioAplicacion = obtenerUsuario();
+        if(usuarioAplicacion){
+            this.obtenerPedidoUsuario();
+            this.obtenerDirecciones(usuarioAplicacion);
+        } else{this.props.history.push('/')}
     }
 
     render(){
         return(
             <div className="ConfirmarPedidoCliente">
-                <div className="Titulo">
+                <div className="usuario_encabezado">
                     <button>{"<"}</button>
                     <div>Mi Pedido</div>
                 </div>

@@ -1,7 +1,8 @@
-/* IMPORTAR URL */
-import { urlServidorDesarrollo } from '../Componentes/Funciones';
-//import { urlServidorPublica } from '../Componentes/Funciones';
-const Url = urlServidorDesarrollo + '/api/producto/';
+//import { urlServidorDesarrollo } from '../Componentes/Funciones';
+import { urlServidorPublica } from '../Componentes/Funciones';
+//const Url_ = urlServidorDesarrollo + '/api/producto/';
+const Url = urlServidorPublica + '/api/producto/';
+
 
 // AGREGAR NUEVO PRODUCTO
 export function agregarProducto_DB(Producto){ 

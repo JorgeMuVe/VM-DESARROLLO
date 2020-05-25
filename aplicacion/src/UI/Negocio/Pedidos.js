@@ -6,12 +6,18 @@
 /* COMPONENTES */
 import React from 'react';
 import Modal from '../../Componentes/Modal';
+import { obtenerUsuario } from '../../Componentes/Funciones';
+import { listarPedidoNegocio_DB } from '../../DB/pedidoDB';
+
+/* ICONOS */
+import IconoAtras from '../../SVG/aplicacion/IconoAtras';
 
 /* VARIABLES GLOBALES */
 let map;
 const estadoInicial = {
     mostrarModalMapa:false,
     mostrarModalFechas:false,
+    pedidosNegocio:[],
 };
 
 export class NegocioPedidos extends React.Component {
@@ -22,6 +28,19 @@ export class NegocioPedidos extends React.Component {
 
     controlModalFechas =()=> this.setState({mostrarModalFechas:!this.state.mostrarModalFechas})
     controlModalMapa =()=> this.setState({mostrarModalMapa:!this.state.mostrarModalMapa})
+
+      /* PEDIDOS */
+    obtenerPedidosNegocio =(codigoUsuario)=> {
+        if(codigoUsuario){
+            listarPedidoNegocio_DB({codigoUsuario}).then(pedidos=>{
+                if(pedidos[0]){
+                    if(!pedidos[0].error){
+                        this.setState({ pedidosNegocio: pedidos[0] });
+                    } else { console.log("ERROR >> LISTAR PEDIDOS NEGOCIO"); }
+                } else { console.log("ERROR >> LISTAR PEDIDOS NEGOCIO"); }
+            });
+        }
+    }
 
     abrirMapaPedidos =()=>{
         this.controlModalMapa();
@@ -34,7 +53,7 @@ export class NegocioPedidos extends React.Component {
             zoom: 14, mapTypeId: 'roadmap'
         });
 
-        const {pedidosNegocio} = this.props;
+        const {pedidosNegocio} = this.state;
         (pedidosNegocio||[]).forEach(pedido=>{
             var position = {
                 lat: parseFloat(pedido.lat || -13.537623654609476),
@@ -45,70 +64,54 @@ export class NegocioPedidos extends React.Component {
         });
 
     }
+
+    componentDidMount(){
+        var usuarioAplicacion = obtenerUsuario();
+        this.obtenerPedidosNegocio(usuarioAplicacion.codigoUsuario);
+
+    }
     
     render(){
         return(
             <div className="NegocioPedidos">
-                <div className="Titulo">
-                    <button>{"<"}</button>
-                    <div>Pedidos registrados</div>
+                <div className="usuario_encabezado">
+                    <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
+                    <label> Mis Pedidos </label>
+                    <div onClick={this.props.history.goBack}></div>
                 </div>
                 <div className="usuario_encabezado_opciones">
                     <a href="#map" onClick={()=>this.abrirMapaPedidos()} >
                         Mostrar Mapa de Pedidos
                     </a>
-                    <select>
-                        <option>Ordenar Por</option>
-                        <option>Fecha</option>
-                        <option>Estado</option>
-                    </select>
-                    <label onClick={()=>this.controlModalFechas()}> Rango de Fechas </label>
-                    <Modal
-                        mostrarModal={this.state.mostrarModalFechas}
-                        controlModal={this.controlModalFechas}
-                        tituloModal={"Rango de fechas"}
-                    >
-                    <div className="rango_fechas">
-                        <input type="date"/>
-                        <input type="date"/>
-                    </div>
-                    </Modal>
                 </div>
                 
-                {(this.props.pedidosNegocio||[]).length > 0?
+                {(this.state.pedidosNegocio||[]).length > 0?
                 <div className="usuario_tabla centrado">
                     <table>
                         <thead>
                             <tr>
-                                <th> NR<br/>PEDIDO</th>
-                                <th> FECHA </th>
+                                <th> PEDIDO</th>
                                 <th> REFERENCIA </th>
-                                <th> CANT </th>
-                                <th> PRECIO<br/>TOTAL </th>
-                                <th> ESTADO </th>
-                                <th> </th>
                             </tr>
                         </thead>
-                        {(this.props.pedidosNegocio||[]).map((pedido,i) => {
+                        {(this.state.pedidosNegocio||[]).map((pedido,i) => {
                             return ( 
                             <tbody key={i}>
                                 <tr className={(i%2!==0?" interlinea":"")}>
-                                    <td>N° {pedido.idPedido}</td>
                                     <td style={{textAlign:'center'}}>
-                                        {pedido.fechaRegistro.split(" ")[0]}<br/>
-                                        {pedido.fechaRegistro.split(" ")[1]}
+                                        N° <b>{pedido.idPedido}</b><br/>
+                                        <b>S/. {pedido.totalPagar.toFixed(2)}</b><br/>
+                                        Cant: {pedido.totalProductos}<br/>
+                                        {(pedido.fechaRegistro||"").split(" ")[0]}<br/>
+                                        <b>{pedido.estadoPedido.toUpperCase()}</b><br/>
                                     </td>
-                                    <td>
+                                    <td style={{textAlign:'center'}}>
                                         Cliente: {pedido.nombreCompleto+" "+pedido.apellidoPaterno}<br/>
                                         <b>{pedido.denominacionDireccion}</b><br/>
                                         {pedido.referenciaDireccion}<br/>
-                                        Correo: {pedido.correoReferencia}<br/>
-                                        Telefono: {pedido.telefonoReferencia}
+                                        Email: {pedido.correoReferencia}<br/>
+                                        Teléfono: {pedido.telefonoReferencia}
                                     </td>
-                                    <td style={{textAlign:'center'}}>{pedido.totalProductos}</td>
-                                    <td>S/. {pedido.totalPagar.toFixed(2)}</td>
-                                    <td>{pedido.estadoPedido.toUpperCase()}</td>
-                                    <td onClick={()=>alert(pedido.idPedido)}> + </td>
                                 </tr> 
                             </tbody>
                         )})}

@@ -1,6 +1,8 @@
-import { urlServidorDesarrollo } from '../Componentes/Funciones';
-//import { urlServidorPublica } from '../Componentes/Funciones';
-const Url = urlServidorDesarrollo + '/api/usuario/';
+//import { urlServidorDesarrollo } from '../Componentes/Funciones';
+import { urlServidorPublica } from '../Componentes/Funciones';
+//const Url_ = urlServidorDesarrollo + '/api/usuario/';
+const Url = urlServidorPublica + '/api/usuario/';
+
 
 // AGREGAR NUEVO USUARIO
 export function agregarUsuario_DB(Usuario){ 

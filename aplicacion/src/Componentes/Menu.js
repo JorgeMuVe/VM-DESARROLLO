@@ -1,16 +1,8 @@
-/*
--- Description:      MENU DE APLICACION MERCADO VIRTUAL
--- @Copyright        Jorge.Muvez - World Connect Perú - 2020-00-00
-*/
-
 /* COMPONENTES */
 import React from 'react';
-import PedidoCuadro from './PedidoCuadro';
 
 /* VARIABLES GLOBALES */
-const estadoInicial = {
-    mostrarPedido:false
-};
+const estadoInicial = {};
 
 export class Menu extends React.Component {
     constructor(props){
@@ -18,38 +10,27 @@ export class Menu extends React.Component {
         this.state = estadoInicial;
     }
 
-    redireccionar =(ruta)=>{ window.location.href = (this.props.urlAplicacion+ruta) }
-
-    abrirPedido =()=>{
-        this.setState({mostrarPedido:!this.state.mostrarPedido});
-    }
+    redireccionar =(ruta)=>{ window.location.href = ruta }
 
     render(){
         return(
             <div className="Menu">
                 <div className="menu_items">
 
-                    <div className="menu_item_ocultar" onClick={()=>this.redireccionar("/#paginas")}>INICIO</div>
-                    <div className="menu_item_mercados" onClick={()=>this.redireccionar("/#tiendas")}>TIENDAS</div>
+                    <div className="menu_item_aplicacion" onClick={()=>this.props.controlMenuAplicacion()}>REACTIVA</div>
+                    <div className="menu_item_ocultar" onClick={()=>this.redireccionar("/")}>INICIO</div>
                     <div className="menu_item_ocultar" onClick={()=>this.redireccionar("/#contacto")}>CONTACTO</div>
-                    <div className="menu_item_logo centrado" onClick={()=>this.abrirPedido()}>                    
+                    <div className="menu_item_logo centrado" onClick={()=>this.props.controlModalPedido()}>                    
                         <img src="/Logo.png" alt="Logo"></img>
                     </div>
-                    <div className="menu_item_ocultar" onClick={()=>this.redireccionar("/#envios")}>ENVIOS</div>
                     <div className="menu_item_ocultar" onClick={()=>this.redireccionar("/productos/lista")}>PRODUCTOS</div>
-                    <div className="menu_item_principal" onClick={()=>this.props.controlModalIngreso()}>
+                    <div className="menu_item_ocultar" onClick={()=>this.redireccionar("/#tiendas")}>TIENDAS</div>
+                    <div className="menu_item_usuario" onClick={()=>this.props.controlModalIngreso()}>
                         {this.props.usuarioAplicacion.tipoUsuario!=="invitado"?"Mi Cuenta":"INGRESAR"}
                     </div>
 
                 </div>
-
-                <PedidoCuadro            
-                    redireccionar={this.redireccionar}
-                    mostrarPedido={this.state.mostrarPedido}
-                    pedidoUsuario={this.props.pedidoUsuario}
-                    seleccionarProductoCantidad={this.props.seleccionarProductoCantidad}    
-                    sacarProducto={this.props.sacarProducto}
-                ></PedidoCuadro>
+                {this.props.children}
             </div>
         )
     }

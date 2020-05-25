@@ -46,7 +46,10 @@ export class ModalCantidad extends React.Component {
                 tituloModal="Cantidad de Producto"
             >
             <div className="ModalCantidad">
+                <div className="centrado">
+
                 <img src={productoSeleccionado.imagenProducto} alt="Imagen Producto"></img>
+                </div>
                 <div> 
                     <b>{productoSeleccionado.nombreProducto}</b><br/>
                     {productoSeleccionado.detalleProducto}

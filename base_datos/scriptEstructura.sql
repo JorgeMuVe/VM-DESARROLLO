@@ -28,10 +28,9 @@ CREATE TABLE IF NOT EXISTS negocio(
     nombreNegocio VARCHAR(250),
     ruc VARCHAR(11),
     logo VARCHAR(250),
-    correo VARCHAR(250),
-    telefono VARCHAR(20),
-    razonSocial VARCHAR(250),
-    representante VARCHAR(250)
+    correoNegocio VARCHAR(250),
+    telefonoNegocio VARCHAR(20),
+    descripcionNegocio VARCHAR(250)
 );
 $$
 DELIMITER ;
@@ -45,7 +44,10 @@ CREATE TABLE IF NOT EXISTS cliente(
     registroNacional VARCHAR (11),
     nombreCompleto VARCHAR(250),
     apellidoPaterno VARCHAR(250),
-    apellidoMaterno VARCHAR(250)
+    apellidoMaterno VARCHAR(250),
+    correoCliente VARCHAR(250),
+    telefonoCliente VARCHAR(20),
+    imagenCliente VARCHAR(250)
 );
 $$
 DELIMITER ;
@@ -176,18 +178,19 @@ INSERT INTO tipoProducto(nombreTipoProducto,imagenTipoProducto) VALUES
 ('LACTEO','/img/fondos/lacteos.jpg'),
 ('BEBIDA','/img/fondos/bebidas.jpg'),
 ('LIMPIEZA','/img/fondos/limpieza.jpg'),
-('COMIDA','/img/fondos/comidas.jpg');
+('COMIDA','/img/fondos/comidas.jpg'),
+('EXTRACTO','/img/fondos/extractos.jpg');
 
 INSERT INTO tipoNegocio(nombreTipoNegocio) VALUES
-('MERCADO'),('SUPERMERCADO'),('POLLERIA');
+('MERCADO'),('SUPERMERCADO'),('POLLERIA'),('TIENDA');
 
-INSERT INTO negocio(idTipoNegocio,nombreNegocio,ruc,logo,correo,telefono,razonSocial,representante) VALUES
-(1,'Mercado Vinocanchon','20729476214','/img/negocio/vinocanchon.jpeg','vinocanchon@gmail.com','+51 989878909','Vinocanchon S.A.C','World Connect'),
-(2,'Orion Supermercado','20729476214','/img/negocio/orion.jpg','orion@gmail.com','+51 989878909','Orion Supermercados S.R.L.I','Orion'),
-(3,'La Granja','20729476214','/img/negocio/lagranja.png','lagranja@gmail.com','+51 989878909','La Granja S.A.C','La Granja');
+INSERT INTO negocio(idTipoNegocio,nombreNegocio,ruc,logo,correoNegocio,telefonoNegocio,descripcionNegocio) VALUES
+(1,'Mercado Vinocanchon','20729476214','/img/negocios/vinocanchon.png','vinocanchon@gmail.com','+51 989878909','Vinocanchon S.A.C'),
+(2,'Orion Supermercado','20729476214','/img/negocios/orion.jpg','orion@gmail.com','+51 989878909','Orion Supermercados S.R.L.I'),
+(3,'La Granja','20729476214','/img/negocios/lagranja.png','lagranja@gmail.com','+51 989878909','La Granja S.A.C'),
+(4,'Hampina Wassi','20729476214','/img/negocios/hampina_wasi.png','hampinawassi@gmail.com','+51 989878909','Tienda de productos Naturales');
 
-INSERT INTO 
-producto(idNegocio,idTipoProducto,tipoUnidad,nombreProducto,detalleProducto,precioPorUnidad,unidadCantidad,descuentoUnidad,imagenProducto) VALUES
+INSERT INTO producto(idNegocio,idTipoProducto,tipoUnidad,nombreProducto,detalleProducto,precioPorUnidad,unidadCantidad,descuentoUnidad,imagenProducto) VALUES
 (1,2,'GR','Tomate Rojo','Tomates Rojos', 7.50 , 1000 , 10 ,'/img/productos/tomate.jpg'),
 (1,2,'GR','Cebola Roja','Cebolla Roja', 5.00 , 1000 , 10 ,'/img/productos/cebolla.jpg'),
 (1,2,'GR','Zanahoria','Zahanoria', 6.00 , 1000 , 10 ,'/img/productos/zanahoria.jpg'),

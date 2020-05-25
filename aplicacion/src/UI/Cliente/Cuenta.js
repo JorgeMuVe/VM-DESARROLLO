@@ -6,6 +6,14 @@
 /* COMPONENTES */
 import React from 'react';
 
+/* FUNCIONES */
+import { buscarUsuarioCliente_DB } from '../../DB/usuarioDB';
+import { obtenerUsuario } from '../../Componentes/Funciones';
+
+/* ICONOS */
+import IconoAtras from '../../SVG/aplicacion/IconoAtras';
+import IconoUsuario from '../../SVG/IconoUsuario';
+
 /* VARIABLES GLOBALES */
 const estadoInicial = {
     usuarioAplicacion:[],
@@ -17,31 +25,57 @@ export class ClientePerfil extends React.Component {
         this.state = estadoInicial;
     }
 
+    obtenerUsuarioCliente =()=> {
+        var { usuarioAplicacion } = this.state
+        buscarUsuarioCliente_DB(usuarioAplicacion.codigoUsuario).then(usuario=>{
+            if(!usuario.error && !usuario[0].error){
+                this.setState({usuarioAplicacion:usuario[0]});
+            }
+        })
+    }
+
+    inicarFunciones =()=> {
+        var usuarioAplicacion = obtenerUsuario();
+        if(usuarioAplicacion){this.setState({usuarioAplicacion},()=>{
+            this.obtenerUsuarioCliente();
+        })}
+    }
+
+    componentDidMount(){
+        this.inicarFunciones();
+    }
+
     render(){
         return(
             <div className="NegocioPerfil">
                 <div className="usuario_encabezado">
-                    <label> DATOS CLIENTE </label>
+                    <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
+                    <label> Mis Datos </label>
+                    <div onClick={this.props.history.goBack}></div>
                 </div>
 
                 <div className="centrado">
                     <div className="usuario_datos">
 
-                        <div className="usuario_datos_logo centrado"><img src="/img/negocios/lagranja.png" alt="Logo Cliente"/></div>
+                        <div className="usuario_datos_logo centrado"><img src="/img/clientes/sin_foto.jpg" alt="Logo Cliente"/></div>
                         
                         <div className="usuario_datos_informacion">
-                            <fieldset><legend align="left">Nombre Cliente</legend>
-                                <input type="text" id="nombre" placeholder="Ej. Jorge Muñiz" defaultValue={this.state.usuarioAplicacion.nombre||""}/>
+                            <fieldset> <legend align="left">Nombre Completo</legend>
+                                <div className="usuario_datos_informacion_nombre">
+                                    <div className="cuadro_texto"><IconoUsuario fill="#d1d3d8"/><input type="text" id="nombreCompleto" placeholder="Nombre Completo" defaultValue={this.state.usuarioAplicacion.nombreCompleto||""}/></div>
+                                    <div className="cuadro_texto"><IconoUsuario fill="#d1d3d8"/><input type="text" id="apellidoPaterno" placeholder="Apellido Paterno" defaultValue={this.state.usuarioAplicacion.apellidoPaterno||""}/></div>
+                                    <div className="cuadro_texto"><IconoUsuario fill="#d1d3d8"/><input type="text" id="apellidoMaterno" placeholder="Apellido Materno" defaultValue={this.state.usuarioAplicacion.apellidoMaterno||""}/></div>
+                                </div>
                             </fieldset>
-                            <fieldset><legend align="left">DNI</legend>
-                                <input type="text" id="dni" placeholder="Ej. 72947621" defaultValue={this.state.usuarioAplicacion.dni||""}/>
+
+                            <fieldset> <legend align="left">Datos Cliente</legend>
+                                <div className="usuario_datos_informacion_nombre">
+                                    <div className="cuadro_texto"><IconoUsuario fill="#d1d3d8"/><input type="text" id="registroNacional" placeholder="DNI/RUC" defaultValue={this.state.usuarioAplicacion.registroNacional||""}/></div>
+                                    <div className="cuadro_texto"><IconoUsuario fill="#d1d3d8"/><input type="text" id="nombreUsuario" placeholder="Correo Electronico" defaultValue={this.state.usuarioAplicacion.correoCliente||""}/></div>
+                                    <div className="cuadro_texto"><IconoUsuario fill="#d1d3d8"/><input type="text" id="telefonoCliente" placeholder="Teléfono" defaultValue={this.state.usuarioAplicacion.telefonoCliente||""}/></div>
+                                </div>
                             </fieldset>
-                            <fieldset><legend align="left">Correo</legend>
-                                <input type="text" id="correo" placeholder="Ejem: jorge@reactivaperu.com" defaultValue={this.state.usuarioAplicacion.correo||""}/>
-                            </fieldset>
-                            <fieldset><legend align="left">Telefono</legend>
-                                <input type="text" id="telefono" placeholder="Ej. 974571746" defaultValue={this.state.usuarioAplicacion.telefono||""}/>
-                            </fieldset>
+
                         </div>
                         
                         <div className="centrado">
