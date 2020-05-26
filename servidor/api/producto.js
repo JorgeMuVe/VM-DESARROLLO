@@ -57,23 +57,40 @@ gestorProducto.post('/editar', async (solicitud, respuesta) => {
 gestorProducto.post('/buscar', async (solicitud, respuesta) => {
     try {
 
-        const {tipo,texto} = solicitud.body;
+        const {tipo,texto,inicio,productos} = solicitud.body;
 
         await proveedorDeDatos.query(`
-        SELECT tp.nombreTipoProducto,p.nombreProducto,p.detalleProducto,p.imagenProducto,tp.imagenTipoProducto,
-        p.precioPorUnidad,p.unidadCantidad,p.tipoUnidad,p.descuentoUnidad,n.nombreNegocio,p.idProducto,n.idNegocio
+        SELECT COUNT(*) as cantidadProductos
         FROM producto p INNER JOIN tipoProducto tp ON p.idTipoProducto = tp.idTipoProducto AND tp.nombreTipoProducto LIKE ?
-        INNER JOIN negocio n ON p.idNegocio = n.idNegocio
+        INNER JOIN negocio n ON p.idNegocio = n.idNegocio 
         WHERE p.nombreProducto LIKE ? OR tp.nombreTipoProducto LIKE ?;`, // Consulta a procedimiento almacenado
         
-        [ "%"+(tipo==="TODO"?"%":tipo)+"%",  "%"+(texto||"%")+"%"  , "%"+(texto||"%")+"%"  ] ,
+        [ "%"+(tipo==="TODO"?"%":tipo)+"%",  "%"+(texto||"%")+"%"  , "%"+(texto||"%")+"%" ] ,
 
-        (error, resultado) => {
-            if (error)
-            respuesta.json({ error : (error.sqlMessage + " - " + error.sql) }); // Enviar error en JSON
-            else
-            respuesta.send(resultado); // Enviar resultado de consulta en JSON
-        })
+        (errorCantidad, resultadoCantidad) => {
+            if (errorCantidad) respuesta.json({ error : ("Cantidad >> "+errorCantidad.sqlMessage + " - " + errorCantidad.sql) }); // Enviar error en JSON
+            else{
+                proveedorDeDatos.query(`
+                SELECT tp.nombreTipoProducto,p.nombreProducto,p.detalleProducto,p.imagenProducto,tp.imagenTipoProducto,
+                p.precioPorUnidad,p.unidadCantidad,p.tipoUnidad,p.descuentoUnidad,n.nombreNegocio,p.idProducto,n.idNegocio
+                FROM producto p INNER JOIN tipoProducto tp ON p.idTipoProducto = tp.idTipoProducto AND tp.nombreTipoProducto LIKE ?
+                INNER JOIN negocio n ON p.idNegocio = n.idNegocio 
+                WHERE p.nombreProducto LIKE ? OR tp.nombreTipoProducto LIKE ? LIMIT ?,?;`, // Consulta a procedimiento almacenado
+                
+                [ "%"+(tipo==="TODO"?"%":tipo)+"%",  "%"+(texto||"%")+"%"  , "%"+(texto||"%")+"%", inicio, productos ] ,
+
+                (error, resultadoBusqueda) => {
+                    if (error) respuesta.json({ error : ("Busqueda >> "+error.sqlMessage + " - " + error.sql) }); // Enviar error en JSON
+                    else {
+                        var resultado = {
+                            cantidadProductos:resultadoCantidad[0].cantidadProductos,
+                            listaProductos:resultadoBusqueda
+                        }
+                        respuesta.send(resultado); // Enviar resultado de consulta en JSON
+                    }
+                });
+            }
+        });
 
         proveedorDeDatos.release();
     }catch(error){ respuesta.json({ error : error.code }) }  // Enviar error en JSON

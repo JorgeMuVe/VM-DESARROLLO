@@ -137,7 +137,10 @@ color:white;letter-spacing:2px;font:bold 18px 'fontfamili';}
 .principal_categorias div{display:grid;color:whitesmoke;grid-gap:5px;}
 
 
-.ProductoLista,.ProductoBuscador{background:url('/img/fondos/fondo.jpg')no-repeat center/cover;margin-top:-50px;min-height:80vh;}
+.ProductoLista,.ProductoBuscador{background:url('/img/fondos/fondo.jpg')no-repeat center/cover;}
+.ProductoLista,.ProductoBuscador{margin-top:-50px;min-height:80vh;}
+
+.producto_buscador{display:grid;grid-template-columns:1fr;grid-gap:20px;padding:70px 0px;}
 
 .producto_lista{display:grid;grid-template-columns:repeat(2,1fr);grid-gap:20px;padding-top:70px;width:70%;padding-bottom:5vh;}
 .producto_lista_tipo{height:25vh;border-radius:8px;cursor:pointer;background:rgba(0,0,0,0.1);}
@@ -162,15 +165,11 @@ color:white;letter-spacing:2px;font:bold 18px 'fontfamili';}
     );
     border-radius: 20px;}
 
-.producto_buscador{display:grid;grid-template-columns:1fr;grid-gap:20px;padding:70px 0px;width:50%;}
-.producto_buscador_encabezado{display:grid;grid-template-columns:10% 80% 10%;grid-gap:10px;}
-.producto_buscador_paginacion{display:flex;justify-content:center;}
-
 .producto_buscador_lista{width:100%;display:grid;grid-template-columns:repeat(2,1fr);grid-gap:20px;}
 .producto_buscador_lista_item {border-radius:20px;height:100%;width:100%;cursor: pointer;}
 .producto_buscador_lista_item_datos{
     color: whitesmoke;background:rgba(0,0,0,0.5);border-radius:20px;;
-    display:grid;gap:2px;padding:10px;font-size:18px;letter-spacing:1px;}
+    display:grid;gap:2px;padding:10px;font-size:18px;}
 
 
 .usuario_componentes{display:grid;grid-template-columns:180px 1fr;grid-gap:20px;width:60%;min-height:300px;margin-top:60px;padding-bottom:50px;}
@@ -202,9 +201,6 @@ color:white;letter-spacing:2px;font:bold 18px 'fontfamili';}
     background: white;}
 .cuadro_texto svg{width:20px;height:20px;margin-right:3px;}
 .cuadro_texto input{width:100%;border-style:none;height:100%;background:white;font-size:18px;}
-
-
-
 
 .Negocio{background: #ebedf3;margin-top:-50px;height:100%;}
 .NegocioPedidos,.NegocioVentas,.NegocioProductos,.NegocioPerfil{display:grid;grid-gap:20px;}
@@ -248,9 +244,11 @@ color:white;letter-spacing:2px;font:bold 18px 'fontfamili';}
     color:#ebedf3;font-size:16px;font-weight:bold;}
 
 
-
-
-
+.paginacion{display:flex;justify-content:center;width:120px;}
+.paginacion{border:3px solid #596275;border-radius:50px;background:white;color:#cecece;}
+.paginacion input{border-style:none;width:100%;margin-left:10px;color:#596275;font:bold 17px '';text-align: center;}
+.paginacion div{padding:1px 1px;margin:1px;}
+.paginacion div:hover svg{padding:2px 2px;transition: 0.40s all ease-in-out;fill:whitesmoke;background:#e51b1b;border-radius: 50px;}
 
 
 

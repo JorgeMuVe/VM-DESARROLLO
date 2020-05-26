@@ -1,7 +1,5 @@
-//import { urlServidorDesarrollo } from '../Componentes/Funciones';
-import { urlServidorPublica } from '../Componentes/Funciones';
-//const Url_ = urlServidorDesarrollo + '/api/producto/';
-const Url = urlServidorPublica + '/api/producto/';
+import { urlServidor } from '../Componentes/Funciones';
+const Url = urlServidor + '/api/producto/';
 
 
 // AGREGAR NUEVO PRODUCTO
@@ -17,7 +15,7 @@ export function agregarProducto_DB(Producto){
     });
 }
 
-// EDIDTAR NUEVO PRODUCTO
+// EDITAR NUEVO PRODUCTO
 export function editarProducto_DB(Producto){ 
     return new Promise((resolver,rechazar) => {
         fetch(Url + "editar",{ // Fetch para consumir API de SERVER NODE JS
@@ -30,7 +28,7 @@ export function editarProducto_DB(Producto){
     });
 }
 
-// EDIDTAR NUEVO PRODUCTO
+// BUSCAR PRODUCTOS
 export function buscarProducto_DB(Producto){ 
     return new Promise((resolver,rechazar) => {
         fetch(Url + "buscar",{ // Fetch para consumir API de SERVER NODE JS

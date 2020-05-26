@@ -5,7 +5,6 @@
 
 /* ********   F U N C I O N E S ************ */
 import { agregarUsuario_DB, ingresarSistema_DB } from './DB/usuarioDB';
-import { urlAplicacionDesarrollo,urlAplicacionPublica } from './Componentes/Funciones';
 
 import { listarProductoPorTipo_DB } from './DB/productoDB';
 
@@ -38,12 +37,6 @@ import Mensaje from './Componentes/Mensaje.js';
 
 /* *******   V A R I A B L E S  G L O B A L E S **********/
 const estadoInicial = {
-
-  /**** URL DE APLICACION Y SERVIDOR ****/
-  urlAplicacion : urlAplicacionPublica,
-  urlAplicacion_ : urlAplicacionDesarrollo,
-  urlAplicacionPublica: urlAplicacionPublica,
-
   /***** M E N U  *****/
   mostrarMenuUsuario:false,
   mostrarMenuAplicacion:false,
@@ -283,8 +276,7 @@ export class Aplicacion extends Component {
   render() {
     return (<div className="Aplicacion" >
       
-      <ModalIngreso 
-        urlAplicacion={this.state.urlAplicacion}
+      <ModalIngreso
         ingresarSistema={this.ingresarSistema}
         mostrarModalIngreso={this.state.mostrarModalIngreso}
         controlModalIngreso={this.controlModalIngreso} >

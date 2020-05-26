@@ -1,7 +1,5 @@
-//import { urlServidorDesarrollo } from '../Componentes/Funciones';
-import { urlServidorPublica } from '../Componentes/Funciones';
-//const Url_ = urlServidorDesarrollo + '/api/pedido/';
-const Url = urlServidorPublica + '/api/pedido/';
+import { urlServidor } from '../Componentes/Funciones';
+const Url = urlServidor + '/api/pedido/';
 
 
 // AGREGAR NUEVO PEDIDO

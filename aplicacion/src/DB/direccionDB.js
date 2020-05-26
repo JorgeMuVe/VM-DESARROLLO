@@ -1,7 +1,5 @@
-//import { urlServidorDesarrollo } from '../Componentes/Funciones';
-import { urlServidorPublica } from '../Componentes/Funciones';
-//const Url_ = urlServidorDesarrollo + '/api/direccion/';
-const Url = urlServidorPublica + '/api/direccion/';
+import { urlServidor } from '../Componentes/Funciones';
+const Url = urlServidor + '/api/direccion/';
 
 // LISTAR DIRECCIONES
 export function listarDirecciones_DB(idCliente){ 

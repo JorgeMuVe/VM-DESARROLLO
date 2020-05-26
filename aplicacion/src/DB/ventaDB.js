@@ -1,7 +1,5 @@
-//import { urlServidorDesarrollo } from '../Componentes/Funciones';
-import { urlServidorPublica } from '../Componentes/Funciones';
-//const Url_ = urlServidorDesarrollo + '/api/venta/';
-const Url = urlServidorPublica + '/api/venta/';
+import { urlServidor } from '../Componentes/Funciones';
+const Url = urlServidor + '/api/venta/';
 
 
 // AGREGAR NUEVA VENTA

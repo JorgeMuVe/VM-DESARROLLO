@@ -1,7 +1,5 @@
-//import { urlServidorDesarrollo } from '../Componentes/Funciones';
-import { urlServidorPublica } from '../Componentes/Funciones';
-//const Url_ = urlServidorDesarrollo + '/api/usuario/';
-const Url = urlServidorPublica + '/api/usuario/';
+import { urlServidor } from '../Componentes/Funciones';
+const Url = urlServidor + '/api/usuario/';
 
 
 // AGREGAR NUEVO USUARIO

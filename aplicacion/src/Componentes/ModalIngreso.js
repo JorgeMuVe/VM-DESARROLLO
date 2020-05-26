@@ -11,6 +11,8 @@ import IconoFacebook from '../SVG/IconoFacebook';
 import IconoTwitter from '../SVG/IconoTwitter';
 import IconoGoogle from '../SVG/IconoGoogle';
 
+/****** FUNCIONES *****/
+import { urlAplicacion } from './Funciones';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
@@ -23,7 +25,7 @@ export class ModalIngreso extends React.Component {
         this.state = estadoInicial;
     }
 
-    redireccionar =(ruta)=>{ window.location.href = (this.props.urlAplicacion+ruta) }// +  '/usuario/negocio'
+    redireccionar =(ruta)=>{ window.location.href = (urlAplicacion+ruta) }// +  '/usuario/negocio'
 
     cambiarEsCliente =(esCliente)=> {
         this.setState({esCliente});

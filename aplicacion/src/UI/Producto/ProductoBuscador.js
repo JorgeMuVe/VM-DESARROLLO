@@ -5,6 +5,7 @@
 
 /***  C O M P O N E N T E S   ***/
 import React from 'react';
+import Paginado from '../../Componentes/Paginado';
 
 /***  I C O N O   S V G  ***/
 import IconoLupa from '../../SVG/IconoLupa';
@@ -17,6 +18,10 @@ import { unidadMedidaProducto } from '../../Componentes/Funciones';
 const estadoInicial = {
     listaProductos:[],
     productoSeleccionado:{},
+
+    paginaActual:1,
+    cantidadPaginas:1,
+    productosPorPagina:10,
 };
 
 export class ProductoLista extends React.Component {
@@ -34,23 +39,60 @@ export class ProductoLista extends React.Component {
 
     /****  B U S Q U E D A   ****/
     buscadorProducto =(Buscador)=> {
-        buscarProducto_DB(Buscador).then(lista=>{
-            if(!lista.error){ this.setState({ listaProductos: lista })}
+        buscarProducto_DB(Buscador).then(res=>{  
+            var cantidadPaginas = (res.cantidadProductos / this.state.productosPorPagina);
+            cantidadPaginas = Math.ceil(cantidadPaginas||1);
+            if(!res.error){
+                this.setState({cantidadPaginas,listaProductos:res.listaProductos
+            })}
         });
     }
 
-    buscarProductoTipo =(evento)=> {
-        evento.preventDefault();
-        var texto = document.getElementById("textoBuscar").value;
-        const {tipo} = this.props.match.params;
-        const Buscador={tipo,texto};
+    buscarProductoTipo =()=> {
+        const Buscador={
+            tipo: this.props.match.params.tipo || "TODO",
+            texto: document.getElementById("textoBuscar").value || "_",
+            inicio: (this.state.paginaActual-1)*this.state.productosPorPagina,
+            productos: this.state.productosPorPagina
+        };
+        this.props.history.push("/productos/buscador/"+Buscador.tipo+"/"+Buscador.texto);
         this.buscadorProducto(Buscador);
     }
 
     buscarProductoInicial =()=> {
         const {tipo,texto} = this.props.match.params;
-        const Buscador={tipo,texto:texto==="_"?"":texto};
+        const Buscador={
+            tipo: tipo||"TODO",texto:texto==="_"?"":texto,
+            inicio: (this.state.paginaActual-1)*this.state.productosPorPagina,
+            productos: this.state.productosPorPagina
+        };
         this.buscadorProducto(Buscador);
+    }
+
+    buscadorProductoBoton =(evento)=> {
+        evento.preventDefault();
+        this.setState({paginaActual:1},()=>{
+            this.buscarProductoTipo();
+        });
+    }
+
+    /****  P A G I N A D O  ****/
+    paginaSiguiente =()=> {
+        const { paginaActual, cantidadPaginas } = this.state;
+        if(paginaActual < cantidadPaginas){
+            this.setState({paginaActual:paginaActual+1},()=> {
+                this.buscarProductoTipo();
+            });
+        }
+    }
+
+    paginaAtras =()=> {
+        const { paginaActual } = this.state;
+        if(paginaActual>1){
+            this.setState({paginaActual:paginaActual-1},()=> {
+                this.buscarProductoTipo();
+            });
+        }
     }
 
     /****   I N I C A R   F U N C I O N E S   ****/
@@ -68,18 +110,21 @@ export class ProductoLista extends React.Component {
             <div className="centrado">
                 <div className="producto_buscador">
 
-                    <form className="principal_buscador_cuadro" style={{margin:"1px",padding:"2px"}} noValidate onSubmit={this.buscarProductoTipo}>
+                    <form className="principal_buscador_cuadro" style={{margin:"1px",padding:"2px"}} noValidate onSubmit={this.buscadorProductoBoton}>
                         <div className="centrado"><IconoLupa/></div>
                         <input type="text" id="textoBuscar" placeholder="Busca tu producto"/>
                         <button type="submit">BUSCAR</button>
                     </form>
 
-                    <div className="producto_buscador_paginacion">
-                        <input type="button" value="<"/>
-                        <input type="text" defaultValue="1/100"/>
-                        <input type="button" value=">"/>
+                    <div className="centrado">
+                        <Paginado
+                            paginaActual={this.state.paginaActual}
+                            cantidadPaginas={this.state.cantidadPaginas}
+                            paginaSiguiente={this.paginaSiguiente}
+                            paginaAtras={this.paginaAtras}
+                        />
                     </div>
-                    
+
                     <div className="centrado">
                         {(this.state.listaProductos||[]).length > 0?
                         <div className="producto_buscador_lista">
