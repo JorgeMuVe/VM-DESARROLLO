@@ -5,6 +5,7 @@
 
 /* COMPONENTES */
 import React from 'react';
+import Paginado from '../../Componentes/Paginado';
 import { obtenerUsuario } from '../../Componentes/Funciones';
 import { listarPedidoCliente_DB } from '../../DB/pedidoDB';
 
@@ -15,6 +16,11 @@ import IconoAtras from '../../SVG/aplicacion/IconoAtras';
 const estadoInicial = {
     usuarioAplicacion:{},
     clientePedidos:[],
+
+    paginaActual:1,
+    cantidadPaginas:1,
+    pedidosPorPagina:10,
+
 };
 
 export class ClienteCompras extends React.Component {
@@ -23,10 +29,39 @@ export class ClienteCompras extends React.Component {
         this.state = estadoInicial;
     }
     obtenerPedidosCliente =()=> {
-        const { codigoUsuario } = this.state.usuarioAplicacion;
-        listarPedidoCliente_DB({codigoUsuario:codigoUsuario}).then(pedidos=>{
-            if(!pedidos.error){ this.setState({clientePedidos:pedidos}) }
+        const Buscador={
+            codigoUsuario: this.state.usuarioAplicacion.codigoUsuario,
+            inicio: (this.state.paginaActual-1)*this.state.pedidosPorPagina,
+            cantidad: this.state.pedidosPorPagina
+        };
+        listarPedidoCliente_DB(Buscador).then(res=>{
+            if(!res.error){
+                var cantidadPaginas = (res.cantidadPedidos / this.state.pedidosPorPagina);
+                cantidadPaginas = Math.ceil(cantidadPaginas||1);
+                this.setState({cantidadPaginas,clientePedidos:res.listaPedidos})
+            }
         });
+    }
+
+    
+
+    /****  P A G I N A D O  ****/
+    paginaSiguiente =()=> {
+        const { paginaActual, cantidadPaginas } = this.state;
+        if(paginaActual < cantidadPaginas){
+            this.setState({paginaActual:paginaActual+1},()=> {
+                this.obtenerPedidosCliente();
+            });
+        }
+    }
+
+    paginaAtras =()=> {
+        const { paginaActual } = this.state;
+        if(paginaActual>1){
+            this.setState({paginaActual:paginaActual-1},()=> {
+                this.obtenerPedidosCliente();
+            });
+        }
     }
 
     inicarFunciones =()=> {
@@ -50,9 +85,16 @@ export class ClienteCompras extends React.Component {
                     <label> Mis Compras </label>
                     <div onClick={this.props.history.goBack}></div>
                 </div>
-                
                 {(this.state.clientePedidos||[]).length > 0?
                 <div className="usuario_tabla centrado">
+                    <div className="usuario_tabla_paginado">
+                        <Paginado
+                            paginaActual={this.state.paginaActual}
+                            cantidadPaginas={this.state.cantidadPaginas}
+                            paginaSiguiente={this.paginaSiguiente}
+                            paginaAtras={this.paginaAtras}
+                        />
+                    </div>
                     <table>
                         <thead>
                             <tr>
@@ -81,7 +123,12 @@ export class ClienteCompras extends React.Component {
                         )})}
                     </table>
                     <div className="usuario_tabla_paginado">
-                        Paginado
+                        <Paginado
+                            paginaActual={this.state.paginaActual}
+                            cantidadPaginas={this.state.cantidadPaginas}
+                            paginaSiguiente={this.paginaSiguiente}
+                            paginaAtras={this.paginaAtras}
+                        />
                     </div>
                 </div> :
                 <div> No Existen Compras Registradas</div>}

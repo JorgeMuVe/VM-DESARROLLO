@@ -1,5 +1,7 @@
 /****** COMPONENTES ******/
 import React from 'react';
+import {withRouter} from 'react-router';
+
 import Modal from './Modal';
 
 /***** ICONO SVG *******/
@@ -12,7 +14,7 @@ import IconoTwitter from '../SVG/IconoTwitter';
 import IconoGoogle from '../SVG/IconoGoogle';
 
 /****** FUNCIONES *****/
-import { urlAplicacion } from './Funciones';
+import { ingresarSistema_DB } from '../DB/usuarioDB';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
@@ -25,21 +27,29 @@ export class ModalIngreso extends React.Component {
         this.state = estadoInicial;
     }
 
-    redireccionar =(ruta)=>{ window.location.href = (urlAplicacion+ruta) }// +  '/usuario/negocio'
-
-    cambiarEsCliente =(esCliente)=> {
-        this.setState({esCliente});
+    /* INGRESAR AL SISTEMA */
+    ingresarSistema = (ingresoUsuario) => {
+        ingresarSistema_DB(ingresoUsuario).then(res => {
+            if (!res.error) {
+            if(!res[0].error){
+                sessionStorage.setItem('usuarioAplicacion',JSON.stringify(res[0]));
+                this.props.history.push('/usuario/'+res[0].tipoUsuario);
+                this.props.ingresarSistema(res[0]);
+            } else {this.props.abrirMensajeError(4000, res[0].error);}
+            } else { this.props.abrirMensajeError(4000, res.error); }
+        });
     }
-
-    ingresarSistema =(evento)=> {
+    ingresarSistemaBoton =(evento)=> {
         evento.preventDefault();
         const usuarioIngreso = {};
         usuarioIngreso["nombreUsuario"] = document.getElementById("nombreUsuario").value;
         usuarioIngreso["contrasena"] = document.getElementById("contrasena").value;
         usuarioIngreso["tipoUsuario"] = this.state.esCliente?"cliente":"negocio";
         //usuarioIngreso["codigoUsuario"] = localStorage.getItem("codigoUsuario")||0;
-        this.props.ingresarSistema(usuarioIngreso);
+        this.ingresarSistema(usuarioIngreso);
     }
+
+    cambiarEsCliente =(esCliente)=> this.setState({esCliente})
 
     render(){
         if(this.props.mostrarModalIngreso){
@@ -49,7 +59,7 @@ export class ModalIngreso extends React.Component {
                 controlModal = {this.props.controlModalIngreso}
                 tituloModal = {"Inicar Sesión"}
             >
-            <form className="ModalIngreso" validate="true" onSubmit={this.ingresarSistema}>
+            <form className="ModalIngreso" validate="true" onSubmit={this.ingresarSistemaBoton}>
                 <div className="modal_ingreso_tipo">
                     <div style={{background:this.state.esCliente?"#2ECC71":"#8b8b8b"}} 
                         onClick={()=>this.cambiarEsCliente(true)}>
@@ -91,4 +101,4 @@ export class ModalIngreso extends React.Component {
     }
 }
 
-export default ModalIngreso;
+export default withRouter(ModalIngreso);

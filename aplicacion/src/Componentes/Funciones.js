@@ -1,5 +1,5 @@
-export const urlAplicacion ="http://192.168.0.170:3000";
-export const urlServidor="http://192.168.0.170:5000";// http://reactiva-peru.com
+//export const urlServidor ="http://127.0.0.1:5000";
+export const urlServidor ="http://reactiva-peru.com/data";
 
 export const obtenerUsuario =()=> {
     let usuarioAplicacion = JSON.parse(sessionStorage.getItem('usuarioAplicacion'));

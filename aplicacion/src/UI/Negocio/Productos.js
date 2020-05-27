@@ -6,7 +6,7 @@
 /*** COMPONENTES ***/
 import React from 'react';
 import Modal from '../../Componentes/Modal';
-import { guardarArchivo_DB } from '../../DB/archivoDB';
+import Paginado from '../../Componentes/Paginado';
 
 /*** FUNCIONES ***/
 import { 
@@ -16,6 +16,7 @@ import {
     listarTiposProducto_DB,
     listarUnidadesProducto_DB } from '../../DB/productoDB';
 import { obtenerUsuario } from '../../Componentes/Funciones';
+import { guardarArchivo_DB } from '../../DB/archivoDB';
 
 
 /*** ICONO SVG ***/
@@ -36,7 +37,11 @@ const estadoInicial = {
 
     productoSeleccionado: {},
     archivoImagenNuevo:null,
-    archivoImagenTempo:null
+    archivoImagenTempo:null,
+
+    paginaActual:1,
+    cantidadPaginas:1,
+    productosPorPagina:5,
 };
 
 export class Productos extends React.Component {
@@ -64,10 +69,17 @@ export class Productos extends React.Component {
     }
 
     obtenerProductosNegocio =()=> {
-        var idNegocio = this.state.usuarioAplicacion.codigoUsuario;
-        listarProductoPorNegocio_DB({idNegocio}).then(lista=>{
-            if(!lista.error){
-                this.setState({ productosNegocio: lista });
+        const Buscador={
+            codigoUsuario: this.state.usuarioAplicacion.codigoUsuario,
+            inicio: (this.state.paginaActual-1)*this.state.productosPorPagina,
+            cantidad: this.state.productosPorPagina
+        };
+        listarProductoPorNegocio_DB(Buscador).then(res=>{
+            console.log(res);
+            if(!res.error){
+                var cantidadPaginas = (res.cantidadProductos / this.state.productosPorPagina);
+                cantidadPaginas = Math.ceil(cantidadPaginas||1);
+                this.setState({cantidadPaginas,productosNegocio:res.listaProductos})
             } else { console.log("ERROR >> LISTAR PRODUCTOS DEL NEGOCIO!!..")}
         });
     }
@@ -132,6 +144,26 @@ export class Productos extends React.Component {
         }        
     }
 
+    /****  P A G I N A D O  ****/
+    paginaSiguiente =()=> {
+        const { paginaActual, cantidadPaginas } = this.state;
+        if(paginaActual < cantidadPaginas){
+            this.setState({paginaActual:paginaActual+1},()=> {
+                this.obtenerProductosNegocio();
+            });
+        }
+    }
+
+    paginaAtras =()=> {
+        const { paginaActual } = this.state;
+        if(paginaActual>1){
+            this.setState({paginaActual:paginaActual-1},()=> {
+                this.obtenerProductosNegocio();
+            });
+        }
+    }
+
+
     /******  I N I C I O   ******/
     iniciarFunciones =()=> {
         this.obtenerTiposProducto();
@@ -177,7 +209,12 @@ export class Productos extends React.Component {
                         )})}
                     </table>
                     <div className="usuario_tabla_paginado">
-                        Paginado
+                        <Paginado
+                            paginaActual={this.state.paginaActual}
+                            cantidadPaginas={this.state.cantidadPaginas}
+                            paginaSiguiente={this.paginaSiguiente}
+                            paginaAtras={this.paginaAtras}
+                        />
                     </div>
                 </div> :
                 <div>No Hay Productos Registrados</div> }

@@ -8,7 +8,7 @@ import React from 'react';
 import Modal from '../../Componentes/Modal';
 
 /***  F U N C I O N E S  ***/
-import { listarDirecciones_DB, agregarDireccion_DB } from '../../DB/direccionDB';
+import { listaDirecciones_DB, agregarDireccion_DB } from '../../DB/direccionDB';
 import { agregarPedido_DB, agregarPedidoDetalle_DB } from '../../DB/pedidoDB';
 import { agregarVenta_DB } from '../../DB/ventaDB';
 
@@ -39,7 +39,7 @@ export class ConfirmarPedido extends React.Component {
     }
 
     obtenerDirecciones =(usuarioAplicacion)=> {
-        listarDirecciones_DB(usuarioAplicacion.codigoUsuario).then(lista=>{
+        listaDirecciones_DB(usuarioAplicacion.codigoUsuario).then(lista=>{
             if(!lista.error){
                 this.setState({direccionesCliente:lista});
             }else {console.log("ERROR >> LISTAR DIERCCIONES CLIENTE")}

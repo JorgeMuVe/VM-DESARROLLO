@@ -40,11 +40,11 @@ export class ProductoLista extends React.Component {
     /****  B U S Q U E D A   ****/
     buscadorProducto =(Buscador)=> {
         buscarProducto_DB(Buscador).then(res=>{  
-            var cantidadPaginas = (res.cantidadProductos / this.state.productosPorPagina);
-            cantidadPaginas = Math.ceil(cantidadPaginas||1);
             if(!res.error){
-                this.setState({cantidadPaginas,listaProductos:res.listaProductos
-            })}
+                var cantidadPaginas = (res.cantidadProductos / this.state.productosPorPagina);
+                cantidadPaginas = Math.ceil(cantidadPaginas||1);
+                this.setState({cantidadPaginas,listaProductos:res.listaProductos})
+            }
         });
     }
 
@@ -53,7 +53,7 @@ export class ProductoLista extends React.Component {
             tipo: this.props.match.params.tipo || "TODO",
             texto: document.getElementById("textoBuscar").value || "_",
             inicio: (this.state.paginaActual-1)*this.state.productosPorPagina,
-            productos: this.state.productosPorPagina
+            cantidad: this.state.productosPorPagina
         };
         this.props.history.push("/productos/buscador/"+Buscador.tipo+"/"+Buscador.texto);
         this.buscadorProducto(Buscador);
@@ -64,7 +64,7 @@ export class ProductoLista extends React.Component {
         const Buscador={
             tipo: tipo||"TODO",texto:texto==="_"?"":texto,
             inicio: (this.state.paginaActual-1)*this.state.productosPorPagina,
-            productos: this.state.productosPorPagina
+            cantidad: this.state.productosPorPagina
         };
         this.buscadorProducto(Buscador);
     }

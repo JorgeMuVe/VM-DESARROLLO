@@ -1,5 +1,6 @@
 /* COMPONENTES */
 import React from 'react';
+import { NavLink } from "react-router-dom";
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {};
@@ -23,7 +24,7 @@ export class Menu extends React.Component {
                     <div className="menu_item_logo centrado" onClick={()=>this.props.controlModalPedido()}>                    
                         <img src="/Logo.png" alt="Logo"></img>
                     </div>
-                    <div className="menu_item_ocultar" onClick={()=>this.redireccionar("/productos/lista")}>PRODUCTOS</div>
+                    <div className="menu_item_ocultar"><NavLink to="/productos/lista">PRODUCTOS</NavLink></div>
                     <div className="menu_item_ocultar" onClick={()=>this.redireccionar("/#tiendas")}>TIENDAS</div>
                     <div className="menu_item_usuario" onClick={()=>this.props.controlModalIngreso()}>
                         {this.props.usuarioAplicacion.tipoUsuario!=="invitado"?"Mi Cuenta":"INGRESAR"}

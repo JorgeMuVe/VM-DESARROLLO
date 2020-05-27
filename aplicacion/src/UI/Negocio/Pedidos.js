@@ -6,6 +6,8 @@
 /* COMPONENTES */
 import React from 'react';
 import Modal from '../../Componentes/Modal';
+import Paginado from '../../Componentes/Paginado';
+
 import { obtenerUsuario } from '../../Componentes/Funciones';
 import { listarPedidoNegocio_DB } from '../../DB/pedidoDB';
 
@@ -15,9 +17,15 @@ import IconoAtras from '../../SVG/aplicacion/IconoAtras';
 /* VARIABLES GLOBALES */
 let map;
 const estadoInicial = {
+    usuarioAplicacion:{},
+
     mostrarModalMapa:false,
     mostrarModalFechas:false,
     pedidosNegocio:[],
+
+    paginaActual:1,
+    cantidadPaginas:1,
+    pedidosPorPagina:5,
 };
 
 export class NegocioPedidos extends React.Component {
@@ -30,17 +38,21 @@ export class NegocioPedidos extends React.Component {
     controlModalMapa =()=> this.setState({mostrarModalMapa:!this.state.mostrarModalMapa})
 
       /* PEDIDOS */
-    obtenerPedidosNegocio =(codigoUsuario)=> {
-        if(codigoUsuario){
-            listarPedidoNegocio_DB({codigoUsuario}).then(pedidos=>{
-                if(pedidos[0]){
-                    if(!pedidos[0].error){
-                        this.setState({ pedidosNegocio: pedidos[0] });
-                    } else { console.log("ERROR >> LISTAR PEDIDOS NEGOCIO"); }
-                } else { console.log("ERROR >> LISTAR PEDIDOS NEGOCIO"); }
-            });
-        }
+    obtenerPedidosNegocio =()=> {
+        const Buscador={
+            codigoUsuario:this.state.usuarioAplicacion.codigoUsuario,
+            inicio: (this.state.paginaActual-1)*this.state.pedidosPorPagina,
+            cantidad: this.state.pedidosPorPagina
+        };
+        listarPedidoNegocio_DB(Buscador).then(res=>{
+            if(!res.error){
+                var cantidadPaginas = (res.cantidadPedidos / this.state.pedidosPorPagina);
+                cantidadPaginas = Math.ceil(cantidadPaginas||1);
+                this.setState({cantidadPaginas,pedidosNegocio:res.listaPedidos})
+            } else { console.log("ERROR >> LISTAR PEDIDOS NEGOCIO"); }
+        });
     }
+
 
     abrirMapaPedidos =()=>{
         this.controlModalMapa();
@@ -65,10 +77,32 @@ export class NegocioPedidos extends React.Component {
 
     }
 
+    /****  P A G I N A D O  ****/
+    paginaSiguiente =()=> {
+        const { paginaActual, cantidadPaginas } = this.state;
+        if(paginaActual < cantidadPaginas){
+            this.setState({paginaActual:paginaActual+1},()=> {
+                this.obtenerPedidosNegocio();
+            });
+        }
+    }
+
+    paginaAtras =()=> {
+        const { paginaActual } = this.state;
+        if(paginaActual>1){
+            this.setState({paginaActual:paginaActual-1},()=> {
+                this.obtenerPedidosNegocio();
+            });
+        }
+    }
+
+    iniciarFunciones =()=> {
+        this.obtenerPedidosNegocio()
+    }
+
     componentDidMount(){
         var usuarioAplicacion = obtenerUsuario();
-        this.obtenerPedidosNegocio(usuarioAplicacion.codigoUsuario);
-
+        if(usuarioAplicacion){ this.setState({usuarioAplicacion},()=>this.iniciarFunciones()) }
     }
     
     render(){
@@ -87,6 +121,14 @@ export class NegocioPedidos extends React.Component {
                 
                 {(this.state.pedidosNegocio||[]).length > 0?
                 <div className="usuario_tabla centrado">
+                    <div className="usuario_tabla_paginado">
+                        <Paginado
+                            paginaActual={this.state.paginaActual}
+                            cantidadPaginas={this.state.cantidadPaginas}
+                            paginaSiguiente={this.paginaSiguiente}
+                            paginaAtras={this.paginaAtras}
+                        />
+                    </div>
                     <table>
                         <thead>
                             <tr>
@@ -117,7 +159,12 @@ export class NegocioPedidos extends React.Component {
                         )})}
                     </table>
                     <div className="usuario_tabla_paginado">
-                        Paginado
+                        <Paginado
+                            paginaActual={this.state.paginaActual}
+                            cantidadPaginas={this.state.cantidadPaginas}
+                            paginaSiguiente={this.paginaSiguiente}
+                            paginaAtras={this.paginaAtras}
+                        />
                     </div>
                 </div> :
                 <div> No Existen Pedidos Registradas</div>}

@@ -5,6 +5,9 @@
 
 /* COMPONENTES */
 import React from 'react';
+import Paginado from '../../Componentes/Paginado';
+
+/* FUNCIONES */
 import { obtenerUsuario } from '../../Componentes/Funciones';
 import { listarVentaNegocio_DB } from '../../DB/ventaDB';
 
@@ -13,8 +16,13 @@ import IconoAtras from '../../SVG/aplicacion/IconoAtras';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
+    usuarioAplicacion:{},
     ventasNegocio:[],
     mostrarModalFechas:false,
+
+    paginaActual:1,
+    cantidadPaginas:1,
+    ventasPorPagina:5,
 };
 
 export class NegocioVentas extends React.Component {
@@ -26,18 +34,48 @@ export class NegocioVentas extends React.Component {
     controlModalFechas =()=> this.setState({mostrarModalFechas:!this.state.mostrarModalFechas})
 
     /* VENTAS */
-    obtenerVentasNegocio =(codigoUsuario)=> {
-        listarVentaNegocio_DB({codigoUsuario}).then(ventas=>{
-            if(ventas[0]){
-                if(!ventas[0].error){ this.setState({ ventasNegocio: ventas[0] }) } 
-                //else { console.log("ERROR >> LISTAR VENTAS NEGOCIO"); }
-            } //else { console.log("ERROR >> LISTAR VENTAS NEGOCIO"); }
+    obtenerVentasNegocio =()=> {
+        const Buscador={
+            codigoUsuario:this.state.usuarioAplicacion.codigoUsuario,
+            inicio: (this.state.paginaActual-1)*this.state.ventasPorPagina,
+            cantidad: this.state.ventasPorPagina
+        };
+
+        listarVentaNegocio_DB(Buscador).then(res=>{
+            if(!res.error){
+                var cantidadPaginas = (res.cantidadVentas / this.state.ventasPorPagina);
+                cantidadPaginas = Math.ceil(cantidadPaginas||1);
+                this.setState({cantidadPaginas,ventasNegocio:res.listaVentas})
+            } else { console.log("ERROR >> LISTAR PEDIDOS NEGOCIO"); }
         });
     }
 
-    componentDidMount(){ 
+    /****  P A G I N A D O  ****/
+    paginaSiguiente =()=> {
+        const { paginaActual, cantidadPaginas } = this.state;
+        if(paginaActual < cantidadPaginas){
+            this.setState({paginaActual:paginaActual+1},()=> {
+                this.obtenerVentasNegocio();
+            });
+        }
+    }
+
+    paginaAtras =()=> {
+        const { paginaActual } = this.state;
+        if(paginaActual>1){
+            this.setState({paginaActual:paginaActual-1},()=> {
+                this.obtenerVentasNegocio();
+            });
+        }
+    }
+
+    iniciarFunciones =()=> {
+        this.obtenerVentasNegocio();
+    }
+
+    componentDidMount(){
         var usuarioAplicacion = obtenerUsuario();
-        this.obtenerVentasNegocio(usuarioAplicacion.codigoUsuario);
+        if(usuarioAplicacion){ this.setState({usuarioAplicacion},()=>this.iniciarFunciones()) }
     }
     
     render(){
@@ -51,6 +89,14 @@ export class NegocioVentas extends React.Component {
                 
                 {(this.state.ventasNegocio||[]).length > 0?
                 <div className="usuario_tabla centrado">
+                    <div className="usuario_tabla_paginado">
+                        <Paginado
+                            paginaActual={this.state.paginaActual}
+                            cantidadPaginas={this.state.cantidadPaginas}
+                            paginaSiguiente={this.paginaSiguiente}
+                            paginaAtras={this.paginaAtras}
+                        />
+                    </div>
                     <table>
                         <thead>
                             <tr>
@@ -81,7 +127,12 @@ export class NegocioVentas extends React.Component {
                         )})}
                     </table>
                     <div className="usuario_tabla_paginado">
-                        Paginado
+                        <Paginado
+                            paginaActual={this.state.paginaActual}
+                            cantidadPaginas={this.state.cantidadPaginas}
+                            paginaSiguiente={this.paginaSiguiente}
+                            paginaAtras={this.paginaAtras}
+                        />
                     </div>
                 </div> :
                 <div> No Existen Ventas Registradas</div>}

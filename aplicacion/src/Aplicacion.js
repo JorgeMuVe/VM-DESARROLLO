@@ -4,7 +4,7 @@
 */
 
 /* ********   F U N C I O N E S ************ */
-import { agregarUsuario_DB, ingresarSistema_DB } from './DB/usuarioDB';
+import { agregarUsuario_DB } from './DB/usuarioDB';
 
 import { listarProductoPorTipo_DB } from './DB/productoDB';
 
@@ -111,19 +111,8 @@ export class Aplicacion extends Component {
   }
 
   /* INGRESAR AL SISTEMA */
-  ingresarSistema = (ingresoUsuario) => {
-    if (this.verificarDatosUsuario(ingresoUsuario)) {
-      ingresarSistema_DB(ingresoUsuario).then(res => {
-        if (!res.error) {
-          if(!res[0].error){
-            this.setState({ usuarioAplicacion: res[0] }, () => {
-              sessionStorage.setItem('usuarioAplicacion',JSON.stringify(res[0]));
-              window.location.href = '/usuario/'+res[0].tipoUsuario;
-            });
-          } else {this.abrirMensajeError(4000, res[0].error);}
-        } else { this.abrirMensajeError(4000, res.error); }
-      });
-    } else { this.abrirMensajeError(4000, 'DATOS INCOMPLETOS') }
+  ingresarSistema = (usuarioAplicacion) => {
+    if(usuarioAplicacion){this.setState({usuarioAplicacion,mostrarModalIngreso:false});}
   }
 
   /* OBTENER USUARIO */
@@ -250,15 +239,30 @@ export class Aplicacion extends Component {
 
   cerrarMenuUsuario =()=> this.setState({mostrarMenuUsuario:false});
 
-  controlMenuAplicacion =()=> this.setState({mostrarMenuAplicacion:!this.state.mostrarMenuAplicacion});
+  controlMenuAplicacion =()=> {
+    this.setState({mostrarMenuAplicacion:!this.state.mostrarMenuAplicacion,
+      mostrarMenuUsuario:false,mostrarModalIngreso:false,mostrarModalPedido:false,mostrarModalCantidad:false});
+  }
 
-  controlMenuUsuario =()=> this.setState({mostrarMenuUsuario:!this.state.mostrarMenuUsuario});
+  controlMenuUsuario =()=> {
+    this.setState({mostrarMenuUsuario:!this.state.mostrarMenuUsuario,
+      mostrarMenuAplicacion:false,mostrarModalIngreso:false,mostrarModalPedido:false,mostrarModalCantidad:false});
+  }
 
-  controlModalIngreso = () => this.setState({mostrarModalIngreso:!this.state.mostrarModalIngreso});
+  controlModalIngreso =()=> {
+    this.setState({mostrarModalIngreso:!this.state.mostrarModalIngreso,
+      mostrarMenuAplicacion:false,mostrarMenuUsuario:false,mostrarModalPedido:false,mostrarModalCantidad:false});
+  }
 
-  controlModalPedido =()=> this.setState({mostrarModalPedido:!this.state.mostrarModalPedido});
+  controlModalPedido =()=> {
+    this.setState({mostrarModalPedido:!this.state.mostrarModalPedido,
+      mostrarMenuAplicacion:false,mostrarMenuUsuario:false,mostrarModalIngreso:false,mostrarModalCantidad:false});
+  }
   
-  controlModalCantidad =()=> this.setState({mostrarModalCantidad:!this.state.mostrarModalCantidad});
+  controlModalCantidad =()=> {
+    this.setState({mostrarModalCantidad:!this.state.mostrarModalCantidad,
+      mostrarMenuAplicacion:false,mostrarMenuUsuario:false,mostrarModalIngreso:false,mostrarModalPedido:false});
+  }
 
   /* EJECUTAR FUNCIONES AL INICIAR APP */
   inicarAplicacion = () => {
@@ -268,20 +272,11 @@ export class Aplicacion extends Component {
   componentDidMount() {
     this.inicarAplicacion();
   }
-
-  componentWillUnmount() {
-  }
   
   /************************>>>>>>RENDER<<<<<<****************************** */
   render() {
     return (<div className="Aplicacion" >
       
-      <ModalIngreso
-        ingresarSistema={this.ingresarSistema}
-        mostrarModalIngreso={this.state.mostrarModalIngreso}
-        controlModalIngreso={this.controlModalIngreso} >
-      </ModalIngreso>
-
       <Mensaje 
         mostrarMensaje={this.state.mostrarMensaje}
         textoMensaje={this.state.textoMensaje}
@@ -299,6 +294,12 @@ export class Aplicacion extends Component {
 
       <div className="Paginas" id="paginas">
         <BrowserRouter>
+          <ModalIngreso
+            mostrarModalIngreso={this.state.mostrarModalIngreso}
+            controlModalIngreso={this.controlModalIngreso}
+            ingresarSistema={this.ingresarSistema}
+            abrirMensajeError={this.abrirMensajeError}>
+          </ModalIngreso>
           <Menu
             usuarioAplicacion={this.state.usuarioAplicacion}
             controlMenuAplicacion={this.controlMenuAplicacion}
@@ -312,6 +313,8 @@ export class Aplicacion extends Component {
               mostrarPedido={this.state.mostrarModalPedido}
               pedidoUsuario={this.state.pedidoUsuario}
               seleccionarProductoCantidad={this.seleccionarProductoCantidad}
+              controlModalPedido={this.controlModalPedido}
+              controlModalIngreso={this.controlModalIngreso}
               sacarProducto={this.sacarProducto}/>
             
             <MenuUsuario

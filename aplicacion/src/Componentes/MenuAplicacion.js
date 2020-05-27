@@ -1,5 +1,6 @@
 /* COMPONENTES */
 import React from 'react';
+import { NavLink } from "react-router-dom";
 
 /***   ICONOS   ***/
 import IconoGoogle from '../SVG/IconoGoogle';
@@ -27,11 +28,10 @@ export class MenuAplicacion extends React.Component {
                                     <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
                                     <label>Inicio</label>
                                 </div>
-                                <div className={"usuario_navegador_boton"}
-                                    onClick={()=>this.redireccionar("/productos/lista")}>
+                                <NavLink className="usuario_navegador_boton" to="/productos/lista">
                                     <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
                                     <label>Productos</label>
-                                </div>
+                                </NavLink>
                                 <div className={"usuario_navegador_boton"}
                                     onClick={()=>this.redireccionar("/#tiendas")}>
                                     <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>

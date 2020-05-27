@@ -6,10 +6,11 @@
 /* COMPONENTES */
 import React from 'react';
 import Modal from '../../Componentes/Modal';
+import Paginado from '../../Componentes/Paginado';
 
 /*** F U N C I O N E S ***/
 import { obtenerUsuario } from '../../Componentes/Funciones';
-import { agregarDireccion_DB, editarDireccion_DB, listarDirecciones_DB } from '../../DB/direccionDB';
+import { agregarDireccion_DB, editarDireccion_DB, listaDirecciones_DB } from '../../DB/direccionDB';
 
 /* ICONOS */
 import IconoAgregar from '../../SVG/aplicacion/IconoAgregar';
@@ -25,6 +26,10 @@ const estadoInicial = {
 
     mostrarModalAgregar: false,
     direccionSeleccionado: {},
+
+    paginaActual:1,
+    cantidadPaginas:1,
+    direccionesPorPagina:5,
 };
 
 export class ClienteDirecciones extends React.Component {
@@ -36,10 +41,20 @@ export class ClienteDirecciones extends React.Component {
     controlModalAgregar =()=> this.setState({mostrarModalAgregar:!this.state.mostrarModalAgregar});
 
     obtenerDirecciones =()=> {
-        const { usuarioAplicacion}  = this.state;
-        listarDirecciones_DB(usuarioAplicacion.codigoUsuario).then(lista=>{
-            if(!lista.error){ this.setState({direccionesCliente:lista}) }
-            else {console.log("ERROR >> LISTAR DIERCCIONES CLIENTE")}
+        
+        const Buscador = {
+            codigoUsuario: this.state.usuarioAplicacion.codigoUsuario,
+            inicio: (this.state.paginaActual-1)*this.state.direccionesPorPagina,
+            cantidad: this.state.direccionesPorPagina
+        };
+
+        listaDirecciones_DB(Buscador).then(res=>{
+            console.log(res);
+            if(!res.error){
+                var cantidadPaginas = (res.cantidadDirecciones / this.state.direccionesPorPagina);
+                cantidadPaginas = Math.ceil(cantidadPaginas||1);
+                this.setState({cantidadPaginas,direccionesCliente:res.listaDirecciones})
+            }
         });
     }
 
@@ -123,6 +138,24 @@ export class ClienteDirecciones extends React.Component {
             
         });
     }
+    /****  P A G I N A D O  ****/
+    paginaSiguiente =()=> {
+        const { paginaActual, cantidadPaginas } = this.state;
+        if(paginaActual < cantidadPaginas){
+            this.setState({paginaActual:paginaActual+1},()=> {
+                this.obtenerDirecciones();
+            });
+        }
+    }
+
+    paginaAtras =()=> {
+        const { paginaActual } = this.state;
+        if(paginaActual>1){
+            this.setState({paginaActual:paginaActual-1},()=> {
+                this.obtenerDirecciones();
+            });
+        }
+    }
 
     iniciarFunciones =(usuarioAplicacion)=> {
         this.setState({usuarioAplicacion},()=>this.obtenerDirecciones())
@@ -163,7 +196,12 @@ export class ClienteDirecciones extends React.Component {
                         )})}
                     </table>
                     <div className="usuario_tabla_paginado">
-                        Paginado
+                        <Paginado
+                            paginaActual={this.state.paginaActual}
+                            cantidadPaginas={this.state.cantidadPaginas}
+                            paginaSiguiente={this.paginaSiguiente}
+                            paginaAtras={this.paginaAtras}
+                        />
                     </div>
                 </div> :
                 <div>No Existen Direcciones Registradas</div> }

@@ -64,54 +64,34 @@ export class Contacto extends React.Component {
                 </div>
 
                 <div className="contacto_informacion">
-                    <div className="contacto_datos">
-                        <h2>CONTÁCTENOS</h2>
-                        <div className="contacto_datos_comunicacion">
-                            <div>
-                                <span>Celular</span>
-                                <label>987654321</label>
-                            </div>
-                            <div>
-                                <span>Correo Electrónico</span>
-                                <label>Correo@electronico.com</label>
-                            </div>
+                    <h3>FORMULARIO DE CONTACTO</h3>
+                    <p>Te invitamos a contactarnos, te responderemos a la brevedad.</p>
+                    <p style={{color:"#e51b1b"}}>* (Campo Obligatorio)</p>
+                    <form className="contacto_formulario" action="">
+                        <div className="contacto_formulario_info">
+                            <label htmlFor="nombres">Nombres *</label>
+                            <input type="text" id="nombres" required></input>
                         </div>
-                        <div className="contacto_datos_direccion">
-                            <span>Dirección</span>
-                            <label>121, Calle Los Girasoles, Victoria 3000 Cusco</label>
+                        <div className="contacto_formulario_info">
+                            <label htmlFor="apellidos">Apellidos *</label>
+                            <input type="text" id="apellidos" required></input>
                         </div>
-                    </div>
-                    
-                    <div>
-                        <h3>FORMULARIO DE CONTACTO</h3>
-                        <p>Te invitamos a contactarnos, te responderemos a la brevedad.</p>
-                        <p style={{color:"#e51b1b"}}>* (Campo Obligatorio)</p>
-                        <form className="contacto_formulario" action="">
-                            <div className="contacto_formulario_info">
-                                <label htmlFor="nombres">Nombres *</label>
-                                <input type="text" id="nombres" required></input>
-                            </div>
-                            <div className="contacto_formulario_info">
-                                <label htmlFor="apellidos">Apellidos *</label>
-                                <input type="text" id="apellidos" required></input>
-                            </div>
-                            <div className="contacto_formulario_info">
-                                <label htmlFor="email">Email *</label>
-                                <input type="email" id="email" required></input>
-                            </div>
-                            <div className="contacto_formulario_info">
-                                <label htmlFor="telefono">Telefono:</label>
-                                <input type="text" id="telefono"></input>
-                            </div>
-                            <div className="contacto_formulario_mensaje">
-                                <label htmlFor="mensaje">Mensaje *</label>
-                                <textarea rows="6" id="mensaje" required></textarea>
-                            </div>
-                            <div>
-                                <button type="submit">Enviar</button>
-                            </div>
-                        </form>
-                    </div>
+                        <div className="contacto_formulario_info">
+                            <label htmlFor="email">Email *</label>
+                            <input type="email" id="email" required></input>
+                        </div>
+                        <div className="contacto_formulario_info">
+                            <label htmlFor="telefono">Telefono:</label>
+                            <input type="text" id="telefono"></input>
+                        </div>
+                        <div className="contacto_formulario_mensaje">
+                            <label htmlFor="mensaje">Mensaje *</label>
+                            <textarea rows="6" id="mensaje" required></textarea>
+                        </div>
+                        <div>
+                            <button type="submit">Enviar</button>
+                        </div>
+                    </form>
 
                 </div>
             </div >

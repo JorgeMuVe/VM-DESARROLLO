@@ -1,9 +1,13 @@
 /* COMPONENTES */
 import React from 'react';
+import { NavLink } from "react-router-dom";
+
+/***   ICONOS   ***/
 import IconoSacarProducto from '../SVG/IconoSacarPedido';
+import IconoPedidoVacio from '../SVG/IconoPedidoVacio';
 
 /* FUNCIONES */
-import { unidadMedidaProducto } from './Funciones';
+import { unidadMedidaProducto, obtenerUsuario } from './Funciones';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {};
@@ -18,18 +22,45 @@ export class ModalPedido extends React.Component {
         var cantidadProducto = parseFloat(producto.unidadCantidad) * parseFloat(producto.cantidadProducto);
         var precioProducto = parseFloat(producto.precioPorUnidad) * parseFloat(producto.cantidadProducto);
         var descuentoUnidad = producto.descuentoUnidad/100;
-        return <b>S/. {
-            parseFloat(precioProducto-(precioProducto*descuentoUnidad)||0).toFixed(2)+" x "+
-            unidadMedidaProducto(cantidadProducto,producto.tipoUnidad)+
-            (descuentoUnidad>0?(" (-"+producto.descuentoUnidad+"%)"):"")
-        }</b>
+        var precio = parseFloat(precioProducto-(precioProducto*descuentoUnidad)||0).toFixed(2)+" x "+
+        unidadMedidaProducto(cantidadProducto,producto.tipoUnidad)+(descuentoUnidad>0?(" (-"+producto.descuentoUnidad+"%)"):"");
+        return precio;
+    }
+
+    calcularTotalPagar =()=> {
+        var totalPagar = 0;
+        (this.props.pedidoUsuario||[]).forEach(producto => {
+            var precioProducto = parseFloat(producto.precioPorUnidad) * parseFloat(producto.cantidadProducto);
+            var descuentoUnidad = producto.descuentoUnidad/100;
+            var precio = parseFloat(precioProducto-(precioProducto*descuentoUnidad)||0);
+            totalPagar = totalPagar + precio;
+        });
+        return totalPagar.toFixed(2);
     }
 
     sacarProducto = (producto)=>{
         this.props.sacarProducto(producto);
     }
-    
-    redireccionar =(ruta)=> { window.location.href = ruta}
+
+    comprarPedido =()=> {
+        var usuarioAplicacion = obtenerUsuario();
+        if(usuarioAplicacion){
+            if(usuarioAplicacion.tipoUsuario === 'cliente'){ 
+                window.location.href = '/usuario/cliente/pedido' 
+            }
+            if(usuarioAplicacion.tipoUsuario === 'negocio'){ 
+                alert("Ingrese con una cuenta cliente.");
+                this.props.controlModalPedido();
+            }
+            if(usuarioAplicacion.tipoUsuario === 'invitado'){ 
+                this.props.controlModalIngreso();
+                this.props.controlModalPedido();
+            }
+        } else { 
+            this.props.controlModalIngreso();
+            this.props.controlModalPedido();
+        }
+    }
     
     render(){
         if(this.props.mostrarPedido){
@@ -41,26 +72,38 @@ export class ModalPedido extends React.Component {
                                 <label> Mi Pedido </label>
                             </div>
                             {(this.props.pedidoUsuario||[]).length > 0?
-                            <div className="pedido_lista">
-                                {(this.props.pedidoUsuario||[]).map((producto,i) =>
-                                    <div className="pedido_lista_item" style={{background:"url("+producto.imagenProducto+")no-repeat center/cover"}} key={i}>
-                                        <div className="pedido_lista_item_datos">
-                                            <div onClick={()=>this.props.seleccionarProductoCantidad(producto)}>
-                                                <span>{(producto.nombreProducto||"").toUpperCase()}</span>
-                                                <span>{producto.nombreNegocio}</span>
-                                                <span>Precio:{this.calcularPrecioProducto(producto)}</span> 
+                            <div>
+                                <div className="pedido_total">Total<b>:  S/.{this.calcularTotalPagar()}</b> </div>
+                                <div className="pedido_lista">
+                                    {(this.props.pedidoUsuario||[]).map((producto,i) =>
+                                        <div className="pedido_lista_item" style={{background:"url("+producto.imagenProducto+")no-repeat center/cover"}} key={i}>
+                                            <div className="pedido_lista_item_datos">
+                                                <div onClick={()=>this.props.seleccionarProductoCantidad(producto)}>
+                                                    <span>{(producto.nombreProducto||"").toUpperCase()}</span>
+                                                    <span>{producto.nombreNegocio}</span>
+                                                    <span>Precio: <b>S/.{this.calcularPrecioProducto(producto)}</b></span> 
+                                                </div>
+                                                <button onClick={()=>this.props.sacarProducto(producto)}>
+                                                    <IconoSacarProducto/>
+                                                </button>
                                             </div>
-                                            <button onClick={()=>this.props.sacarProducto(producto)}>
-                                                <IconoSacarProducto/>
-                                            </button>
                                         </div>
-                                    </div>
-                                )}
-                            </div> :
-                            <div> No se agregaron Productos al Pedido!.</div>}
-                            <div className="pedido_modal_boton centrado">
-                                <button onClick={()=>this.redireccionar('/usuario/cliente/pedido')}> COMPRAR </button>
+                                    )}
+                                </div>
+                                <div className="pedido_modal_boton centrado">
+                                    <button onClick={()=>this.comprarPedido()}> COMPRAR </button>
+                                </div>
                             </div>
+                            :
+                            <div className="pedido_vacio">
+                                <div className="pedido_vacio_mensaje">
+                                    <div><IconoPedidoVacio/></div>
+                                    <span>No tienes productos en tu carrito</span>
+                                    <label>Encuentra tus productos con un sólo un click</label>
+                                    <NavLink className="pedido_vacio_mensaje_boton" to='/productos/buscador/TODO/_'>Comprar productos</NavLink>
+                                </div>
+                            </div>}
+                            
                         </div>
                     </div>
                 </div>
