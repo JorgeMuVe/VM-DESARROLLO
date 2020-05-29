@@ -118,9 +118,7 @@ export class Aplicacion extends Component {
   /* OBTENER USUARIO */
   obtenerUsuario = () => {
     let usuarioAplicacion = JSON.parse(sessionStorage.getItem('usuarioAplicacion'));
-    if(usuarioAplicacion) this.setState({usuarioAplicacion},()=>{
-      this.listarPedidoUsuario();
-    });
+    if(usuarioAplicacion) this.setState({usuarioAplicacion});
   }
 
   /* SALIR SISTEMA */
@@ -267,6 +265,7 @@ export class Aplicacion extends Component {
   /* EJECUTAR FUNCIONES AL INICIAR APP */
   inicarAplicacion = () => {
     this.obtenerUsuario();
+    this.listarPedidoUsuario();
   }
 
   componentDidMount() {

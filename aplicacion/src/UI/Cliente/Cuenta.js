@@ -27,9 +27,9 @@ export class ClientePerfil extends React.Component {
 
     obtenerUsuarioCliente =()=> {
         var { usuarioAplicacion } = this.state
-        buscarUsuarioCliente_DB(usuarioAplicacion.codigoUsuario).then(usuario=>{
-            if(!usuario.error && !usuario[0].error){
-                this.setState({usuarioAplicacion:usuario[0]});
+        buscarUsuarioCliente_DB({codigoUsuario:usuarioAplicacion.codigoUsuario}).then(usuario=>{
+            if(!usuario.error){
+                this.setState({usuarioAplicacion:usuario});
             }
         })
     }

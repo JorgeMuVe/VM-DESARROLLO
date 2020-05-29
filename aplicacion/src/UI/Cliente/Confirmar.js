@@ -32,6 +32,17 @@ export class ConfirmarPedido extends React.Component {
         this.state = estadoInicial;
     }
 
+    calcularTotalPagar =()=> {
+        var totalPagar = 0;
+        (this.state.pedidoUsuario||[]).forEach(producto => {
+            var precioProducto = parseFloat(producto.precioPorUnidad) * parseFloat(producto.cantidadProducto);
+            var descuentoUnidad = producto.descuentoUnidad/100;
+            var precio = parseFloat(precioProducto-(precioProducto*descuentoUnidad)||0);
+            totalPagar = totalPagar + precio;
+        });
+        return totalPagar.toFixed(2);
+    }
+
     obtenerPedidoUsuario =()=> {
         let pedidoUsuario = sessionStorage.getItem('pedidoUsuario');
         pedidoUsuario = JSON.parse(pedidoUsuario);
@@ -39,7 +50,7 @@ export class ConfirmarPedido extends React.Component {
     }
 
     obtenerDirecciones =(usuarioAplicacion)=> {
-        listaDirecciones_DB(usuarioAplicacion.codigoUsuario).then(lista=>{
+        listaDirecciones_DB({codigoUsuario : usuarioAplicacion.codigoUsuario}).then(lista=>{
             if(!lista.error){
                 this.setState({direccionesCliente:lista});
             }else {console.log("ERROR >> LISTAR DIERCCIONES CLIENTE")}
@@ -57,16 +68,16 @@ export class ConfirmarPedido extends React.Component {
         const { pedidoDetalles,ventasNegocios,datosConfirmacion } = this.state;
         agregarPedido_DB(datosConfirmacion).then(res=>{
             if(!res.error){
-                var idPedido = (res[0][0].idPedido||"0");
+                var idPedido = (res.idPedido||"0");
                 
                 pedidoDetalles.forEach(detalle=>{
                     detalle["idPedido"] = idPedido;
-                    agregarPedidoDetalle_DB(detalle);
+                    agregarPedidoDetalle_DB(detalle)
                 })
 
                 ventasNegocios.forEach(venta=>{
                     venta["idPedido"] = idPedido;
-                    agregarVenta_DB(venta);
+                    agregarVenta_DB(venta)
                 })
 
                 this.setState({mostrarModalConfirmar:false},()=>{
@@ -84,14 +95,13 @@ export class ConfirmarPedido extends React.Component {
         const usuarioAplicacion = obtenerUsuario();
 
         // DETALLE DEL PEDIDO DEL CLIENTE
-        var pedidoDetalles = [], totalPagar = 0;
+        var pedidoDetalles = [];
         pedidoUsuario.forEach(p=>{
             var detalle = {}
             detalle["idProducto"] = p.idProducto;
             detalle["idNegocio"] = p.idNegocio;
             detalle["cantidadProducto"] = (p.cantidadProducto||0);
             detalle["precioPorUnidad"] = (p.precioPorUnidad||0);
-            totalPagar = totalPagar + p.precioPorUnidad;
             pedidoDetalles.push(detalle);
         });
         
@@ -112,7 +122,7 @@ export class ConfirmarPedido extends React.Component {
         datosConfirmacion["telefonoReferencia"] = document.getElementById("telefonoReferencia").value;
         datosConfirmacion["correoReferencia"] = document.getElementById("correoReferencia").value;
         datosConfirmacion["totalProductos"] = pedidoUsuario.length;
-        datosConfirmacion["totalPagar"] = totalPagar;
+        datosConfirmacion["totalPagar"] = this.calcularTotalPagar();
         datosConfirmacion["tipoPago"] = document.getElementById("tipoPago").value;
         datosConfirmacion["fechaRegistro"] = obtenerFechaHoy();
         datosConfirmacion["estadoPedido"] = "Registrado";

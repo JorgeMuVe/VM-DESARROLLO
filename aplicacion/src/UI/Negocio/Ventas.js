@@ -110,7 +110,7 @@ export class NegocioVentas extends React.Component {
                                 <tr className={(i%2!==0?" interlinea":"")}>
                                     <td style={{textAlign:'center'}}>
                                         N° <b>{venta.idVenta}</b><br/>
-                                        <b>S/. {venta.totalPagar.toFixed(2)}</b><br/>
+                                        <b>S/. {parseFloat(venta.totalPagar).toFixed(2)}</b><br/>
                                         Cant: {venta.totalProductos}<br/>
                                         {(venta.fechaRegistro||"").split(" ")[0]}<br/>
                                         <b>{venta.estadoPedido.toUpperCase()}</b><br/>

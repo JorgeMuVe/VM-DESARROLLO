@@ -75,7 +75,6 @@ export class Productos extends React.Component {
             cantidad: this.state.productosPorPagina
         };
         listarProductoPorNegocio_DB(Buscador).then(res=>{
-            console.log(res);
             if(!res.error){
                 var cantidadPaginas = (res.cantidadProductos / this.state.productosPorPagina);
                 cantidadPaginas = Math.ceil(cantidadPaginas||1);

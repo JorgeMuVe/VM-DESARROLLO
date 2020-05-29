@@ -54,11 +54,9 @@ export class ModalPedido extends React.Component {
             }
             if(usuarioAplicacion.tipoUsuario === 'invitado'){ 
                 this.props.controlModalIngreso();
-                this.props.controlModalPedido();
             }
         } else { 
             this.props.controlModalIngreso();
-            this.props.controlModalPedido();
         }
     }
     
@@ -90,8 +88,10 @@ export class ModalPedido extends React.Component {
                                         </div>
                                     )}
                                 </div>
-                                <div className="pedido_modal_boton centrado">
-                                    <button onClick={()=>this.comprarPedido()}> COMPRAR </button>
+                                <div className="centrado">
+                                    <div className="pedido_modal_boton">
+                                        <button onClick={()=>this.comprarPedido()}> COMPRAR </button>
+                                    </div>
                                 </div>
                             </div>
                             :

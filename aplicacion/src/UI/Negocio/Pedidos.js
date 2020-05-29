@@ -142,7 +142,7 @@ export class NegocioPedidos extends React.Component {
                                 <tr className={(i%2!==0?" interlinea":"")}>
                                     <td style={{textAlign:'center'}}>
                                         N° <b>{pedido.idPedido}</b><br/>
-                                        <b>S/. {pedido.totalPagar.toFixed(2)}</b><br/>
+                                        <b>S/. {parseFloat(pedido.totalPagar).toFixed(2)}</b><br/>
                                         Cant: {pedido.totalProductos}<br/>
                                         {(pedido.fechaRegistro||"").split(" ")[0]}<br/>
                                         <b>{pedido.estadoPedido.toUpperCase()}</b><br/>

@@ -26,16 +26,17 @@ export class NegocioPerfil extends React.Component {
 
     obtenerUsuarioNegocio =()=> {
         var { usuarioAplicacion } = this.state
-        buscarUsuarioNegocio_DB(usuarioAplicacion.codigoUsuario).then(usuario=>{
-            if(!usuario.error && !usuario[0].error){
-                this.setState({usuarioAplicacion:usuario[0]});
+        buscarUsuarioNegocio_DB({codigoUsuario:usuarioAplicacion.codigoUsuario }).then(usuario=>{
+            if(!usuario.error){
+                this.setState({usuarioAplicacion:usuario});
             }
         })
     }
 
     inicarFunciones =()=> {
         var usuarioAplicacion = obtenerUsuario();
-        if(usuarioAplicacion){this.setState({usuarioAplicacion},()=>{
+        if(usuarioAplicacion){
+            this.setState({usuarioAplicacion},()=>{
             this.obtenerUsuarioNegocio();
         })}
     }

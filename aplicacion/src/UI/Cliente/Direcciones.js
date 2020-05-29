@@ -10,7 +10,7 @@ import Paginado from '../../Componentes/Paginado';
 
 /*** F U N C I O N E S ***/
 import { obtenerUsuario } from '../../Componentes/Funciones';
-import { agregarDireccion_DB, editarDireccion_DB, listaDirecciones_DB } from '../../DB/direccionDB';
+import { agregarDireccion_DB, editarDireccion_DB, paginadoDirecciones_DB } from '../../DB/direccionDB';
 
 /* ICONOS */
 import IconoAgregar from '../../SVG/aplicacion/IconoAgregar';
@@ -48,8 +48,7 @@ export class ClienteDirecciones extends React.Component {
             cantidad: this.state.direccionesPorPagina
         };
 
-        listaDirecciones_DB(Buscador).then(res=>{
-            console.log(res);
+        paginadoDirecciones_DB(Buscador).then(res=>{
             if(!res.error){
                 var cantidadPaginas = (res.cantidadDirecciones / this.state.direccionesPorPagina);
                 cantidadPaginas = Math.ceil(cantidadPaginas||1);

@@ -5,7 +5,7 @@ const Url = urlServidor + '/api/pedido/';
 // AGREGAR NUEVO PEDIDO
 export function agregarPedido_DB(Pedido){ 
     return new Promise((resolver,rechazar) => {
-        fetch(Url + "agregar",{ // Fetch para consumir API de SERVER NODE JS
+        fetch(Url + "agregar/pedido",{ // Fetch para consumir API de SERVER NODE JS
             method:'POST',
             body: JSON.stringify(Pedido),
             headers: new Headers({ 'Content-type':'application/json' })

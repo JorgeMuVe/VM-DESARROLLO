@@ -31,11 +31,9 @@ export class ModalIngreso extends React.Component {
     ingresarSistema = (ingresoUsuario) => {
         ingresarSistema_DB(ingresoUsuario).then(res => {
             if (!res.error) {
-            if(!res[0].error){
-                sessionStorage.setItem('usuarioAplicacion',JSON.stringify(res[0]));
-                this.props.history.push('/usuario/'+res[0].tipoUsuario);
-                this.props.ingresarSistema(res[0]);
-            } else {this.props.abrirMensajeError(4000, res[0].error);}
+                sessionStorage.setItem('usuarioAplicacion',JSON.stringify(res));
+                this.props.history.push('/usuario/'+res.tipoUsuario);
+                this.props.ingresarSistema(res);
             } else { this.props.abrirMensajeError(4000, res.error); }
         });
     }

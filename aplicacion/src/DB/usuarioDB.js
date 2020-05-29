@@ -29,18 +29,26 @@ export function ingresarSistema_DB(Usuario){
 }
 
 // BUSCAR USUARIO CLIENTE
-export function buscarUsuarioCliente_DB(codigoUsuario){ 
+export function buscarUsuarioCliente_DB(Usuario){ 
     return new Promise((resolver,rechazar) => {
-        fetch(Url + "buscar/cliente/"+codigoUsuario)
+        fetch(Url + "buscar/cliente",{ // Fetch para consumir API de SERVER NODE JS
+            method:'POST',
+            body: JSON.stringify(Usuario),
+            headers: new Headers({ 'Content-type':'application/json' })
+        })
         .then(respuesta => resolver(respuesta.json()))
         .catch(error => rechazar(error));
     });
 }
 
 // BUSCAR USUARIO NEGOCIO
-export function buscarUsuarioNegocio_DB(codigoUsuario){ 
+export function buscarUsuarioNegocio_DB(Usuario){ 
     return new Promise((resolver,rechazar) => {
-        fetch(Url + "buscar/negocio/"+codigoUsuario)
+        fetch(Url + "buscar/negocio",{ // Fetch para consumir API de SERVER NODE JS
+            method:'POST',
+            body: JSON.stringify(Usuario),
+            headers: new Headers({ 'Content-type':'application/json' })
+        })
         .then(respuesta => resolver(respuesta.json()))
         .catch(error => rechazar(error));
     });

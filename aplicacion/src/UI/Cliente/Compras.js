@@ -112,7 +112,7 @@ export class ClienteCompras extends React.Component {
                                         {(pedido.fechaRegistro||"").split(" ")[0]}
                                     </td>
                                     <td style={{textAlign:'center'}}>
-                                        <b>S/. {pedido.totalPagar.toFixed(2)}</b><br/>
+                                        <b>S/. {parseFloat(pedido.totalPagar).toFixed(2)}</b><br/>
                                         Cant:. {pedido.totalProductos}
                                     </td>
                                     <td style={{textAlign:'center'}}>
