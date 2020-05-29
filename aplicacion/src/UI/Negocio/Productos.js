@@ -86,11 +86,12 @@ export class Productos extends React.Component {
     /*******   G U A R D A R   *****/
     guardarDatosProducto =(evento)=> {
         evento.preventDefault();
+        const { productoSeleccionado } =  this.state;
         var tp = document.getElementById('tipoProducto');
         var idTipoProducto = tp.options[tp.selectedIndex].value;
 
         const datoProducto = {
-            idProducto:this.state.productoSeleccionado.idProducto,
+            idProducto:productoSeleccionado.idProducto,
             idNegocio:this.state.usuarioAplicacion.codigoUsuario||"1",
             idTipoProducto:idTipoProducto,
             tipoUnidad:document.getElementById('tipoUnidad').value,
@@ -98,19 +99,24 @@ export class Productos extends React.Component {
             detalleProducto:document.getElementById('detalleProducto').value,
             precioPorUnidad:(parseFloat(document.getElementById('precioPorUnidad').value)||0).toFixed(2),
             unidadCantidad:(parseFloat(document.getElementById('unidadCantidad').value)||0).toFixed(2),
-            descuentoUnidad:(parseFloat(document.getElementById('descuentoUnidad').value)||0).toFixed(2),
-            imagenProducto:"/img/productos/"+(this.state.archivoImagenNuevo||{}).name||"",
+            descuentoUnidad:(parseFloat(document.getElementById('descuentoUnidad').value)||0).toFixed(2)
         }
         if(this.state.archivoImagenNuevo){
+            datoProducto["imagenProducto"] = "/img/productos/"+(this.state.archivoImagenNuevo||{}).name||"sin_imagen.jpg";
             guardarArchivo_DB(this.state.archivoImagenNuevo);
-        } else{ console.log("No se selecciono imagen");}
+        } else{
+            if(productoSeleccionado.imagenProducto){
+                datoProducto["imagenProducto"] = productoSeleccionado.imagenProducto;
+            } else{ datoProducto["imagenProducto"] = "/img/productos/sin_imagen.jpg"; }
+            console.log("No se selecciono imagen");
+        }
         if(datoProducto.idProducto){            
             editarProducto_DB(datoProducto).then(res=>{
                 if(!res.error){
                     this.obtenerProductosNegocio();
                     this.controlModalProducto();
                     this.setState({productoSeleccionado:[]});
-                } else { console.log("ERROR >> CAMBIAR PRODUCTO") }
+                } else { console.log("ERROR >> CAMBIAR PRODUCTO"); }
             });
         }else {
             agregarProducto_DB(datoProducto).then(res=>{
@@ -270,7 +276,7 @@ export class Productos extends React.Component {
                         <div className="negocio_agregar_producto_imagen">
                             {this.state.archivoImagenTempo===null?null:
                             <div className="centrado">
-                                <img src={this.state.archivoImagenTempo} alt="Imagen Producto"/>
+                                <img src={this.state.archivoImagenTempo} alt="Imagen Producto" name="imagenProducto"/>
                             </div>}
 
                             <div className="negocio_agregar_producto_imagen_boton">

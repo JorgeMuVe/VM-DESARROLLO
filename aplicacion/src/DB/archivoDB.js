@@ -15,9 +15,9 @@ export function eliminarArchivo_DB(urlMedia){
 }
 
 //GUARDAR ARCHIVO
-export function guardarArchivo_DB(fileMedia){
+export function guardarArchivo_DB(imagenProducto){
     const fd = new FormData();
-    fd.append('fileMedia',fileMedia);
+    fd.append('imagenProducto',imagenProducto);
     return new Promise((resolve, reject)=>{
         fetch(Url+"guardar",{method:'POST',body:fd})
         .then(response=>response.json())
