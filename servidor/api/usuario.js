@@ -16,6 +16,27 @@ gestorUsuario.post('/ingresar', async (solicitud, respuesta) => {
             if (error)
             respuesta.json({ error : (error.sqlMessage + " - " + error.sql) }); // Enviar error en JSON
             else
+            respuesta.send(resultado[0][0]); // Enviar resultado de consulta en JSON
+        })
+
+        proveedorDeDatos.release();
+    }catch(error){ respuesta.json({ error : error.code }) }  // Enviar error en JSON
+});
+
+/***************  R  E  G  I  S  T  R  A  R    U  S  U  A  R  I  O  *******************/
+gestorUsuario.post('/agregar', async (solicitud, respuesta) => {
+    try {
+
+        const { registroNacional,nombreCompleto,apellidoPaterno,apellidoMaterno,nombreUsuario,contrasena,tipoUsuario } = solicitud.body;
+
+        await proveedorDeDatos.query(`CALL agregarUsuario(?,?,?,?,?,?,?);`,
+
+        [ registroNacional,nombreCompleto,apellidoPaterno,apellidoMaterno,nombreUsuario,contrasena,tipoUsuario ] ,
+
+        (error, resultado) => {
+            if (error)
+            respuesta.json({ error : (error.sqlMessage + " - " + error.sql) }); // Enviar error en JSON
+            else
             respuesta.send(resultado[0]); // Enviar resultado de consulta en JSON
         })
 

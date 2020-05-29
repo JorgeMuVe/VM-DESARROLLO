@@ -51,15 +51,26 @@ gestorPedido.post('/agregar/detalle', async (solicitud, respuesta) => {
 /**********  L I S T A R   P E D I D O   C L I E N T E  *********/
 gestorPedido.post('/lista/cliente', async (solicitud, respuesta) => {
     try {
-        const { codigoUsuario } = solicitud.body;
-        await proveedorDeDatos.query(`SELECT * FROM pedido WHERE codigoUsuario = ? AND tipoUsuario='cliente'`,
+        const { codigoUsuario,inicio,cantidad } = solicitud.body;
+        await proveedorDeDatos.query(`SELECT COUNT(*) AS cantidadPedidos FROM pedido WHERE tipoUsuario='cliente' AND codigoUsuario = ?`,
         [ codigoUsuario ],
 
-        (error, resultado) => {
-            if (error)
-            respuesta.json({ error : (error.sqlMessage + " - " + error.sql) }); // Enviar error en JSON
-            else
-            respuesta.send(resultado); // Enviar resultado de consulta en JSON
+        (errorCantidad, resultadoCantidad) => {
+            if (errorCantidad) respuesta.json({ error : (errorCantidad.sqlMessage + " - " + errorCantidad.sql) }); // Enviar error en JSON
+            else {
+                proveedorDeDatos.query(`SELECT * FROM pedido WHERE codigoUsuario = ? AND tipoUsuario='cliente' LIMIT ?,?;`,
+                [ codigoUsuario,inicio,cantidad ] ,
+                (errorBusqueda, resultadoBusqueda) => {
+                    if (errorBusqueda) respuesta.json({ error : (errorBusqueda.sqlMessage + " - " + errorBusqueda.sql) }); // Enviar error en JSON
+                    else {
+                        var resultado = {
+                            cantidadPedidos:resultadoCantidad[0].cantidadPedidos,
+                            listaPedidos:resultadoBusqueda
+                        }
+                        respuesta.send(resultado); // Enviar resultado de consulta en JSON
+                    }
+                })
+            }
         })
 
         proveedorDeDatos.release();
@@ -69,18 +80,23 @@ gestorPedido.post('/lista/cliente', async (solicitud, respuesta) => {
 /**********  L I S T A R   P E D I D O   N E G O C I O  *********/
 gestorPedido.post('/lista/negocio', async (solicitud, respuesta) => {
     try {
-        const { codigoUsuario } = solicitud.body;
-        await proveedorDeDatos.query(`
-
-            CALL listarPedidoNegocio(?);
-
-        `,[ codigoUsuario ],
-
-        (error, resultado) => {
-            if (error)
-            respuesta.json({ error : (error.sqlMessage + " - " + error.sql) }); // Enviar error en JSON
-            else
-            respuesta.send(resultado); // Enviar resultado de consulta en JSON
+        const { codigoUsuario, inicio, cantidad } = solicitud.body;
+        await proveedorDeDatos.query(`SELECT COUNT(*) AS cantidadPedidos FROM venta WHERE idNegocio = ?; `,[ codigoUsuario ],
+        (errorCantidad, resultadoCantidad) => {
+            if (errorCantidad) respuesta.json({ error : (errorCantidad.sqlMessage + " - " + errorCantidad.sql) }); // Enviar error en JSON
+            else {
+                proveedorDeDatos.query(`CALL listarPedidoNegocio(?,?,?)`,[ codigoUsuario, inicio, cantidad ],
+                (errorBusqueda, resultadoBusqueda) => {
+                    if (errorBusqueda) respuesta.json({ error : (errorBusqueda.sqlMessage + " - " + errorBusqueda.sql) }); // Enviar error en JSON
+                    else{
+                        var resultado = {
+                            cantidadPedidos:resultadoCantidad[0].cantidadPedidos,
+                            listaPedidos:resultadoBusqueda[0]
+                        }
+                        respuesta.send(resultado); // Enviar resultado de consulta en JSON
+                    }
+                })
+            }
         })
 
         proveedorDeDatos.release();

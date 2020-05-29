@@ -28,7 +28,7 @@ gestorProducto.post('/agregar', async (solicitud, respuesta) => {
     }catch(error){ respuesta.json({ error : error.code }) }  // Enviar error en JSON
 });
 
-/***************  A G R E G A R   P R O D U C T O  *******************/
+/***************  E D I T A R   P R O D U C T O  *******************/
 gestorProducto.post('/editar', async (solicitud, respuesta) => {
     try {
 
@@ -57,7 +57,7 @@ gestorProducto.post('/editar', async (solicitud, respuesta) => {
 gestorProducto.post('/buscar', async (solicitud, respuesta) => {
     try {
 
-        const {tipo,texto,inicio,productos} = solicitud.body;
+        const {tipo,texto,inicio,cantidad} = solicitud.body;
 
         await proveedorDeDatos.query(`
         SELECT COUNT(*) as cantidadProductos
@@ -77,10 +77,10 @@ gestorProducto.post('/buscar', async (solicitud, respuesta) => {
                 INNER JOIN negocio n ON p.idNegocio = n.idNegocio 
                 WHERE p.nombreProducto LIKE ? OR tp.nombreTipoProducto LIKE ? LIMIT ?,?;`, // Consulta a procedimiento almacenado
                 
-                [ "%"+(tipo==="TODO"?"%":tipo)+"%",  "%"+(texto||"%")+"%"  , "%"+(texto||"%")+"%", inicio, productos ] ,
+                [ "%"+(tipo==="TODO"?"%":tipo)+"%",  "%"+(texto||"%")+"%"  , "%"+(texto||"%")+"%", inicio, cantidad ] ,
 
-                (error, resultadoBusqueda) => {
-                    if (error) respuesta.json({ error : ("Busqueda >> "+error.sqlMessage + " - " + error.sql) }); // Enviar error en JSON
+                (errorBusqueda, resultadoBusqueda) => {
+                    if (errorBusqueda) respuesta.json({ error : ("Busqueda >> "+errorBusqueda.sqlMessage + " - " + errorBusqueda.sql) }); // Enviar error en JSON
                     else {
                         var resultado = {
                             cantidadProductos:resultadoCantidad[0].cantidadProductos,
@@ -96,27 +96,35 @@ gestorProducto.post('/buscar', async (solicitud, respuesta) => {
     }catch(error){ respuesta.json({ error : error.code }) }  // Enviar error en JSON
 });
 
-
 /************  L I S T A R  P R O D U C T O  N E G O C I O  ***************/
 gestorProducto.post('/lista/negocio', async (solicitud, respuesta) => {
     try {
-        const {idNegocio} = solicitud.body;
+        const {codigoUsuario, inicio, cantidad} = solicitud.body;
 
         await proveedorDeDatos.query(`
-        SELECT tp.nombreTipoProducto,p.nombreProducto,p.detalleProducto,p.imagenProducto,tp.imagenTipoProducto,
-        p.precioPorUnidad,p.unidadCantidad,p.tipoUnidad,p.descuentoUnidad,p.idProducto,tp.idTipoProducto 
-        FROM producto p INNER JOIN tipoProducto tp ON p.idTipoProducto = tp.idTipoProducto
-        WHERE p.idNegocio = ?;`, // Consulta a procedimiento almacenado
-
-        [ idNegocio ] ,
-
-        (error, resultado) => {
-            if (error)
-            respuesta.json({ error : (error.sqlMessage + " - " + error.sql) }); // Enviar error en JSON
-            else
-            respuesta.send(resultado); // Enviar resultado de consulta en JSON
+        SELECT COUNT(*) AS cantidadProductos FROM producto WHERE idNegocio = ?;`, // Consulta a procedimiento almacenado
+        [ codigoUsuario ] ,
+        (errorCantidad, resultadoCantidad) => {
+            if (errorCantidad)respuesta.json({ error : (errorCantidad.sqlMessage + " - " + errorCantidad.sql) }); // Enviar error en JSON
+            else {
+                proveedorDeDatos.query(`
+                SELECT tp.nombreTipoProducto,p.nombreProducto,p.detalleProducto,p.imagenProducto,tp.imagenTipoProducto,
+                p.precioPorUnidad,p.unidadCantidad,p.tipoUnidad,p.descuentoUnidad,p.idProducto,tp.idTipoProducto 
+                FROM producto p INNER JOIN tipoProducto tp ON p.idTipoProducto = tp.idTipoProducto
+                WHERE p.idNegocio = ? LIMIT ?,?;`, // Consulta a procedimiento almacenado
+                [ codigoUsuario, inicio, cantidad ] ,
+                (errorBusqueda, resultadoBusqueda) => {
+                    if (errorBusqueda)respuesta.json({ error : (errorBusqueda.sqlMessage + " - " + errorBusqueda.sql) }); // Enviar error en JSON
+                    else{
+                        var resultado = {
+                            cantidadProductos:resultadoCantidad[0].cantidadProductos,
+                            listaProductos:resultadoBusqueda
+                        }
+                        respuesta.send(resultado); // Enviar resultado de consulta en JSON
+                    }
+                })
+            }
         })
-
         proveedorDeDatos.release();
     }catch(error){ respuesta.json({ error : error.code }) }  // Enviar error en JSON
 });
