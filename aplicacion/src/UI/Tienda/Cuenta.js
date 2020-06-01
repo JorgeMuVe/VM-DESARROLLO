@@ -1,12 +1,12 @@
 /*
--- Description:     PAGINA PRINCIPAL DE NEGOCIO
+-- Description:     PAGINA PRINCIPAL DE TIENDA
 -- @Copyright        Jorge.Muvez - World Connect Perú - 2020-00-00
 */
 
 /* COMPONENTES */
 import React from 'react';
 
-import { buscarUsuarioNegocio_DB } from '../../DB/usuarioDB';
+import { buscarUsuarioTienda_DB } from '../../DB/usuarioDB';
 import { obtenerUsuario } from '../../Componentes/Funciones';
 
 /*** ICONO SVG ***/
@@ -18,15 +18,15 @@ const estadoInicial = {
     usuarioAplicacion:[],
 };
 
-export class NegocioPerfil extends React.Component {
+export class TiendaPerfil extends React.Component {
     constructor(props){
         super(props);
         this.state = estadoInicial;
     }
 
-    obtenerUsuarioNegocio =()=> {
+    obtenerUsuarioTienda =()=> {
         var { usuarioAplicacion } = this.state
-        buscarUsuarioNegocio_DB({codigoUsuario:usuarioAplicacion.codigoUsuario }).then(usuario=>{
+        buscarUsuarioTienda_DB({codigoUsuario:usuarioAplicacion.codigoUsuario }).then(usuario=>{
             if(!usuario.error){
                 this.setState({usuarioAplicacion:usuario});
             }
@@ -37,7 +37,7 @@ export class NegocioPerfil extends React.Component {
         var usuarioAplicacion = obtenerUsuario();
         if(usuarioAplicacion){
             this.setState({usuarioAplicacion},()=>{
-            this.obtenerUsuarioNegocio();
+            this.obtenerUsuarioTienda();
         })}
     }
 
@@ -57,26 +57,26 @@ export class NegocioPerfil extends React.Component {
                 <div className="centrado">
                     <div className="usuario_datos">
 
-                        <div className="usuario_datos_logo centrado"><img src={this.state.usuarioAplicacion.logo||"/img/clientes/sin_foto.jpg"} alt="Logo Negocio"/></div>
+                        <div className="usuario_datos_logo centrado"><img src={this.state.usuarioAplicacion.logo||"/img/clientes/sin_foto.jpg"} alt="Logo Tienda"/></div>
                         
                         <div className="usuario_datos_informacion">
                             <fieldset> <legend align="left">Empresa</legend>
                                 <div className="usuario_datos_informacion_tienda">
-                                    <div className="cuadro_texto"><IconoUsuario fill="#d1d3d8"/><input type="text" id="nombreNegocio" placeholder="Nombre Empresa" defaultValue={this.state.usuarioAplicacion.nombreNegocio||""}/></div>
+                                    <div className="cuadro_texto"><IconoUsuario fill="#d1d3d8"/><input type="text" id="nombreTienda" placeholder="Nombre Empresa" defaultValue={this.state.usuarioAplicacion.nombreTienda||""}/></div>
                                     <div className="cuadro_texto"><IconoUsuario fill="#d1d3d8"/><input type="text" id="ruc" placeholder="RUC" defaultValue={this.state.usuarioAplicacion.ruc||""}/></div>
                                 </div>
                             </fieldset>
 
-                            <fieldset> <legend align="left">Datos Negocio</legend>
+                            <fieldset> <legend align="left">Datos Tienda</legend>
                                 <div className="usuario_datos_informacion_tienda">
-                                    <div className="cuadro_texto"><IconoUsuario fill="#d1d3d8"/><input type="text" id="correoNegocio" placeholder="Correo Electronico" defaultValue={this.state.usuarioAplicacion.correoNegocio||""}/></div>
-                                    <div className="cuadro_texto"><IconoUsuario fill="#d1d3d8"/><input type="text" id="telefonoNegocio" placeholder="Teléfono" defaultValue={this.state.usuarioAplicacion.telefonoNegocio||""}/></div>
+                                    <div className="cuadro_texto"><IconoUsuario fill="#d1d3d8"/><input type="text" id="correoTienda" placeholder="Correo Electronico" defaultValue={this.state.usuarioAplicacion.correoTienda||""}/></div>
+                                    <div className="cuadro_texto"><IconoUsuario fill="#d1d3d8"/><input type="text" id="telefonoTienda" placeholder="Teléfono" defaultValue={this.state.usuarioAplicacion.telefonoTienda||""}/></div>
                                 </div>
                             </fieldset>
                         </div>
                         
                         <fieldset><legend align="left">Descripción</legend>
-                            <textarea rows="6" id="descripcion" placeholder="Ej. Productores de Ropa" defaultValue={this.state.usuarioAplicacion.descripcionNegocio||""}></textarea>
+                            <textarea rows="6" id="descripcion" placeholder="Ej. Productores de Ropa" defaultValue={this.state.usuarioAplicacion.descripcionTienda||""}></textarea>
                         </fieldset>
                         
                         <div className="centrado">
@@ -89,4 +89,4 @@ export class NegocioPerfil extends React.Component {
     }
 }
 
-export default NegocioPerfil;
+export default TiendaPerfil;

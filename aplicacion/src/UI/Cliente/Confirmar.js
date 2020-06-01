@@ -1,5 +1,5 @@
 /*
--- Description:     PAGINA PRINCIPAL DE VENTAS DE NEGOCIO
+-- Description:     PAGINA DE CONFIRMACION DE PEDIDO
 -- @Copyright        Jorge.Muvez - World Connect Perú - 2020-00-00
 */
 
@@ -9,7 +9,9 @@ import Modal from '../../Componentes/Modal';
 
 /***  F U N C I O N E S  ***/
 import { listaDirecciones_DB, agregarDireccion_DB } from '../../DB/direccionDB';
-import { agregarPedido_DB, agregarPedidoDetalle_DB } from '../../DB/pedidoDB';
+import { agregarPedido_DB } from '../../DB/pedidoDB';
+import { agregarPedidoDetalle_DB } from '../../DB/detalleDB';
+
 import { agregarVenta_DB } from '../../DB/ventaDB';
 
 import { obtenerFechaHoy,obtenerUsuario } from '../../Componentes/Funciones';
@@ -18,6 +20,8 @@ import { obtenerFechaHoy,obtenerUsuario } from '../../Componentes/Funciones';
 const estadoInicial = {
 
     direccionesCliente:[],
+
+    ventasTiendas:[],
 
     pedidoUsuario:[],
     pedidoDetalles:[],
@@ -65,7 +69,7 @@ export class ConfirmarPedido extends React.Component {
     controlModalConfirmar =()=> this.setState({mostrarModalConfirmar:!this.state.mostrarModalConfirmar});
 
     confirmarPedido =()=> {
-        const { pedidoDetalles,ventasNegocios,datosConfirmacion } = this.state;
+        const { pedidoDetalles,ventasTiendas,datosConfirmacion } = this.state;
         agregarPedido_DB(datosConfirmacion).then(res=>{
             if(!res.error){
                 var idPedido = (res.idPedido||"0");
@@ -75,7 +79,7 @@ export class ConfirmarPedido extends React.Component {
                     agregarPedidoDetalle_DB(detalle)
                 })
 
-                ventasNegocios.forEach(venta=>{
+                ventasTiendas.forEach(venta=>{
                     venta["idPedido"] = idPedido;
                     agregarVenta_DB(venta)
                 })
@@ -99,17 +103,18 @@ export class ConfirmarPedido extends React.Component {
         pedidoUsuario.forEach(p=>{
             var detalle = {}
             detalle["idProducto"] = p.idProducto;
-            detalle["idNegocio"] = p.idNegocio;
+            detalle["idTienda"] = p.idTienda;
             detalle["cantidadProducto"] = (p.cantidadProducto||0);
             detalle["precioPorUnidad"] = (p.precioPorUnidad||0);
             pedidoDetalles.push(detalle);
         });
         
-        // REGISTRO DE VENTA A NEGOCIO
-        var ventasNegocios = [];
-        pedidoUsuario.forEach(p=>{ var existeNegocio = false;
-            ventasNegocios.forEach(n=>{if(n.idNegocio===p.idNegocio){ existeNegocio=true } })
-            if(!existeNegocio){ ventasNegocios.push({idNegocio:p.idNegocio}) }
+        // REGISTRO DE VENTA A TIENDAS
+        var ventasTiendas = [];
+        pedidoUsuario.forEach(p=>{ 
+            var existeTienda = false;
+            ventasTiendas.forEach(n=>{if(n.idTienda===p.idTienda){ existeTienda=true } })
+            if(!existeTienda){ ventasTiendas.push({idTienda:p.idTienda}) }
         });
 
         // DATOS EN GENERAL DEL PEDIDO DE CLIENTE
@@ -130,7 +135,7 @@ export class ConfirmarPedido extends React.Component {
 
 
         // ABRIR MODAL DE CONFIRMARCION
-        this.setState({pedidoDetalles,ventasNegocios,datosConfirmacion},()=> this.controlModalConfirmar() );
+        this.setState({pedidoDetalles,ventasTiendas,datosConfirmacion},()=> this.controlModalConfirmar() );
     }
 
     componentDidMount(){

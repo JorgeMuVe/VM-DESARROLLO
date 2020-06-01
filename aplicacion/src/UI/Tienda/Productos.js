@@ -1,5 +1,5 @@
 /*
--- Description:     PAGINA PRINCIPAL DE PRODUCTOS DE NEGOCIO
+-- Description:     PAGINA PRINCIPAL DE PRODUCTOS DE TIENDA
 -- @Copyright        Jorge.Muvez - World Connect Perú - 2020-00-00
 */
 
@@ -12,7 +12,7 @@ import Paginado from '../../Componentes/Paginado';
 import { 
     agregarProducto_DB,
     editarProducto_DB,
-    listarProductoPorNegocio_DB,
+    listarProductoPorTienda_DB,
     listarTiposProducto_DB,
     listarUnidadesProducto_DB } from '../../DB/productoDB';
 import { obtenerUsuario } from '../../Componentes/Funciones';
@@ -31,7 +31,7 @@ const estadoInicial = {
     
     tiposProducto:[],
     unidadesProducto:[],
-    productosNegocio:[],
+    productosTienda:[],
     
     mostrarModalProducto: false,
 
@@ -68,18 +68,18 @@ export class Productos extends React.Component {
         });
     }
 
-    obtenerProductosNegocio =()=> {
+    obtenerProductosTienda =()=> {
         const Buscador={
             codigoUsuario: this.state.usuarioAplicacion.codigoUsuario,
             inicio: (this.state.paginaActual-1)*this.state.productosPorPagina,
             cantidad: this.state.productosPorPagina
         };
-        listarProductoPorNegocio_DB(Buscador).then(res=>{
+        listarProductoPorTienda_DB(Buscador).then(res=>{
             if(!res.error){
                 var cantidadPaginas = (res.cantidadProductos / this.state.productosPorPagina);
                 cantidadPaginas = Math.ceil(cantidadPaginas||1);
-                this.setState({cantidadPaginas,productosNegocio:res.listaProductos})
-            } else { console.log("ERROR >> LISTAR PRODUCTOS DEL NEGOCIO!!..")}
+                this.setState({cantidadPaginas,productosTienda:res.listaProductos})
+            } else { console.log("ERROR >> LISTAR PRODUCTOS DEL TIENDA!!..")}
         });
     }
 
@@ -92,7 +92,7 @@ export class Productos extends React.Component {
 
         const datoProducto = {
             idProducto:productoSeleccionado.idProducto,
-            idNegocio:this.state.usuarioAplicacion.codigoUsuario||"1",
+            idTienda:this.state.usuarioAplicacion.codigoUsuario||"1",
             idTipoProducto:idTipoProducto,
             tipoUnidad:document.getElementById('tipoUnidad').value,
             nombreProducto:document.getElementById('nombreProducto').value,
@@ -113,7 +113,7 @@ export class Productos extends React.Component {
         if(datoProducto.idProducto){            
             editarProducto_DB(datoProducto).then(res=>{
                 if(!res.error){
-                    this.obtenerProductosNegocio();
+                    this.obtenerProductosTienda();
                     this.controlModalProducto();
                     this.setState({productoSeleccionado:[]});
                 } else { console.log("ERROR >> CAMBIAR PRODUCTO"); }
@@ -121,7 +121,7 @@ export class Productos extends React.Component {
         }else {
             agregarProducto_DB(datoProducto).then(res=>{
                 if(!res.error){
-                    this.obtenerProductosNegocio();
+                    this.obtenerProductosTienda();
                     this.controlModalProducto();
                     this.setState({productoSeleccionado:[]});
                 } else { console.log("ERROR >> AGREGAR PRODUCTO") }
@@ -154,7 +154,7 @@ export class Productos extends React.Component {
         const { paginaActual, cantidadPaginas } = this.state;
         if(paginaActual < cantidadPaginas){
             this.setState({paginaActual:paginaActual+1},()=> {
-                this.obtenerProductosNegocio();
+                this.obtenerProductosTienda();
             });
         }
     }
@@ -163,7 +163,7 @@ export class Productos extends React.Component {
         const { paginaActual } = this.state;
         if(paginaActual>1){
             this.setState({paginaActual:paginaActual-1},()=> {
-                this.obtenerProductosNegocio();
+                this.obtenerProductosTienda();
             });
         }
     }
@@ -173,7 +173,7 @@ export class Productos extends React.Component {
     iniciarFunciones =()=> {
         this.obtenerTiposProducto();
         this.obtenerUnidadesProducto();
-        this.obtenerProductosNegocio();
+        this.obtenerProductosTienda();
     }
 
     componentDidMount(){
@@ -183,13 +183,13 @@ export class Productos extends React.Component {
 
     render(){
         return(
-            <div className="NegocioProductos">
+            <div className="TiendaProductos">
                 <div className="usuario_encabezado">
                     <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
                     <label> Mis Productos </label>
                     <div onClick={this.agregarProducto}><IconoAgregar fill="#23A24D"/></div>
                 </div>
-                {(this.state.productosNegocio||[]).length > 0?
+                {(this.state.productosTienda||[]).length > 0?
                 <div className="usuario_tabla centrado">
                     <table>
                         <thead>
@@ -198,7 +198,7 @@ export class Productos extends React.Component {
                                 <th> PRECIO<br/>UNIDAD</th>
                             </tr>
                         </thead>
-                        {(this.state.productosNegocio||[]).map((producto,i) => {
+                        {(this.state.productosTienda||[]).map((producto,i) => {
                             return ( 
                             <tbody key={i}>
                                 <tr className={(i%2!==0?" interlinea":"")} onClick={()=>this.abrirProducto(producto)}>
@@ -229,7 +229,7 @@ export class Productos extends React.Component {
                     controlModal = {this.controlModalProducto}
                     tituloModal = {"Agregar Producto"}
                 >
-                <form className="negocio_agregar_producto" validate="true" onSubmit={this.guardarDatosProducto}>
+                <form className="tienda_agregar_producto" validate="true" onSubmit={this.guardarDatosProducto}>
                     
                     <fieldset><legend align="left">Producto</legend>
                         <div>
@@ -242,7 +242,7 @@ export class Productos extends React.Component {
                         </div>
                     </fieldset>
 
-                    <div className="negocio_agregar_producto_costo">
+                    <div className="tienda_agregar_producto_costo">
                         <fieldset><legend align="left">Precio x Cantidad</legend>
                             <div>
                                 <label>S/.</label>&nbsp;
@@ -273,13 +273,13 @@ export class Productos extends React.Component {
                     </fieldset>
    
                     <fieldset><legend align="left">Imagen</legend>
-                        <div className="negocio_agregar_producto_imagen">
+                        <div className="tienda_agregar_producto_imagen">
                             {this.state.archivoImagenTempo===null?null:
                             <div className="centrado">
                                 <img src={this.state.archivoImagenTempo} alt="Imagen Producto" name="imagenProducto"/>
                             </div>}
 
-                            <div className="negocio_agregar_producto_imagen_boton">
+                            <div className="tienda_agregar_producto_imagen_boton">
                                 <input type="file" id="imagenProducto" accept="image/*" onChange={(e)=> this.cambiarArchivo(e)}/>
                                 <label htmlFor="imagenProducto"> <IconoGoogle fill="#fefefe"/> Subir Imagen</label>
                             </div>

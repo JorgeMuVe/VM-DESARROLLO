@@ -39,14 +39,14 @@ export class Principal extends React.Component {
                 </div>
                 <div className="principal_categorias centrado">
                     
-                    <div className="centrado" onClick={()=>this.props.history.push('productos/buscador/ROPA/_')}><IconoMercado/><label>Ropa</label></div>
-                    <div className="centrado" onClick={()=>this.props.history.push('productos/buscador/COMIDA/_')}><IconoMercado/><label>Comida</label></div>
-                    <div className="centrado" onClick={()=>this.props.history.push('productos/buscador/EXTRACTO/_')}><IconoMercado/><label>Farmacia</label></div>
-                    <div className="centrado" onClick={()=>this.props.history.push('productos/buscador/EQUIPO/_')}><IconoMercado/><label>Equipos</label></div>
-                    <div className="centrado" onClick={()=>this.props.history.push('productos/buscador/VERDURA/_')}><IconoMercado/><label>Verdura</label></div>
-                    <div className="centrado" onClick={()=>this.props.history.push('productos/buscador/CARNE/_')}><IconoMercado/><label>Carne</label></div>
-                    <div className="centrado" onClick={()=>this.props.history.push('productos/buscador/LACTEO/_')}><IconoMercado/><label>Lacteo</label></div>
-                    <div className="centrado" onClick={()=>this.props.history.push('productos/buscador/BEBIDA/_')}><IconoMercado/><label>Servicios</label></div>
+                    <div className="centrado" onClick={()=>this.props.history.push('/tiendas/mercado')}><IconoMercado/><label>Mercados</label></div>
+                    <div className="centrado" onClick={()=>this.props.history.push('/tiendas/restaurante')}><IconoMercado/><label>Restaurantes</label></div>
+                    
+                    <div className="centrado" onClick={()=>this.props.history.push('/tiendas/comercio')}><IconoMercado/><label>Comercios</label></div>
+                    <div className="centrado" onClick={()=>this.props.history.push('/tiendas/supermercado')}><IconoMercado/><label>Supermercados</label></div>
+                    
+                    <div className="centrado" onClick={()=>this.props.history.push('/tiendas/farmacia')}><IconoMercado/><label>Farmacias</label></div>
+                    <div className="centrado" onClick={()=>this.props.history.push('/tiendas/agencia')}><IconoMercado/><label>Agencias</label></div>
 
                 </div>
             </div>

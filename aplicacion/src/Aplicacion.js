@@ -20,9 +20,14 @@ import PiePagina from './Componentes/PiePagina';
 import MejoresRestaurantes from './Componentes/MejoresRestaurantes';
 
 /* *********  I N T E R F A Z   **********/
-import Principal from './UI/Paginas/Principal.js';
+import Principal from './UI/Paginas/Principal';
+import Tiendas from './UI/Paginas/Tiendas';
+
+import Admin from './UI/Admin/Admin';
 import Negocio from './UI/Negocio/Negocio';
 import Cliente from './UI/Cliente/Cliente';
+import Tienda from './UI/Tienda/Tienda';
+
 
 import ProductoLista from './UI/Producto/ProductoLista';
 import ProductoBuscador from './UI/Producto/ProductoBuscador';
@@ -327,18 +332,29 @@ export class Aplicacion extends Component {
             <Route exact path="/" render={(props) => 
               <Principal usuarioAplicacion={this.state.usuarioAplicacion} {...props}/>
             }></Route>
-           
-            <Route path="/usuario/negocio" render={(props) => 
-              <Negocio salirSistema={this.salirSistema}
-              controlMenuUsuario={this.cerrarMenuUsuario}{...props} />
+
+            <Route path="/usuario/admin/:ruta" render={(props) => 
+              <Admin 
+                salirSistema={this.salirSistema}
+                controlMenuUsuario={this.cerrarMenuUsuario}{...props}/>
             }></Route>
 
-            <Route path="/usuario/cliente" render={(props) => 
+            <Route path="/usuario/negocio/:ruta" render={(props) => 
+              <Negocio salirSistema={this.salirSistema}
+                controlMenuUsuario={this.cerrarMenuUsuario}{...props}/>
+            }></Route>
+           
+            <Route path="/usuario/tienda/:ruta" render={(props) => 
+              <Tienda salirSistema={this.salirSistema}
+                controlMenuUsuario={this.cerrarMenuUsuario}{...props} />
+            }></Route>
+
+            <Route path="/usuario/cliente/:ruta" render={(props) => 
               <Cliente salirSistema={this.salirSistema}
-              sacarProducto={this.sacarProducto}
-              confirmarPedido={this.confirmarPedido}
-              controlMenuUsuario={this.cerrarMenuUsuario}{...props}/>
-              }></Route>
+                sacarProducto={this.sacarProducto}
+                confirmarPedido={this.confirmarPedido}
+                controlMenuUsuario={this.cerrarMenuUsuario}{...props}/>
+            }></Route>
 
             <Route path="/productos/buscador/:tipo/:texto" render={(props) =>
               <ProductoBuscador 
@@ -349,6 +365,11 @@ export class Aplicacion extends Component {
             <Route path="/productos/lista" render={(props) =>
               <ProductoLista listarPor={"NEGOCIO"} {...props}/>
             }></Route>
+
+            <Route path="/tiendas/:tipo" render={(props) =>
+              <Tiendas {...props}/>
+            }></Route>
+
           </Switch>
         </BrowserRouter>
       </div>

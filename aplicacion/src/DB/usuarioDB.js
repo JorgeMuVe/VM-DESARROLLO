@@ -54,6 +54,19 @@ export function buscarUsuarioNegocio_DB(Usuario){
     });
 }
 
+// BUSCAR USUARIO TIENDA
+export function buscarUsuarioTienda_DB(Usuario){ 
+    return new Promise((resolver,rechazar) => {
+        fetch(Url + "buscar/tienda",{ // Fetch para consumir API de SERVER NODE JS
+            method:'POST',
+            body: JSON.stringify(Usuario),
+            headers: new Headers({ 'Content-type':'application/json' })
+        })
+        .then(respuesta => resolver(respuesta.json()))
+        .catch(error => rechazar(error));
+    });
+}
+
 // LISTAR USUARIOS
 export function listarUsuarios_DB(){ 
     return new Promise((resolver,rechazar) => {

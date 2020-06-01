@@ -6,8 +6,9 @@
 /***  COMPONENTES  ***/
 import React from 'react';
 import { Route } from 'react-router-dom'; // Libreria React-Router
-import MenuNegocio from '../../Componentes/MenuNegocio';
-import Tiendas from './Tiendas';
+import MenuTienda from '../../Componentes/MenuTienda';
+import Productos from './Productos';
+import Pedidos from './Pedidos';
 import Ventas from './Ventas';
 import Cuenta from './Cuenta';
 
@@ -25,8 +26,8 @@ export class Tienda extends React.Component {
     }
 
     componentDidMount(){
-        var ruta = this.props.match.params.ruta==="_"?"tiendas":this.props.match.params.ruta;
-        this.props.history.push("/usuario/negocio/"+ruta);
+        var ruta = this.props.match.params.ruta==="_"?"pedidos":this.props.match.params.ruta;
+        this.props.history.push("/usuario/tienda/"+ruta);
     }
 
     render(){
@@ -36,15 +37,16 @@ export class Tienda extends React.Component {
                 <div className="usuario_componentes">
 
                     <div className="usuario_menu">
-                        <MenuNegocio salirSistema={this.props.salirSistema}
+                        <MenuTienda salirSistema={this.props.salirSistema}
                             controlMenuUsuario={this.props.controlMenuUsuario}/>
                     </div>
 
                     <div className="usuario_paginas">
 
-                        <Route path="/usuario/negocio/tiendas" render={(props)=> <Tiendas {...props}/>}/>
-                        <Route path="/usuario/negocio/ventas" render={(props)=> <Ventas {...props}/>}/>
-                        <Route path="/usuario/negocio/cuenta" render={(props)=> <Cuenta {...props}/>}/>
+                        <Route path="/usuario/tienda/pedidos" render={(props)=> <Pedidos {...props}/>}/>
+                        <Route path="/usuario/tienda/ventas" render={(props)=> <Ventas {...props}/>}/>
+                        <Route path="/usuario/tienda/productos" render={(props)=> <Productos {...props}/>}/>
+                        <Route path="/usuario/tienda/cuenta" render={(props)=> <Cuenta {...props}/>}/>
 
                     </div>
 

@@ -48,7 +48,7 @@ export class ModalPedido extends React.Component {
             if(usuarioAplicacion.tipoUsuario === 'cliente'){ 
                 window.location.href = '/usuario/cliente/pedido' 
             }
-            if(usuarioAplicacion.tipoUsuario === 'negocio'){ 
+            if(usuarioAplicacion.tipoUsuario === 'tienda'){ 
                 alert("Ingrese con una cuenta cliente.");
                 this.props.controlModalPedido();
             }
@@ -78,7 +78,7 @@ export class ModalPedido extends React.Component {
                                             <div className="pedido_lista_item_datos">
                                                 <div onClick={()=>this.props.seleccionarProductoCantidad(producto)}>
                                                     <span>{(producto.nombreProducto||"").toUpperCase()}</span>
-                                                    <span>{producto.nombreNegocio}</span>
+                                                    <span>{producto.nombreTienda}</span>
                                                     <span>Precio: <b>S/.{this.calcularPrecioProducto(producto)}</b></span> 
                                                 </div>
                                                 <button onClick={()=>this.props.sacarProducto(producto)}>

@@ -8,14 +8,14 @@ import IconoGoogle from '../SVG/IconoGoogle';
 /* VARIABLES GLOBALES */
 const estadoInicial = {};
 
-export class MenuNegocio extends React.Component {
+export class MenuTienda extends React.Component {
     constructor(props){
         super(props);
         this.state = estadoInicial;
     }
 
     verificarPaginaActual =(pagina)=> {
-        if(window.location.href.split("/usuario/negocio/")[1]===pagina){
+        if(window.location.href.split("/usuario/tienda/")[1]===pagina){
             return "activo"
         } else {return ""}
     }
@@ -23,13 +23,23 @@ export class MenuNegocio extends React.Component {
     render(){ //salirsistema
         return(
             <div className="usuario_navegador" onClick={()=>this.props.controlMenuUsuario()}>
-                <NavLink className={"usuario_navegador_boton "+this.verificarPaginaActual("tiendas")}
-                    to="/usuario/negocio/tiendas">
+                <NavLink className={"usuario_navegador_boton "+this.verificarPaginaActual("pedidos")}
+                    to="/usuario/tienda/pedidos">
                     <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
-                    <label>Tiendas</label>
+                    <label>Pedidos</label>
+                </NavLink>
+                <NavLink className={"usuario_navegador_boton "+this.verificarPaginaActual("ventas")}
+                    to="/usuario/tienda/ventas">
+                    <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
+                    <label>Ventas</label>
+                </NavLink>
+                <NavLink className={"usuario_navegador_boton "+this.verificarPaginaActual("productos")}
+                    to="/usuario/tienda/productos">
+                    <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
+                    <label>Productos</label>
                 </NavLink>
                 <NavLink className={"usuario_navegador_boton "+this.verificarPaginaActual("cuenta")}
-                    to="/usuario/negocio/cuenta">
+                    to="/usuario/tienda/cuenta">
                     <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
                     <label>Perfil</label>
                 </NavLink>
@@ -42,4 +52,4 @@ export class MenuNegocio extends React.Component {
     }
 }
 
-export default MenuNegocio;
+export default MenuTienda;

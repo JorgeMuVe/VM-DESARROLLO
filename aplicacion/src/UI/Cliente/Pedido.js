@@ -1,5 +1,5 @@
 /*
--- Description:     PAGINA PRINCIPAL DE VENTAS DE NEGOCIO
+-- Description:     PAGINA PRINCIPAL DEL PEDIDO DEL CLIENTE
 -- @Copyright        Jorge.Muvez - World Connect Perú - 2020-00-00
 */
 
@@ -79,7 +79,7 @@ export class ClientePedido extends React.Component {
                             <div className="pedido_lista_item" key={i} style={{background:"url("+producto.imagenProducto+")no-repeat center/cover"}}>
                                 <div className="pedido_lista_item_datos">
                                     <div>
-                                        <label><b>{producto.nombreTipoProducto+" "+producto.nombreProducto} ({producto.nombreNegocio})</b></label>
+                                        <label><b>{producto.nombreTipoProducto+" "+producto.nombreProducto} ({producto.nombreTienda})</b></label>
                                         <label>Precio: 
                                             <b>S/. {this.calcularPrecioProducto(producto)}</b>
                                         </label>

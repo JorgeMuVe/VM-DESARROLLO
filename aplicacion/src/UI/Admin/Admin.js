@@ -6,10 +6,9 @@
 /***  COMPONENTES  ***/
 import React from 'react';
 import { Route } from 'react-router-dom'; // Libreria React-Router
-import MenuNegocio from '../../Componentes/MenuNegocio';
-import Tiendas from './Tiendas';
-import Ventas from './Ventas';
-import Cuenta from './Cuenta';
+import MenuAdmin from '../../Componentes/MenuAdmin';
+import Clientes from './Clientes';
+import Negocios from './Negocios';
 
 /***  F U N C I O N E S  ***/
 
@@ -18,15 +17,15 @@ import Cuenta from './Cuenta';
 /***  VARIABLES GLOBALES  ***/
 const estadoInicial = {};
 
-export class Tienda extends React.Component {
+export class Admin extends React.Component {
     constructor(props){
         super(props);
         this.state = estadoInicial;
     }
 
     componentDidMount(){
-        var ruta = this.props.match.params.ruta==="_"?"tiendas":this.props.match.params.ruta;
-        this.props.history.push("/usuario/negocio/"+ruta);
+        var ruta = this.props.match.params.ruta==="_"?"negocios":this.props.match.params.ruta;
+        this.props.history.push("/usuario/admin/"+ruta);
     }
 
     render(){
@@ -36,15 +35,14 @@ export class Tienda extends React.Component {
                 <div className="usuario_componentes">
 
                     <div className="usuario_menu">
-                        <MenuNegocio salirSistema={this.props.salirSistema}
+                        <MenuAdmin salirSistema={this.props.salirSistema}
                             controlMenuUsuario={this.props.controlMenuUsuario}/>
                     </div>
 
                     <div className="usuario_paginas">
 
-                        <Route path="/usuario/negocio/tiendas" render={(props)=> <Tiendas {...props}/>}/>
-                        <Route path="/usuario/negocio/ventas" render={(props)=> <Ventas {...props}/>}/>
-                        <Route path="/usuario/negocio/cuenta" render={(props)=> <Cuenta {...props}/>}/>
+                        <Route path="/admin/admin/negocios" render={(props)=> <Negocios {...props}/>}/>
+                        <Route path="/admin/admin/clientes" render={(props)=> <Clientes {...props}/>}/>
 
                     </div>
 
@@ -54,4 +52,4 @@ export class Tienda extends React.Component {
     }
 }
 
-export default Tienda;
+export default Admin;

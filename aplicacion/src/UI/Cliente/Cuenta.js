@@ -47,7 +47,7 @@ export class ClientePerfil extends React.Component {
 
     render(){
         return(
-            <div className="NegocioPerfil">
+            <div className="TiendaPerfil">
                 <div className="usuario_encabezado">
                     <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
                     <label> Mis Datos </label>

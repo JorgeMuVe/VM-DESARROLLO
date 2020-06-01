@@ -20,7 +20,6 @@ export class Ingreso extends React.Component {
     }
 
     verificarDatos = () => {
-        //this.props.actualizarUsuario(this.props.match.params.tipoIngreso);
         var { tipoUsuario } = this.props;
         var correoUsuario = document.getElementById("correoUsuario").value;
         var contrasenaUsuario = document.getElementById("contrasenaUsuario").value;
@@ -62,7 +61,7 @@ export class Ingreso extends React.Component {
                 </div>
                 <div className="centrado">
                     <button
-                        hidden={this.props.tipoUsuario==="negocio"}
+                        hidden={this.props.tipoUsuario==="tienda"}
                         onClick={()=>this.props.cambiarPagina("registro")}
                     > Registro </button>
                 </div>

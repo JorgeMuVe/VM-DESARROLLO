@@ -1,5 +1,5 @@
 /*
--- Description:     PAGINA PRINCIPAL DE COMPRAS DE CLIENTE
+-- Description:     PAGINA PRINCIPAL DE VENTAS DE TIENDA
 -- @Copyright        Jorge.Muvez - World Connect Perú - 2020-00-00
 */
 
@@ -8,64 +8,68 @@ import React from 'react';
 import Modal from '../../Componentes/Modal';
 import Paginado from '../../Componentes/Paginado';
 
-/* ICONOS */
-import IconoAtras from '../../SVG/aplicacion/IconoAtras';
-
 /* FUNCIONES */
 import { obtenerUsuario, unidadMedidaProducto } from '../../Componentes/Funciones';
-import { listarPedidoCliente_DB } from '../../DB/pedidoDB';
-import { listarDetallesPedidoCliente_DB } from '../../DB/detalleDB';
+import { listarVentaTienda_DB } from '../../DB/ventaDB';
+import { listarDetallesPedidoTienda_DB } from '../../DB/detalleDB';
+
+/* ICONOS */
+import IconoAtras from '../../SVG/aplicacion/IconoAtras';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
     usuarioAplicacion:{},
+    ventasTienda:[],
+    mostrarModalFechas:false,
 
-    clientePedidos:[],
-    pedidoPaginaActual:1,
-    pedidoCantidadPaginas:1,
-    pedidosPorPagina:10,
+    ventaPaginaActual:1,
+    ventaCantidadPaginas:1,
+    ventasPorPagina:10,
 
     pedidoSeleccionado:{},
     detallesPedidoSeleccionado:[],
+
     detallePaginaActual:1,
     detalleCantidadPaginas:1,
     detallesPorPagina:10,
-
 };
 
-export class ClienteCompras extends React.Component {
+export class TiendaVentas extends React.Component {
     constructor(props){
         super(props);
         this.state = estadoInicial;
     }
 
-    controlModalDetalle =()=> this.setState({mostrarModalDetalle:!this.state.mostrarModalDetalle})
+    controlModalFechas =()=> this.setState({mostrarModalFechas:!this.state.mostrarModalFechas});
+    controlModalDetalle =()=> this.setState({mostrarModalDetalle:!this.state.mostrarModalDetalle});
+    abrirVentaDetalle =(venta)=> this.setState({pedidoSeleccionado:venta},()=>this.obtenerDetallesVenta())
 
-    abrirPedidoDetalle =(pedido)=> this.setState({pedidoSeleccionado:pedido},()=>this.obtenerDetallesPedido())
-
-    obtenerPedidosCliente =()=> {
+    /* VENTAS */
+    obtenerVentasTienda =()=> {
         const Buscador={
-            codigoUsuario: this.state.usuarioAplicacion.codigoUsuario,
-            inicio: (this.state.pedidoPaginaActual-1)*this.state.pedidosPorPagina,
-            cantidad: this.state.pedidosPorPagina
+            codigoUsuario:this.state.usuarioAplicacion.codigoUsuario,
+            inicio: (this.state.ventaPaginaActual-1)*this.state.ventasPorPagina,
+            cantidad: this.state.ventasPorPagina
         };
-        listarPedidoCliente_DB(Buscador).then(res=>{
+
+        listarVentaTienda_DB(Buscador).then(res=>{
             if(!res.error){
-                var pedidoCantidadPaginas = (res.cantidadPedidos / this.state.pedidosPorPagina);
-                pedidoCantidadPaginas = Math.ceil(pedidoCantidadPaginas||1);
-                this.setState({pedidoCantidadPaginas,clientePedidos:res.listaPedidos})
-            }
+                var ventaCantidadPaginas = (res.cantidadVentas / this.state.ventasPorPagina);
+                ventaCantidadPaginas = Math.ceil(ventaCantidadPaginas||1);
+                this.setState({ventaCantidadPaginas,ventasTienda:res.listaVentas})
+            } else { console.log("ERROR >> LISTAR PEDIDOS TIENDA"); }
         });
     }
 
-    obtenerDetallesPedido =()=> {
+    obtenerDetallesVenta =()=> {
         const {pedidoSeleccionado,detallePaginaActual,detallesPorPagina} = this.state;
         const Pedido = {
+            idTienda: this.state.usuarioAplicacion.codigoUsuario,
             idPedido: pedidoSeleccionado.idPedido,
             inicio: (detallePaginaActual-1)*detallesPorPagina,
             cantidad: detallesPorPagina
         }
-        listarDetallesPedidoCliente_DB(Pedido).then(res=>{
+        listarDetallesPedidoTienda_DB(Pedido).then(res=>{
             if(!res.error){
                 var detalleCantidadPaginas = (res.cantidadDetalles / this.state.detallesPorPagina);
                 detalleCantidadPaginas = Math.ceil(detalleCantidadPaginas||1);
@@ -74,31 +78,30 @@ export class ClienteCompras extends React.Component {
             this.controlModalDetalle();
         });
     }
-
+    
     /****  P A G I N A D O  ****/
-    pedidoPaginaSiguiente =()=> {
-        const { pedidoPaginaActual, pedidoCantidadPaginas } = this.state;
-        if(pedidoPaginaActual < pedidoCantidadPaginas){
-            this.setState({pedidoPaginaActual:pedidoPaginaActual+1},()=> {
-                this.obtenerPedidosCliente();
+    ventaPaginaSiguiente =()=> {
+        const { ventaPaginaActual, ventaCantidadPaginas } = this.state;
+        if(ventaPaginaActual < ventaCantidadPaginas){
+            this.setState({ventaPaginaActual:ventaPaginaActual+1},()=> {
+                this.obtenerVentasTienda();
             });
         }
     }
 
-    pedidoPaginaAtras =()=> {
-        const { pedidoPaginaActual } = this.state;
-        if(pedidoPaginaActual>1){
-            this.setState({pedidoPaginaActual:pedidoPaginaActual-1},()=> {
-                this.obtenerPedidosCliente();
+    ventaPaginaAtras =()=> {
+        const { ventaPaginaActual } = this.state;
+        if(ventaPaginaActual>1){
+            this.setState({ventaPaginaActual:ventaPaginaActual-1},()=> {
+                this.obtenerVentasTienda();
             });
         }
     }
-
     detallePaginaSiguiente =()=> {
         const { detallePaginaActual, detalleCantidadPaginas } = this.state;
         if(detallePaginaActual < detalleCantidadPaginas){
             this.setState({detallePaginaActual:detallePaginaActual+1},()=> {
-                this.obtenerDetallesPedido();
+                this.obtenerDetallesVenta();
             });
         }
     }
@@ -106,7 +109,7 @@ export class ClienteCompras extends React.Component {
     detallePaginaAtras =()=> {
         const { detallePaginaActual } = this.state;
         if(detallePaginaActual>1){
-            this.setState({detallePaginaActual:detallePaginaActual-1},()=>this.obtenerDetallesPedido());
+            this.setState({detallePaginaActual:detallePaginaActual-1},()=>this.obtenerDetallesVenta());
         }
     }
 
@@ -122,59 +125,58 @@ export class ClienteCompras extends React.Component {
         </div>
     }
 
-    inicarFunciones =()=> {
-        var usuarioAplicacion=obtenerUsuario();
-        if(usuarioAplicacion){
-            this.setState({usuarioAplicacion},()=>{
-                this.obtenerPedidosCliente();
-            });
-        }
+    iniciarFunciones =()=> {
+        this.obtenerVentasTienda();
     }
 
     componentDidMount(){
-        this.inicarFunciones();
+        var usuarioAplicacion = obtenerUsuario();
+        if(usuarioAplicacion){ this.setState({usuarioAplicacion},()=>this.iniciarFunciones()) }
     }
-
+    
     render(){
         return(
             <div className="TiendaVentas">
                 <div className="usuario_encabezado">
                     <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
-                    <label> Mis Compras </label>
+                    <label> Mis Ventas </label>
                     <div onClick={this.props.history.goBack}></div>
                 </div>
-                {(this.state.clientePedidos||[]).length > 0?
+                
+                {(this.state.ventasTienda||[]).length > 0?
                 <div className="usuario_tabla centrado">
                     <div className="usuario_tabla_paginado">
                         <Paginado
-                            paginaActual={this.state.pedidoPaginaActual}
-                            cantidadPaginas={this.state.pedidoCantidadPaginas}
-                            paginaSiguiente={this.pedidoPaginaSiguiente}
-                            paginaAtras={this.pedidoPaginaAtras}
+                            paginaActual={this.state.ventaPaginaActual}
+                            cantidadPaginas={this.state.ventaCantidadPaginas}
+                            paginaSiguiente={this.ventaPaginaSiguiente}
+                            paginaAtras={this.ventaPaginaAtras}
                         />
                     </div>
                     <table>
                         <thead>
                             <tr>
                                 <th> PEDIDO</th>
-                                <th> TOTAL </th>
-                                <th> ESTADO</th>
+                                <th> CLIENTE </th>
                             </tr>
                         </thead>
-                        {(this.state.clientePedidos||[]).map((pedido,i) => {
+                        {(this.state.ventasTienda||[]).map((venta,i) => {
                             return ( 
                             <tbody key={i}>
-                                <tr className={(i%2!==0?" interlinea":"")} onClick={()=>this.abrirPedidoDetalle(pedido)}>
+                                <tr className={(i%2!==0?" interlinea":"")} onClick={()=>this.abrirVentaDetalle(venta)}>
                                     <td style={{textAlign:'center'}}>
-                                        N° <b>{pedido.idPedido}</b><br/>
-                                        {(pedido.fechaRegistro||"").split(" ")[0]}
+                                        N° <b>{venta.idVenta}</b><br/>
+                                        <b>S/. {parseFloat(venta.totalPagar).toFixed(2)}</b><br/>
+                                        Cant: {venta.totalProductos}<br/>
+                                        {(venta.fechaRegistro||"").split(" ")[0]}<br/>
+                                        <b>{venta.estadoPedido.toUpperCase()}</b><br/>
                                     </td>
                                     <td style={{textAlign:'center'}}>
-                                        <b>S/. {parseFloat(pedido.totalPagar).toFixed(2)}</b><br/>
-                                        Cant:. {pedido.totalProductos}
-                                    </td>
-                                    <td style={{textAlign:'center'}}>
-                                        {pedido.estadoPedido}
+                                        Cliente: {venta.nombreCompleto+" "+venta.apellidoPaterno}<br/>
+                                        <b>{venta.denominacionDireccion}</b><br/>
+                                        {venta.referenciaDireccion}<br/>
+                                        Email: {venta.correoReferencia}<br/>
+                                        Teléfono: {venta.telefonoReferencia}
                                     </td>
                                 </tr> 
                             </tbody>
@@ -182,14 +184,14 @@ export class ClienteCompras extends React.Component {
                     </table>
                     <div className="usuario_tabla_paginado">
                         <Paginado
-                            paginaActual={this.state.pedidoPaginaActual}
-                            cantidadPaginas={this.state.pedidoCantidadPaginas}
-                            paginaSiguiente={this.pedidoPaginaSiguiente}
-                            paginaAtras={this.pedidoPaginaAtras}
+                            paginaActual={this.state.ventaventaPaginaActual}
+                            cantidadPaginas={this.state.ventaCantidadPaginas}
+                            paginaSiguiente={this.ventaPaginaSiguiente}
+                            paginaAtras={this.ventaPaginaAtras}
                         />
                     </div>
                 </div> :
-                <div> No Existen Compras Registradas</div>}
+                <div> No Existen Ventas Registradas</div>}
                 <Modal
                     controlModal={this.controlModalDetalle}
                     mostrarModal={this.state.mostrarModalDetalle}
@@ -219,8 +221,8 @@ export class ClienteCompras extends React.Component {
                         </table>
                         <div className="usuario_tabla_paginado">
                             <Paginado
-                                paginaActual={this.state.detallePaginaActual}
-                                cantidadPaginas={this.state.detalleCantidadPaginas}
+                                paginaActual={this.state.detalleventaventaPaginaActual}
+                                cantidadPaginas={this.state.detalleventaCantidadPaginas}
                                 paginaSiguiente={this.detallePaginaSiguiente}
                                 paginaAtras={this.detallePaginaAtras}
                             />
@@ -234,4 +236,4 @@ export class ClienteCompras extends React.Component {
     }
 }
 
-export default ClienteCompras;
+export default TiendaVentas;

@@ -18,7 +18,7 @@ import { ingresarSistema_DB } from '../DB/usuarioDB';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
-    esCliente:true
+    tipoUsuario:'cliente'
 };
 
 export class ModalIngreso extends React.Component {
@@ -28,26 +28,29 @@ export class ModalIngreso extends React.Component {
     }
 
     /* INGRESAR AL SISTEMA */
-    ingresarSistema = (ingresoUsuario) => {
-        ingresarSistema_DB(ingresoUsuario).then(res => {
+    ingresarSistema = (usuarioIngreso) => {
+        ingresarSistema_DB(usuarioIngreso).then(res => {
             if (!res.error) {
                 sessionStorage.setItem('usuarioAplicacion',JSON.stringify(res));
-                this.props.history.push('/usuario/'+res.tipoUsuario);
+                this.props.history.push('/usuario/'+res.tipoUsuario+"/_");
                 this.props.ingresarSistema(res);
             } else { this.props.abrirMensajeError(4000, res.error); }
         });
     }
+    
     ingresarSistemaBoton =(evento)=> {
         evento.preventDefault();
         const usuarioIngreso = {};
         usuarioIngreso["nombreUsuario"] = document.getElementById("nombreUsuario").value;
         usuarioIngreso["contrasena"] = document.getElementById("contrasena").value;
-        usuarioIngreso["tipoUsuario"] = this.state.esCliente?"cliente":"negocio";
+        usuarioIngreso["tipoUsuario"] = this.state.tipoUsuario;
         //usuarioIngreso["codigoUsuario"] = localStorage.getItem("codigoUsuario")||0;
         this.ingresarSistema(usuarioIngreso);
     }
 
-    cambiarEsCliente =(esCliente)=> this.setState({esCliente})
+    cambiarTipoUsuario =(tipoUsuario)=> {
+        this.setState({tipoUsuario})
+    }
 
     render(){
         if(this.props.mostrarModalIngreso){
@@ -59,13 +62,24 @@ export class ModalIngreso extends React.Component {
             >
             <form className="ModalIngreso" validate="true" onSubmit={this.ingresarSistemaBoton}>
                 <div className="modal_ingreso_tipo">
-                    <div style={{background:this.state.esCliente?"#2ECC71":"#8b8b8b"}} 
-                        onClick={()=>this.cambiarEsCliente(true)}>
-                        <IconoUsuario fill="whitesmoke"/><label className="centrado">Cliente</label>
-                    </div>
-                    <div style={{background:this.state.esCliente?"#8b8b8b":"#2ECC71"}} 
-                        onClick={()=>this.cambiarEsCliente(false)}>
-                        <IconoMercado fill="whitesmoke"/><label className="centrado">Negocio</label>
+                    <span> Seleccione el tipo de Usuario!</span>
+                    <div className="modal_ingreso_tipo_opciones">
+                        <div style={{background:this.state.tipoUsuario==='cliente'?"#2ECC71":"#8b8b8b"}} 
+                            onClick={()=>this.cambiarTipoUsuario('cliente')}>
+                            <IconoUsuario fill="whitesmoke"/><label className="centrado">Cliente</label>
+                        </div>
+                        <div style={{background:this.state.tipoUsuario==='tienda'?"#2ECC71":"#8b8b8b"}} 
+                            onClick={()=>this.cambiarTipoUsuario('tienda')}>
+                            <IconoMercado fill="whitesmoke"/><label className="centrado">Tienda</label>
+                        </div>
+                        <div style={{background:this.state.tipoUsuario==='negocio'?"#2ECC71":"#8b8b8b"}} 
+                            onClick={()=>this.cambiarTipoUsuario('negocio')}>
+                            <IconoMercado fill="whitesmoke"/><label className="centrado">Negocio</label>
+                        </div>
+                        <div style={{background:this.state.tipoUsuario==='admin'?"#2ECC71":"#8b8b8b"}} 
+                            onClick={()=>this.cambiarTipoUsuario('admin')}>
+                            <IconoMercado fill="whitesmoke"/><label className="centrado">Admin</label>
+                        </div>
                     </div>
                 </div>
                 <div className="modal_ingreo_datos">

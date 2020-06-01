@@ -1,12 +1,12 @@
 import { urlServidor } from '../Componentes/Funciones';
-const Url = urlServidor + '/api/pedido/';
+const Url = urlServidor + '/api/detalle/';
 
-// AGREGAR NUEVO PEDIDO
-export function agregarPedido_DB(Pedido){ 
+// AGREGAR NUEVO DETALLE
+export function agregarPedidoDetalle_DB(PedidoDetalle){ 
     return new Promise((resolver,rechazar) => {
         fetch(Url + "agregar",{ // Fetch para consumir API de SERVER NODE JS
             method:'POST',
-            body: JSON.stringify(Pedido),
+            body: JSON.stringify(PedidoDetalle),
             headers: new Headers({ 'Content-type':'application/json' })
         })
         .then(respuesta => resolver(respuesta.json()))
@@ -14,8 +14,8 @@ export function agregarPedido_DB(Pedido){
     });
 }
 
-// LISTA PEDIDO CLIENTE
-export function listarPedidoCliente_DB(Pedido){ 
+// LISTA DETALLES DE PEDIDO CLIENTE
+export function listarDetallesPedidoCliente_DB(Pedido){
     return new Promise((resolver,rechazar) => {
         fetch(Url + "lista/cliente",{ // Fetch para consumir API de SERVER NODE JS
             method:'POST',
@@ -27,8 +27,8 @@ export function listarPedidoCliente_DB(Pedido){
     });
 }
 
-// LISTA PEDIDO TIENDA
-export function listarPedidoTienda_DB(Pedido){
+// LISTA DETALLES DE PEDIDO TIENDA
+export function listarDetallesPedidoTienda_DB(Pedido){
     return new Promise((resolver,rechazar) => {
         fetch(Url + "lista/tienda",{ // Fetch para consumir API de SERVER NODE JS
             method:'POST',
@@ -39,4 +39,3 @@ export function listarPedidoTienda_DB(Pedido){
         .catch(error => rechazar(error));
     });
 }
-

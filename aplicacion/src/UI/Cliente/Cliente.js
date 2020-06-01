@@ -5,7 +5,7 @@
 
 /* COMPONENTES */
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom'; // Libreria React-Router
+import { Route } from 'react-router-dom'; // Libreria React-Router
 
 import MenuCliente from '../../Componentes/MenuCliente';
 import Direcciones from './Direcciones';
@@ -26,6 +26,11 @@ export class Cliente extends React.Component {
         super(props);
         this.state = estadoInicial;
     }
+
+    componentDidMount(){
+        var ruta = this.props.match.params.ruta==="_"?"pedido":this.props.match.params.ruta;
+        this.props.history.push("/usuario/cliente/"+ruta);
+    }
     
     render(){
         return(
@@ -45,7 +50,6 @@ export class Cliente extends React.Component {
                         <Route path="/usuario/cliente/compras" render={(props)=> <Compras {...props}/>}/>
                         <Route path="/usuario/cliente/direcciones" component={Direcciones}/>
                         <Route path="/usuario/cliente/cuenta" render={(props)=> <Cuenta {...props}/>}/>
-                        <Redirect from='/usuario/cliente/*' to='/usuario/cliente/pedido'/>
 
                     </div>
                 </div>

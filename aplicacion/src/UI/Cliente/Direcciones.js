@@ -99,7 +99,7 @@ export class ClienteDirecciones extends React.Component {
         evento.preventDefault();
         const Direccion = {
             idDireccion:this.state.direccionSeleccionado.idDireccion,
-            idCliente:this.props.usuarioAplicacion.codigoUsuario,
+            idCliente:this.state.usuarioAplicacion.codigoUsuario,
             denominacionDireccion:document.getElementById("denominacionDireccion").value,
             referenciaDireccion:document.getElementById("referenciaDireccion").value,
             lat:ubicacion.getPosition().lat(),
@@ -120,7 +120,6 @@ export class ClienteDirecciones extends React.Component {
                 } else { console.log("ERROR >> AGREGAR DIRECCION");}
             });
         }
-
     }
 
     agregarDireccion =()=> {
@@ -134,7 +133,6 @@ export class ClienteDirecciones extends React.Component {
         this.setState({direccionSeleccionado:Direccion},()=>{
             this.controlModalAgregar();
             setTimeout(this.ubicarDireccion,100);
-            
         });
     }
     /****  P A G I N A D O  ****/
@@ -175,7 +173,7 @@ export class ClienteDirecciones extends React.Component {
                     <label> Mis Direcciones </label>
                     <div onClick={this.agregarDireccion}><IconoAgregar fill="#23A24D"/></div>
                 </div>
-                {(this.state.direccionesCliente||[1]).length > 0?
+                {(this.state.direccionesCliente||[]).length > 0?
                 <div className="usuario_tabla centrado">
                     <table>
                         <thead>
@@ -184,7 +182,7 @@ export class ClienteDirecciones extends React.Component {
                                 <th> REFERENCIA </th>
                             </tr>
                         </thead>
-                        {(this.state.direccionesCliente||[1,2,3]).map((direccion,i) => {
+                        {(this.state.direccionesCliente||[]).map((direccion,i) => {
                             return ( 
                             <tbody key={i}>
                                 <tr className={(i%2!==0?" interlinea":"")} onClick={()=>this.seleccionarDireccion(direccion)}>
