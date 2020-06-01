@@ -13,7 +13,7 @@ import { listarNegociosTipo_DB } from '../../DB/tiendaDB';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
-    negociosTipo:[1,2,3,4],
+    negociosTipo:[],
 };
 
 export class Producto extends React.Component {

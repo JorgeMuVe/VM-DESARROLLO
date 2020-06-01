@@ -41,7 +41,7 @@ export class ClienteCompras extends React.Component {
 
     controlModalDetalle =()=> this.setState({mostrarModalDetalle:!this.state.mostrarModalDetalle})
 
-    abrirPedidoDetalle =(pedido)=> this.setState({pedidoSeleccionado:pedido},()=>this.obtenerDetallesPedido())
+    abrirPedidoDetalle =(pedido)=>this.setState({pedidoSeleccionado:pedido},()=>this.obtenerDetallesPedido())
 
     obtenerPedidosCliente =()=> {
         const Buscador={
@@ -111,13 +111,17 @@ export class ClienteCompras extends React.Component {
     }
 
     calcularPrecioProducto =(producto)=> {
-        var precioProducto = parseFloat(producto.precioPorUnidad||0).toFixed(2)+" x "+
+        var precio = parseFloat(producto.precioPorUnidad||0).toFixed(2);
+        var cantidad = parseFloat(producto.cantidadProducto||0).toFixed(0);
+        var descuento = parseFloat(producto.descuentoUnidad||9).toFixed(2)/100;
+
+        var precioProducto = precio+" x "+cantidad+" de "+
         unidadMedidaProducto(producto.unidadCantidad,producto.tipoUnidad)+
         (producto.descuentoUnidad>0?(" (-"+producto.descuentoUnidad+"%)"):"");
 
-        var precioPagar = 10.00
+        var precioPagar = (precio*cantidad)-((precio*cantidad)*descuento);
         return <div>
-            <b>TOTAL: S/. {precioPagar}</b>
+            <b>TOTAL: S/. {precioPagar.toFixed(2)}</b>
             <br/>S/. {precioProducto}
         </div>
     }

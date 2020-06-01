@@ -48,6 +48,16 @@ export const unidadMedidaProducto =(unidadCantidad,tipoUnidad)=> {
                 default:if(cantidad>1000)textoUnidad=(cantidad/1000)+" KG"; break;
             }
         break;
+        case "ML":
+            switch (cantidad) {
+                case '2000': textoUnidad = "2 LT"; break;
+                case '1000': textoUnidad = "1 LT"; break;
+                case '500': textoUnidad = "1/2 LT"; break;
+                case '250': textoUnidad = "1/4 LT"; break;
+                case '125': textoUnidad = "1/8 LT"; break;
+                default:if(cantidad>1000)textoUnidad=(cantidad/1000)+" KG"; break;
+            }
+        break;
         default:break;
     }
     return textoUnidad;
