@@ -33,8 +33,7 @@ export class Producto extends React.Component {
 
     buscarProductosNegocio =(negocio)=> {
         console.log(negocio);
-        //this.props.history.push("/productos/buscador/TODO/_");
-
+        this.props.history.push("/productos/buscador/TODO/_");
     }
 
     componentDidMount(){
