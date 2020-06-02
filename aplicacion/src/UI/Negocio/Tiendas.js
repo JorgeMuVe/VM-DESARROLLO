@@ -106,10 +106,12 @@ export class NegocioTiendas extends React.Component {
 
     guardarTienda =(evento)=> {
         evento.preventDefault();
+        var tp = document.getElementById('tipoNegocio');
+        var tipoNegocio = tp.options[tp.selectedIndex].value;
         const Tienda = {
             idTienda:this.state.tiendaSeleccionado.idTienda,
             idNegocio:this.state.usuarioAplicacion.codigoUsuario,
-            idTipoNegocio: document.getElementById("idTipoNegocio").value,
+            idTipoNegocio: tipoNegocio,
             numeroTienda: document.getElementById("numeroTienda").value,
             nombreTienda: document.getElementById("nombreTienda").value,
             ruc: document.getElementById("ruc").value,
@@ -200,10 +202,8 @@ export class NegocioTiendas extends React.Component {
                 <div className="usuario_tabla centrado">
                     <table>
                         <thead>
-                            <tr>                            
-                                <th> NUMERO </th>
+                            <tr>
                                 <th> TIENDA </th>
-                                <th> PROPIETARIO </th>
                                 <th> CONTACTO </th>
                             </tr>
                         </thead>
@@ -211,9 +211,7 @@ export class NegocioTiendas extends React.Component {
                             return ( 
                             <tbody key={i}>
                                 <tr className={(i%2!==0?" interlinea":"")} onClick={()=>this.seleccionarTienda(tienda)}>
-                                    <td> {tienda.numeroTienda} </td>
                                     <td> {tienda.nombreTienda} </td>
-                                    <td> {tienda.propietario} </td>
                                     <td> {tienda.telefonoTienda}<br/>{tienda.correoTienda} </td>
                                 </tr>
                             </tbody>
@@ -235,11 +233,12 @@ export class NegocioTiendas extends React.Component {
                     controlModal = {this.controlModalAgregar}
                     tituloModal = {"Agregar Tienda"}
                 >
-                <form className="cliente_agregar_direccion" validate="true" onSubmit={this.guardarTienda}>
-                    <fieldset><legend align="left">Logo</legend>
+                <form className="negocio_tienda" validate="true" onSubmit={this.guardarTienda}>
+                    <div className="logo_tienda">
                         <img src={this.state.tiendaSeleccionado.logo} alt="Logo Tienda" name="logo" id="logo"/>
-                    </fieldset>
+                    </div>
                     <fieldset><legend align="left">Tienda</legend>
+                    <div className="negocio_tienda_fieldset">
                         <div className="cuadro_texto">
                             <IconoUsuario fill="#d1d3d8"/>
                             <input type="text" id="nombreTienda" placeholder="Nombre Empresa" defaultValue={this.state.tiendaSeleccionado.nombreTienda||""}/>
@@ -248,27 +247,25 @@ export class NegocioTiendas extends React.Component {
                             <IconoUsuario fill="#d1d3d8"/>
                             <input type="text" id="descripcionTienda" placeholder="Descripción" defaultValue={this.state.tiendaSeleccionado.descripcionTienda||""}/>
                         </div>
-                        <div className="tienda_datos">
+                        <div className="negocio_tienda_datos">
                             <div className="cuadro_texto">
                                 <IconoUsuario fill="#d1d3d8"/>
                                 <input type="text" id="numeroTienda" placeholder="Numero" defaultValue={this.state.tiendaSeleccionado.numeroTienda||""}/>
                             </div>
                             <div className="cuadro_texto">
                                 <IconoUsuario fill="#d1d3d8"/>
-                                <input type="text" id="ruc" placeholder="RUC" defaultValue={this.state.tiendaSeleccionado.ruc||""}/>
-                            </div>
-                            <div className="cuadro_texto">
-                                <IconoUsuario fill="#d1d3d8"/>
-                                <select id="tipoUnidad" defaultValue={this.state.tiendaSeleccionado.idTipoNegocio||""}>
+                                <select id="tipoNegocio" defaultValue={this.state.tiendaSeleccionado.idTipoNegocio||""}>
                                     {(this.state.tiposNegocio||[]).map(tipo=>
                                         <option key={tipo.idTipoNegocio} value={tipo.idTipoNegocio}>{tipo.nombreTipoNegocio}</option>
                                     )}
                                 </select>
                             </div>
                         </div>
+                    </div>
                     </fieldset>
 
                     <fieldset><legend align="left">Datos</legend>
+                    <div className="negocio_tienda_fieldset">
                         <div className="cuadro_texto">
                             <IconoUsuario fill="#d1d3d8"/>
                             <input type="text" id="correoTienda" placeholder="Correo" defaultValue={this.state.tiendaSeleccionado.correoTienda||""}/>
@@ -277,14 +274,21 @@ export class NegocioTiendas extends React.Component {
                             <IconoUsuario fill="#d1d3d8"/>
                             <input type="text" id="telefonoTienda" placeholder="Telefono" defaultValue={this.state.tiendaSeleccionado.telefonoTienda||""}/>
                         </div>
+                        <div className="cuadro_texto">
+                            <IconoUsuario fill="#d1d3d8"/>
+                            <input type="text" id="ruc" placeholder="RUC" defaultValue={this.state.tiendaSeleccionado.ruc||""}/>
+                        </div>
+                    </div>
                     </fieldset>
 
                     <fieldset><legend align="left">Dirección</legend>
+                    <div className="negocio_tienda_fieldset">
                         <div className="cuadro_texto">
                             <IconoUsuario fill="#d1d3d8"/>
                             <input type="text" id="direccionTienda" placeholder="Dirección" defaultValue={this.state.tiendaSeleccionado.direccionTienda||""}/>
                         </div>                        
-                        <div className="cliente_agregar_direccion_ubicacion" id="map"></div>
+                        <div className="negocio_tienda_ubicacion" id="map"></div>
+                    </div>
                     </fieldset>
 
                     <div className="centrado">
