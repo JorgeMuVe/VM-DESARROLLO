@@ -10,17 +10,21 @@ import Paginado from '../../Componentes/Paginado';
 
 /*** F U N C I O N E S ***/
 import { obtenerUsuario } from '../../Componentes/Funciones';
-import { listarTiendasNegocio_DB, agregarTienda_DB, editarTienda_DB } from '../../DB/tiendaDB';
+import { listarTiendasNegocio_DB, agregarTienda_DB, editarTienda_DB, listarTiposNegocio_DB } from '../../DB/tiendaDB';
 
 /* ICONOS */
 import IconoAgregar from '../../SVG/aplicacion/IconoAgregar';
 import IconoAtras from '../../SVG/aplicacion/IconoAtras';
+import IconoUsuario from '../../SVG/IconoUsuario';
 
 /* VARIABLES GLOBALES */
 let map;
 var ubicacion;
 
 const estadoInicial = {
+
+    tiposNegocio:[], // TIPOS DE NEGOCIO
+
     usuarioAplicacion:{},
     tiendasNegocio: [],
 
@@ -39,6 +43,13 @@ export class NegocioTiendas extends React.Component {
     }
 
     controlModalAgregar =()=> this.setState({mostrarModalAgregar:!this.state.mostrarModalAgregar});
+
+    obtenerTiposTienda =()=> {
+        listarTiposNegocio_DB().then(res=>{
+            if(!res.error){ this.setState({tiposNegocio:res}) }
+            else { console.log("ERROR >> LISTAR TIPOS DE NEGOCIO") }
+        });
+    }
 
     obtenerTiendasNegocio =()=> {
         const Buscador = {
@@ -112,6 +123,8 @@ export class NegocioTiendas extends React.Component {
         }
         if(Tienda.idTienda){
             editarTienda_DB(Tienda).then(res=>{
+                console.log(Tienda);
+                console.log(res);
                 if(!res.error){
                     this.obtenerTiendas();
                     this.controlModalAgregar();
@@ -119,6 +132,8 @@ export class NegocioTiendas extends React.Component {
             });
         } else {
             agregarTienda_DB(Tienda).then(res=>{
+                console.log(Tienda);
+                console.log(res);
                 if(!res.error){
                     this.obtenerTiendas();
                     this.controlModalAgregar();
@@ -160,7 +175,10 @@ export class NegocioTiendas extends React.Component {
     }
 
     iniciarFunciones =(usuarioAplicacion)=> {
-        this.setState({usuarioAplicacion},()=>this.obtenerTiendasNegocio())
+        this.setState({usuarioAplicacion},()=>{
+            this.obtenerTiposTienda();
+            this.obtenerTiendasNegocio();
+        })
     }
 
     componentDidMount(){
@@ -219,43 +237,60 @@ export class NegocioTiendas extends React.Component {
                 >
                 <form className="cliente_agregar_direccion" validate="true" onSubmit={this.guardarTienda}>
                     <fieldset><legend align="left">Logo</legend>
-                        <input type="text" id="logo" placeholder="Ej. Urb. Santa Monica A-45" 
-                            defaultValue={this.state.tiendaSeleccionado.logo||""}/>
+                        <img src={this.state.tiendaSeleccionado.logo} alt="Logo Tienda" name="logo" id="logo"/>
                     </fieldset>
-                    <fieldset><legend align="left">Nombre</legend>
-                        <input type="text" id="nombreTienda" placeholder="Ej. Urb. Santa Monica A-45" 
-                            defaultValue={this.state.tiendaSeleccionado.nombreTienda||""}/>
+                    <fieldset><legend align="left">Tienda</legend>
+                        <div className="cuadro_texto">
+                            <IconoUsuario fill="#d1d3d8"/>
+                            <input type="text" id="nombreTienda" placeholder="Nombre Empresa" defaultValue={this.state.tiendaSeleccionado.nombreTienda||""}/>
+                        </div>
+                        <div className="cuadro_texto">
+                            <IconoUsuario fill="#d1d3d8"/>
+                            <input type="text" id="descripcionTienda" placeholder="Descripción" defaultValue={this.state.tiendaSeleccionado.descripcionTienda||""}/>
+                        </div>
+                        <div className="tienda_datos">
+                            <div className="cuadro_texto">
+                                <IconoUsuario fill="#d1d3d8"/>
+                                <input type="text" id="numeroTienda" placeholder="Numero" defaultValue={this.state.tiendaSeleccionado.numeroTienda||""}/>
+                            </div>
+                            <div className="cuadro_texto">
+                                <IconoUsuario fill="#d1d3d8"/>
+                                <input type="text" id="ruc" placeholder="RUC" defaultValue={this.state.tiendaSeleccionado.ruc||""}/>
+                            </div>
+                            <div className="cuadro_texto">
+                                <IconoUsuario fill="#d1d3d8"/>
+                                <select id="tipoUnidad" defaultValue={this.state.tiendaSeleccionado.idTipoNegocio||""}>
+                                    {(this.state.tiposNegocio||[]).map(tipo=>
+                                        <option key={tipo.idTipoNegocio} value={tipo.idTipoNegocio}>{tipo.nombreTipoNegocio}</option>
+                                    )}
+                                </select>
+                            </div>
+                        </div>
                     </fieldset>
-                    <fieldset><legend align="left">Numero</legend>
-                        <input type="text" id="numeroTienda" placeholder="Ej. Urb. Santa Monica A-45" 
-                            defaultValue={this.state.tiendaSeleccionado.numeroTienda||""}/>
+
+                    <fieldset><legend align="left">Datos</legend>
+                        <div className="cuadro_texto">
+                            <IconoUsuario fill="#d1d3d8"/>
+                            <input type="text" id="correoTienda" placeholder="Correo" defaultValue={this.state.tiendaSeleccionado.correoTienda||""}/>
+                        </div>
+                        <div className="cuadro_texto">
+                            <IconoUsuario fill="#d1d3d8"/>
+                            <input type="text" id="telefonoTienda" placeholder="Telefono" defaultValue={this.state.tiendaSeleccionado.telefonoTienda||""}/>
+                        </div>
                     </fieldset>
-                    <fieldset><legend align="left">RUC</legend>
-                        <input type="text" id="ruc" placeholder="Ej. Urb. Santa Monica A-45" 
-                            defaultValue={this.state.tiendaSeleccionado.ruc||""}/>
-                    </fieldset>
-                    <fieldset><legend align="left">Correo</legend>
-                        <input type="text" id="correoTienda" placeholder="Ej. Urb. Santa Monica A-45" 
-                            defaultValue={this.state.tiendaSeleccionado.correoTienda||""}/>
-                    </fieldset>
-                    <fieldset><legend align="left">Telefono</legend>
-                        <input type="text" id="telefonoTienda" placeholder="Ej. Urb. Santa Monica A-45" 
-                            defaultValue={this.state.tiendaSeleccionado.telefonoTienda||""}/>
-                    </fieldset>
+
                     <fieldset><legend align="left">Dirección</legend>
-                        <input type="text" id="direccionTienda" placeholder="Ej. Urb. Santa Monica A-45" 
-                            defaultValue={this.state.tiendaSeleccionado.direccionTienda||""}/>
-                    </fieldset>
-                    <fieldset><legend align="left">Descripcion</legend>
-                        <input type="text" id="descripcionTienda" placeholder="Ej. Urb. Santa Monica A-45" 
-                            defaultValue={this.state.tiendaSeleccionado.descripcionTienda||""}/>
-                    </fieldset>
-                    <fieldset><legend align="left">Ubicación</legend>
+                        <div className="cuadro_texto">
+                            <IconoUsuario fill="#d1d3d8"/>
+                            <input type="text" id="direccionTienda" placeholder="Dirección" defaultValue={this.state.tiendaSeleccionado.direccionTienda||""}/>
+                        </div>                        
                         <div className="cliente_agregar_direccion_ubicacion" id="map"></div>
                     </fieldset>
+
                     <div className="centrado">
                         <button type="submit">Guardar Cambios</button>
                     </div>
+
                 </form>
                 </Modal>
             </div>
