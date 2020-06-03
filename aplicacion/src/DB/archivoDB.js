@@ -15,11 +15,13 @@ export function eliminarArchivo_DB(urlMedia){
 }
 
 //GUARDAR ARCHIVO
-export function guardarArchivo_DB(imagenProducto){
-    const fd = new FormData();
-    fd.append('imagenProducto',imagenProducto);
+export function guardarArchivo_DB(Archivo,Carpeta){
+    const imagen = new FormData();
+    imagen.append('imagen',Archivo);
     return new Promise((resolve, reject)=>{
-        fetch(Url+"guardar",{method:'POST',body:fd})
+        fetch(Url+"guardar/"+Carpeta,{
+            method:'POST', body:imagen
+        })
         .then(response=>response.json())
         .then(responseJson=>resolve(responseJson))
         .catch(error=>reject(error));

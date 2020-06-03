@@ -102,8 +102,12 @@ export class Productos extends React.Component {
             descuentoUnidad:(parseFloat(document.getElementById('descuentoUnidad').value)||0).toFixed(2)
         }
         if(this.state.archivoImagenNuevo){
-            datoProducto["imagenProducto"] = "/img/productos/"+(this.state.archivoImagenNuevo||{}).name||"sin_imagen.jpg";
-            guardarArchivo_DB(this.state.archivoImagenNuevo);
+            guardarArchivo_DB(this.state.archivoImagenNuevo,"producto").then(res=>{                
+                console.log(res);
+                if(!res.error){
+                    datoProducto["imagenProducto"] = res;
+                } else { datoProducto["imagenProducto"] = "/img/productos/sin_imagen.jpg" }
+            });
         } else{
             if(productoSeleccionado.imagenProducto){
                 datoProducto["imagenProducto"] = productoSeleccionado.imagenProducto;

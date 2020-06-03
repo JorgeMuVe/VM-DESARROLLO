@@ -10,12 +10,14 @@ import Paginado from '../../Componentes/Paginado';
 
 /*** F U N C I O N E S ***/
 import { obtenerUsuario } from '../../Componentes/Funciones';
+import { guardarArchivo_DB } from '../../DB/archivoDB';
 import { listarTiendasNegocio_DB, agregarTienda_DB, editarTienda_DB, listarTiposNegocio_DB } from '../../DB/tiendaDB';
 
 /* ICONOS */
 import IconoAgregar from '../../SVG/aplicacion/IconoAgregar';
 import IconoAtras from '../../SVG/aplicacion/IconoAtras';
 import IconoUsuario from '../../SVG/IconoUsuario';
+import IconoGoogle from '../../SVG/IconoGoogle';
 
 /* VARIABLES GLOBALES */
 let map;
@@ -30,6 +32,8 @@ const estadoInicial = {
 
     mostrarModalAgregar: false,
     tiendaSeleccionado: {},
+    archivoImagenNuevo: null,
+    archivoImagenTempo: null,
 
     paginaActual:1,
     cantidadPaginas:1,
@@ -123,36 +127,53 @@ export class NegocioTiendas extends React.Component {
             lat:ubicacion.getPosition().lat(),
             lng:ubicacion.getPosition().lng()
         }
+        const { archivoImagenNuevo } = this.state;
+        if(archivoImagenNuevo){
+            guardarArchivo_DB(archivoImagenNuevo,"tiendas").then(res=>{                
+                console.log(res);
+                if(!res.error){ Tienda["logo"] = res; }
+                else { Tienda["logo"] = "/img/tiendas/sin_imagen.jpg" }
+            });
+        } else{
+            if(this.state.tiendaSeleccionado.logo){
+                Tienda["logo"] = this.state.tiendaSeleccionado.logo;
+            } else{ Tienda["logo"] = "/img/tiendas/sin_imagen.jpg"; }
+            console.log("No se selecciono imagen");
+        }
+
         if(Tienda.idTienda){
             editarTienda_DB(Tienda).then(res=>{
-                console.log(Tienda);
-                console.log(res);
                 if(!res.error){
-                    this.obtenerTiendas();
+                    this.obtenerTiendasNegocio();
                     this.controlModalAgregar();
                 } else { console.log("ERROR >> EDITAR TIENDA");}
             });
         } else {
             agregarTienda_DB(Tienda).then(res=>{
-                console.log(Tienda);
-                console.log(res);
                 if(!res.error){
-                    this.obtenerTiendas();
+                    this.obtenerTiendasNegocio();
                     this.controlModalAgregar();
                 } else { console.log("ERROR >> AGREGAR TIENDA");}
             });
         }
     }
 
+    cambiarArchivo = (evento) => {
+        if(evento.target.files[0]){
+            let archivoImagenNuevo = evento.target.files[0];
+            this.setState({archivoImagenNuevo,archivoImagenTempo:URL.createObjectURL(archivoImagenNuevo)});
+        }        
+    }
+
     agregarTienda =()=> {
-        this.setState({tiendaSeleccionado:{}},()=>{
+        this.setState({tiendaSeleccionado:{},archivoImagenNuevo:null,archivoImagenTempo:null},()=>{
             this.controlModalAgregar();
-            setTimeout(this.obtenerPosicion,100);  
+            setTimeout(this.obtenerPosicion,100);
         });
     }
 
     seleccionarTienda =(Tienda)=> {
-        this.setState({tiendaSeleccionado:Tienda},()=>{
+        this.setState({tiendaSeleccionado:Tienda,archivoImagenNuevo:null,archivoImagenTempo:Tienda.logo||""},()=>{
             this.controlModalAgregar();
             setTimeout(this.ubicarTienda,100);
         });
@@ -191,6 +212,7 @@ export class NegocioTiendas extends React.Component {
     }
 
     render(){
+        console.log(this.state.archivoImagenTempo);
         return(
             <div className="NegocioTiendas">
                 <div className="usuario_encabezado">
@@ -234,9 +256,18 @@ export class NegocioTiendas extends React.Component {
                     tituloModal = {"Agregar Tienda"}
                 >
                 <form className="negocio_tienda" validate="true" onSubmit={this.guardarTienda}>
-                    <div className="logo_tienda">
-                        <img src={this.state.tiendaSeleccionado.logo} alt="Logo Tienda" name="logo" id="logo"/>
+                
+                    <div className="centrado">
+                        <div className="logo_tienda" style={{background:'url('+(this.state.archivoImagenTempo||"/img/tiendas/sin_logo.jpg")+')no-repeat center/cover'}}>
+                            <div className="logo_tienda_opciones">
+                                <input type="file" id="logo" accept="image/*" onChange={(e)=> this.cambiarArchivo(e)}/>
+                                <label htmlFor="logo" title="Cambiar Foto"><IconoGoogle fill="#fefefe"/></label>
+                                <label onClick={()=>{alert("Ver")}} title="Ver Foto"><IconoGoogle fill="#fefefe"/></label>
+                            </div>
+                        </div>
                     </div>
+
+                    
                     <fieldset><legend align="left">Tienda</legend>
                     <div className="negocio_tienda_fieldset">
                         <div className="cuadro_texto">
@@ -303,3 +334,19 @@ export class NegocioTiendas extends React.Component {
 }
 
 export default NegocioTiendas;
+/*
+
+<img src={this.state.tiendaSeleccionado.logo} alt="Logo Tienda" name="logo" id="logo"/>
+
+<div className="negocio_tienda_imagen">
+    {this.state.archivoImagenTempo===null?null:
+    <div className="centrado">
+        <img src={this.state.archivoImagenTempo} alt="Imagen Producto" name="imagenProducto"/>
+    </div>}
+    <div className="negocio_tienda_imagen_boton">
+        <input type="file" id="logo" accept="image/*" onChange={(e)=> this.cambiarArchivo(e)}/>
+        <label htmlFor="imagenProducto"> <IconoGoogle fill="#fefefe"/> Subir Imagen</label>
+    </div>
+</div>
+
+ */
