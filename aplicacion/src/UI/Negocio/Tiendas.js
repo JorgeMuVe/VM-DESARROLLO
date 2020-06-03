@@ -112,14 +112,16 @@ export class NegocioTiendas extends React.Component {
         evento.preventDefault();
         var tp = document.getElementById('tipoNegocio');
         var tipoNegocio = tp.options[tp.selectedIndex].value;
+        
+        const { archivoImagenNuevo,tiendaSeleccionado } = this.state;
+
         const Tienda = {
-            idTienda:this.state.tiendaSeleccionado.idTienda,
+            idTienda:tiendaSeleccionado.idTienda,
             idNegocio:this.state.usuarioAplicacion.codigoUsuario,
             idTipoNegocio: tipoNegocio,
             numeroTienda: document.getElementById("numeroTienda").value,
             nombreTienda: document.getElementById("nombreTienda").value,
             ruc: document.getElementById("ruc").value,
-            logo: document.getElementById("logo").value,
             correoTienda: document.getElementById("correoTienda").value,
             telefonoTienda: document.getElementById("telefonoTienda").value,
             direccionTienda: document.getElementById("direccionTienda").value,
@@ -127,20 +129,22 @@ export class NegocioTiendas extends React.Component {
             lat:ubicacion.getPosition().lat(),
             lng:ubicacion.getPosition().lng()
         }
-        const { archivoImagenNuevo } = this.state;
+        
+        var logoTienda = "/img/tiendas/sin_logo.png";
         if(archivoImagenNuevo){
-            guardarArchivo_DB(archivoImagenNuevo,"tiendas").then(res=>{                
-                console.log(res);
-                if(!res.error){ Tienda["logo"] = res; }
-                else { Tienda["logo"] = "/img/tiendas/sin_imagen.jpg" }
+            guardarArchivo_DB(archivoImagenNuevo,"tiendas").then(res=>{
+                if(!res.error){ logoTienda = res.ruta; }
+                Tienda["logo"] = logoTienda;
+                this.guardarDatosTienda(Tienda);
             });
         } else{
-            if(this.state.tiendaSeleccionado.logo){
-                Tienda["logo"] = this.state.tiendaSeleccionado.logo;
-            } else{ Tienda["logo"] = "/img/tiendas/sin_imagen.jpg"; }
-            console.log("No se selecciono imagen");
-        }
+            if(tiendaSeleccionado.logo){ logoTienda = tiendaSeleccionado.logo;}
+            Tienda["logo"] = logoTienda;
+            this.guardarDatosTienda(Tienda);
+        }        
+    }
 
+    guardarDatosTienda =(Tienda)=> {
         if(Tienda.idTienda){
             editarTienda_DB(Tienda).then(res=>{
                 if(!res.error){
@@ -212,7 +216,6 @@ export class NegocioTiendas extends React.Component {
     }
 
     render(){
-        console.log(this.state.archivoImagenTempo);
         return(
             <div className="NegocioTiendas">
                 <div className="usuario_encabezado">
@@ -258,7 +261,7 @@ export class NegocioTiendas extends React.Component {
                 <form className="negocio_tienda" validate="true" onSubmit={this.guardarTienda}>
                 
                     <div className="centrado">
-                        <div className="logo_tienda" style={{background:'url('+(this.state.archivoImagenTempo||"/img/tiendas/sin_logo.jpg")+')no-repeat center/cover'}}>
+                        <div className="logo_tienda" style={{background:'url('+(this.state.archivoImagenTempo||"/img/tiendas/sin_logo.png")+')no-repeat center/cover'}}>
                             <div className="logo_tienda_opciones">
                                 <input type="file" id="logo" accept="image/*" onChange={(e)=> this.cambiarArchivo(e)}/>
                                 <label htmlFor="logo" title="Cambiar Foto"><IconoGoogle fill="#fefefe"/></label>

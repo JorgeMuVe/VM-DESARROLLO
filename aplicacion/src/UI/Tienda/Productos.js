@@ -84,13 +84,13 @@ export class Productos extends React.Component {
     }
 
     /*******   G U A R D A R   *****/
-    guardarDatosProducto =(evento)=> {
+    guardarProducto =(evento)=> {
         evento.preventDefault();
-        const { productoSeleccionado } =  this.state;
+        const { productoSeleccionado, archivoImagenNuevo } =  this.state;
         var tp = document.getElementById('tipoProducto');
         var idTipoProducto = tp.options[tp.selectedIndex].value;
 
-        const datoProducto = {
+        const Producto = {
             idProducto:productoSeleccionado.idProducto,
             idTienda:this.state.usuarioAplicacion.codigoUsuario||"1",
             idTipoProducto:idTipoProducto,
@@ -101,21 +101,23 @@ export class Productos extends React.Component {
             unidadCantidad:(parseFloat(document.getElementById('unidadCantidad').value)||0).toFixed(2),
             descuentoUnidad:(parseFloat(document.getElementById('descuentoUnidad').value)||0).toFixed(2)
         }
-        if(this.state.archivoImagenNuevo){
-            guardarArchivo_DB(this.state.archivoImagenNuevo,"producto").then(res=>{                
-                console.log(res);
-                if(!res.error){
-                    datoProducto["imagenProducto"] = res;
-                } else { datoProducto["imagenProducto"] = "/img/productos/sin_imagen.jpg" }
+        var imagenProducto = "/img/tiendas/sin_logo.png";
+        if(archivoImagenNuevo){
+            guardarArchivo_DB(archivoImagenNuevo,"productos").then(res=>{
+                if(!res.error){ imagenProducto = res.ruta; }
+                Producto["imagenProducto"] = imagenProducto;
+                this.guardarDatosProducto(Producto);
             });
         } else{
-            if(productoSeleccionado.imagenProducto){
-                datoProducto["imagenProducto"] = productoSeleccionado.imagenProducto;
-            } else{ datoProducto["imagenProducto"] = "/img/productos/sin_imagen.jpg"; }
-            console.log("No se selecciono imagen");
-        }
-        if(datoProducto.idProducto){            
-            editarProducto_DB(datoProducto).then(res=>{
+            if(productoSeleccionado.imagenProducto){ imagenProducto = productoSeleccionado.imagenProducto;}
+            Producto["imagenProducto"] = imagenProducto;
+            this.guardarDatosProducto(Producto);
+        }        
+    }
+
+    guardarDatosProducto =(Producto)=> {
+        if(Producto.idProducto){            
+            editarProducto_DB(Producto).then(res=>{
                 if(!res.error){
                     this.obtenerProductosTienda();
                     this.controlModalProducto();
@@ -123,7 +125,7 @@ export class Productos extends React.Component {
                 } else { console.log("ERROR >> CAMBIAR PRODUCTO"); }
             });
         }else {
-            agregarProducto_DB(datoProducto).then(res=>{
+            agregarProducto_DB(Producto).then(res=>{
                 if(!res.error){
                     this.obtenerProductosTienda();
                     this.controlModalProducto();
@@ -233,7 +235,7 @@ export class Productos extends React.Component {
                     controlModal = {this.controlModalProducto}
                     tituloModal = {"Agregar Producto"}
                 >
-                <form className="tienda_agregar_producto" validate="true" onSubmit={this.guardarDatosProducto}>
+                <form className="tienda_agregar_producto" validate="true" onSubmit={this.guardarProducto}>
                     
                     <fieldset><legend align="left">Producto</legend>
                         <div>

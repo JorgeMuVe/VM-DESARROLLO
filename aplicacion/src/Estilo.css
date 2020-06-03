@@ -199,7 +199,6 @@ color:white;letter-spacing:2px;font:bold 18px 'fontfamili';}
 .usuario_tabla {padding:0px 10px;display:flex;flex-direction:column;}.usuario_tabla table{width:80%;}
 .usuario_tabla_paginado {padding:2px;margin:5px;}
 .usuario_datos {display:grid;grid-gap:20px;}
-.usuario_datos img{width:150px;height:150px;border-radius:50%;}
 .usuario_datos_informacion{display:grid;grid-template-columns:1fr;grid-gap:20px;}
 
 .usuario_datos_informacion_cliente {display:grid;grid-template-columns:repeat(3,1fr);grid-gap:5px;}
