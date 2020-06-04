@@ -18,7 +18,7 @@ import MenuAplicacion from './Componentes/MenuAplicacion';
 import Contacto from './Componentes/Contacto';
 import PiePagina from './Componentes/PiePagina';
 import MejoresRestaurantes from './Componentes/MejoresRestaurantes';
-
+import PerfilTienda from './Componentes/PerfilTienda';
 /* *********  I N T E R F A Z   **********/
 import Principal from './UI/Paginas/Principal';
 import Tiendas from './UI/Paginas/Tiendas';
@@ -331,6 +331,10 @@ export class Aplicacion extends Component {
           
             <Route exact path="/" render={(props) => 
               <Principal usuarioAplicacion={this.state.usuarioAplicacion} {...props}/>
+            }></Route>
+
+            <Route path="/perfiltienda/:idTienda" render={(props) => 
+              <PerfilTienda  {...props}/>
             }></Route>
 
             <Route path="/usuario/admin/:ruta" render={(props) => 
