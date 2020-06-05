@@ -16,11 +16,23 @@ IN `@telefonoTienda` VARCHAR(250),
 IN `@direccionTienda` VARCHAR(250),
 IN `@descripcionTienda` VARCHAR(250),
 IN `@lat` VARCHAR(30),
-IN `@lng` VARCHAR(30)
+IN `@lng` VARCHAR(30),
+IN `@contrasena` VARCHAR(250)
+
 ) BEGIN
+
+IF NOT EXISTS (SELECT idUsuario FROM usuario WHERE nombreUsuario=`@correoTienda`) THEN 
 
 INSERT INTO tienda (idNegocio,idTipoNegocio,numeroTienda,nombreTienda,ruc,logo,correoTienda,telefonoTienda,direccionTienda,descripcionTienda,lat,lng) VALUES
 (`@idNegocio`,`@idTipoNegocio`,`@numeroTienda`,`@nombreTienda`,`@ruc`,`@logo`,`@correoTienda`,`@telefonoTienda`,`@direccionTienda`,`@descripcionTienda`,`@lat`,`@lng`);
+SET @idTienda = LAST_INSERT_ID();
+INSERT INTO usuario (nombreUsuario, contrasena, tipoUsuario, codigoUsuario) VALUES
+(`@correoTienda`,SHA1(`@contrasena`),'tienda',@idTienda);
+
+SELECT "Se agrego Exitosamente!" as exito;
+
+ELSE SELECT "Ya existe una cuenta con el Correo Ingresado" as error;
+END IF;
 
 END $$
 DELIMITER ;

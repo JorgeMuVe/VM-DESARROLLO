@@ -22,7 +22,7 @@ export class ConfirmarRegistro extends React.Component {
                     Confirma tu información repidiento la contraseña que 
                     escogiste para tu cuenta de Pedidelivery.
                 </div>
-                <div>Correo: <b>jorge.muvez@gmail.com</b></div>
+                <div>Correo: <b>{(document.getElementById("nombreUsuario")||{}).value}</b></div>
                 <input style={{width:'250px'}} placeholder="Confirma Contraseña" type='password'/>
             </div>
         )

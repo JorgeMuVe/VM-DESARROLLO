@@ -243,7 +243,7 @@ export class TiendaPedidos extends React.Component {
                 >
                 <div className="tienda_pedido_detalle">
                     <div>{this.state.pedidoSeleccionado.nombreCompleto+" "+this.state.pedidoSeleccionado.apellidoPaterno}</div>
-                    <div>Total <b>S/. {this.state.pedidoSeleccionado.totalPagar}</b></div>
+                    <div>Total <b>S/. {parseFloat(this.state.pedidoSeleccionado.totalPagar||0).toFixed(2)}</b></div>
                     {(this.state.detallesPedidoSeleccionado||[]).length > 0?
                     <div className="tienda_pedido_detalle_tabla centrado">
                         <table>

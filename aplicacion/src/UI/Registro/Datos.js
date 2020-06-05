@@ -17,16 +17,17 @@ export class DatosUsuario extends React.Component {
     render(){
         return(
             <div className="registro_datos">
-                <div className="registro_imagen centrado">
-                    <img src={this.props.urlAplicacion + "/img/1.png"} alt="Usuario"/>
-                    <div>Registro Rapido</div>
+
+                <div className="centrado">
+                    <div className="logo_tienda" style={{background:'url(/img/clientes/sin_foto.jpg)no-repeat center/cover'}}>
+                    </div>
                 </div>
                 <input id="nombreCompleto" placeholder="Nombres"/>
                 <input id="apellidoPaterno" placeholder="Apellido Paterno"/>
                 <input id="apellidoMaterno" placeholder="Apellido Materno"/>
                 <input id="registroNacional" placeholder="Registro Nacional"/>
-                <input id="nombreUsuario" placeholder="Correo"/>
-                <input id="contrasena" placeholder="Contraseña"/>
+                <input id="nombreUsuario" type="email" placeholder="Correo"/>
+                <input id="contrasena" type="password" placeholder="Contraseña"/>
             </div>
         )
     }

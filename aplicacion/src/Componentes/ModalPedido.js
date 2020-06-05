@@ -45,6 +45,9 @@ export class ModalPedido extends React.Component {
     comprarPedido =()=> {
         var usuarioAplicacion = obtenerUsuario();
         if(usuarioAplicacion){
+            if(usuarioAplicacion.tipoUsuario === 'invitado'){ 
+                this.props.controlModalIngreso();
+            }
             if(usuarioAplicacion.tipoUsuario === 'cliente'){ 
                 window.location.href = '/usuario/cliente/pedido' 
             }
@@ -52,8 +55,13 @@ export class ModalPedido extends React.Component {
                 alert("Ingrese con una cuenta cliente.");
                 this.props.controlModalPedido();
             }
-            if(usuarioAplicacion.tipoUsuario === 'invitado'){ 
-                this.props.controlModalIngreso();
+            if(usuarioAplicacion.tipoUsuario === 'negocio'){ 
+                alert("Ingrese con una cuenta cliente.");
+                this.props.controlModalPedido();
+            }
+            if(usuarioAplicacion.tipoUsuario === 'admin'){ 
+                alert("Ingrese con una cuenta cliente.");
+                this.props.controlModalPedido();
             }
         } else { 
             this.props.controlModalIngreso();

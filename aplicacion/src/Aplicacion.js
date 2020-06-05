@@ -4,8 +4,6 @@
 */
 
 /* ********   F U N C I O N E S ************ */
-import { agregarUsuario_DB } from './DB/usuarioDB';
-
 import { listarProductoPorTipo_DB } from './DB/productoDB';
 
 
@@ -19,8 +17,10 @@ import Contacto from './Componentes/Contacto';
 import PiePagina from './Componentes/PiePagina';
 import MejoresRestaurantes from './Componentes/MejoresRestaurantes';
 import PerfilTienda from './Componentes/PerfilTienda';
+
 /* *********  I N T E R F A Z   **********/
 import Principal from './UI/Paginas/Principal';
+import Registro from './UI/Registro/Registro';
 import Buscador from './UI/Paginas/Buscador';
 import Tiendas from './UI/Paginas/Tiendas';
 import Categorias from './UI/Paginas/Categoria';
@@ -29,7 +29,6 @@ import Admin from './UI/Admin/Admin';
 import Negocio from './UI/Negocio/Negocio';
 import Cliente from './UI/Cliente/Cliente';
 import Tienda from './UI/Tienda/Tienda';
-
 
 import ProductoLista from './UI/Producto/ProductoLista';
 import ProductoBuscador from './UI/Producto/ProductoBuscador';
@@ -88,35 +87,6 @@ export class Aplicacion extends Component {
   }
 
   /*******  U   S   U   A   R   I   O   ******/
-  /* VERIFICACION */
-  verificarDatosUsuario = (nuevoUsuario) => {
-    if (nuevoUsuario) { return true } else { return false }
-  }
-
-  /* DATOS Y REGISTRO DE USUARIO*/
-  agregarUsuario = () => {
-    var nuevoUsuario = {
-      registroNacional: document.getElementById("registroNacional").value,
-      nombreCompleto: document.getElementById("nombreCompleto").value,
-      apellidoPaterno: document.getElementById("apellidoPaterno").value,
-      apellidoMaterno: document.getElementById("apellidoMaterno").value,
-      nombreUsuario: document.getElementById("nombreUsuario").value,
-      contrasena: document.getElementById("contrasena").value,
-      tipoUsuario: "cliente"
-    };
-
-    if (this.verificarDatosUsuario(nuevoUsuario)) {
-      agregarUsuario_DB(nuevoUsuario).then(res => {
-        if (!res.error) {
-          this.setState({ usuarioAplicacion: res }, () => {
-            sessionStorage.setItem('codigoUsuario', res.codigoUsuario);
-            this.cambiarPagina("producto-cliente");
-          });
-        } else { this.abrirMensajeError(4000, res.error); }
-      }) //.catch(res => alert("Error"));
-    } else { this.abrirMensajeError(4000, 'DATOS INCOMPLETOS') }
-  }
-
   /* INGRESAR AL SISTEMA */
   ingresarSistema = (usuarioAplicacion) => {
     if(usuarioAplicacion){this.setState({usuarioAplicacion,mostrarModalIngreso:false});}
@@ -334,6 +304,8 @@ export class Aplicacion extends Component {
             <Route exact path="/" render={(props) => 
               <Principal usuarioAplicacion={this.state.usuarioAplicacion} {...props}/>}>
             </Route>
+
+            <Route path="/registro" render={(props)=><Registro ingresarSistema={this.ingresarSistema}{...props}/>}></Route>
           
             <Route path="/lima" render={(props)=><Buscador ciudad={"lima"} {...props}/>}></Route>
 
@@ -346,7 +318,7 @@ export class Aplicacion extends Component {
             <Route path="/perfiltienda/:idTienda" render={(props)=><PerfilTienda  {...props}/>}></Route>
             
             <Route path="/tiendas/:tipo" render={(props)=><Tiendas {...props}/>}></Route>
-
+           
             <Route path="/usuario/admin/:ruta" render={(props) => 
               <Admin 
                 salirSistema={this.salirSistema}
@@ -355,6 +327,7 @@ export class Aplicacion extends Component {
 
             <Route path="/usuario/negocio/:ruta" render={(props) => 
               <Negocio salirSistema={this.salirSistema}
+                abrirMensajeError={this.abrirMensajeError}
                 controlMenuUsuario={this.cerrarMenuUsuario}{...props}/>
             }></Route>
            

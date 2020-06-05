@@ -8,6 +8,8 @@ import React from 'react';
 import DatosUsuario from './Datos';
 import ConfirmarRegistro from './Confirmar';
 
+/* FUNCIONES */
+import { agregarUsuario_DB } from '../../DB/usuarioDB';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
@@ -20,11 +22,39 @@ export class Registro extends React.Component {
         this.state = estadoInicial;
     }
 
+    /* VERIFICACION */
+    verificarDatosUsuario = (nuevoUsuario) => {
+        if (nuevoUsuario) { return true } else { return false }
+    }
+
+    /* DATOS Y REGISTRO DE USUARIO*/
+    agregarUsuario = () => {
+    var nuevoUsuario = {
+      registroNacional: document.getElementById("registroNacional").value,
+      nombreCompleto: document.getElementById("nombreCompleto").value,
+      apellidoPaterno: document.getElementById("apellidoPaterno").value,
+      apellidoMaterno: document.getElementById("apellidoMaterno").value,
+      nombreUsuario: document.getElementById("nombreUsuario").value,
+      contrasena: document.getElementById("contrasena").value,
+      tipoUsuario: "cliente"
+    };
+
+    if (this.verificarDatosUsuario(nuevoUsuario)) {
+      agregarUsuario_DB(nuevoUsuario).then(res => {
+        if (!res.error) {
+          this.setState({ usuarioAplicacion: res }, () => {
+            sessionStorage.setItem('codigoUsuario', res.codigoUsuario);
+            this.props.history.push("/usuario/cliente/_");
+            this.props.ingresarSistema(res);
+          });
+        } else { this.props.abrirMensajeError(4000, res.error); }
+      }) //.catch(res => alert("Error"));
+    } else { this.abrirMensajeError(4000, 'DATOS INCOMPLETOS') }
+  }
+
     cambiarPagina =(confirmar)=> {
         if(this.state.mostrarConfirmar && confirmar){
-            //this.props.actualizarUsuario("Usuario Registrado");
-            //console.log("Se confirma Registro");
-            this.props.agregarUsuario();   
+            this.agregarUsuario();   
         }else{
             this.setState({mostrarConfirmar:!this.state.mostrarConfirmar});
         }

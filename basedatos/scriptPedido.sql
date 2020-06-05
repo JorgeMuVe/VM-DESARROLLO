@@ -54,23 +54,18 @@ CREATE PROCEDURE listarPedidoTienda (
 
 ) BEGIN
 
-SET @totalProductos=0;
-SET @totalPagar=0;
-SELECT COUNT(idPedido),SUM(precioPorUnidad) INTO @totalProductos, @totalPagar
-FROM pedidoDetalle WHERE idTienda = `@idTienda`;
-
--- SELECT @totalProductos,@totalPagar;
-IF @totalProductos > 0
- THEN 
 	SELECT p.idPedido,p.fechaRegistro,p.correoReferencia,p.telefonoReferencia,p.estadoPedido,
-	@totalProductos as totalProductos,@totalPagar as totalPagar,
-	c.nombreCompleto,c.apellidoPaterno,d.denominacionDireccion,d.referenciaDireccion,d.lat,d.lng
-	FROM venta v
-	INNER JOIN pedido p ON v.idPedido = p.idPedido
+	c.nombreCompleto,c.apellidoPaterno,d.denominacionDireccion,d.referenciaDireccion,d.lat,d.lng,
+    t.totalProductos, t.totalPagar
+    FROM venta v
+    INNER JOIN pedido p ON v.idPedido = p.idPedido
 	INNER JOIN cliente c ON c.idCliente = p.codigoUsuario
 	INNER JOIN direccion d ON d.idDireccion = p.idDireccion
+
+    LEFT JOIN (SELECT pd.idPedido,COUNT(pd.idPedido) AS totalProductos, SUM(((pd.precioPorUnidad*pd.cantidadProducto)-((pd.precioPorUnidad*pd.cantidadProducto)*(pr.descuentoUnidad/100)))) AS totalPagar
+    FROM pedidoDetalle pd INNER JOIN producto pr ON pd.idProducto = pr.idProducto WHERE pd.idTienda = `@idTienda` GROUP BY pd.idPedido)t ON (v.idPedido = t.idPedido)
+
 	WHERE v.idTienda =  `@idTienda` LIMIT `@inicio`,`@cantidad`;
-END IF;
 
 END $$
 DELIMITER ;

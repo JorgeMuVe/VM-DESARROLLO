@@ -42,7 +42,7 @@ export class Tienda extends React.Component {
 
                     <div className="usuario_paginas">
 
-                        <Route path="/usuario/negocio/tiendas" render={(props)=> <Tiendas {...props}/>}/>
+                        <Route path="/usuario/negocio/tiendas" render={(props)=> <Tiendas abrirMensajeError={this.props.abrirMensajeError} {...props}/>}/>
                         <Route path="/usuario/negocio/ventas" render={(props)=> <Ventas {...props}/>}/>
                         <Route path="/usuario/negocio/cuenta" render={(props)=> <Cuenta {...props}/>}/>
 

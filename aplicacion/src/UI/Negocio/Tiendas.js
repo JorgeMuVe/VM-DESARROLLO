@@ -153,11 +153,12 @@ export class NegocioTiendas extends React.Component {
                 } else { console.log("ERROR >> EDITAR TIENDA");}
             });
         } else {
+            Tienda["contrasena"] = document.getElementById("contrasena").value;
             agregarTienda_DB(Tienda).then(res=>{
                 if(!res.error){
                     this.obtenerTiendasNegocio();
                     this.controlModalAgregar();
-                } else { console.log("ERROR >> AGREGAR TIENDA");}
+                } else { this.props.abrirMensajeError(4000, res.error);}
             });
         }
     }
@@ -302,15 +303,28 @@ export class NegocioTiendas extends React.Component {
                     <div className="negocio_tienda_fieldset">
                         <div className="cuadro_texto">
                             <IconoUsuario fill="#d1d3d8"/>
-                            <input type="text" id="correoTienda" placeholder="Correo" defaultValue={this.state.tiendaSeleccionado.correoTienda||""}/>
-                        </div>
-                        <div className="cuadro_texto">
-                            <IconoUsuario fill="#d1d3d8"/>
                             <input type="text" id="telefonoTienda" placeholder="Telefono" defaultValue={this.state.tiendaSeleccionado.telefonoTienda||""}/>
                         </div>
                         <div className="cuadro_texto">
                             <IconoUsuario fill="#d1d3d8"/>
                             <input type="text" id="ruc" placeholder="RUC" defaultValue={this.state.tiendaSeleccionado.ruc||""}/>
+                        </div>
+                    </div>
+                    </fieldset>
+
+                    <fieldset><legend align="left">Cuenta</legend>
+                    <div className="negocio_tienda_fieldset">
+                        <div className="cuadro_texto">
+                            <IconoUsuario fill="#d1d3d8"/>
+                            <input type="text" id="correoTienda" placeholder="Correo" 
+                            defaultValue={this.state.tiendaSeleccionado.correoTienda||""} readOnly={this.state.tiendaSeleccionado.idTienda?true:false}/>
+                        </div>
+                        <div className="cuadro_texto">
+                            <IconoUsuario fill="#d1d3d8"/>
+                            {this.state.tiendaSeleccionado.idTienda?
+                            <div>Cambiar Contraseña</div>
+                            :
+                            <input type="password" id="contrasena" placeholder="Contraseña"/>}
                         </div>
                     </div>
                     </fieldset>

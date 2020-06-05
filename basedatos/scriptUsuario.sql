@@ -75,9 +75,10 @@ CREATE PROCEDURE buscarUsuarioTienda (
 IN `@codigoUsuario` INT(10)
 ) BEGIN
 
-SELECT nombreTienda,ruc,logo,correoTienda,telefonoTienda,descripcionTienda,direccionTienda,lat,lng,
-'tienda' AS tipoUsuario,`@codigoUsuario` AS codigoUsuario 
-FROM tienda WHERE idTienda = `@codigoUsuario`;
+SELECT t.nombreTienda,t.ruc,t.logo,t.correoTienda,t.telefonoTienda,t.descripcionTienda,t.direccionTienda,t.lat,t.lng,
+t.idNegocio,t.numeroTienda,tn.nombreTipoNegocio,'tienda' AS tipoUsuario,`@codigoUsuario` AS codigoUsuario 
+FROM tienda t INNER JOIN tipoNegocio tn ON t.idTipoNegocio = tn.idTipoNegocio 
+WHERE t.idTienda = `@codigoUsuario`;
 
 END; $$
 DELIMITER ;
