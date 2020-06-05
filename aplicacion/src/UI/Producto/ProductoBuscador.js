@@ -132,7 +132,7 @@ export class ProductoLista extends React.Component {
                                 <div className="producto_buscador_lista_item" style={{background:"url("+producto.imagenProducto+")no-repeat center/cover"}} key={producto.idProducto}>
                                     <div className="producto_buscador_lista_item_datos" onClick={()=>this.props.seleccionarProductoCantidad(producto)}>
                                         <span>{(producto.nombreProducto||"").toUpperCase()}</span>
-                                        <span>{producto.nombreTienda}</span>
+                                        <a href='/perfiltienda/1'>{producto.nombreTienda}</a>
                                         <span>Precio:{this.calcularPrecioProducto(producto)}</span>
                                     </div>
                                 </div>

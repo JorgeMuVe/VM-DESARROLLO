@@ -18,10 +18,12 @@ import MenuAplicacion from './Componentes/MenuAplicacion';
 import Contacto from './Componentes/Contacto';
 import PiePagina from './Componentes/PiePagina';
 import MejoresRestaurantes from './Componentes/MejoresRestaurantes';
-
+import PerfilTienda from './Componentes/PerfilTienda';
 /* *********  I N T E R F A Z   **********/
 import Principal from './UI/Paginas/Principal';
+import Buscador from './UI/Paginas/Buscador';
 import Tiendas from './UI/Paginas/Tiendas';
+import Categorias from './UI/Paginas/Categoria';
 
 import Admin from './UI/Admin/Admin';
 import Negocio from './UI/Negocio/Negocio';
@@ -328,10 +330,22 @@ export class Aplicacion extends Component {
               controlMenuUsuario={this.cerrarMenuUsuario}/>
            </Menu>
           <Switch>
-          
+            
             <Route exact path="/" render={(props) => 
-              <Principal usuarioAplicacion={this.state.usuarioAplicacion} {...props}/>
-            }></Route>
+              <Principal usuarioAplicacion={this.state.usuarioAplicacion} {...props}/>}>
+            </Route>
+          
+            <Route path="/lima" render={(props)=><Buscador ciudad={"lima"} {...props}/>}></Route>
+
+            <Route path="/cusco" render={(props)=><Buscador ciudad={"cusco"} {...props}/>}></Route>
+
+            <Route path="/arequipa" render={(props)=><Buscador ciudad={"arequipa"} {...props}/>}></Route>
+
+            <Route path="/categoria/:categoria" render={(props)=><Categorias {...props}/>}></Route>
+
+            <Route path="/perfiltienda/:idTienda" render={(props)=><PerfilTienda  {...props}/>}></Route>
+            
+            <Route path="/tiendas/:tipo" render={(props)=><Tiendas {...props}/>}></Route>
 
             <Route path="/usuario/admin/:ruta" render={(props) => 
               <Admin 
@@ -366,10 +380,6 @@ export class Aplicacion extends Component {
               <ProductoLista listarPor={"NEGOCIO"} {...props}/>
             }></Route>
 
-            <Route path="/tiendas/:tipo" render={(props) =>
-              <Tiendas {...props}/>
-            }></Route>
-
           </Switch>
         </BrowserRouter>
       </div>
@@ -388,3 +398,36 @@ export class Aplicacion extends Component {
 }
 
 export default Aplicacion;
+
+/*
+DELIMITER $$
+CREATE PROCEDURE editarNegocio(
+	IN `@idNegocio` INT(10) UNSIGNED,
+    IN `@idTipoNegocio` INT(10) UNSIGNED,
+    IN `@nombreNegocio` VARCHAR(250),
+    IN `@ruc` VARCHAR(11),
+    IN `@logo` VARCHAR(250),
+    IN `@correoNegocio` VARCHAR(250),
+    IN `@telefonoNegocio` VARCHAR(250),
+    IN `@descripcionNegocio` VARCHAR(250))
+BEGIN
+
+UPDATE negocio SET
+idTipoNegocio = `@idTipoNegocio`,
+nombreNegocio = `@nombreNegocio`,
+ruc = `@ruc`, logo = `@logo`,
+correoNegocio = `@correoNegocio`,
+telefonoNegocio = `@telefonoNegocio`,
+descripcionNegocio = `@descripcionNegocio`
+WHERE idNegocio = `@idNegocio`;
+
+END$$
+DELIMITER ;
+
+CREATE TABLE ciudad(
+    idCiudad INT(10) unsigned PRIMARY KEY AUTO_INCREMENT UNIQUE NOT NULL,
+    nombreCiudad VARCHAR(250)
+);
+$$
+DELIMITER ;
+*/

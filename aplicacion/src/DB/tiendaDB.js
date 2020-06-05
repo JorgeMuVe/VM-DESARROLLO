@@ -74,3 +74,16 @@ export function listarTiposNegocio_DB(){
         .catch(error => rechazar(error));
     });
 }
+
+// BUSCAR PERFIL TIENDA
+export function buscarPerfilTienda_DB(Tienda){
+    return new Promise((resolver,rechazar) => {
+        fetch(Url + "perfil",{ // Fetch para consumir API de SERVER NODE JS
+            method:'POST',
+            body: JSON.stringify(Tienda),
+            headers: new Headers({ 'Content-type':'application/json' })
+        })
+        .then(respuesta => resolver(respuesta.json()))
+        .catch(error => rechazar(error));
+    })
+};

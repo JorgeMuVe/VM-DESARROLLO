@@ -7,15 +7,21 @@
 import React from 'react';
 
 import { buscarUsuarioNegocio_DB } from '../../DB/usuarioDB';
+import { editarNegocio_DB } from '../../DB/negocioDB';
+import { guardarArchivo_DB } from '../../DB/archivoDB';
+
 import { obtenerUsuario } from '../../Componentes/Funciones';
 
 /*** ICONO SVG ***/
 import IconoAtras from '../../SVG/aplicacion/IconoAtras';
 import IconoUsuario from '../../SVG/IconoUsuario';
+import IconoGoogle from '../../SVG/IconoGoogle';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
-    usuarioAplicacion:[],
+    usuarioAplicacion: {},
+    archivoImagenNuevo: null,
+    archivoImagenTempo: null,
 };
 
 export class NegocioPerfil extends React.Component {
@@ -24,21 +30,51 @@ export class NegocioPerfil extends React.Component {
         this.state = estadoInicial;
     }
 
-    obtenerUsuarioNegocio =()=> {
-        var { usuarioAplicacion } = this.state
+    obtenerUsuarioNegocio =(usuarioAplicacion)=> {
         buscarUsuarioNegocio_DB({codigoUsuario:usuarioAplicacion.codigoUsuario }).then(usuario=>{
             if(!usuario.error){
-                this.setState({usuarioAplicacion:usuario});
+                this.setState({usuarioAplicacion:usuario,archivoImagenNuevo:null,archivoImagenTempo:usuario.logo||""});
             }
         })
+    }
+
+    guardarDatos =()=> {
+        const {archivoImagenNuevo,usuarioAplicacion} = this.state;
+        const Negocio = {
+            idNegocio:usuarioAplicacion.codigoUsuario,
+            idTipoNegocio:usuarioAplicacion.idTipoNegocio,
+            nombreNegocio: document.getElementById("nombreNegocio").value,
+            ruc: document.getElementById("ruc").value,
+            correoNegocio: document.getElementById("correoNegocio").value,
+            telefonoNegocio: document.getElementById("telefonoNegocio").value,
+            descripcionNegocio: document.getElementById("descripcionNegocio").value
+        }
+        var logoNegocio = "/img/negocios/sin_logo.png";
+        if(archivoImagenNuevo){
+            guardarArchivo_DB(archivoImagenNuevo,"negocios").then(res=>{
+                if(!res.error){ logoNegocio = res.ruta; }
+                Negocio["logo"] = logoNegocio;
+                editarNegocio_DB(Negocio);
+            });
+        } else{
+            if(usuarioAplicacion.logo){ logoNegocio = usuarioAplicacion.logo;}
+            Negocio["logo"] = logoNegocio;
+            editarNegocio_DB(Negocio);
+        }
+    }
+
+    cambiarArchivo = (evento) => {
+        if(evento.target.files[0]){
+            let archivoImagenNuevo = evento.target.files[0];
+            this.setState({archivoImagenNuevo,archivoImagenTempo:URL.createObjectURL(archivoImagenNuevo)});
+        }        
     }
 
     inicarFunciones =()=> {
         var usuarioAplicacion = obtenerUsuario();
         if(usuarioAplicacion){
-            this.setState({usuarioAplicacion},()=>{
-            this.obtenerUsuarioNegocio();
-        })}
+            this.obtenerUsuarioNegocio(usuarioAplicacion);
+        }
     }
 
     componentDidMount(){
@@ -57,7 +93,15 @@ export class NegocioPerfil extends React.Component {
                 <div className="centrado">
                     <div className="usuario_datos">
 
-                        <div className="usuario_datos_logo centrado"><img src={this.state.usuarioAplicacion.logo||"/img/clientes/sin_foto.jpg"} alt="Logo Negocio"/></div>
+                        <div className="centrado">
+                            <div className="logo_tienda" style={{background:'url('+(this.state.archivoImagenTempo||"/img/clientes/sin_foto.jpg")+')no-repeat center/cover'}}>
+                                <div className="logo_tienda_opciones">
+                                    <input type="file" id="logo" accept="image/*" onChange={(e)=> this.cambiarArchivo(e)}/>
+                                    <label htmlFor="logo" title="Cambiar Foto"><IconoGoogle fill="#fefefe"/></label>
+                                    <label onClick={()=>{alert("Ver")}} title="Ver Foto"><IconoGoogle fill="#fefefe"/></label>
+                                </div>
+                            </div>
+                        </div>
                         
                         <div className="usuario_datos_informacion">
                             <fieldset> <legend align="left">Empresa</legend>
@@ -76,11 +120,11 @@ export class NegocioPerfil extends React.Component {
                         </div>
                         
                         <fieldset><legend align="left">Descripción</legend>
-                            <textarea rows="6" id="descripcion" placeholder="Ej. Productores de Ropa" defaultValue={this.state.usuarioAplicacion.descripcionNegocio||""}></textarea>
+                            <textarea rows="6" id="descripcionNegocio" placeholder="Descripción de la Empresa" defaultValue={this.state.usuarioAplicacion.descripcionNegocio||""}></textarea>
                         </fieldset>
                         
                         <div className="centrado">
-                            <button> Guardar Cambios </button>
+                            <button onClick={this.guardarDatos}> Guardar Cambios </button>
                         </div>
                     </div>
                 </div>

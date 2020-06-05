@@ -135,20 +135,37 @@ color:white;letter-spacing:2px;font:bold 18px 'fontfamili';}
 .menu_usuario{width:60%;height:200px;display:flex;justify-content:flex-end;margin-top:45px;}
 .menu_usuario_opciones{box-shadow: 1px 1px 6px 0 rgba(0,0,0,0.8);width:200px;}
 
-.Principal{height:100%;display:grid;grid-template-columns:repeat(1,1fr);background:url('/img/fondos/fondo.jpg') no-repeat center/cover;margin-top:-50px;}
-.principal_buscador{display:grid;grid-template-columns:repeat(1,1fr);grid-gap:10px;margin-top:10%;}
+.Principal{height:100vh;display:grid;grid-template-columns:repeat(1,1fr);grid-gap:10px;background:linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)),url('/img/fondos/fondo.jpg')no-repeat center/cover;margin-top:-50px;}
+.principal_buscador{display:grid;grid-template-columns:repeat(1,1fr);grid-gap:10px;margin-top:10%;width:100%;}
 .principal_buscador_mensaje{text-align:center;color:whitesmoke;}
 
 .principal_buscador_cuadro{display:flex;flex-direction:row;justify-content:space-between;}
-.principal_buscador_cuadro{border:6px solid #596275;border-radius:50px;width:90%;background:white;color:#cecece;}
+.principal_buscador_cuadro{border:6px solid #596275;border-radius:50px;width:70%;background:white;color:#cecece;}
 .principal_buscador_cuadro input{border-style:none;width:100%;margin-left:10px;color:#b3b1b1;font-size:17px;}
 .principal_buscador_cuadro button{border-radius:50px;border-style:none;background:#e51b1b;color:whitesmoke;padding:5px 20px;margin-right:0px;font-size:16px;}
 
 .principal_categorias{display:flex;flex-direction:row;justify-content:space-around;width:70%;margin-top:10%;margin-bottom: 10%;}
 .principal_categorias div{display:grid;color:whitesmoke;grid-gap:5px;cursor:pointer;}
 
+.principal_ciudades{height:70%;width:100%;display:flex;flex-direction:column;align-items:center;}
+.principal_ciudades label{font:bold 40px '';color:white;letter-spacing:1px;}
+.principal_ciudades_opciones{display:grid;grid-gap:20px;height:100%;width:300px;margin-top: 20px;}
+.principal_ciudad_lima{background:linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url('/img/fondos/lima.jpg')no-repeat center/cover;}
+.principal_ciudad_cusco{background:linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url('/img/fondos/cusco.jpg')no-repeat center/cover;}
+.principal_ciudad_arequipa{background:linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url('/img/fondos/arequipa.jpg')no-repeat center/cover;}
+.principal_ciudades_opciones div{border-radius:40px;display:flex;align-items:center;justify-content:center;}
+.principal_ciudades_opciones div{font:bold 40px '';color:white;letter-spacing:5px;box-shadow:1px 1px 6px 0 rgba(250,250,250,0.8);}
+.principal_ciudades_opciones div:hover{color:white;}
 
-.ProductoLista,.ProductoBuscador{background:url('/img/fondos/fondo.jpg')no-repeat center/cover;}
+.principal_categoria{height:70%;width:100%;display:flex;flex-direction:column;align-items:center;}
+.principal_categoria label{font:bold 40px '';color:white;letter-spacing:1px;}
+.principal_categoria_opciones{display:grid;grid-gap:20px;height:100%;width:300px;margin-top: 20px;}
+.principal_categoria_opciones div{border-radius:40px;display:flex;align-items:center;justify-content:center;}
+.principal_categoria_opciones div{font:bold 40px '';color:white;letter-spacing:5px;box-shadow:1px 1px 6px 0 rgba(250,250,250,0.8);}
+.principal_categoria_opciones div:hover{color:red;cursor:pointer;}
+
+
+.ProductoLista,.ProductoBuscador{background:linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)),url('/img/fondos/fondo.jpg')no-repeat center/cover;}
 .ProductoLista,.ProductoBuscador{margin-top:-50px;min-height:80vh;}
 
 .producto_buscador{display:grid;grid-template-columns:1fr;grid-gap:20px;padding:70px 0px;}
@@ -178,8 +195,10 @@ color:white;letter-spacing:2px;font:bold 18px 'fontfamili';}
 .producto_buscador_lista{width:100%;display:grid;grid-template-columns:repeat(2,1fr);grid-gap:20px;}
 .producto_buscador_lista_item {border-radius:20px;height:100%;width:100%;cursor: pointer;}
 .producto_buscador_lista_item_datos{
-    color: whitesmoke;background:rgba(0,0,0,0.5);border-radius:20px;;
+    color: white;background:rgba(0,0,0,0.4);border-radius:20px;
     display:grid;gap:2px;padding:10px;font-size:18px;}
+.producto_buscador_lista_item_datos a{color:#2ECC71;font:700 18px '';}
+
 
 
 .usuario_componentes{display:grid;grid-template-columns:180px 1fr;grid-gap:20px;width:60%;min-height:300px;margin-top:60px;padding-bottom:50px;}
@@ -199,7 +218,6 @@ color:white;letter-spacing:2px;font:bold 18px 'fontfamili';}
 .usuario_tabla {padding:0px 10px;display:flex;flex-direction:column;}.usuario_tabla table{width:80%;}
 .usuario_tabla_paginado {padding:2px;margin:5px;}
 .usuario_datos {display:grid;grid-gap:20px;}
-.usuario_datos img{width:150px;height:150px;border-radius:50%;}
 .usuario_datos_informacion{display:grid;grid-template-columns:1fr;grid-gap:20px;}
 
 .usuario_datos_informacion_cliente {display:grid;grid-template-columns:repeat(3,1fr);grid-gap:5px;}
@@ -266,7 +284,7 @@ color:white;letter-spacing:2px;font:bold 18px 'fontfamili';}
 
 
 
-.TiendaLista{background:url('/img/fondos/fondo.jpg')no-repeat center/cover;margin-top:-50px;min-height:80vh;}
+.TiendaLista{background:linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)),url('/img/fondos/fondo.jpg')no-repeat center/cover;margin-top:-50px;min-height:80vh;}
 
 .tienda_lista{display:grid;grid-template-columns:repeat(2,1fr);grid-gap:20px;padding-top:70px;width:70%;padding-bottom:5vh;}
 .tienda_lista_tipo{height:25vh;border-radius:8px;cursor:pointer;background:rgba(0,0,0,0.1);}
@@ -397,6 +415,7 @@ color:white;letter-spacing:2px;font:bold 18px 'fontfamili';}
     .paginas_aplicacion{margin-left:0%;width:100%;height:100%;}    
     .pedido_modal {left:1%;width:350px;}
     .barra_lateral {display:none;}
+    .principal_buscador_cuadro{width:90%;}
     .principal_categorias{display:grid;grid-template-columns:repeat(3,1fr);grid-gap:20px;margin-top:10%;}
     .principal_buscador{margin-top:75px;}
     .producto_buscador{width:90%;}
