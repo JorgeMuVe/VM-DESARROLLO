@@ -15,7 +15,7 @@ import MenuUsuario from './Componentes/MenuUsuario';
 import MenuAplicacion from './Componentes/MenuAplicacion';
 import Contacto from './Componentes/Contacto';
 import PiePagina from './Componentes/PiePagina';
-import MejoresRestaurantes from './Componentes/MejoresRestaurantes';
+import Socios from './Componentes/Socios';
 import PerfilTienda from './Componentes/PerfilTienda';
 
 /* *********  I N T E R F A Z   **********/
@@ -354,10 +354,10 @@ export class Aplicacion extends Component {
             }></Route>
 
           </Switch>
+          <div id="tiendas">
+            <Socios />
+          </div>
         </BrowserRouter>
-      </div>
-      <div id="tiendas">
-        <MejoresRestaurantes />
       </div>
       <div id="contacto" >
         <Contacto />

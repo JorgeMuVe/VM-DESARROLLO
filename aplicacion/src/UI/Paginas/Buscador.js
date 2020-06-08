@@ -9,7 +9,9 @@ import IconoLupa from '../../SVG/IconoLupa';
 import IconoMercado from '../../SVG/IconoMercado';
 
 /* VARIABLES GLOBALES */
-const estadoInicial = {};
+const estadoInicial = {
+    nombreCiudad:'',
+};
 
 export class Principal extends React.Component {
     constructor(props){
@@ -21,6 +23,14 @@ export class Principal extends React.Component {
         evento.preventDefault();
         var textoBuscar = (document.getElementById("textoBuscar").value||"_");
         this.props.history.push("/productos/buscador/TODO/"+textoBuscar);
+    }
+
+    cambiarCiudad =()=> {
+        var nombreCiudad = document.getElementById('nombreCiudad').value;
+        console.log(nombreCiudad);
+        this.setState({nombreCiudad},()=>{
+            this.props.history.push("/"+(nombreCiudad||"").toLowerCase())
+        });
     }
 
     verificarCiudad =(ciudad)=> {
@@ -35,7 +45,6 @@ export class Principal extends React.Component {
     }
 
     buscarCategoria =(ruta)=> {
-        console.log(ruta);
         this.props.history.push(ruta);
     }
 
@@ -48,11 +57,17 @@ export class Principal extends React.Component {
 
     render(){
         return(
-            <div className="Principal centrado">
+            <div className="PrincipalBuscador centrado">
                 <div className="principal_buscador centrado">
                     <div className="principal_buscador_mensaje">
-                        <h1>REACTIVA PERÚ</h1>
-                        <div>{(this.props.ciudad||"").toUpperCase()}</div>
+                        <label>REACTIVA PERÚ</label>
+                        <div className="centrado">
+                            <select className="pricipal_buscador_ciudad" id="nombreCiudad" onChange={()=>this.cambiarCiudad()} defaultValue={this.props.ciudad||"cusco"}>
+                                <option value="cusco">Cusco</option>
+                                <option value="arequipa">Arequipa</option>
+                                <option value="lima">Lima</option>
+                            </select>
+                        </div>
                         <form onSubmit={this.buscarProducto} className="principal_buscador_cuadro" style={{margin:"10px",padding:"5px"}}>
                             <div className="centrado"><IconoLupa/></div>
                             <input type="text" id="textoBuscar" placeholder="Nombre del Producto"/>

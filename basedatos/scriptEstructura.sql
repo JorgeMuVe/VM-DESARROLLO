@@ -10,6 +10,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TABLE IF NOT EXISTS tipoNegocio(
     idTipoNegocio INT(10) unsigned PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    idTipoPadre INT(10) unsigned,
     nombreTipoNegocio VARCHAR(250)
 );
 $$
@@ -116,6 +117,16 @@ $$
 DELIMITER ;
 
 DELIMITER $$
+CREATE TABLE IF NOT EXISTS tipoProductoNegocio(
+    idProductoNegocio INT(10) unsigned PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    idTipoNegocio INT(10) unsigned,
+    idTipoProducto INT(10) unsigned
+);
+$$
+DELIMITER ;
+
+
+DELIMITER $$
 CREATE TABLE IF NOT EXISTS tipoUnidad(
     idTipoUnidad INT(10) unsigned PRIMARY KEY AUTO_INCREMENT NOT NULL,
     nombreTipoUnidad VARCHAR(250)
@@ -181,26 +192,32 @@ DELIMITER ;
 INSERT INTO tipoUnidad(nombreTipoUnidad) VALUES
 ('GR'),('ML'),('UNIDAD'),('BOTELLA'),('CAJA'),('PLATO'),('POTE');
 
-INSERT INTO tipoProducto(nombreTipoProducto,imagenTipoProducto) VALUES
-('TIPO','/img/fondos/tipo.jpg'),
-('VERDURA','/img/fondos/verduras.jpg'),
-('CARNE','/img/fondos/carnes.jpg'),
-('LACTEO','/img/fondos/lacteos.jpg'),
-('BEBIDA','/img/fondos/bebidas.jpg'),
-('LIMPIEZA','/img/fondos/limpieza.jpg'),
-('COMIDA','/img/fondos/comidas.jpg'),
-('EXTRACTO','/img/fondos/extractos.jpg'),
-('CAPSULA','/img/fondos/capsula.jpg'),
-('POLVO','/img/fondos/polvo.jpg'),
-('ACEITE','/img/fondos/aceite.jpg'),
-('CREMA','/img/fondos/crema.jpg'),
-('JABON','/img/fondos/jabon.jpg'),
-('CHAMPU','/img/fondos/champu.jpg'),
-('GOTERO','/img/fondos/gotero.jpg');
-
 INSERT INTO tipoNegocio(nombreTipoNegocio) VALUES
-('mercado'),('vedura,'),('carne,'),('lacteo,'),('embutido'),('restaurante'),('polleria'),('pizzeria'),('supermercado'),('farmacia'),('natural'),
-('medicamento'),('comercio'),('tecnologia'),('vestimenta'),('calzado'),('agencia'),('turimo'),('viajes'),('servicio'),('tecnico'),('telecomunicacion');
+('mercado'),('restaurante'),('comercio'),('supermercado'),('farmacia'),('servicio');
+
+INSERT INTO tipoProducto(nombreTipoProducto,imagenTipoProducto) VALUES 
+('tipo','/img/fondos/tipos/tipo.jpg'),
+('verdura','/img/fondos/tipos/verduras.jpg'),
+('carne','/img/fondos/tipos/carnes.jpg'),
+('limpieza','/img/fondos/tipos/limpieza.jpg'),
+('parrilla','/img/fondos/tipos/parrillas.jpg'),
+('pasta','/img/fondos/tipos/pastas.jpg'),
+('extra','/img/fondos/tipos/extras.jpg'),
+('vestimenta','/img/fondos/tipos/vestimentas.jpg'),
+('calzado','/img/fondos/tipos/calzados.jpg'),
+('tecnologia','/img/fondos/tipos/tecnologias.jpg'),
+('lacteo','/img/fondos/tipos/lacteos.jpg'),
+('embutido','/img/fondos/tipos/embutidos.jpg'),
+('bebida','/img/fondos/tipos/bebidas.jpg'),
+('extracto','/img/fondos/tipos/extractos.jpg'),
+('medicamento','/img/fondos/tipos/capsulas.jpg'),
+('aseo','/img/fondos/tipos/aseo.jpg'),
+('privado','/img/fondos/tipos/privado.jpg'),
+('mantenimiento','/img/fondos/tipos/mantenimiento.jpg'),
+('telecomunicacion','/img/fondos/tipos/telecomunicacion.jpg');
+
+INSERT INTO tipoProductoNegocio(idTipoNegocio,idTipoProducto) VALUES
+(1,2), (1,3), (1,4), (2,5), (2,6), (2,7), (3,8), (3,9), (3,10), (4,11), (4,12), (4,13), (5,14), (5,15), (5,16), (6,17), (6,18), (6,19);
 
 INSERT INTO producto(idTienda,idTipoProducto,tipoUnidad,nombreProducto,detalleProducto,precioPorUnidad,unidadCantidad,descuentoUnidad,imagenProducto) VALUES
 (1,2,'GR','Tomate Rojo','Tomates Rojos', 7.50 , 1000 , 10 ,'/img/productos/tomate.jpg'),

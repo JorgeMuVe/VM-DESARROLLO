@@ -27,3 +27,16 @@ export function editarNegocio_DB(Negocio){
         .catch(error => rechazar(error));
     });
 }
+
+// EDITAR NEGOCIO
+export function listarTiposProductoPorTipoNegocio_DB(Negocio){ 
+    return new Promise((resolver,rechazar) => {
+        fetch(Url + "lista/tipos",{ // Fetch para consumir API de SERVER NODE JS
+            method:'POST',
+            body: JSON.stringify(Negocio),
+            headers: new Headers({ 'Content-type':'application/json' })
+        })
+        .then(respuesta => resolver(respuesta.json()))
+        .catch(error => rechazar(error));
+    });
+}

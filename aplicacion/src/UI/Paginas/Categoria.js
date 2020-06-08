@@ -1,6 +1,9 @@
 /* COMPONENTES */
 import React from 'react';
 
+/* FUNCIONES */
+import { listarTiposProductoPorTipoNegocio_DB } from '../../DB/negocioDB';
+
 /* VARIABLES GLOBALES */
 const estadoInicial = {
     tipoProductos:[]
@@ -13,25 +16,26 @@ export class Categorias extends React.Component {
     }
 
     obtenerCategoria =(categoria)=> {
-        this.setState({ tipoProductos: [
-            {nombreTipoProducto:'VERDURA',imagenTipoProducto:'/img/fondos/veduras.jpg'},
-            {nombreTipoProducto:'CARNE',imagenTipoProducto:'/img/fondos/carnes.jpg'},
-            {nombreTipoProducto:'LACTEO',imagenTipoProducto:'/img/fondos/lacteos.jpg'}
-        ]});
+        const Negocio = {idTipoNegocio:categoria}
+        listarTiposProductoPorTipoNegocio_DB(Negocio).then(res=>{
+            if(!res.error){
+                this.setState({tipoProductos : res})
+            }else { console.log("ERROR >> " + res.error) }
+        });
     }
 
     verificarCategoria =(categoria)=> {
-        var mostrar = false;
+        var idCategoria = 0;
         switch (categoria) {
-            case "mercados": mostrar=true; break;
-            case "restaurantes": mostrar=true; break;
-            case "comercios": mostrar=true; break;
-            case "supermercados": mostrar=true; break;
-            case "farmacias": mostrar=true; break;
-            case "servicios": mostrar=true; break;
-            default: mostrar=false; break;
+            case "mercados": idCategoria=1; break;
+            case "restaurantes": idCategoria=2; break;
+            case "comercios": idCategoria=3; break;
+            case "supermercados": idCategoria=4; break;
+            case "farmacias": idCategoria=5; break;
+            case "servicios": idCategoria=6; break;
+            default: idCategoria=0; break;
         }
-        return mostrar;
+        return idCategoria;
     }
 
     buscarProductos =(tipoProducto)=> {
@@ -39,29 +43,30 @@ export class Categorias extends React.Component {
     }
 
     componentDidMount(){
-        const { categoria } = this.props.match.params; 
-        if(this.verificarCategoria(categoria)){ 
-            this.obtenerCategoria(categoria);
+        const { categoria } = this.props.match.params;
+        var idCategoria = this.verificarCategoria(categoria)
+        if(idCategoria>0){ 
+            this.obtenerCategoria(idCategoria);
         } else { this.props.history.push("/") }
     }
 
     render(){
         return(
-            <div className="Principal centrado">
+            <div className="PrincipalCategoria centrado">
                 <div className="principal_categoria">
                     <label>{ (this.props.match.params.categoria||"categoria").toUpperCase() }</label>
                     {(this.state.tipoProductos||[]).length>0?
                     <div className="principal_categoria_opciones">
                         {(this.state.tipoProductos||[]).map((tipo,i)=>{return(
-                        <div style={{background:"linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url("+(tipo.imagenTipoProducto)+")no-repeat center/cover"}}
+                        <div style={{background:"linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url("+(tipo.imagenTipoProducto)+")no-repeat center/cover",textTransform:"capitalize"}}
                             key={i} onClick={()=>this.buscarProductos(tipo.nombreTipoProducto)}>
                             {tipo.nombreTipoProducto}
                         </div>
                         )})}
-                        <div style={{background:"linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3))"}}
+                        <span className="principal_categoria_opciones_tienda"
                             onClick={()=>this.props.history.push("/tiendas/"+this.props.match.params.categoria)}>
                             Tiendas
-                        </div>
+                        </span>
                     </div>
                     :
                     <div>
