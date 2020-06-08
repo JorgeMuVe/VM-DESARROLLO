@@ -5,7 +5,7 @@ const Url = urlServidor + '/api/usuario/';
 // AGREGAR NUEVO USUARIO
 export function agregarUsuario_DB(Usuario){ 
     return new Promise((resolver,rechazar) => {
-        fetch(Url + "agregar.php",{ // Fetch para consumir API de SERVER NODE JS
+        fetch(Url + "agregar",{ // Fetch para consumir API de SERVER NODE JS
             method:'POST',
             body: JSON.stringify(Usuario),
             headers: new Headers({ 'Content-type':'application/json' })

@@ -1,11 +1,5 @@
-/*
--- Description:      APLICACIÓN TIEDA VIRTUAL
--- @Copyright        Jorge.Muvez - World Connect Perú - 2020-00-00
-*/
-
 /* ********   F U N C I O N E S ************ */
 import { listarProductoPorTipo_DB } from './DB/productoDB';
-
 
 /* *********  C O M P O N E N T E S   ************/
 import { BrowserRouter, Route, Switch } from 'react-router-dom'; // Libreria React-Router
@@ -21,24 +15,21 @@ import PerfilTienda from './Componentes/PerfilTienda';
 /* *********  I N T E R F A Z   **********/
 import Principal from './UI/Paginas/Principal';
 import Registro from './UI/Registro/Registro';
+import Confirmar from './UI/Registro/Confirmar';
 import Buscador from './UI/Paginas/Buscador';
 import Tiendas from './UI/Paginas/Tiendas';
 import Categorias from './UI/Paginas/Categoria';
-
 import Admin from './UI/Admin/Admin';
 import Negocio from './UI/Negocio/Negocio';
 import Cliente from './UI/Cliente/Cliente';
 import Tienda from './UI/Tienda/Tienda';
-
 import ProductoLista from './UI/Producto/ProductoLista';
 import ProductoBuscador from './UI/Producto/ProductoBuscador';
-
 
 /* ********* M O D A L ************* */
 import ModalIngreso from './Componentes/ModalIngreso';
 import ModalCantidad from './Componentes/ModalCantidad';
 import ModalPedido from './Componentes/ModalPedido';
-
 import Mensaje from './Componentes/Mensaje.js';
 
 /* *******   V A R I A B L E S  G L O B A L E S **********/
@@ -214,6 +205,8 @@ export class Aplicacion extends Component {
 
   cerrarMenuUsuario =()=> this.setState({mostrarMenuUsuario:false});
 
+  cambiarNuevoUsuario =(nuevoUsuario)=> { this.setState({ nuevoUsuario }) }
+
   controlMenuAplicacion =()=> {
     this.setState({mostrarMenuAplicacion:!this.state.mostrarMenuAplicacion,
       mostrarMenuUsuario:false,mostrarModalIngreso:false,mostrarModalPedido:false,mostrarModalCantidad:false});
@@ -305,8 +298,13 @@ export class Aplicacion extends Component {
               <Principal usuarioAplicacion={this.state.usuarioAplicacion} {...props}/>}>
             </Route>
 
-            <Route path="/registro" render={(props)=><Registro ingresarSistema={this.ingresarSistema}{...props}/>}></Route>
-          
+            <Route path="/registro" render={(props)=><Registro cambiarNuevoUsuario={this.cambiarNuevoUsuario}{...props}/>}></Route>            
+
+            <Route path="/confirmar" render={(props)=>
+              <Confirmar ingresarSistema={this.ingresarSistema} 
+                abrirMensajeError={this.abrirMensajeError} nuevoUsuario={this.state.nuevoUsuario} {...props}/>}>
+            </Route>
+
             <Route path="/lima" render={(props)=><Buscador ciudad={"lima"} {...props}/>}></Route>
 
             <Route path="/cusco" render={(props)=><Buscador ciudad={"cusco"} {...props}/>}></Route>

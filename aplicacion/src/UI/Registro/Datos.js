@@ -26,8 +26,7 @@ export class DatosUsuario extends React.Component {
                 <input id="apellidoPaterno" placeholder="Apellido Paterno"/>
                 <input id="apellidoMaterno" placeholder="Apellido Materno"/>
                 <input id="registroNacional" placeholder="Registro Nacional"/>
-                <input id="nombreUsuario" type="email" placeholder="Correo"/>
-                <input id="contrasena" type="password" placeholder="Contraseña"/>
+                <input id="telefonoCliente" type="number" placeholder="Telefono"/>
             </div>
         )
     }

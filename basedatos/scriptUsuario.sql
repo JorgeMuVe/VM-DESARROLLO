@@ -25,7 +25,7 @@ IF NOT EXISTS (SELECT * FROM usuario WHERE nombreUsuario = `@nombreUsuario`) THE
     VALUES (`@nombreUsuario`, SHA1(`@contrasena`), `@tipoUsuario`, @ultimoCliente);
     
     SELECT c.nombreCompleto,c.apellidoPaterno,c.apellidoMaterno,u.tipoUsuario, @ultimoCliente as codigoUsuario
-    FROM cliente c INNER JOIN usuario u ON u.codigoUsuario = c.idCliente
+    FROM cliente c INNER JOIN usuario u ON u.codigoUsuario = c.idCliente AND u.tipoUsuario = `@tipoUsuario`
     WHERE c.idCliente = @ultimoCliente;
 
 ELSE SELECT "Existe Usuario registrado" AS error;
