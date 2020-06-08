@@ -315,7 +315,8 @@ export class Aplicacion extends Component {
 
             <Route path="/categoria/:categoria" render={(props)=><Categorias {...props}/>}></Route>
 
-            <Route path="/perfiltienda/:idTienda" render={(props)=><PerfilTienda  {...props}/>}></Route>
+            <Route path="/perfiltienda/:idTienda" render={(props)=><PerfilTienda agregarCanasta={this.agregarCanasta}{...props}
+                seleccionarProductoCantidad={this.seleccionarProductoCantidad} {...props}/>}></Route>
             
             <Route path="/tiendas/:tipo" render={(props)=><Tiendas {...props}/>}></Route>
            

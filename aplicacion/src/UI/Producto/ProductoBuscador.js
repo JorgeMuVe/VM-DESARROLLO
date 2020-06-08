@@ -76,7 +76,6 @@ export class ProductoLista extends React.Component {
         });
     }
 
-    /****  P A G I N A D O  ****/
     paginaSiguiente =()=> {
         const { paginaActual, cantidadPaginas } = this.state;
         if(paginaActual < cantidadPaginas){
