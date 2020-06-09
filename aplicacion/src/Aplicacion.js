@@ -298,59 +298,62 @@ export class Aplicacion extends Component {
               <Principal usuarioAplicacion={this.state.usuarioAplicacion} {...props}/>}>
             </Route>
 
-            <Route path="/registro" render={(props)=><Registro cambiarNuevoUsuario={this.cambiarNuevoUsuario}{...props}/>}></Route>            
-
-            <Route path="/confirmar" render={(props)=>
-              <Confirmar ingresarSistema={this.ingresarSistema} 
-                abrirMensajeError={this.abrirMensajeError} nuevoUsuario={this.state.nuevoUsuario} {...props}/>}>
+            <Route path="/lima" render={(props)=>
+              <Buscador ciudad={"lima"} {...props}/>}>
             </Route>
 
-            <Route path="/lima" render={(props)=><Buscador ciudad={"lima"} {...props}/>}></Route>
+            <Route path="/cusco" render={(props)=>
+              <Buscador ciudad={"cusco"} {...props}/>}>  
+            </Route>
 
-            <Route path="/cusco" render={(props)=><Buscador ciudad={"cusco"} {...props}/>}></Route>
+            <Route path="/arequipa" render={(props)=>
+              <Buscador ciudad={"arequipa"} {...props}/>}>
+            </Route>
 
-            <Route path="/arequipa" render={(props)=><Buscador ciudad={"arequipa"} {...props}/>}></Route>
+            <Route path="/registro" render={(props)=>
+              <Registro cambiarNuevoUsuario={this.cambiarNuevoUsuario}{...props}/>}>
+            </Route>            
 
-            <Route path="/categoria/:categoria" render={(props)=><Categorias {...props}/>}></Route>
+            <Route path="/confirmar" render={(props)=>
+              <Confirmar ingresarSistema={this.ingresarSistema} abrirMensajeError={this.abrirMensajeError} nuevoUsuario={this.state.nuevoUsuario} {...props}/>}>
+            </Route>
 
-            <Route path="/perfiltienda/:idTienda" render={(props)=><PerfilTienda agregarCanasta={this.agregarCanasta}{...props}
-                seleccionarProductoCantidad={this.seleccionarProductoCantidad} {...props}/>}></Route>
+            <Route path="/categoria/:categoria" render={(props)=>
+              <Categorias {...props}/>}>
+            </Route>
+
+            <Route path="/perfiltienda/:idTienda" render={(props)=>
+              <PerfilTienda agregarCanasta={this.agregarCanasta}{...props} seleccionarProductoCantidad={this.seleccionarProductoCantidad} {...props}/>}>
+            </Route>
             
-            <Route path="/tiendas/:tipo" render={(props)=><Tiendas {...props}/>}></Route>
+            <Route path="/tiendas/:tipo" render={(props)=>
+              <Tiendas {...props}/>}>
+            </Route>
            
             <Route path="/usuario/admin/:ruta" render={(props) => 
-              <Admin 
-                salirSistema={this.salirSistema}
-                controlMenuUsuario={this.cerrarMenuUsuario}{...props}/>
-            }></Route>
+              <Admin salirSistema={this.salirSistema} controlMenuUsuario={this.cerrarMenuUsuario}{...props}/>}>
+            </Route>
 
             <Route path="/usuario/negocio/:ruta" render={(props) => 
-              <Negocio salirSistema={this.salirSistema}
-                abrirMensajeError={this.abrirMensajeError}
-                controlMenuUsuario={this.cerrarMenuUsuario}{...props}/>
-            }></Route>
+              <Negocio salirSistema={this.salirSistema} abrirMensajeError={this.abrirMensajeError} controlMenuUsuario={this.cerrarMenuUsuario}{...props}/>}>
+            </Route>
            
             <Route path="/usuario/tienda/:ruta" render={(props) => 
-              <Tienda salirSistema={this.salirSistema}
-                controlMenuUsuario={this.cerrarMenuUsuario}{...props} />
-            }></Route>
+              <Tienda salirSistema={this.salirSistema} controlMenuUsuario={this.cerrarMenuUsuario}{...props} />}>
+            </Route>
 
             <Route path="/usuario/cliente/:ruta" render={(props) => 
-              <Cliente salirSistema={this.salirSistema}
-                sacarProducto={this.sacarProducto}
-                confirmarPedido={this.confirmarPedido}
-                controlMenuUsuario={this.cerrarMenuUsuario}{...props}/>
-            }></Route>
+              <Cliente salirSistema={this.salirSistema} sacarProducto={this.sacarProducto}
+                confirmarPedido={this.confirmarPedido}controlMenuUsuario={this.cerrarMenuUsuario}{...props}/>}>
+            </Route>
 
             <Route path="/productos/buscador/:tipo/:texto" render={(props) =>
-              <ProductoBuscador 
-                agregarCanasta={this.agregarCanasta}{...props}
-                seleccionarProductoCantidad={this.seleccionarProductoCantidad}/>
-            }></Route>
+              <ProductoBuscador agregarCanasta={this.agregarCanasta}seleccionarProductoCantidad={this.seleccionarProductoCantidad} {...props}/>}>
+            </Route>
 
             <Route path="/productos/lista" render={(props) =>
-              <ProductoLista listarPor={"NEGOCIO"} {...props}/>
-            }></Route>
+              <ProductoLista listarPor={"NEGOCIO"} {...props}/>}>
+            </Route>
 
           </Switch>
           <div id="tiendas">
