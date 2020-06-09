@@ -7,14 +7,15 @@
 import React from 'react';
 import Modal from '../../Componentes/Modal';
 
+/* ICONOS SVG */
+import IconoAtras from '../../SVG/aplicacion/IconoAtras';
+
 /***  F U N C I O N E S  ***/
-import { listaDirecciones_DB, agregarDireccion_DB } from '../../DB/direccionDB';
+import { agregarVenta_DB } from '../../DB/ventaDB';
 import { agregarPedido_DB } from '../../DB/pedidoDB';
 import { agregarPedidoDetalle_DB } from '../../DB/detalleDB';
-
-import { agregarVenta_DB } from '../../DB/ventaDB';
-
 import { obtenerFechaHoy,obtenerUsuario } from '../../Componentes/Funciones';
+import { listaDirecciones_DB, agregarDireccion_DB } from '../../DB/direccionDB';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
@@ -151,8 +152,9 @@ export class ConfirmarPedido extends React.Component {
         return(
             <div className="ConfirmarPedidoCliente">
                 <div className="usuario_encabezado">
-                    <button>{"<"}</button>
-                    <div>Mi Pedido</div>
+                    <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
+                    <label> Mi Pedido </label>
+                    <div onClick={this.props.history.goBack}></div>
                 </div>
                 <form className="confirmar_pedido" validate="true" onSubmit={this.confirmarDatos}>
                     <div className="confirmar_pedido_direccion">

@@ -22,6 +22,10 @@ export class Principal extends React.Component {
         this.state = estadoInicial;
     }
 
+    componentDidMount(){
+        this.props.history.push("/cusco");
+    }
+
     render(){
         return(
             <div className="Principal centrado">

@@ -174,10 +174,8 @@ export class TiendaPedidos extends React.Component {
                     <label> Mis Pedidos </label>
                     <div onClick={this.props.history.goBack}></div>
                 </div>
-                <div className="usuario_encabezado_opciones">
-                    <a href="#map" onClick={()=>this.abrirMapaPedidos()} >
+                <div className="tienda_pedido_link" onClick={()=>this.abrirMapaPedidos()}>
                         Mostrar Mapa de Pedidos
-                    </a>
                 </div>
                 
                 {(this.state.pedidosTienda||[]).length > 0?

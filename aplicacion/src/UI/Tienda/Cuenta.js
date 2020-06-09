@@ -218,9 +218,10 @@ export class TiendaPerfil extends React.Component {
                             <div className="negocio_tienda_ubicacion" id="map"></div>
                         </div>
                         </fieldset>
-                        
                         <div className="centrado">
-                            <button onClick={this.guardarDatos}> Guardar Cambios </button>
+                            <div className="cliente_agregar_boton">
+                                <button onClick={this.guardarDatos} >Guardar Cambios</button>
+                            </div>
                         </div>
                     </div>
                 </div>

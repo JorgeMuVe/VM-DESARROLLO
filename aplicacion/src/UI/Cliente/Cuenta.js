@@ -34,7 +34,7 @@ export class ClientePerfil extends React.Component {
         var { usuarioAplicacion } = this.state
         buscarUsuarioCliente_DB({codigoUsuario:usuarioAplicacion.codigoUsuario}).then(usuario=>{
             if(!usuario.error){
-                this.setState({usuarioAplicacion:usuario});
+                this.setState({usuarioAplicacion:usuario,archivoImagenNuevo:null,archivoImagenTempo:usuario.imagenCliente||""});
             }
         })
     }
@@ -125,9 +125,10 @@ export class ClientePerfil extends React.Component {
                             </fieldset>
 
                         </div>
-                        
                         <div className="centrado">
-                            <button onClick={this.guardarDatos}> Guardar Cambios </button>
+                            <div className="cliente_agregar_boton">
+                                <button onClick={this.guardarDatos}>Guardar Cambios</button>
+                            </div>
                         </div>
                     </div>
                 </div>

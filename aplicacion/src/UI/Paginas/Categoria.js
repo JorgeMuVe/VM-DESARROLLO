@@ -2,11 +2,11 @@
 import React from 'react';
 
 /* FUNCIONES */
-import { listarTiposProductoPorTipoNegocio_DB } from '../../DB/negocioDB';
+import { listarNegociosPorTipo_DB,  } from '../../DB/negocioDB';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
-    tipoProductos:[]
+    negocios:[]
 };
 
 export class Categorias extends React.Component {
@@ -15,12 +15,16 @@ export class Categorias extends React.Component {
         this.state = estadoInicial;
     }
 
+    obtenerNegociosPorTipo =()=> {
+
+    }
+
     obtenerCategoria =(categoria)=> {
         const Negocio = {idTipoNegocio:categoria}
-        listarTiposProductoPorTipoNegocio_DB(Negocio).then(res=>{
-            if(!res.error){
-                this.setState({tipoProductos : res})
-            }else { console.log("ERROR >> " + res.error) }
+        listarNegociosPorTipo_DB(Negocio).then(res=>{
+            console.log(res);
+            if(!res.error){ this.setState({negocios:res}) }
+            else { console.log("ERROR >> "+res.error) }
         });
     }
 
@@ -38,8 +42,11 @@ export class Categorias extends React.Component {
         return idCategoria;
     }
 
-    buscarProductos =(tipoProducto)=> {
-        this.props.history.push("/productos/buscador/TODO/_")
+    abrirTienda =(idNegocio)=> this.props.history.push("/perfiltienda/"+idNegocio)
+
+    abrirProductos =()=> {
+        //var categoria = this.props.match.params.categoria;
+        this.props.history.push("/productos/buscador/TODO/_");
     }
 
     componentDidMount(){
@@ -55,23 +62,26 @@ export class Categorias extends React.Component {
             <div className="PrincipalCategoria centrado">
                 <div className="principal_categoria">
                     <label>{ (this.props.match.params.categoria||"categoria").toUpperCase() }</label>
-                    {(this.state.tipoProductos||[]).length>0?
+                    {(this.state.negocios||[]).length>0?
                     <div className="principal_categoria_opciones">
-                        {(this.state.tipoProductos||[]).map((tipo,i)=>{return(
-                        <div style={{background:"linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url("+(tipo.imagenTipoProducto)+")no-repeat center/cover",textTransform:"capitalize"}}
-                            key={i} onClick={()=>this.buscarProductos(tipo.nombreTipoProducto)}>
-                            {tipo.nombreTipoProducto}
+                        {(this.state.negocios||[]).map((negocio,i)=>{return(
+                        <div key={i} onClick={()=>this.abrirTienda(negocio.idNegocio)} style={{
+                            background:"linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url("+(negocio.logo)+")no-repeat center/cover",
+                            textTransform:"capitalize",textAlign:"center"
+                        }}>
+                            {negocio.nombreNegocio}
                         </div>
                         )})}
-                        <span className="principal_categoria_opciones_tienda"
-                            onClick={()=>this.props.history.push("/tiendas/"+this.props.match.params.categoria)}>
-                            Tiendas
-                        </span>
                     </div>
                     :
-                    <div>
-                        Sin registro de Categorias.
+                    <div style={{color:"white"}}>
+                        No existen Negocios en esta Categoria.
                     </div>}
+
+                    <span className="principal_categoria_opciones_tienda"
+                        onClick={()=>this.abrirProductos()}>
+                        Productos
+                    </span>
                 </div>
             </div>
         )

@@ -291,11 +291,11 @@ export class Productos extends React.Component {
                             </div>
                         </div>
                     </fieldset>
-
                     <div className="centrado">
-                        <button type="submit"> Guardar Cambios </button>
+                        <div className="cliente_agregar_boton">
+                            <button type="submit">Guardar Cambios</button>
+                        </div>
                     </div>
-
                 </form>
                 </Modal>   
             </div>

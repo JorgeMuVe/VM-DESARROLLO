@@ -221,7 +221,9 @@ export class ClienteDirecciones extends React.Component {
                         <div className="cliente_agregar_direccion_ubicacion" id="map"></div>
                     </fieldset>
                     <div className="centrado">
-                        <button onClick={this.guardarDireccion}>Guardar Cambios</button>
+                        <div className="cliente_agregar_boton">
+                            <button onClick={this.guardarDireccion}>Guardar Cambios</button>
+                        </div>
                     </div>
                 </div>
                 </Modal>
