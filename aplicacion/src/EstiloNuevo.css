@@ -1,4 +1,6 @@
 /* Estilo del Tab */
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+@import url("https://fonts.googleapis.com/css?family=Fira+Sans");
 .tab {
     overflow: hidden;
     border: 1px solid #ccc;
@@ -42,4 +44,13 @@
 
   .TiendaPerfilTienda{
       text-align: left;
+  }
+
+  .contacto {
+
+    background-color: #E1E8EE;
+    display: flex;
+    font-family: "Fira Sans", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }

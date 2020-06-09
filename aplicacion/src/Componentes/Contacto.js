@@ -63,7 +63,14 @@ export class Contacto extends React.Component {
                                
                 </div>
 
-                <div className="contacto_informacion">
+                <div className="contacto_informacion" style={{
+                        
+                        backgroundRepeat: "no-repeat",
+                        backgroundAttachment: "fixed",
+                        backgroundSize: "100%",
+                        backgroundImage: "rgba(76, 175, 80, 0.3)"
+                }}>
+
                     <h3>FORMULARIO DE CONTACTO</h3>
                     <p>Te invitamos a contactarnos, te responderemos a la brevedad.</p>
                     <p style={{color:"#e51b1b"}}>* (Campo Obligatorio)</p>
@@ -89,7 +96,7 @@ export class Contacto extends React.Component {
                             <textarea rows="6" id="mensaje" required></textarea>
                         </div>
                         <div>
-                            <button type="submit">Enviar</button>
+                            <button className="boton_contacto" type="submit">Enviar</button>
                         </div>
                     </form>
 

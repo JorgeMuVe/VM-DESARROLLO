@@ -77,7 +77,7 @@ export class PiePagina extends React.Component {
                 <div className="tab">
                     <button className={this.state.tabActivo==="productos"?"tablinks active":"tablinks"} onClick={()=>this.mostrarTabTienda("productos")}>Productos</button>
                     <button className={this.state.tabActivo==="perfil"?"tablinks active":"tablinks"} onClick={()=>this.mostrarTabTienda("perfil")}>Tienda/Negocio</button>
-                    <button className={this.state.tabActivo==="comentarios"?"tablinks active":"tablinks"} onClick={()=>this.mostrarTabTienda("comentarios")}>Comentarios</button>
+                    <button hidden={true} className={this.state.tabActivo==="comentarios"?"tablinks active":"tablinks"} onClick={()=>this.mostrarTabTienda("comentarios")}>Comentarios</button>
                 </div>
 
                 <div className="usuario_encabezado">
