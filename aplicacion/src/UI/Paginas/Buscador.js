@@ -21,8 +21,9 @@ export class Principal extends React.Component {
 
     buscarProducto =(evento)=> {
         evento.preventDefault();
-        var textoBuscar = (document.getElementById("textoBuscar").value||"_");
-        this.props.history.push("/productos/buscador/TODO/"+textoBuscar);
+        var textoBuscar = document.getElementById("textoBuscar").value||"_";
+        var nombreCiudad = document.getElementById('nombreCiudad').value||"cusco";
+        this.props.history.push("/productos/buscador/"+nombreCiudad+"/TODO/"+textoBuscar);
     }
 
     cambiarCiudad =()=> {

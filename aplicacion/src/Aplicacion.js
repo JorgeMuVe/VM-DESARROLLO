@@ -347,7 +347,7 @@ export class Aplicacion extends Component {
                 confirmarPedido={this.confirmarPedido}controlMenuUsuario={this.cerrarMenuUsuario}{...props}/>}>
             </Route>
 
-            <Route path="/productos/buscador/:tipo/:texto" render={(props) =>
+            <Route path="/productos/buscador/:ciudad/:tipo/:texto" render={(props) =>
               <ProductoBuscador agregarCanasta={this.agregarCanasta}seleccionarProductoCantidad={this.seleccionarProductoCantidad} {...props}/>}>
             </Route>
 

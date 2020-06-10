@@ -24,7 +24,7 @@ const estadoInicial = {
     productosPorPagina:10,
 };
 
-export class ProductoLista extends React.Component {
+export class ProductoBuscador extends React.Component {
     constructor(props){
         super(props);
         this.state = estadoInicial;
@@ -39,7 +39,9 @@ export class ProductoLista extends React.Component {
 
     /****  B U S Q U E D A   ****/
     buscadorProducto =(Buscador)=> {
-        buscarProducto_DB(Buscador).then(res=>{  
+        console.log(Buscador);
+        buscarProducto_DB(Buscador).then(res=>{
+            console.log(res);
             if(!res.error){
                 var cantidadPaginas = (res.cantidadProductos / this.state.productosPorPagina);
                 cantidadPaginas = Math.ceil(cantidadPaginas||1);
@@ -49,20 +51,23 @@ export class ProductoLista extends React.Component {
     }
 
     buscarProductoTipo =()=> {
+        const {ciudad,tipo} = this.props.match.params;
         const Buscador={
-            tipo: this.props.match.params.tipo || "TODO",
+            ciudad: ciudad||"cusco", tipo: tipo||"TODO",
             texto: document.getElementById("textoBuscar").value || "_",
+            idTienda:0,idNegocio:0,idTipoNegocio:0,idTipoProducto:0,
             inicio: (this.state.paginaActual-1)*this.state.productosPorPagina,
             cantidad: this.state.productosPorPagina
         };
-        this.props.history.push("/productos/buscador/"+Buscador.tipo+"/"+Buscador.texto);
+        this.props.history.push("/productos/buscador/"+Buscador.ciudad+"/"+Buscador.tipo+"/"+Buscador.texto);
         this.buscadorProducto(Buscador);
     }
 
     buscarProductoInicial =()=> {
-        const {tipo,texto} = this.props.match.params;
+        const {ciudad,tipo,texto} = this.props.match.params;
         const Buscador={
-            tipo: tipo||"TODO",texto:texto==="_"?"":texto,
+            ciudad: ciudad||"cusco", tipo: tipo||"TODO", texto:texto==="_"?"":texto,
+            idTienda:0,idNegocio:0,idTipoNegocio:0,idTipoProducto:0,
             inicio: (this.state.paginaActual-1)*this.state.productosPorPagina,
             cantidad: this.state.productosPorPagina
         };
@@ -146,4 +151,4 @@ export class ProductoLista extends React.Component {
     }
 }
 
-export default ProductoLista;
+export default ProductoBuscador;
