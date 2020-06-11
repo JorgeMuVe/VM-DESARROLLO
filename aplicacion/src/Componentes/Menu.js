@@ -19,13 +19,13 @@ export class Menu extends React.Component {
                 <div className="menu_items">
 
                     <div className="menu_item_aplicacion" onClick={()=>this.props.controlMenuAplicacion()}>REACTIVA</div>
-                    <div className="menu_item_ocultar" onClick={()=>this.redireccionar("/")}>INICIO</div>
-                    <div className="menu_item_ocultar" onClick={()=>this.redireccionar("/#contacto")}>CONTACTO</div>
+                    <div className="menu_item_ocultar"><NavLink to="/">INICIO</NavLink></div>
+                    <div className="menu_item_ocultar" onClick={()=>this.redireccionar("/#contacto")}>INICIO</div>
                     <div className="menu_item_logo centrado" onClick={()=>this.props.controlModalPedido()}>                    
                         <img src="/Logo.png" alt="Logo"></img>
                     </div>
                     <div className="menu_item_ocultar"><NavLink to="/productos/lista">PRODUCTOS</NavLink></div>
-                    <div className="menu_item_ocultar" onClick={()=>this.redireccionar("/#tiendas")}>TIENDAS</div>
+                    <div className="menu_item_ocultar"><NavLink to="/tiendas">TIENDAS</NavLink></div>
                     <div className="menu_item_usuario" onClick={()=>this.props.controlModalIngreso()}>
                         {this.props.usuarioAplicacion.tipoUsuario!=="invitado"?"Mi Cuenta":"INGRESAR"}
                     </div>

@@ -5,6 +5,7 @@
 
 /* COMPONENTES */
 import React from 'react';
+import { listarTiposProducto_DB } from '../../DB/productoDB';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {};
@@ -15,49 +16,61 @@ export class Producto extends React.Component {
         this.state = estadoInicial;
     }
 
-    redireccionar =(ruta)=> this.props.history.push(ruta);
-    
+    obtenerTiposProducto =()=> {
+        listarTiposProducto_DB().then(res=>{
+            console.log(res);
+        });
+    }
+
+    redireccionar =(idTipoProducto)=> {
+        this.props.history.push("/productos/buscador/cusco/TIPOPRODUCTO/"+idTipoProducto+"/_");
+        
+    }
+
+    componentDidMount(){
+        //this.obtenerTiposProducto();
+    }
     render(){
         return(
             <div className="ProductoLista">
                 <div className="centrado">
                     <div className="producto_lista">
-                        <div className="producto_lista_tipo" onClick={()=>{this.redireccionar('/productos/buscador/VERDURA/_')}}>
+                        <div className="producto_lista_tipo" onClick={()=>{this.redireccionar(2)}}>
                             <div className="producto_lista_tipo_boton">
                                 <img src="/img/productos/carnes--verduras.jpg" alt="Fondo Tipo Producto"/>
                                 <div>Verduras y Carnes</div>
                             </div> 
                         </div>
 
-                        <div className="producto_lista_tipo" onClick={()=>{this.redireccionar('/productos/buscador/LACTEO/_')}}>
+                        <div className="producto_lista_tipo" onClick={()=>{this.redireccionar(11)}}>
                             <div className="producto_lista_tipo_boton">
                                 <img src="/img/productos/lacteos---embutidos.jpg" alt="Fondo Tipo Producto"/>
                                 <div>Lacteos y Embutidos</div>
                             </div> 
                         </div>
 
-                        <div className="producto_lista_tipo" onClick={()=>{this.redireccionar('/productos/buscador/BEBDIA/_')}}>
+                        <div className="producto_lista_tipo" onClick={()=>{this.redireccionar(5)}}>
                             <div className="producto_lista_tipo_boton">
                                 <img src="/img/productos/ropa---zapatillas.jpg" alt="Fondo Tipo Producto"/>
                                 <div>Ropa y Zapatillas</div>
                             </div> 
                         </div>
 
-                        <div className="producto_lista_tipo" onClick={()=>{this.redireccionar('/productos/buscador/COMIDA/_')}}>
+                        <div className="producto_lista_tipo" onClick={()=>{this.redireccionar(5)}}>
                             <div className="producto_lista_tipo_boton">
                                 <img src="/img/productos/comidas---bebidas.jpg" alt="Fondo Tipo Producto"/>
                                 <div>Comidas y Bebidas</div>
                             </div> 
                         </div>
 
-                        <div className="producto_lista_tipo" onClick={()=>{this.redireccionar('/productos/buscador/LIMPIEZA/_')}}>
+                        <div className="producto_lista_tipo" onClick={()=>{this.redireccionar(4)}}>
                             <div className="producto_lista_tipo_boton">
                                 <img src="/img/productos/aseo-limpieza.jpg" alt="Fondo Tipo Producto"/>
                                 <div>Aseo y Limpieza</div>
                             </div> 
                         </div>
 
-                        <div className="producto_lista_tipo" onClick={()=>{this.redireccionar('/productos/buscador/EXTRACTO/_')}}>
+                        <div className="producto_lista_tipo" onClick={()=>{this.redireccionar(15)}}>
                             <div className="producto_lista_tipo_boton">
                                 <img src="/img/productos/servicios.jpg" alt="Fondo Tipo Producto"/>
                                 <div>Servicios y Ofertas</div>

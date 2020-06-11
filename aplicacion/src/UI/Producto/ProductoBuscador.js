@@ -39,35 +39,32 @@ export class ProductoBuscador extends React.Component {
 
     /****  B U S Q U E D A   ****/
     buscadorProducto =(Buscador)=> {
-        console.log(Buscador);
         buscarProducto_DB(Buscador).then(res=>{
-            console.log(res);
             if(!res.error){
-                var cantidadPaginas = (res.cantidadProductos / this.state.productosPorPagina);
+                var cantidadPaginas = (res[0].cantidadProductos / this.state.productosPorPagina);
                 cantidadPaginas = Math.ceil(cantidadPaginas||1);
-                this.setState({cantidadPaginas,listaProductos:res.listaProductos})
-            }
+                this.setState({cantidadPaginas,listaProductos:res})
+            }else { this.setState({cantidadPaginas:1,listaProductos:[]}) }
         });
     }
 
     buscarProductoTipo =()=> {
-        const {ciudad,tipo} = this.props.match.params;
+        const {ciudad,tipo,id} = this.props.match.params;
         const Buscador={
             ciudad: ciudad||"cusco", tipo: tipo||"TODO",
-            texto: document.getElementById("textoBuscar").value || "_",
-            idTienda:0,idNegocio:0,idTipoNegocio:0,idTipoProducto:0,
+            texto: document.getElementById("textoBuscar").value||"_",id:id||0,
             inicio: (this.state.paginaActual-1)*this.state.productosPorPagina,
             cantidad: this.state.productosPorPagina
         };
-        this.props.history.push("/productos/buscador/"+Buscador.ciudad+"/"+Buscador.tipo+"/"+Buscador.texto);
+        this.props.history.push("/productos/buscador/"+Buscador.ciudad+"/"+Buscador.tipo+"/"+id+"/"+Buscador.texto);
         this.buscadorProducto(Buscador);
     }
 
     buscarProductoInicial =()=> {
-        const {ciudad,tipo,texto} = this.props.match.params;
+        const {ciudad,tipo,id,texto} = this.props.match.params;
+        document.getElementById("textoBuscar").value = texto==="_"?"":texto;
         const Buscador={
-            ciudad: ciudad||"cusco", tipo: tipo||"TODO", texto:texto==="_"?"":texto,
-            idTienda:0,idNegocio:0,idTipoNegocio:0,idTipoProducto:0,
+            ciudad: ciudad||"cusco", tipo: tipo||"TODO", texto:texto==="_"?"":texto,id:id||0,
             inicio: (this.state.paginaActual-1)*this.state.productosPorPagina,
             cantidad: this.state.productosPorPagina
         };

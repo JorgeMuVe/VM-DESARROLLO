@@ -1,53 +1,6 @@
 USE vm;
 /*
 DELIMITER $$
-DROP PROCEDURE IF EXISTS buscarCantidadProducto $$
-DELIMITER ;
-DELIMITER $$
-CREATE PROCEDURE buscarCantidadProducto (
-    IN `@ciudad` VARCHAR(250),
-    IN `@tipo` VARCHAR(250),
-    IN `@texto` VARCHAR(250),
-    IN `@idTienda` INT(10) unsigned,
-    IN `@idNegocio` INT(10) unsigned,
-    IN `@idTipoNegocio` INT(10) unsigned,
-    IN `@idTipoProducto` INT(10) unsigned
-) BEGIN
-
-IF(`@tipo`='TODO') THEN
-    SELECT COUNT(*) as cantidadProductos from producto p 
-    INNER JOIN tienda t ON p.idTienda = t.idTienda
-    INNER JOIN negocio n ON n.idNegocio = t.idNegocio AND 'cusco' = `@ciudad`
-    WHERE p.nombreProducto LIKE `@texto` AND p.detalleProducto LIKE `@texto`;
-END IF;
-IF(`@tipo`='TIENDA') THEN
-    SELECT COUNT(*) as cantidadProductos from producto p
-    INNER JOIN tienda t ON p.idTienda = t.idTienda
-    INNER JOIN negocio n ON n.idNegocio = t.idNegocio AND 'cusco' = `@ciudad`
-    WHERE p.nombreProducto LIKE `@texto` AND p.detalleProducto LIKE `@texto` AND p.idTienda = `@idTienda`;
-END IF;
-IF(`@tipo`='NEGOCIO') THEN
-    SELECT COUNT(*) as cantidadProductos from producto p
-    INNER JOIN tienda t ON p.idTienda = t.idTienda
-    INNER JOIN negocio n ON n.idNegocio = t.idNegocio AND n.idNegocio = `@idNegocio` AND 'cusco' = `@ciudad`
-    WHERE p.nombreProducto LIKE `@texto` AND p.detalleProducto LIKE `@texto`;
-END IF;
-IF(`@tipo`='TIPONEGOCIO') THEN
-    SELECT COUNT(*) as cantidadProductos from producto p
-    INNER JOIN tienda t ON p.idTienda = t.idTienda
-    INNER JOIN negocio n ON n.idNegocio = t.idNegocio AND n.idTipoNegocio = `@idTipoNegocio` AND 'cusco' = `@ciudad`
-    WHERE p.nombreProducto LIKE `@texto` AND p.detalleProducto LIKE `@texto`;
-END IF;
-IF(`@tipo`='TIPOPRODUCTO') THEN
-    SELECT COUNT(*) as cantidadProductos from producto p
-    INNER JOIN tienda t ON p.idTienda = t.idTienda
-    INNER JOIN negocio n ON n.idNegocio = t.idNegocio AND 'cusco' = `@ciudad`
-    WHERE p.nombreProducto LIKE `@texto` AND p.detalleProducto LIKE `@texto` AND p.idTipoProducto = `@idTipoProducto`;
-END IF;
-END $$
-DELIMITER ;
-
-DELIMITER $$
 DROP PROCEDURE IF EXISTS buscarProducto $$
 DELIMITER ;
 DELIMITER $$
@@ -55,52 +8,86 @@ CREATE PROCEDURE buscarProducto (
     IN `@ciudad` VARCHAR(250),
     IN `@tipo` VARCHAR(250),
     IN `@texto` VARCHAR(250),
-    IN `@idTienda` INT(10) unsigned,
-    IN `@idNegocio` INT(10) unsigned,
-    IN `@idTipoNegocio` INT(10) unsigned,
-    IN `@idTipoProducto` INT(10) unsigned,
+    IN `@id` INT(10) unsigned,
     IN `@inicio` INT(10) unsigned,
     IN `@cantidad` INT(10) unsigned
 ) BEGIN
 
+SET @cantidadProductos = 0;
+
 IF(`@tipo`='TODO') THEN
-    SELECT p.*, t.nombreTienda, n.idNegocio, n.nombreNegocio from producto p 
+
+    SELECT COUNT(*) INTO @cantidadProductos from producto p 
     INNER JOIN tienda t ON p.idTienda = t.idTienda
     INNER JOIN negocio n ON n.idNegocio = t.idNegocio AND 'cusco' = `@ciudad`
-    WHERE p.nombreProducto LIKE `@texto` AND p.detalleProducto LIKE `@texto`
+    WHERE p.nombreProducto LIKE `@texto` OR p.detalleProducto LIKE `@texto`;
+
+    SELECT p.*, t.nombreTienda, n.idNegocio, n.nombreNegocio, @cantidadProductos as cantidadProductos from producto p 
+    INNER JOIN tienda t ON p.idTienda = t.idTienda
+    INNER JOIN negocio n ON n.idNegocio = t.idNegocio AND 'cusco' = `@ciudad`
+    WHERE p.nombreProducto LIKE `@texto` OR p.detalleProducto LIKE `@texto`
     LIMIT `@inicio`,`@cantidad`;
+
 END IF;
 IF(`@tipo`='TIENDA') THEN
-    SELECT p.*, t.nombreTienda, n.idNegocio, n.nombreNegocio from producto p
+
+    SELECT COUNT(*) INTO @cantidadProductos from producto p
     INNER JOIN tienda t ON p.idTienda = t.idTienda
     INNER JOIN negocio n ON n.idNegocio = t.idNegocio AND 'cusco' = `@ciudad`
-    WHERE p.nombreProducto LIKE `@texto` AND p.detalleProducto LIKE `@texto` AND p.idTienda = `@idTienda`
+    WHERE p.nombreProducto LIKE `@texto` OR p.detalleProducto LIKE `@texto` AND p.idTienda = `@id`;
+
+    SELECT p.*, t.nombreTienda, n.idNegocio, n.nombreNegocio, @cantidadProductos as cantidadProductos from producto p
+    INNER JOIN tienda t ON p.idTienda = t.idTienda
+    INNER JOIN negocio n ON n.idNegocio = t.idNegocio AND 'cusco' = `@ciudad`
+    WHERE p.nombreProducto LIKE `@texto` OR p.detalleProducto LIKE `@texto` AND p.idTienda = `@id`
     LIMIT `@inicio`,`@cantidad`;
+
 END IF;
 IF(`@tipo`='NEGOCIO') THEN
-    SELECT p.*, t.nombreTienda, n.idNegocio, n.nombreNegocio from producto p
+    
+    SELECT COUNT(*) INTO @cantidadProductos from producto p
     INNER JOIN tienda t ON p.idTienda = t.idTienda
-    INNER JOIN negocio n ON n.idNegocio = t.idNegocio AND n.idNegocio = `@idNegocio` AND 'cusco' = `@ciudad`
-    WHERE p.nombreProducto LIKE `@texto` AND p.detalleProducto LIKE `@texto`
+    INNER JOIN negocio n ON n.idNegocio = t.idNegocio AND n.idNegocio = `@id` AND 'cusco' = `@ciudad`
+    WHERE p.nombreProducto LIKE `@texto` OR p.detalleProducto LIKE `@texto`;
+
+    SELECT p.*, t.nombreTienda, n.idNegocio, n.nombreNegocio, @cantidadProductos as cantidadProductos from producto p
+    INNER JOIN tienda t ON p.idTienda = t.idTienda
+    INNER JOIN negocio n ON n.idNegocio = t.idNegocio AND n.idNegocio = `@id` AND 'cusco' = `@ciudad`
+    WHERE p.nombreProducto LIKE `@texto` OR p.detalleProducto LIKE `@texto`
     LIMIT `@inicio`,`@cantidad`;
 END IF;
 IF(`@tipo`='TIPONEGOCIO') THEN
-    SELECT p.*, t.nombreTienda, n.idNegocio, n.nombreNegocio from producto p
+
+    SELECT COUNT(*) INTO @cantidadProductos from producto p
     INNER JOIN tienda t ON p.idTienda = t.idTienda
-    INNER JOIN negocio n ON n.idNegocio = t.idNegocio AND n.idTipoNegocio = `@idTipoNegocio` AND 'cusco' = `@ciudad`
-    WHERE p.nombreProducto LIKE `@texto` AND p.detalleProducto LIKE `@texto`
+    INNER JOIN negocio n ON n.idNegocio = t.idNegocio AND n.idTipoNegocio = `@id` AND 'cusco' = `@ciudad`
+    WHERE p.nombreProducto LIKE `@texto` OR p.detalleProducto LIKE `@texto`;
+
+    SELECT p.*, t.nombreTienda, n.idNegocio, n.nombreNegocio, @cantidadProductos as cantidadProductos from producto p
+    INNER JOIN tienda t ON p.idTienda = t.idTienda
+    INNER JOIN negocio n ON n.idNegocio = t.idNegocio AND n.idTipoNegocio = `@id` AND 'cusco' = `@ciudad`
+    WHERE p.nombreProducto LIKE `@texto` OR p.detalleProducto LIKE `@texto`
     LIMIT `@inicio`,`@cantidad`;
+
 END IF;
 IF(`@tipo`='TIPOPRODUCTO') THEN
-    SELECT p.*, t.nombreTienda, n.idNegocio, n.nombreNegocio from producto p
+
+    SELECT COUNT(*) INTO @cantidadProductos from producto p
     INNER JOIN tienda t ON p.idTienda = t.idTienda
     INNER JOIN negocio n ON n.idNegocio = t.idNegocio AND 'cusco' = `@ciudad`
-    WHERE p.nombreProducto LIKE `@texto` AND p.detalleProducto LIKE `@texto` AND p.idTipoProducto = `@idTipoProducto`
+    WHERE p.nombreProducto LIKE `@texto` OR p.detalleProducto LIKE `@texto` AND p.idTipoProducto = `@id`;
+
+    SELECT p.*, t.nombreTienda, n.idNegocio, n.nombreNegocio, @cantidadProductos as cantidadProductos from producto p
+    INNER JOIN tienda t ON p.idTienda = t.idTienda
+    INNER JOIN negocio n ON n.idNegocio = t.idNegocio AND 'cusco' = `@ciudad`
+    WHERE p.nombreProducto LIKE `@texto` OR p.detalleProducto LIKE `@texto` AND p.idTipoProducto = `@id`
     LIMIT `@inicio`,`@cantidad`;
+
 END IF;
 END $$
 DELIMITER ;
--- CALL buscarProducto_('cusco','TIPOPRODUCTO','%ce%','0','0','0','2','0','10');
+-- CALL buscarProducto('cusco','TIPOPRODUCTO','%ce%','2','0','10');
+
 */
 -- == BUSCAR PRODUCTO ==>>
 DELIMITER $$

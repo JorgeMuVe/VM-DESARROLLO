@@ -16,7 +16,6 @@ import PerfilTienda from './Componentes/PerfilTienda';
 import Principal from './UI/Paginas/Principal';
 import Registro from './UI/Registro/Registro';
 import Confirmar from './UI/Registro/Confirmar';
-import Buscador from './UI/Paginas/Buscador';
 import Tiendas from './UI/Paginas/Tiendas';
 import Categorias from './UI/Paginas/Categoria';
 import Admin from './UI/Admin/Admin';
@@ -295,19 +294,19 @@ export class Aplicacion extends Component {
           <Switch>
             
             <Route exact path="/" render={(props) => 
-              <Principal usuarioAplicacion={this.state.usuarioAplicacion} {...props}/>}>
+              <Principal ciudad={"ciudad"}{...props}/>}>
             </Route>
 
             <Route path="/lima" render={(props)=>
-              <Buscador ciudad={"lima"} {...props}/>}>
+              <Principal ciudad={"lima"} {...props}/>}>
             </Route>
 
             <Route path="/cusco" render={(props)=>
-              <Buscador ciudad={"cusco"} {...props}/>}>  
+              <Principal ciudad={"cusco"} {...props}/>}>  
             </Route>
 
             <Route path="/arequipa" render={(props)=>
-              <Buscador ciudad={"arequipa"} {...props}/>}>
+              <Principal ciudad={"arequipa"} {...props}/>}>
             </Route>
 
             <Route path="/registro" render={(props)=>
@@ -324,6 +323,10 @@ export class Aplicacion extends Component {
 
             <Route path="/perfiltienda/:idTienda" render={(props)=>
               <PerfilTienda agregarCanasta={this.agregarCanasta}{...props} seleccionarProductoCantidad={this.seleccionarProductoCantidad} {...props}/>}>
+            </Route>
+
+            <Route path="/tiendas" render={(props) =>
+              <Socios {...props}/>}>
             </Route>
             
             <Route path="/tiendas/:tipo" render={(props)=>
@@ -347,7 +350,7 @@ export class Aplicacion extends Component {
                 confirmarPedido={this.confirmarPedido}controlMenuUsuario={this.cerrarMenuUsuario}{...props}/>}>
             </Route>
 
-            <Route path="/productos/buscador/:ciudad/:tipo/:texto" render={(props) =>
+            <Route path="/productos/buscador/:ciudad/:tipo/:id/:texto" render={(props) =>
               <ProductoBuscador agregarCanasta={this.agregarCanasta}seleccionarProductoCantidad={this.seleccionarProductoCantidad} {...props}/>}>
             </Route>
 
@@ -356,9 +359,6 @@ export class Aplicacion extends Component {
             </Route>
 
           </Switch>
-          <div id="tiendas">
-            <Socios />
-          </div>
         </BrowserRouter>
       </div>
       <div id="contacto" >

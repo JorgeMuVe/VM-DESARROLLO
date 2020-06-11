@@ -6,7 +6,8 @@ import { listarNegociosPorTipo_DB,  } from '../../DB/negocioDB';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
-    negocios:[]
+    negocios:[],
+    idCategoria:0
 };
 
 export class Categorias extends React.Component {
@@ -19,10 +20,9 @@ export class Categorias extends React.Component {
 
     }
 
-    obtenerCategoria =(categoria)=> {
-        const Negocio = {idTipoNegocio:categoria}
+    obtenerCategoria =()=> {
+        const Negocio = {idTipoNegocio:this.state.idCategoria}
         listarNegociosPorTipo_DB(Negocio).then(res=>{
-            console.log(res);
             if(!res.error){ this.setState({negocios:res}) }
             else { console.log("ERROR >> "+res.error) }
         });
@@ -42,18 +42,22 @@ export class Categorias extends React.Component {
         return idCategoria;
     }
 
-    abrirTienda =(idNegocio)=> this.props.history.push("/perfiltienda/"+idNegocio)
+    abrirTienda =(negocio)=>{
+        this.props.history.push("/productos/buscador/cusco/NEGOCIO/"+negocio.idNegocio+"/_");
+    } 
 
     abrirProductos =()=> {
-        //var categoria = this.props.match.params.categoria;
-        this.props.history.push("/productos/buscador/TODO/_");
+        const { idCategoria } = this.state;
+        this.props.history.push("/productos/buscador/cusco/TIPONEGOCIO/"+idCategoria+"/_");
     }
 
     componentDidMount(){
         const { categoria } = this.props.match.params;
         var idCategoria = this.verificarCategoria(categoria)
-        if(idCategoria>0){ 
-            this.obtenerCategoria(idCategoria);
+        if(idCategoria>0){
+            this.setState({idCategoria},()=>{
+                this.obtenerCategoria(idCategoria);
+            })
         } else { this.props.history.push("/") }
     }
 
@@ -65,7 +69,7 @@ export class Categorias extends React.Component {
                     {(this.state.negocios||[]).length>0?
                     <div className="principal_categoria_opciones">
                         {(this.state.negocios||[]).map((negocio,i)=>{return(
-                        <div key={i} onClick={()=>this.abrirTienda(negocio.idNegocio)} style={{
+                        <div key={i} onClick={()=>this.abrirTienda(negocio)} style={{
                             background:"linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url("+(negocio.logo)+")no-repeat center/cover",
                             textTransform:"capitalize",textAlign:"center"
                         }}>
