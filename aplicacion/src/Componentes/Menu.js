@@ -13,6 +13,12 @@ export class Menu extends React.Component {
 
     redireccionar =(ruta)=>{ window.location.href = ruta }
 
+    abrirModalPedido =()=> {
+        if(sessionStorage.getItem('ciudad')!=='ciudad'){
+            this.props.controlModalPedido()
+        } else { alert("Seleccione una ciudad!.") }
+    }
+
     render(){
         return(
             <div className="Menu">
@@ -21,7 +27,7 @@ export class Menu extends React.Component {
                     <div className="menu_item_aplicacion" onClick={()=>this.props.controlMenuAplicacion()}>REACTIVA</div>
                     <div className="menu_item_ocultar"><NavLink to="/">INICIO</NavLink></div>
                     <div className="menu_item_ocultar" onClick={()=>this.redireccionar("/#contacto")}>INICIO</div>
-                    <div className="menu_item_logo centrado" onClick={()=>this.props.controlModalPedido()}>                    
+                    <div className="menu_item_logo centrado" onClick={()=>this.abrirModalPedido()}>                    
                         <img src="/Logo.png" alt="Logo"></img>
                     </div>
                     <div className="menu_item_ocultar"><NavLink to="/productos/lista">PRODUCTOS</NavLink></div>

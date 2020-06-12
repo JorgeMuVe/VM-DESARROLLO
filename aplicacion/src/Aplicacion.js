@@ -33,6 +33,8 @@ import Mensaje from './Componentes/Mensaje.js';
 
 /* *******   V A R I A B L E S  G L O B A L E S **********/
 const estadoInicial = {
+  /** CIUDAD */
+  ciudad:"ciudad",
   /***** M E N U  *****/
   mostrarMenuUsuario:false,
   mostrarMenuAplicacion:false,
@@ -206,6 +208,11 @@ export class Aplicacion extends Component {
 
   cambiarNuevoUsuario =(nuevoUsuario)=> { this.setState({ nuevoUsuario }) }
 
+  cambiarCiudad =(ciudad)=> {
+    sessionStorage.setItem('ciudad',ciudad);
+    this.setState({ciudad})
+  }
+
   controlMenuAplicacion =()=> {
     this.setState({mostrarMenuAplicacion:!this.state.mostrarMenuAplicacion,
       mostrarMenuUsuario:false,mostrarModalIngreso:false,mostrarModalPedido:false,mostrarModalCantidad:false});
@@ -294,19 +301,19 @@ export class Aplicacion extends Component {
           <Switch>
             
             <Route exact path="/" render={(props) => 
-              <Principal ciudad={"ciudad"}{...props}/>}>
+              <Principal ciudad={"ciudad"} cambiarCiudad={this.cambiarCiudad}{...props}/>}>
             </Route>
 
             <Route path="/lima" render={(props)=>
-              <Principal ciudad={"lima"} {...props}/>}>
+              <Principal ciudad={"lima"} cambiarCiudad={this.cambiarCiudad}{...props}/>}>
             </Route>
 
             <Route path="/cusco" render={(props)=>
-              <Principal ciudad={"cusco"} {...props}/>}>  
+              <Principal ciudad={"cusco"} cambiarCiudad={this.cambiarCiudad}{...props}/>}>  
             </Route>
 
             <Route path="/arequipa" render={(props)=>
-              <Principal ciudad={"arequipa"} {...props}/>}>
+              <Principal ciudad={"arequipa"} cambiarCiudad={this.cambiarCiudad}{...props}/>}>
             </Route>
 
             <Route path="/registro" render={(props)=>

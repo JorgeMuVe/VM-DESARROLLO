@@ -4,9 +4,7 @@ import IconoLupa from '../../SVG/IconoLupa';
 import IconoMercado from '../../SVG/IconoMercado';
 
 /* VARIABLES GLOBALES */
-const estadoInicial = {
-    nombreCiudad:'',
-};
+const estadoInicial = {};
 
 export class Principal extends React.Component {
     constructor(props){
@@ -18,15 +16,15 @@ export class Principal extends React.Component {
         evento.preventDefault();
         var textoBuscar = document.getElementById("textoBuscar").value||"_";
         var nombreCiudad = document.getElementById('nombreCiudad').value||"cusco";
-        this.props.history.push("/productos/buscador/"+nombreCiudad+"/TODO/0/"+textoBuscar);
+        if(nombreCiudad==="ciudad"){
+            alert("Seleccione la ciudad.");
+        }else { this.props.history.push("/productos/buscador/"+nombreCiudad+"/TODO/0/"+textoBuscar) }
     }
 
     cambiarCiudad =()=> {
         var nombreCiudad = document.getElementById('nombreCiudad').value;
-        console.log(nombreCiudad);
-        this.setState({nombreCiudad},()=>{
-            this.props.history.push("/"+(nombreCiudad||"").toLowerCase())
-        });
+        this.props.cambiarCiudad(nombreCiudad);
+        this.props.history.push("/"+(nombreCiudad||"").toLowerCase())
     }
 
     verificarCiudad =(ciudad)=> {

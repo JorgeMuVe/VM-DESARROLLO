@@ -55,24 +55,26 @@ export class ConfirmarRegistro extends React.Component {
 
     render(){
         return(
-            <div className="centrado">
+            <div className="RegistroConfirmar">
                 <div className="usuario_encabezado">
                     <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
                     <label> Regístrate </label>
                     <div></div>
                 </div>
-                <form className="registro_confirmacion" validate="true" onSubmit={this.agregarUsuario}>
-                    <div>Hola <b>{this.state.usuarioAplicacion.nombreCliente}</b>, Un paso más!</div>
-                    <div>
-                        Ingresa los datos para tu cuenta nueva.
-                    </div>
-                    <input required style={{width:'250px'}} id="nombreUsuario" placeholder="Correo" type='email'/>
-                    <input required style={{width:'250px'}} id="contrasena" placeholder="Contraseña" type='password'/>
-                    <input required style={{width:'250px'}} id="confirmarContrasena" placeholder="Confirma Contraseña" type='password'/>
-                    <div className="centrado">
-                        <button type="submit">Confirmar</button>
-                    </div>
-                </form>
+                <div className="centrado">
+                    <form className="registro_confirmacion" validate="true" onSubmit={this.agregarUsuario}>
+                        <div>Hola <b>{this.state.usuarioAplicacion.nombreCliente}</b>, Un paso más!</div>
+                        <div>
+                            Ingresa los datos para tu cuenta nueva.
+                        </div>
+                        <input required style={{width:'250px'}} id="nombreUsuario" placeholder="Correo" type='email'/>
+                        <input required style={{width:'250px'}} id="contrasena" placeholder="Contraseña" type='password'/>
+                        <input required style={{width:'250px'}} id="confirmarContrasena" placeholder="Confirma Contraseña" type='password'/>
+                        <div className="centrado">
+                            <button type="submit">Confirmar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         )
     }

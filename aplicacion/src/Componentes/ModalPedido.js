@@ -108,7 +108,7 @@ export class ModalPedido extends React.Component {
                                     <div><IconoPedidoVacio/></div>
                                     <span>No tienes productos en tu carrito</span>
                                     <label>Encuentra tus productos con un sólo un click</label>
-                                    <NavLink className="pedido_vacio_mensaje_boton" to='/productos/buscador/TODO/_'>Comprar productos</NavLink>
+                                    <NavLink className="pedido_vacio_mensaje_boton" to={"/productos/buscador/"+sessionStorage.getItem('ciudad')+"/TODO/0/_"}>Comprar productos</NavLink>
                                 </div>
                             </div>}
                             
