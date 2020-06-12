@@ -394,6 +394,14 @@ background:linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)),url('/img/fond
 .paginacion div{padding:1px 1px;margin:1px;}
 .paginacion div:hover svg{padding:2px 2px;transition: 0.40s all ease-in-out;fill:whitesmoke;background:#e51b1b;border-radius: 50px;}
 
+/* RECORTAR IMAGEN PERFIL */
+#canvas{border:2px solid #b3b1b1;margin-left:auto;margin-right:auto;display:block;border-radius:100%;background-color:#ebedf3;cursor:move;box-shadow:3px 3px 6px 0 rgba(0,0,0,.4);}
+#archivo{visibility: hidden;}
+#archivoFile{cursor: pointer;width:150px;margin-left: auto;padding: 2px; margin-right: auto;display: block;margin-top: 25px;font-family: 'Roboto', sans-serif;transition: all, 0.2s;border-style: solid;border-color: #e51b1b;border-radius: 30px;text-align: center;box-shadow: 4px 4px 10px 0 rgba(255, 0, 0, 0.4);font-weight: 700;font-size: 15px;}
+#archivoFile:hover{transform: translateY(-3px)}
+#mostrar{margin-left: auto;margin-right: auto;margin-top:25px;display: block;border-style: solid;border-color: #e51b1b;width: 127px;border-radius: 30px;padding: 10px;font-family: 'Roboto', sans-serif;cursor: pointer;transition: all, 0.2s;text-align: center;box-shadow: 4px 4px 10px 0 rgba(255, 0, 0, 0.4);font-weight: 700;font-size: 15px;}
+#mostrar:hover{transform: translateY(-3px)}
+
 .cuadro_texto{
     border:solid 1px #d1d3d8;border-radius:5px;padding:5px;
     display:flex;flex-direction:row;justify-content:space-between;

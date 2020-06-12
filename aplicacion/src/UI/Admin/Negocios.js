@@ -19,6 +19,14 @@ export class AdminNegocios extends React.Component {
         this.state = estadoInicial;
     }
 
+    obtenerNegocios =()=> {
+
+    }
+
+    obtenerTiendas =()=> {
+        
+    }
+
     render(){
         return(
             <div className="AdminNegocios">
