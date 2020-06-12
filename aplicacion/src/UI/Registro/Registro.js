@@ -3,19 +3,25 @@ import React from 'react';
 
 /* ICONOS */
 import IconoAtras from '../../SVG/aplicacion/IconoAtras';
+import IconoUsuarioRegistro from '../../SVG//IconoUsuarioRegistro';
+import IconoDNIRegistro from '../../SVG//IconoDNIRegistro';
+import IconoTelefonoRegistro from '../../SVG//IconoTelefonoRegistro';
+import IconoFacebook from '../../SVG//IconoFacebook';
+import IconoTwitter from '../../SVG//IconoTwitter';
+import IconoGoogle from '../../SVG//IconoGoogle';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
-    mostrarConfirmar:false,
+    mostrarConfirmar: false,
 };
 
 export class Registro extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = estadoInicial;
     }
 
-    pasarConfirmacion =(evento)=> {
+    pasarConfirmacion = (evento) => {
         evento.preventDefault();
         var nuevoUsuario = {
             registroNacional: document.getElementById("registroNacional").value,
@@ -28,28 +34,72 @@ export class Registro extends React.Component {
         this.props.history.push("/confirmar")
     }
 
-    render(){
+    render() {
         var { mostrarConfirmar } = this.state;
-        return(
+        return (
             <div className="Registro">
                 <div className="usuario_encabezado">
-                    <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
+                    <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b" /></div>
                     <label> Regístrate </label>
                     <div></div>
                 </div>
 
-                <div className={"centrado " + (mostrarConfirmar?"ocultar":"")}> 
-                    <form className="registro_datos" validate="true" onSubmit={this.pasarConfirmacion}>
-                        <div className="centrado">
-                            <div className="logo_tienda" style={{background:'url(/img/clientes/sin_foto.jpg)no-repeat center/cover'}}></div>
+                <div className={"centrado " + (mostrarConfirmar ? "ocultar" : "")}>
+                    <form className="registroDatos" validate="true" onSubmit={this.pasarConfirmacion}>
+                        <p className="pRegistro">Ingresa tus datos para que puedas formar parte de esta gran tienda virtual.</p>
+                        <div class="nombresRegistro">
+                            <span><IconoUsuarioRegistro /></span>
+                            <input className="inNombresRegistro" required id="nombreCompleto" placeholder="Nombres" />
                         </div>
-                        <input required id="nombreCompleto" placeholder="Nombres"/>
-                        <input required id="apellidoPaterno" placeholder="Apellido Paterno"/>
-                        <input id="apellidoMaterno" placeholder="Apellido Materno"/>
-                        <input required id="registroNacional" placeholder="Registro Nacional"/>
-                        <input required id="telefonoCliente" type="text" placeholder="Telefono"/>
-                        <div className="centrado">
-                            <button type="submit">Registrarme</button>
+                        <div className="apellidosRegistro">
+                            <div class="ApPatRegistro">
+                                <span><IconoUsuarioRegistro /></span>
+                                <input className="inApPatRegistro" required id="apellidoPaterno" placeholder="Apellido Paterno" />
+                            </div>
+                            <div class="ApMatRegistro">
+                                <span><IconoUsuarioRegistro /></span>
+                                <input className="inApMatRegistro" required id="apellidoMaterno" placeholder="Apellido Materno" />
+                            </div>
+                        </div>
+                        <div className="dniTelefono">
+                            <div class="dniRegistro">
+                                <span><IconoDNIRegistro /></span>
+                                <input className="inDNIRegistro" required id="registroNacional" placeholder="DNI" />
+                            </div>
+                            <div class="telefonoRegistro">
+                                <span><IconoTelefonoRegistro /></span>
+                                <input className="inTelefonoRegistro" required id="telefonoCliente" type="text" placeholder="Telefono" />
+                            </div>
+                        </div>
+                        <div class="checkboxsRegistro">
+                            <div>
+                                <input required type="checkbox" class="terminosRegistro" />
+                                <span> Acepto <a href="" target="_blank"> Términos y Condiciones </a> y la <a href="" target="_blank">Política de Privacidad y Tratamiento de Datos Personales</a> </span>
+                            </div>
+                            <div>
+                                <input type="checkbox" class="UsoInfoRegistro" />
+                                <span> Acepto el uso de mi información para <a href="" target="_blank">fines promocionales</a> <br /></span>
+                            </div>
+                        </div>
+                        <div class="centrado">
+                            <button class="botonRegistro" type="submit">Registrarme</button>
+                        </div>
+                        <hr></hr>
+                        <span className="oic">O ingresa con</span>
+                        <div className="modal_ingreso_internet">
+                            <label className="centrado"> INGRESAR CON </label>
+                            <div className="ingreso_internet_boton" style={{ backgroundColor: '#4267B2' }}>
+                                <div className="centrado"><IconoFacebook fill="#d1d3d8" /></div>
+                                <label>Ingresar con Facebook</label>
+                            </div>
+                            <div className="ingreso_internet_boton" style={{ backgroundColor: '#00aced' }}>
+                                <div className="centrado"><IconoTwitter fill="#d1d3d8" /></div>
+                                <label>Ingresar con Twitter</label>
+                            </div>
+                            <div className="ingreso_internet_boton" style={{ backgroundColor: '#b63a2b' }}>
+                                <div className="centrado"><IconoGoogle fill="#d1d3d8" /></div>
+                                <label>Ingresar con Google</label>
+                            </div>
                         </div>
                     </form>
                 </div>
