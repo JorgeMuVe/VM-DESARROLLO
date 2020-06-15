@@ -1,8 +1,3 @@
-/*
--- Description:      Pantalla de Producto de Aplicacion TIEDA VIRTUAL
--- @Copyright        Jorge.Muvez - World Connect Perú - 2020-00-00
-*/
-
 /***  C O M P O N E N T E S   ***/
 import React from 'react';
 import Paginado from '../../Componentes/Paginado';
@@ -21,7 +16,7 @@ const estadoInicial = {
 
     paginaActual:1,
     cantidadPaginas:1,
-    productosPorPagina:10,
+    productosPorPagina:12,
 };
 
 export class ProductoBuscador extends React.Component {
@@ -31,10 +26,9 @@ export class ProductoBuscador extends React.Component {
     }
     
     calcularPrecioProducto =(producto)=> {
-        return <b>S/: {
+        return <b>S/. {
             parseFloat(producto.precioPorUnidad||0).toFixed(2)+" x "+
-            unidadMedidaProducto(producto.unidadCantidad,producto.tipoUnidad)+
-            (producto.descuentoUnidad>0?(" (-"+producto.descuentoUnidad+"%)"):"")}</b>
+            unidadMedidaProducto(producto.unidadCantidad,producto.tipoUnidad)}</b>
     }
 
     /****  B U S Q U E D A   ****/
@@ -128,17 +122,25 @@ export class ProductoBuscador extends React.Component {
 
                     <div className="centrado">
                         {(this.state.listaProductos||[]).length > 0?
-                        <div className="producto_buscador_lista">
-                            {(this.state.listaProductos||[]).map(producto =>
-                                <div className="producto_buscador_lista_item" style={{background:"url("+producto.imagenProducto+")no-repeat center/cover"}} key={producto.idProducto}>
-                                    <div className="producto_buscador_lista_item_datos" onClick={()=>this.props.seleccionarProductoCantidad(producto)}>
-                                        <span>{(producto.nombreProducto||"").toUpperCase()}</span>
-                                        <span>Precio:{this.calcularPrecioProducto(producto)}</span>
-                                        <a href='/perfiltienda/1'>{producto.nombreTienda}</a>
+                        <div className="centrar_lista">
+                            <div className="lista_DiseñoProductos no-seleccionable">
+                                {(this.state.listaProductos || []).map((Dprod, i) =>
+                                    <div className="lista_DiseñoProductos_item" key={i} onClick={() => { this.redireccionar(Dprod.idDprod) }}>
+                                        <div className="DiseñoProductos_item_imagen">
+                                            <img className="imagenR" alt="Imagen Producto" width="255px" height="193px" src={Dprod.imagenProducto}></img>
+                                        </div>
+                                        <div className="DiseñoProductos_item_datos">
+                                            <h4 className="Dprod_nombreProducto">{Dprod.nombreProducto}</h4>
+                                            <h4 className="Dprod_descripcionProducto">{Dprod.detalleProducto}</h4>
+                                            <h5 className="Dprod_Negocio">{Dprod.nombreTienda}</h5>
+                                            <h3 className="Dprod_precio">{this.calcularPrecioProducto(Dprod)}</h3>
+                                            {Dprod.descuentoUnidad<0?null:
+                                            <div className="centrado Dprod_descuento">-{Dprod.descuentoUnidad}%</div>}
+                                        </div>
                                     </div>
-                                </div>
-                            )}
-                        </div> :
+                                )}
+                            </div>
+                        </div>:
                         <div>No se encontraron Productos!!..</div> }
                     </div>
                 </div>
@@ -149,3 +151,4 @@ export class ProductoBuscador extends React.Component {
 }
 
 export default ProductoBuscador;
+

@@ -74,31 +74,30 @@ export class Registro extends React.Component {
                         <div class="checkboxsRegistro">
                             <div>
                                 <input required type="checkbox" class="terminosRegistro" />
-                                <span> Acepto <a href="" target="_blank"> Términos y Condiciones </a> y la <a href="" target="_blank">Política de Privacidad y Tratamiento de Datos Personales</a> </span>
+                                <span> Acepto <a href="##" target="_blank"> Términos y Condiciones </a> y la <a href="##" target="_blank">Política de Privacidad y Tratamiento de Datos Personales</a> </span>
                             </div>
                             <div>
                                 <input type="checkbox" class="UsoInfoRegistro" />
-                                <span> Acepto el uso de mi información para <a href="" target="_blank">fines promocionales</a> <br /></span>
+                                <span> Acepto el uso de mi información para <a href="##" target="_blank">fines promocionales</a> <br /></span>
                             </div>
                         </div>
                         <div class="centrado">
                             <button class="botonRegistro" type="submit">Registrarme</button>
                         </div>
                         <hr></hr>
-                        <span className="oic">O ingresa con</span>
+                        <span className="oic">Ingresá con</span>
                         <div className="modal_ingreso_internet">
-                            <label className="centrado"> INGRESAR CON </label>
                             <div className="ingreso_internet_boton" style={{ backgroundColor: '#4267B2' }}>
                                 <div className="centrado"><IconoFacebook fill="#d1d3d8" /></div>
-                                <label>Ingresar con Facebook</label>
+                                <label style={{textAlign:'center'}}>Ingresar con Facebook</label>
                             </div>
                             <div className="ingreso_internet_boton" style={{ backgroundColor: '#00aced' }}>
                                 <div className="centrado"><IconoTwitter fill="#d1d3d8" /></div>
-                                <label>Ingresar con Twitter</label>
+                                <label style={{textAlign:'center'}}>Ingresar con Twitter</label>
                             </div>
                             <div className="ingreso_internet_boton" style={{ backgroundColor: '#b63a2b' }}>
                                 <div className="centrado"><IconoGoogle fill="#d1d3d8" /></div>
-                                <label>Ingresar con Google</label>
+                                <label style={{textAlign:'center'}}>Ingresar con Google</label>
                             </div>
                         </div>
                     </form>

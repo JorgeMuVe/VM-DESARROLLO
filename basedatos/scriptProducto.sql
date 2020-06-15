@@ -1,5 +1,5 @@
 USE vm;
-/*
+-- == BUSCAR PRODUCTO ==>>
 DELIMITER $$
 DROP PROCEDURE IF EXISTS buscarProducto $$
 DELIMITER ;
@@ -88,28 +88,7 @@ END $$
 DELIMITER ;
 -- CALL buscarProducto('cusco','TIPOPRODUCTO','%ce%','2','0','10');
 
-*/
--- == BUSCAR PRODUCTO ==>>
-DELIMITER $$
-DROP PROCEDURE IF EXISTS buscarProducto; $$
-DELIMITER ;
-DELIMITER $$
-CREATE PROCEDURE buscarProducto (
-    IN `@tipo` VARCHAR(250),
-    IN `@texto` VARCHAR(250),
-    IN `@inicio` INT(10) unsigned,
-    IN `@cantidad` INT(10) unsigned
-) BEGIN
-
-SELECT tp.nombreTipoProducto,p.nombreProducto,p.detalleProducto,p.imagenProducto,tp.imagenTipoProducto,
-p.precioPorUnidad,p.unidadCantidad,p.tipoUnidad,p.descuentoUnidad,t.nombreTienda,p.idProducto,t.idTienda
-FROM producto p INNER JOIN tipoProducto tp ON p.idTipoProducto = tp.idTipoProducto AND tp.nombreTipoProducto LIKE `@tipo`
-INNER JOIN tienda t ON t.idTienda = p.idTienda 
-WHERE p.nombreProducto LIKE `@texto` OR tp.nombreTipoProducto LIKE `@texto` LIMIT `@inicio`,`@cantidad`;
-
-END $$
-DELIMITER ;
-
+/* PAGINADO */
 DELIMITER $$
 DROP PROCEDURE IF EXISTS paginadoProductoTienda; $$
 DELIMITER ;
