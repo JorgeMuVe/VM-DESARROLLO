@@ -11,7 +11,7 @@ import {listarProductoPorTienda_DB} from '../DB/productoDB'
 import Paginado from '../Componentes/Paginado';
 /* ICONOS */
 import IconoAtras from '../SVG/aplicacion/IconoAtras';
-
+import IconoGoogle from '../SVG/IconoGoogle';
 /* VARIABLES GLOBALES */
 const estadoInicial = {
     perfilTienda:{},
@@ -74,20 +74,37 @@ export class PiePagina extends React.Component {
     render() {
         return (
             <div className="PerfilTienda">
+                <div className="perfilBox">
                 <div className="tab">
-                    <button className={this.state.tabActivo==="productos"?"tablinks active":"tablinks"} onClick={()=>this.mostrarTabTienda("productos")}>Productos</button>
+                    <a>
+                        <div className="centrado">
+                            <IconoGoogle fill="#d1d3d8"/>
+                        </div>
+                        <button className={this.state.tabActivo==="productos"?"tablinks active":"tablinks"} onClick={()=>this.mostrarTabTienda("productos")}>Productos</button>
+                    </a>
+
+                    <a>
+                        <div className="centrado">
+                            <IconoGoogle fill="#d1d3d8"/>
+                        </div>
                     <button className={this.state.tabActivo==="perfil"?"tablinks active":"tablinks"} onClick={()=>this.mostrarTabTienda("perfil")}>Tienda/Negocio</button>
+                    </a>
+                    
+                    
                     <button hidden={true} className={this.state.tabActivo==="comentarios"?"tablinks active":"tablinks"} onClick={()=>this.mostrarTabTienda("comentarios")}>Comentarios</button>
+                    
                 </div>
 
                 <div className="usuario_encabezado">
+                    <div className="iconoRegresar">
                     <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
+                    </div>
                     <label> {this.state.perfilTienda.nombreTienda} </label>
                     <div></div>
                 </div>
 
                 <div id="ProductosPerfilTienda" className={this.state.tabActivo==="productos"?"tabcontent":"ocultar"}>
-                    <h3>Productos</h3>
+                    <h3 className="centrado">Productos</h3>
                     <div className="TiendaProductos">    
                         {(this.state.productosTienda||[]).length > 0?
                         <div className="usuario_tabla centrado">
@@ -134,17 +151,19 @@ export class PiePagina extends React.Component {
                         <div>No Hay Productos Registrados</div> }
                     </div>
                 </div>  
-
-                <div id="TiendaPerfilTienda" className={this.state.tabActivo==="perfil"?"tabcontent":"ocultar"}>
-                    <h3>Nombre     :{this.state.perfilTienda.nombreTienda}</h3>
+                <li id="TiendaPerfilTienda" className={this.state.tabActivo==="perfil"?"tabcontent":"ocultar"}>  
+                    
+                    <h3 className="centrado">Nombre     :{this.state.perfilTienda.nombreTienda}</h3>
+                    <div className="centrado">
                     <div className="logo_tienda" style={{background:'url('+(this.state.perfilTienda.logo||"/img/tiendas/sin_foto.jpg")+')no-repeat center/cover'}}></div>
-                    <h3>Categoria : Supermercados</h3>
-                    <h3>Descripción: {this.state.perfilTienda.descripcionTienda}</h3>
-                </div>
-
+                    </div>
+                    <h3 className="centrado">Categoria : Supermercados</h3>
+                    <h3 className="centrado">Descripción: {this.state.perfilTienda.descripcionTienda}</h3>
+                </li>
                 <div id="ComentariosPerfilTienda" className={this.state.tabActivo==="comentarios"?"tabcontent":"ocultar"}>
                     <h3>Comentarios</h3>
                     <p>Comentario 1</p>
+                </div>
                 </div>
             </div>
         )

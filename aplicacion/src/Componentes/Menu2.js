@@ -96,7 +96,7 @@ export class Menu extends React.Component {
                         <div><NavLink to="/categoria/restaurantes"><span className="centrado"><IconoRestaurante fill="#fff"/></span><label style={{color:'white'}}>Restaurantes</label></NavLink></div>
                     </div>
                     <div className="Menu2_inferior_opciones">                    
-                        <div><NavLink to="/categoria/servicios"><span className="centrado"><IconoAnuncios fill="url(#rojo_naranja)"/></span><label style={{color:'white'}}>Anuncios</label></NavLink></div>
+                        <div><NavLink to="/perfiltienda/:idTienda"><span className="centrado"><IconoAnuncios fill="url(#rojo_naranja)"/></span><label style={{color:'white'}}>Anuncios</label></NavLink></div>
                         <div><NavLink to="/categoria/comercios"><span className="centrado"><IconoComercio fill="#fff"/></span><label style={{color:'white'}}>Comercios</label></NavLink></div>
                         <div><NavLink to="/categoria/farmacias"><span className="centrado"><IconoFarmacia fill="#fff"/></span><label style={{color:'white'}}>Farmacias</label></NavLink></div>
                     </div>

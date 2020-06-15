@@ -10,8 +10,26 @@
     font-weight: bold;
     text-align: center;
   }
-  
-  /* Estilo de los botones para abrir un TAB */
+.tab{
+  display: flex;flex-direction:row;justify-content: center;
+}
+.tab a{
+  display:grid;
+  grid-template-columns: 30px 1fr;
+}
+.tab a:hover{
+  background-color: #ccc;
+}
+.tab a:hover svg{
+  fill: red;
+} 
+
+.tab a.active{
+  background-color: #ccc;
+  fill: red;
+}
+ 
+/* Estilo de los botones para abrir un TAB */
 .tab button {
     background-color: inherit;
     float: center;
@@ -24,10 +42,6 @@
     font-weight: bold;
   }
   
-  /* Color de fondo de los botones del tab*/
-  .tab button:hover {
-    background-color: #ddd;
-  }
   
   /* Crear Tab Principal */
   .tab button.active {
@@ -54,3 +68,28 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  .tabs-icon {
+    font-size: 10px;
+    overflow: hidden;
+}
+.tabs-icon i {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: -15px;
+    font-size: 24px;
+}
+.tabs-icon a.active {
+    background-color: #ccc;
+}
+/* OVERWRITE MATERIAL CSS MIN WIDTH FOR MOBILE */
+.tabs .tab {
+    min-width: 50px !important
+}
+.tabs .tab-hide {
+      display: none;
+}
+.no-pd {
+    padding: 0 !important
+}
+

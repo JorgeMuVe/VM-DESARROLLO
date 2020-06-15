@@ -1,7 +1,6 @@
 /****** COMPONENTES ******/
 import React from 'react';
 import {withRouter} from 'react-router';
-import { GoogleLogin } from 'react-google-login';
 
 import Modal from './Modal';
 
@@ -21,17 +20,17 @@ import { ingresarSistema_DB } from '../DB/usuarioDB';
 const estadoInicial = {
     tipoUsuario:'cliente'
 };
+/*LOGIN DE GOOGLE*/
+import { GoogleLogin } from 'react-google-login';
 
 export class ModalIngreso extends React.Component {
     constructor(props){
         super(props);
         this.state = estadoInicial;
     }
-
     responseGoogle = (response) => {
         console.log(response);
-    }
-
+      }
 
     /* INGRESAR AL SISTEMA */
     ingresarSistema = (usuarioIngreso) => {
@@ -70,19 +69,19 @@ export class ModalIngreso extends React.Component {
                 <div className="modal_ingreso_tipo">
                     <span> Seleccione el tipo de Usuario!</span>
                     <div className="modal_ingreso_tipo_opciones">
-                        <div className={this.state.tipoUsuario==='cliente'?"boton_activo":"boton_inactivo"}
+                        <div style={{background:this.state.tipoUsuario==='cliente'?"#2ECC71":"#8b8b8b"}} 
                             onClick={()=>this.cambiarTipoUsuario('cliente')}>
                             <IconoUsuario fill="whitesmoke"/><label className="centrado">Cliente</label>
                         </div>
-                        <div className={this.state.tipoUsuario==='tienda'?"boton_activo":"boton_inactivo"}
+                        <div style={{background:this.state.tipoUsuario==='tienda'?"#2ECC71":"#8b8b8b"}} 
                             onClick={()=>this.cambiarTipoUsuario('tienda')}>
                             <IconoMercado fill="whitesmoke"/><label className="centrado">Tienda</label>
                         </div>
-                        <div className={this.state.tipoUsuario==='negocio'?"boton_activo":"boton_inactivo"}
+                        <div style={{background:this.state.tipoUsuario==='negocio'?"#2ECC71":"#8b8b8b"}} 
                             onClick={()=>this.cambiarTipoUsuario('negocio')}>
                             <IconoMercado fill="whitesmoke"/><label className="centrado">Negocio</label>
                         </div>
-                        <div className={this.state.tipoUsuario==='admin'?"boton_activo":"boton_inactivo"} 
+                        <div style={{background:this.state.tipoUsuario==='admin'?"#2ECC71":"#8b8b8b"}} 
                             onClick={()=>this.cambiarTipoUsuario('admin')}>
                             <IconoMercado fill="whitesmoke"/><label className="centrado">Admin</label>
                         </div>
@@ -117,10 +116,14 @@ export class ModalIngreso extends React.Component {
                             </div>
                         )}
                         buttonText="Login"
-                        onSuccess={this.responseGoogle}
-                        onFailure={this.responseGoogle}
+                        onSuccess={responseGoogle}
+                        onFailure={responseGoogle}
                         cookiePolicy={'single_host_origin'}
                     />
+                    <div className="ingreso_internet_boton" style={{backgroundColor:'#b63a2b'}}>
+                        <div className="centrado"><IconoGoogle fill="#d1d3d8"/></div>
+                        <label>Ingresaar con Google</label>
+                    </div>
                 </div>
             </form>
             </Modal>
