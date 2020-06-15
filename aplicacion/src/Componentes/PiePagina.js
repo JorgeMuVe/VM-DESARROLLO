@@ -27,27 +27,27 @@ export class PiePagina extends React.Component {
             <div className="PiePagina">
 
                 <div className="AtencionCliente">
-                    <label>Atencion al Cliente</label>
+                    <label className="texto_temaRojo">Atencion al Cliente</label>
                     <span><a href="##">Horarios de Atención</a></span>
                     <span><a href="##">Horarios de Atención</a></span>
                     <span><a href="##">Cambios y devoluciones</a></span>
                 </div>
 
                 <div className="PoliticasCondiciones">
-                    <label>Politicas y Condiciones</label>
+                    <label className="texto_temaRojo">Politicas y Condiciones</label>
                     <span><a href="##">Política de datos personales</a></span>
                     <span><a href="##">Condiciones de promociones</a></span>
                     <span><a href="##">Términos y condiciones</a></span>
                 </div>
 
                 <div className="Nosotros">
-                    <label>Nosotros</label>
+                    <label className="texto_temaRojo">Nosotros</label>
                     <span><a href="##">Conocénos</a></span>
                     <span><a href="##">Trabaja con nosotros</a></span>
                     <span><a href="##">Nuestras tiendas</a></span>
                 </div>
                 <div className="Comunicate">
-                    <label>Comunícate</label>
+                    <label className="texto_temaRojo">Comunícate</label>
                     <div className="comunitate_cuadro">
                         <div className="comunicate_cuadro_icono">
                             <div className="centrado"> <IconoTelContact fill="#fff"/></div>

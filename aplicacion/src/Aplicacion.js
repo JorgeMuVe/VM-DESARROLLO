@@ -4,7 +4,7 @@ import { listarProductoPorTipo_DB } from './DB/productoDB';
 /* *********  C O M P O N E N T E S   ************/
 import { BrowserRouter, Route, Switch } from 'react-router-dom'; // Libreria React-Router
 import React, { Component } from 'react';
-import Menu from './Componentes/Menu.js';
+import Menu from './Componentes/Menu2.js';
 import MenuUsuario from './Componentes/MenuUsuario';
 import MenuAplicacion from './Componentes/MenuAplicacion';
 import Contacto from './Componentes/Contacto';
@@ -278,6 +278,8 @@ export class Aplicacion extends Component {
           <Menu
             usuarioAplicacion={this.state.usuarioAplicacion}
             controlMenuAplicacion={this.controlMenuAplicacion}
+            cambiarCiudad={this.cambiarCiudad}
+            ciudad={this.state.ciudad}
             controlModalPedido={this.controlModalPedido}
             controlModalIngreso={this.abrirModalIngreso}
           >
@@ -301,19 +303,7 @@ export class Aplicacion extends Component {
           <Switch>
             
             <Route exact path="/" render={(props) => 
-              <Principal ciudad={"ciudad"} cambiarCiudad={this.cambiarCiudad}{...props}/>}>
-            </Route>
-
-            <Route path="/lima" render={(props)=>
-              <Principal ciudad={"lima"} cambiarCiudad={this.cambiarCiudad}{...props}/>}>
-            </Route>
-
-            <Route path="/cusco" render={(props)=>
-              <Principal ciudad={"cusco"} cambiarCiudad={this.cambiarCiudad}{...props}/>}>  
-            </Route>
-
-            <Route path="/arequipa" render={(props)=>
-              <Principal ciudad={"arequipa"} cambiarCiudad={this.cambiarCiudad}{...props}/>}>
+              <Principal seleccionarProductoCantidad={this.seleccionarProductoCantidad}{...props}/>}>
             </Route>
 
             <Route path="/registro" render={(props)=>

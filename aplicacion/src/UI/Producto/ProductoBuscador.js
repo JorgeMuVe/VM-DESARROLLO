@@ -2,9 +2,6 @@
 import React from 'react';
 import Paginado from '../../Componentes/Paginado';
 
-/***  I C O N O   S V G  ***/
-import IconoLupa from '../../SVG/IconoLupa';
-
 /***   F U N C I O N E S  ***/
 import { buscarProducto_DB } from '../../DB/productoDB';
 import { unidadMedidaProducto } from '../../Componentes/Funciones';
@@ -45,12 +42,13 @@ export class ProductoBuscador extends React.Component {
     buscarProductoTipo =()=> {
         const {ciudad,tipo,id} = this.props.match.params;
         const Buscador={
-            ciudad: ciudad||"cusco", tipo: tipo||"TODO",
+            ciudad1:ciudad,ciudad:"cusco",tipo: tipo||"TODO",
             texto: document.getElementById("textoBuscar").value||"_",id:id||0,
             inicio: (this.state.paginaActual-1)*this.state.productosPorPagina,
             cantidad: this.state.productosPorPagina
         };
-        this.props.history.push("/productos/buscador/"+Buscador.ciudad+"/"+Buscador.tipo+"/"+id+"/"+Buscador.texto);
+        //this.props.history.push("/productos/buscador/"+Buscador.ciudad+"/"+Buscador.tipo+"/"+id+"/"+Buscador.texto);
+        window.history.href="/productos/buscador/"+Buscador.ciudad+"/"+Buscador.tipo+"/"+id+"/"+Buscador.texto
         this.buscadorProducto(Buscador);
     }
 
@@ -104,13 +102,7 @@ export class ProductoBuscador extends React.Component {
         <div className="ProductoBuscador">
             <div className="centrado">
                 <div className="producto_buscador">
-
-                    <form className="principal_buscador_cuadro" style={{margin:"1px",padding:"2px"}} noValidate onSubmit={this.buscadorProductoBoton}>
-                        <div className="centrado"><IconoLupa/></div>
-                        <input type="text" id="textoBuscar" placeholder="Busca tu producto"/>
-                        <button type="submit">BUSCAR</button>
-                    </form>
-
+                  
                     <div className="centrado">
                         <Paginado
                             paginaActual={this.state.paginaActual}
@@ -125,7 +117,7 @@ export class ProductoBuscador extends React.Component {
                         <div className="centrar_lista">
                             <div className="lista_DiseñoProductos no-seleccionable">
                                 {(this.state.listaProductos || []).map((Dprod, i) =>
-                                    <div className="lista_DiseñoProductos_item" key={i} onClick={() => { this.redireccionar(Dprod.idDprod) }}>
+                                    <div className="lista_DiseñoProductos_item" key={i} onClick={()=>this.props.seleccionarProductoCantidad(Dprod)}>
                                         <div className="DiseñoProductos_item_imagen">
                                             <img className="imagenR" alt="Imagen Producto" width="255px" height="193px" src={Dprod.imagenProducto}></img>
                                         </div>
@@ -152,3 +144,14 @@ export class ProductoBuscador extends React.Component {
 
 export default ProductoBuscador;
 
+/*
+
+import IconoLupa from '../../SVG/IconoLupa';
+
+<form hidden="true" className="principal_buscador_cuadro" style={{margin:"1px",padding:"2px"}} noValidate onSubmit={this.buscadorProductoBoton}>
+    <div className="centrado"><IconoLupa/></div>
+    <input type="text" id="textoBuscar" placeholder="Busca tu producto"/>
+    <button type="submit">BUSCAR</button>
+</form>
+
+*/

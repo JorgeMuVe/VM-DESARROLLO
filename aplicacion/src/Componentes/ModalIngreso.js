@@ -64,19 +64,19 @@ export class ModalIngreso extends React.Component {
                 <div className="modal_ingreso_tipo">
                     <span> Seleccione el tipo de Usuario!</span>
                     <div className="modal_ingreso_tipo_opciones">
-                        <div style={{background:this.state.tipoUsuario==='cliente'?"#2ECC71":"#8b8b8b"}} 
+                        <div className={this.state.tipoUsuario==='cliente'?"boton_activo":"boton_inactivo"}
                             onClick={()=>this.cambiarTipoUsuario('cliente')}>
                             <IconoUsuario fill="whitesmoke"/><label className="centrado">Cliente</label>
                         </div>
-                        <div style={{background:this.state.tipoUsuario==='tienda'?"#2ECC71":"#8b8b8b"}} 
+                        <div className={this.state.tipoUsuario==='tienda'?"boton_activo":"boton_inactivo"}
                             onClick={()=>this.cambiarTipoUsuario('tienda')}>
                             <IconoMercado fill="whitesmoke"/><label className="centrado">Tienda</label>
                         </div>
-                        <div style={{background:this.state.tipoUsuario==='negocio'?"#2ECC71":"#8b8b8b"}} 
+                        <div className={this.state.tipoUsuario==='negocio'?"boton_activo":"boton_inactivo"}
                             onClick={()=>this.cambiarTipoUsuario('negocio')}>
                             <IconoMercado fill="whitesmoke"/><label className="centrado">Negocio</label>
                         </div>
-                        <div style={{background:this.state.tipoUsuario==='admin'?"#2ECC71":"#8b8b8b"}} 
+                        <div className={this.state.tipoUsuario==='admin'?"boton_activo":"boton_inactivo"} 
                             onClick={()=>this.cambiarTipoUsuario('admin')}>
                             <IconoMercado fill="whitesmoke"/><label className="centrado">Admin</label>
                         </div>
