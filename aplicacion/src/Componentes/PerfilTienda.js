@@ -76,14 +76,14 @@ export class PiePagina extends React.Component {
             <div className="PerfilTienda">
                 <div className="perfilBox">
                 <div className="tab">
-                    <a>
+                    <a href="##">
                         <div className="centrado">
                             <IconoGoogle fill="#d1d3d8"/>
                         </div>
                         <button className={this.state.tabActivo==="productos"?"tablinks active":"tablinks"} onClick={()=>this.mostrarTabTienda("productos")}>Productos</button>
                     </a>
 
-                    <a>
+                    <a href="##">
                         <div className="centrado">
                             <IconoGoogle fill="#d1d3d8"/>
                         </div>

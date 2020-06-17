@@ -477,7 +477,7 @@ background:rgba(0, 0, 0, 0);margin-top:-50px;}
 .Principal3{margin-top:50px;display:grid;grid-template-columns:250px 1fr 250px;}
 .principal_lateral{overflow:hidden;}
 .PrincipalCentral{display: flex;flex-direction: column;align-items: center;}
-.principal_central{width:980px;overflow:hidden;}
+.principal_central{max-width:700px;overflow:hidden;}
 .principal_central_opciones{background:white;display:flex;flex-direction:row;
     border:1px solid #fefe;box-shadow:10px 5px 10px 0 rgba(0, 0, 0, 0.5);border-radius:15px;}
 .principal_central_opciones div{display:grid;grid-template-columns:70px 1fr;align-items: center;padding:5px;}
@@ -490,7 +490,7 @@ background:rgba(0, 0, 0, 0);margin-top:-50px;}
 
 .principal3_publicidad{margin:20px auto;display:grid;grid-gap:10px;}
 .principal3_publicidad_lista_lateral{display:flex;flex-direction:column;height:800px;}
-.principal3_publicidad_lista_central{display:flex;width:3000px;}
+.principal3_publicidad_lista_central{display:flex;width:100%}
 
 .sliderVerticalAnimacion{animation:slideVertical 30s infinite alternate;}
 .sliderVerticalAnimacionInvert{animation:slideVerticalInvert 30s infinite alternate;}
@@ -541,9 +541,20 @@ background:rgba(0, 0, 0, 0);margin-top:-50px;}
 .opcion_menu a img{width:45px;}
 .eliminar_direccion{display:flex;justify-content:center;align-items: center;}
 
+@media screen and (max-width: 1600px) {
+    .principal3_publicidad_lista_lateralq{width:200px;}
+    .principal3_publicidad_lista_centralq{width:1500px;}
+}
+
+
 @media screen and (max-width: 1200px) {
     .PiePagina,.lista_restaurantes{grid-template-columns:repeat(2,1fr)}
     .principal_categoria_opciones{flex-direction:column;}
+    .principal3_publicidad_lista_centralq{width:1100px;}
+}
+
+@media screen and (max-width: 1000px) {
+    .principal3_publicidad_lista_centralq{width:900px;}
 }
 
 @media screen and (max-width: 800px) {
@@ -551,9 +562,12 @@ background:rgba(0, 0, 0, 0);margin-top:-50px;}
     .contacto_formulario_mensaje{grid-column:1;}
     .principal_categoria_opciones{flex-direction:column;}
     .lista_DiseñoProductos{grid-template-columns:repeat(2,1fr)}
+    
+    .principal3_publicidad_lista_lateralq{display:none;}
+    .principal3_publicidad_lista_centralq{width:600px;}
 }
 
-@media (max-width: 400px){
+@media (max-width: 450px){
     .modal_ventana{margin:50px auto;}
     .menu_items,.menu_usuario,.menu_aplicacion{width:90%;}
     .menu_item_ocultar{display:none;}

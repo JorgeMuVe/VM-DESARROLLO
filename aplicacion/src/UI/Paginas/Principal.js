@@ -5,7 +5,20 @@ import IconoSupermercado from '../../SVG/IconoPedido';
 
 
 /* VARIABLES GLOBALES */
-const estadoInicial = {};
+const estadoInicial = {
+    publicaciones1:[
+        {imagen:"/img/publicidad/comidas/burger.png",nombreProducto:'Burger'},
+        {imagen:"/img/publicidad/comidas/ceviche.jpg",nombreProducto:'ceviche'},
+        {imagen:"/img/publicidad/comidas/fastfood.jpg",nombreProducto:'fastfood'},
+        {imagen:"/img/publicidad/comidas/pollo.jpg",nombreProducto:'pollo'}
+    ],
+    publicaciones2:[
+        {imagen:"/img/publicidad/productos/banner-microsoft.jpg",nombreProducto:'microsoft'},
+        {imagen:"/img/publicidad/productos/empaquez.jpg",nombreProducto:'empaquez'},
+        {imagen:"/img/publicidad/productos/proteccion_web.jpg",nombreProducto:'proteccion_web'},
+        {imagen:"/img/publicidad/productos/venta_cuyes.jpg",nombreProducto:'venta_cuyes'}
+    ],
+};
 
 export class Principal extends React.Component {
     constructor(props){
@@ -50,20 +63,9 @@ export class Principal extends React.Component {
                             <div><IconoSupermercado fill="#fff"/><label>Ayuda y seguimiento en tu pedido. <a href="##"> Centro de ayuda</a></label></div>
                         </div>
                         <div className="principal3_publicidad" style={{marginTop:"10px"}}>
-                            <div className="principal3_publicidad_lista_central sliderHorizontalAnimacion">
-                                <div onClick={()=>this.buscarProducto("22")}><img src="/img/publicidad/comidas/burger.png" alt="img" width="100%" height="100%"></img></div>
-                                <div onClick={()=>this.buscarProducto("23")}><img src="/img/publicidad/comidas/ceviche.jpg" alt="img" width="100%" height="100%"></img></div>
-                                <div onClick={()=>this.buscarProducto("23")}><img src="/img/publicidad/comidas/fastfood.jpg" alt="img" width="100%" height="100%"></img></div>
-                                <div onClick={()=>this.buscarProducto("23")}><img src="/img/publicidad/comidas/pollo.jpg" alt="img" width="100%" height="100%"></img></div>
-                            </div>
-                        </div>
-                        <div className="principal3_publicidad">
-                            <div className="principal3_publicidad_lista_central sliderHorizontalAnimacionInvert">
-                                <div onClick={()=>this.buscarProducto("22")}><img src="/img/publicidad/productos/banner-microsoft.jpg" alt="img" width="100%" height="100%"></img></div>
-                                <div onClick={()=>this.buscarProducto("23")}><img src="/img/publicidad/productos/empaquez.jpg" alt="img" width="100%" height="100%"></img></div>
-                                <div onClick={()=>this.buscarProducto("23")}><img src="/img/publicidad/productos/proteccion_web.jpg" alt="img" width="100%" height="100%"></img></div>
-                                <div onClick={()=>this.buscarProducto("23")}><img src="/img/publicidad/productos/venta_cuyes.jpg" alt="img" width="100%" height="100%"></img></div>
-                            </div>
+                                {(this.state.publicaciones1||[]).map(p=>
+                                    <div><img onClick={()=>this.buscarProducto(p.nombreProducto)} src={p.imagen} alt="img" width="100%" height="100%"/></div>
+                                )}
                         </div>
                     </div>
                 </div>
@@ -141,5 +143,66 @@ import IconoMercado from '../../SVG/IconoMercado';
             </div>
         )
     }
+
+
+    return(
+            <div className="Principal3">
+                <div className="principal_lateral">
+                    <div className="principal3_publicidad">
+                        <div className="principal3_publicidad_lista_lateral sliderVerticalAnimacion">
+                            <div onClick={()=>this.buscarProducto("22")}><img src="/img/publicidad/cartas/chifa.jpg" alt="img" width="100%" height="100%"></img></div>
+                            <div onClick={()=>this.buscarProducto("23")}><img src="/img/publicidad/cartas/munaycha.jpg" alt="img" width="100%" height="100%"></img></div>
+                            <div onClick={()=>this.buscarProducto("23")}><img src="/img/publicidad/cartas/nattys.jpg" alt="img" width="100%" height="100%"></img></div>
+                            <div onClick={()=>this.buscarProducto("23")}><img src="/img/publicidad/cartas/sumaq.jpg" alt="img" width="100%" height="100%"></img></div>
+                        </div>
+                    </div>
+                </div>
+                <div className="PrincipalCentral">
+                    <div className="principal_central">
+                        <div className="principal_central_opciones">
+                            <div><IconoSupermercado fill="#fff"/><label>Fácil, rápido y seguro. <a href="##"> Cómo comprar</a></label></div>
+                            <span className="centrado"><span className="linea_vertical"></span></span>
+                            <div><IconoSupermercado fill="#fff"/><label>Información de medidas de Seguridad y Saneamiento. <a href="##"> Saber más</a></label></div>
+                            <span className="centrado"><span className="linea_vertical"></span></span>
+                            <div><IconoSupermercado fill="#fff"/><label>Paga con crédito o débito. <a href="##"> Ver promociones</a></label></div>
+                            <span className="centrado"><span className="linea_vertical"></span></span>
+                            <div><IconoSupermercado fill="#fff"/><label>Ayuda y seguimiento en tu pedido. <a href="##"> Centro de ayuda</a></label></div>
+                        </div>
+                        <div className="principal3_publicidad" style={{marginTop:"10px"}}>
+                            <div className="principal3_publicidad_lista_central sliderHorizontalAnimacion">
+                                {(this.state.publicaciones1||[]).map(p=>
+                                    <div><img onClick={()=>this.buscarProducto(p.nombreProducto)} src={p.imagen} alt="img" width="100%" height="100%"/></div>
+                                )}
+                            </div>
+                            
+                            <div className="principal3_publicidad_lista_central sliderHorizontalAnimacion">
+                                <div onClick={()=>this.buscarProducto("22")}><img src="/img/publicidad/comidas/burger.png" alt="img" width="100%" height="100%"></img></div>
+                                <div onClick={()=>this.buscarProducto("23")}><img src="/img/publicidad/comidas/ceviche.jpg" alt="img" width="100%" height="100%"></img></div>
+                                <div onClick={()=>this.buscarProducto("23")}><img src="/img/publicidad/comidas/fastfood.jpg" alt="img" width="100%" height="100%"></img></div>
+                                <div onClick={()=>this.buscarProducto("23")}><img src="/img/publicidad/comidas/pollo.jpg" alt="img" width="100%" height="100%"></img></div>
+                            </div>
+                        </div>
+                        <div className="principal3_publicidad">
+                            <div className="principal3_publicidad_lista_central sliderHorizontalAnimacionInvert">
+                                <div onClick={()=>this.buscarProducto("22")}><img src="/img/publicidad/productos/banner-microsoft.jpg" alt="img" width="100%" height="100%"></img></div>
+                                <div onClick={()=>this.buscarProducto("23")}><img src="/img/publicidad/productos/empaquez.jpg" alt="img" width="100%" height="100%"></img></div>
+                                <div onClick={()=>this.buscarProducto("23")}><img src="/img/publicidad/productos/proteccion_web.jpg" alt="img" width="100%" height="100%"></img></div>
+                                <div onClick={()=>this.buscarProducto("23")}><img src="/img/publicidad/productos/venta_cuyes.jpg" alt="img" width="100%" height="100%"></img></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="principal_lateral">
+                    <div className="principal3_publicidad">
+                        <div className="principal3_publicidad_lista_lateral sliderVerticalAnimacionInvert">                    
+                            <div onClick={()=>this.buscarProducto("23")}><img src="/img/publicidad/cartas/sumaq.jpg" alt="img" width="100%" height="100%"></img></div>
+                            <div onClick={()=>this.buscarProducto("23")}><img src="/img/publicidad/cartas/nattys.jpg" alt="img" width="100%" height="100%"></img></div>
+                            <div onClick={()=>this.buscarProducto("23")}><img src="/img/publicidad/cartas/munaycha.jpg" alt="img" width="100%" height="100%"></img></div>
+                            <div onClick={()=>this.buscarProducto("22")}><img src="/img/publicidad/cartas/chifa.jpg" alt="img" width="100%" height="100%"></img></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
 
 */
