@@ -119,7 +119,7 @@ export class ProductoBuscador extends React.Component {
                                 {(this.state.listaProductos || []).map((Dprod, i) =>
                                     <div className="lista_DiseñoProductos_item" key={i} onClick={()=>this.props.seleccionarProductoCantidad(Dprod)}>
                                         <div className="DiseñoProductos_item_imagen">
-                                            <img className="imagenR" alt="Imagen Producto" width="255px" height="193px" src={Dprod.imagenProducto}></img>
+                                            <img className="imagenR" alt="Imagen Producto" src={Dprod.imagenProducto}></img>
                                         </div>
                                         <div className="DiseñoProductos_item_datos">
                                             <h4 className="Dprod_nombreProducto">{Dprod.nombreProducto}</h4>

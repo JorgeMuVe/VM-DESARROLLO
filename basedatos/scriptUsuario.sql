@@ -95,27 +95,28 @@ IN `@tipoUsuario` VARCHAR(250)
 ) BEGIN
 
 SET @codigoUsuario = NULL;
+SET @tipoUsuario = '';
 
-IF EXISTS ( SELECT codigoUsuario FROM usuario WHERE nombreUsuario=`@nombreUsuario` AND contrasena=SHA1(`@contrasena`) AND tipoUsuario=`@tipoUsuario`) THEN
-	SELECT codigoUsuario INTO @codigoUsuario FROM usuario
+IF EXISTS ( SELECT codigoUsuario FROM usuario WHERE nombreUsuario=`@nombreUsuario` AND contrasena=SHA1(`@contrasena`)) THEN
+	SELECT codigoUsuario,tipoUsuario INTO @codigoUsuario,@tipoUsuario FROM usuario
 	WHERE nombreUsuario = `@nombreUsuario`;
 	
-    IF(`@tipoUsuario` = 'admin') THEN
+    IF(@tipoUsuario = 'admin') THEN
         SELECT n.nombreNegocio,n.descripcionNegocio,n.logo,n.correoNegocio,n.telefonoNegocio,u.tipoUsuario,u.codigoUsuario
         FROM negocio n INNER JOIN usuario u ON u.codigoUsuario = n.idNegocio AND u.tipoUsuario = 'admin'
         WHERE n.idNegocio = @codigoUsuario;
     END IF;
-	IF(`@tipoUsuario` = 'cliente') THEN
+	IF(@tipoUsuario = 'cliente') THEN
         SELECT c.nombreCompleto,c.apellidoPaterno,c.apellidoMaterno,u.tipoUsuario,u.codigoUsuario
         FROM cliente c INNER JOIN usuario u ON u.codigoUsuario = c.idCliente AND u.tipoUsuario = 'cliente'
         WHERE c.idCliente = @codigoUsuario;
     END IF;
-	IF(`@tipoUsuario` = 'negocio') THEN
+	IF(@tipoUsuario = 'negocio') THEN
         SELECT n.nombreNegocio,n.logo,n.correoNegocio,n.telefonoNegocio,u.tipoUsuario,u.codigoUsuario
         FROM negocio n INNER JOIN usuario u ON u.codigoUsuario = n.idNegocio AND u.tipoUsuario = 'negocio'
         WHERE n.idNegocio = @codigoUsuario;
     END IF;
-    IF(`@tipoUsuario` = 'tienda') THEN
+    IF(@tipoUsuario = 'tienda') THEN
 		SELECT t.nombreTienda,t.logo,t.correoTienda,t.telefonoTienda,u.tipoUsuario,u.codigoUsuario
         FROM tienda t INNER JOIN usuario u ON u.codigoUsuario = t.idTienda AND u.tipoUsuario = 'tienda'
         WHERE t.idTienda = @codigoUsuario;

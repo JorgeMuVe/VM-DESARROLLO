@@ -78,11 +78,7 @@ export class Menu extends React.Component {
                 
 
                 <div className="Menu2_superior">
-                    <div className="Menu2_superior_logo">
-                        <NavLink to="/">
-                            <label style={{textAlign:'center'}}>reactiva-peru.com</label>
-                        </NavLink>
-                    </div>
+                    <NavLink to="/" className="Menu2_superior_logo"></NavLink>
                     <div className="Menu2_superior_usuario">
                         <div onClick={()=>this.abrirModalPedido()}><IconoPedido fill="#fff"/></div>
                         <div><IconoNotificacion fill="linear-gradient(-45deg,#EE7752,#E51b1b)"/></div>                     
@@ -91,14 +87,14 @@ export class Menu extends React.Component {
                 </div>
                 <div className="Menu2_inferior">
                     <div className="Menu2_inferior_opciones">
-                        <div><NavLink to="/categoria/mercados"><span className="centrado"><IconoMercado fill="#fff"/></span><label style={{color:'white'}}>Mercados</label></NavLink></div>
-                        <div><NavLink to="/categoria/supermercados"><span className="centrado"><IconoSupermercado fill="#fff"/></span><label style={{color:'white'}}>Supermercados</label></NavLink></div>
-                        <div><NavLink to="/categoria/restaurantes"><span className="centrado"><IconoRestaurante fill="#fff"/></span><label style={{color:'white'}}>Restaurantes</label></NavLink></div>
+                        <div onClick={()=>this.props.cambiarCategoria("mercados")}><NavLink to="/categoria/mercados"><span className="centrado"><IconoMercado fill="#fff"/></span><label style={{color:'white'}}>Mercados</label></NavLink></div>
+                        <div onClick={()=>this.props.cambiarCategoria("supermercados")}><NavLink to="/categoria/supermercados"><span className="centrado"><IconoSupermercado fill="#fff"/></span><label style={{color:'white'}}>Supermercados</label></NavLink></div>
+                        <div onClick={()=>this.props.cambiarCategoria("restaurantes")}><NavLink to="/categoria/restaurantes"><span className="centrado"><IconoRestaurante fill="#fff"/></span><label style={{color:'white'}}>Restaurantes</label></NavLink></div>
                     </div>
                     <div className="Menu2_inferior_opciones">                    
-                        <div><NavLink to="/perfiltienda/:idTienda"><span className="centrado"><IconoAnuncios fill="url(#rojo_naranja)"/></span><label style={{color:'white'}}>Anuncios</label></NavLink></div>
-                        <div><NavLink to="/categoria/comercios"><span className="centrado"><IconoComercio fill="#fff"/></span><label style={{color:'white'}}>Comercios</label></NavLink></div>
-                        <div><NavLink to="/categoria/farmacias"><span className="centrado"><IconoFarmacia fill="#fff"/></span><label style={{color:'white'}}>Farmacias</label></NavLink></div>
+                        <div onClick={()=>this.props.cambiarCategoria("anuncios")}><NavLink to="/perfiltienda/:idTienda"><span className="centrado"><IconoAnuncios fill="url(#rojo_naranja)"/></span><label style={{color:'white'}}>Anuncios</label></NavLink></div>
+                        <div onClick={()=>this.props.cambiarCategoria("comercios")}><NavLink to="/categoria/comercios"><span className="centrado"><IconoComercio fill="#fff"/></span><label style={{color:'white'}}>Comercios</label></NavLink></div>
+                        <div onClick={()=>this.props.cambiarCategoria("farmacias")}><NavLink to="/categoria/farmacias"><span className="centrado"><IconoFarmacia fill="#fff"/></span><label style={{color:'white'}}>Farmacias</label></NavLink></div>
                     </div>
                 </div>
                 <div className="Menu2_buscador">

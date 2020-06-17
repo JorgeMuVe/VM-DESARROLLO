@@ -1,5 +1,6 @@
 /* ********   F U N C I O N E S ************ */
 import { listarProductoPorTipo_DB } from './DB/productoDB';
+import { listarNegociosPorTipo_DB,  } from './DB/negocioDB';
 
 /* *********  C O M P O N E N T E S   ************/
 import { BrowserRouter, Route, Switch } from 'react-router-dom'; // Libreria React-Router
@@ -45,6 +46,9 @@ const estadoInicial = {
   tipoMensaje: '',
 
   /**** DATOS DE APLICACION *******/
+  // Negocio
+  negocios:[],
+
   // Usuario
   mostrarModalIngreso: false,
   usuarioAplicacion: {
@@ -99,7 +103,30 @@ export class Aplicacion extends Component {
     });
   }
 
+  /******   CATEGORIAS  ******/
+  cambiarCategoria =(categoria)=> {
+    var idCategoria = this.verificarCategoria(categoria)
+    const Negocio = {idTipoNegocio:idCategoria}
+    listarNegociosPorTipo_DB(Negocio).then(res=>{
+      if(!res.error){ this.setState({negocios:res}) }
+      else { this.setState({negocios:{}}); console.log("ERROR >> "+res.error) }
+    });
+  }
 
+  verificarCategoria =(categoria)=> {
+    var idCategoria = 0;
+    switch (categoria) {
+        case "mercados": idCategoria=1; break;
+        case "restaurantes": idCategoria=2; break;
+        case "comercios": idCategoria=3; break;
+        case "supermercados": idCategoria=4; break;
+        case "farmacias": idCategoria=5; break;
+        case "servicios": idCategoria=6; break;
+        default: idCategoria=0; break;
+    }
+    return idCategoria;
+  }
+  
   /***************************************************************/
   /******   P   R   O   D   U   C   T   O    ******/
   /* OBTENER PRODUCTOS */
@@ -137,9 +164,6 @@ export class Aplicacion extends Component {
         productoSeleccionado["cantidadProducto"]=(parseFloat(productoSeleccionado.cantidadProducto||0) - 1).toFixed(2)
       }
     }
-    
-    //const { productoSeleccionado } = this.state;
-    //productoSeleccionado["cantidadProducto"] = evento.target.value;
     this.setState({ productoSeleccionado });
   }
 
@@ -187,7 +211,6 @@ export class Aplicacion extends Component {
       sessionStorage.removeItem('pedidoUsuario');
     });
   }
-
 
   /**********  A   P   L   I   C   A   C   I   O   N    ***********/
   
@@ -282,6 +305,7 @@ export class Aplicacion extends Component {
             ciudad={this.state.ciudad}
             controlModalPedido={this.controlModalPedido}
             controlModalIngreso={this.abrirModalIngreso}
+            cambiarCategoria={this.cambiarCategoria}
           >
             <MenuAplicacion
               mostrarMenuAplicacion={this.state.mostrarMenuAplicacion}/>
@@ -315,7 +339,7 @@ export class Aplicacion extends Component {
             </Route>
 
             <Route path="/categoria/:categoria" render={(props)=>
-              <Categorias {...props}/>}>
+              <Categorias negocios={this.state.negocios} cambiarCategoria={this.cambiarCategoria}{...props}/>}>
             </Route>
 
             <Route path="/perfiltienda/:idTienda" render={(props)=>

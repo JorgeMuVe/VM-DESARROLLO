@@ -1,31 +1,13 @@
 /* COMPONENTES */
 import React from 'react';
 
-/* FUNCIONES */
-import { listarNegociosPorTipo_DB,  } from '../../DB/negocioDB';
-
 /* VARIABLES GLOBALES */
-const estadoInicial = {
-    negocios:[],
-    idCategoria:0
-};
+const estadoInicial = {};
 
 export class Categorias extends React.Component {
     constructor(props){
         super(props);
         this.state = estadoInicial;
-    }
-
-    obtenerNegociosPorTipo =()=> {
-
-    }
-
-    obtenerCategoria =()=> {
-        const Negocio = {idTipoNegocio:this.state.idCategoria}
-        listarNegociosPorTipo_DB(Negocio).then(res=>{
-            if(!res.error){ this.setState({negocios:res}) }
-            else { console.log("ERROR >> "+res.error) }
-        });
     }
 
     verificarCategoria =(categoria)=> {
@@ -47,28 +29,26 @@ export class Categorias extends React.Component {
     } 
 
     abrirProductos =()=> {
-        const { idCategoria } = this.state;
+        const { categoria } = this.props.match.params;
+        var idCategoria = this.verificarCategoria(categoria);
         this.props.history.push("/productos/buscador/cusco/TIPONEGOCIO/"+idCategoria+"/_");
     }
 
     componentDidMount(){
-        const { categoria } = this.props.match.params;
-        var idCategoria = this.verificarCategoria(categoria)
-        if(idCategoria>0){
-            this.setState({idCategoria},()=>{
-                this.obtenerCategoria(idCategoria);
-            })
-        } else { this.props.history.push("/") }
+        if(this.props.negocios.length<1){
+            const { categoria } = this.props.match.params;
+            this.props.cambiarCategoria(categoria);
+        }
     }
 
     render(){
         return(
             <div className="PrincipalCategoria centrado">
                 <div className="principal_categoria">
-                    <label>{ (this.props.match.params.categoria||"categoria").toUpperCase() }</label>
-                    {(this.state.negocios||[]).length>0?
+                    <label className="texto_temaRojo">{ (this.props.match.params.categoria||"categoria").toUpperCase() }</label>
+                    {(this.props.negocios||[]).length>0?
                     <div className="principal_categoria_opciones">
-                        {(this.state.negocios||[]).map((negocio,i)=>{return(
+                        {(this.props.negocios||[]).map((negocio,i)=>{return(
                         <div key={i} onClick={()=>this.abrirTienda(negocio)} style={{
                             background:"linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url("+(negocio.logo)+")no-repeat center/cover",
                             textTransform:"capitalize",textAlign:"center"
