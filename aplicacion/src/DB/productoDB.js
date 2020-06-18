@@ -72,12 +72,24 @@ export function listarUnidadesProducto_DB(){
 }
 
 
+// LISTAR PRODUCTO POR CATEGORIA
+export function listarProductoPorCategoria_DB(Producto){ 
+    return new Promise((resolver,rechazar) => {
+        fetch(Url + "lista/categoria",{ // Fetch para consumir API de SERVER NODE JS
+            method:'POST',
+            body: JSON.stringify(Producto),
+            headers: new Headers({ 'Content-type':'application/json' })
+        })
+        .then(respuesta => resolver(respuesta.json()))
+        .catch(error => rechazar(error));
+    });
+}
 
 
 // LISTAR PRODUCTO POR TIPO
 export function listarProductoPorTipo_DB(Producto){ 
     return new Promise((resolver,rechazar) => {
-        fetch(Url + "listar.php",{ // Fetch para consumir API de SERVER NODE JS
+        fetch(Url + "listar",{ // Fetch para consumir API de SERVER NODE JS
             method:'POST',
             body: JSON.stringify(Producto),
             headers: new Headers({ 'Content-type':'application/json' })

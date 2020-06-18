@@ -84,13 +84,7 @@ export class Contacto extends React.Component {
                     </div>
                 </div>
 
-                <div className="contacto_informacion" style={{
-                        
-                        backgroundRepeat: "no-repeat",
-                        backgroundAttachment: "fixed",
-                        backgroundSize: "100%",
-                        backgroundImage: "rgba(76, 175, 80, 0.3)"
-                }}>
+                <div className="contacto_informacion">
 
                     <h3>FORMULARIO DE CONTACTO</h3>
                     <p>Te invitamos a contactarnos, te responderemos a la brevedad.</p>

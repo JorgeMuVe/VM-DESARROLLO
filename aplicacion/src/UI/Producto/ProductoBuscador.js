@@ -143,15 +143,3 @@ export class ProductoBuscador extends React.Component {
 }
 
 export default ProductoBuscador;
-
-/*
-
-import IconoLupa from '../../SVG/IconoLupa';
-
-<form hidden="true" className="principal_buscador_cuadro" style={{margin:"1px",padding:"2px"}} noValidate onSubmit={this.buscadorProductoBoton}>
-    <div className="centrado"><IconoLupa/></div>
-    <input type="text" id="textoBuscar" placeholder="Busca tu producto"/>
-    <button type="submit">BUSCAR</button>
-</form>
-
-*/

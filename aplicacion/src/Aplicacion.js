@@ -1,5 +1,5 @@
 /* ********   F U N C I O N E S ************ */
-import { listarProductoPorTipo_DB } from './DB/productoDB';
+import { listarProductoPorTipo_DB,buscarProducto_DB } from './DB/productoDB';
 import { listarNegociosPorTipo_DB,  } from './DB/negocioDB';
 
 /* *********  C O M P O N E N T E S   ************/
@@ -47,7 +47,8 @@ const estadoInicial = {
 
   /**** DATOS DE APLICACION *******/
   // Negocio
-  negocios:[],
+  categoriaNegocios:[],
+  categoriaProductos:[],
 
   // Usuario
   mostrarModalIngreso: false,
@@ -63,6 +64,10 @@ const estadoInicial = {
   mostrarModalCantidad: false,
   productoSeleccionado: {},
   productosPorTipo: [],
+
+  productosPaginaActual:1,
+  productosCantidadPaginas:1,
+  productosPorPagina:12,
 
   // Pedido Usuario
   mostrarModalPedido: false,
@@ -104,12 +109,59 @@ export class Aplicacion extends Component {
   }
 
   /******   CATEGORIAS  ******/
+  productosPaginaSiguiente =(categoria)=> {
+    console.log(categoria);
+    const { productosPaginaActual, productosCantidadPaginas } = this.state;
+    if(productosPaginaActual < productosCantidadPaginas) 
+      this.setState({productosPaginaActual:productosPaginaActual+1},()=>this.buscarProductoCategoria(categoria))
+  }
+
+  productosPaginaAtras =(categoria)=> {
+    const { productosPaginaActual } = this.state;
+    if(productosPaginaActual>1) this.setState({productosPaginaActual:productosPaginaActual-1},()=>this.buscarProductoCategoria(categoria))
+  }
+
   cambiarCategoria =(categoria)=> {
+    var categoriaNegocios=[];
+    var categoriaProductos=[];
+    var productosCantidadPaginas=1;
+
     var idCategoria = this.verificarCategoria(categoria)
-    const Negocio = {idTipoNegocio:idCategoria}
-    listarNegociosPorTipo_DB(Negocio).then(res=>{
-      if(!res.error){ this.setState({negocios:res}) }
-      else { this.setState({negocios:{}}); console.log("ERROR >> "+res.error) }
+    const Negocio = {idTipoNegocio:idCategoria};
+    const Buscador={
+      ciudad:"cusco",tipo:"TIPONEGOCIO",texto: "_",id:idCategoria,
+      inicio: (this.state.productosPaginaActual-1)*this.state.productosCantidadPaginas,
+      cantidad: this.state.productosPorPagina
+    };
+
+    listarNegociosPorTipo_DB(Negocio).then(resNegocio=>{
+      buscarProducto_DB(Buscador).then(resProducto=>{
+        if(!resNegocio.error){ categoriaNegocios = resNegocio };
+        if(!resProducto.error){ 
+          categoriaProductos = resProducto;
+          productosCantidadPaginas = (resProducto[0].cantidadProductos / this.state.productosPorPagina);
+          productosCantidadPaginas = Math.ceil(productosCantidadPaginas||1);
+        };
+        this.setState({productosCantidadPaginas,categoriaNegocios,categoriaProductos});
+      });
+    });
+  }
+
+  buscarProductoCategoria =(categoria)=> {
+    var idCategoria = this.verificarCategoria(categoria);
+    var productosCantidadPaginas=1;
+    const Buscador={
+      ciudad:"cusco",tipo:"TIPONEGOCIO",texto: "_",id:idCategoria,
+      inicio: (this.state.productosPaginaActual-1)*this.state.productosCantidadPaginas,
+      cantidad: this.state.productosPorPagina
+    };
+
+    buscarProducto_DB(Buscador).then(resProducto=>{
+      if(!resProducto.error){ 
+        productosCantidadPaginas = (resProducto[0].cantidadProductos / this.state.productosPorPagina);
+        productosCantidadPaginas = Math.ceil(productosCantidadPaginas||1);
+        this.setState({productosCantidadPaginas,categoriaProductos:resProducto});
+      };
     });
   }
 
@@ -339,7 +391,16 @@ export class Aplicacion extends Component {
             </Route>
 
             <Route path="/categoria/:categoria" render={(props)=>
-              <Categorias negocios={this.state.negocios} cambiarCategoria={this.cambiarCategoria}{...props}/>}>
+              <Categorias 
+                categoriaNegocios={this.state.categoriaNegocios}
+                categoriaProductos={this.state.categoriaProductos}
+                
+                paginaActual={this.state.productosPaginaActual}
+                cantidadPaginas={this.state.productosCantidadPaginas}
+                paginaSiguiente={this.productosPaginaSiguiente}
+                paginaAtras={this.productosPaginaAtras}
+                cambiarCategoria={this.cambiarCategoria}
+                seleccionarProductoCantidad={this.seleccionarProductoCantidad}{...props}/>}>
             </Route>
 
             <Route path="/perfiltienda/:idTienda" render={(props)=>
@@ -372,7 +433,7 @@ export class Aplicacion extends Component {
             </Route>
 
             <Route path="/productos/buscador/:ciudad/:tipo/:id/:texto" render={(props) =>
-              <ProductoBuscador agregarCanasta={this.agregarCanasta}seleccionarProductoCantidad={this.seleccionarProductoCantidad} {...props}/>}>
+              <ProductoBuscador seleccionarProductoCantidad={this.seleccionarProductoCantidad} {...props}/>}>
             </Route>
 
             <Route path="/productos/lista" render={(props) =>
