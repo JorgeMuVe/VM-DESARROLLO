@@ -22,21 +22,22 @@ export class MenuNegocio extends React.Component {
     
     render(){ //salirsistema
         return(
-            <div className="usuario_navegador" onClick={()=>this.props.controlMenuUsuario()}>
-                <NavLink className={"usuario_navegador_boton "+this.verificarPaginaActual("tiendas")}
+            <div className="menu_usuario_navegador" onClick={()=>this.props.controlMenuUsuario()}>
+                <NavLink className={"menu_usuario_navegador_boton "+this.verificarPaginaActual("tiendas")}
                     to="/usuario/negocio/tiendas">
                     <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
                     <label>Tiendas</label>
                 </NavLink>
-                <NavLink className={"usuario_navegador_boton "+this.verificarPaginaActual("cuenta")}
+                <NavLink className={"menu_usuario_navegador_boton "+this.verificarPaginaActual("cuenta")}
                     to="/usuario/negocio/cuenta">
                     <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
                     <label>Perfil</label>
                 </NavLink>
-                <div className="usuario_navegador_boton" onClick={()=>this.props.salirSistema()}>
+                <NavLink className="menu_usuario_navegador_boton" onClick={this.props.salirSistema}
+                    to='/'>
                     <div className="centrado"><IconoGoogle fill="#d1d3d8"/></div>
-                    <label>Salir </label>
-                </div>
+                    <label>Salir</label>
+                </NavLink>
             </div>
         )
     }

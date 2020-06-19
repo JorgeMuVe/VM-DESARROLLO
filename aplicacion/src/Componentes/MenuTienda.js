@@ -22,31 +22,32 @@ export class MenuTienda extends React.Component {
     
     render(){ //salirsistema
         return(
-            <div className="usuario_navegador" onClick={()=>this.props.controlMenuUsuario()}>
-                <NavLink className={"usuario_navegador_boton "+this.verificarPaginaActual("pedidos")}
+            <div className="menu_usuario_navegador" onClick={()=>this.props.controlMenuUsuario()}>
+                <NavLink className={"menu_usuario_navegador_boton "+this.verificarPaginaActual("pedidos")}
                     to="/usuario/tienda/pedidos">
                     <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
                     <label>Pedidos</label>
                 </NavLink>
-                <NavLink className={"usuario_navegador_boton "+this.verificarPaginaActual("ventas")}
+                <NavLink className={"menu_usuario_navegador_boton "+this.verificarPaginaActual("ventas")}
                     to="/usuario/tienda/ventas">
                     <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
                     <label>Ventas</label>
                 </NavLink>
-                <NavLink className={"usuario_navegador_boton "+this.verificarPaginaActual("productos")}
+                <NavLink className={"menu_usuario_navegador_boton "+this.verificarPaginaActual("productos")}
                     to="/usuario/tienda/productos">
                     <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
                     <label>Productos</label>
                 </NavLink>
-                <NavLink className={"usuario_navegador_boton "+this.verificarPaginaActual("cuenta")}
+                <NavLink className={"menu_usuario_navegador_boton "+this.verificarPaginaActual("cuenta")}
                     to="/usuario/tienda/cuenta">
                     <div className="centrado"> <IconoGoogle fill="#d1d3d8"/> </div>
                     <label>Perfil</label>
                 </NavLink>
-                <div className="usuario_navegador_boton" onClick={()=>this.props.salirSistema()}>
+                <NavLink className="menu_usuario_navegador_boton" onClick={this.props.salirSistema}
+                    to='/'>
                     <div className="centrado"><IconoGoogle fill="#d1d3d8"/></div>
-                    <label>Salir </label>
-                </div>
+                    <label>Salir</label>
+                </NavLink>
             </div>
         )
     }

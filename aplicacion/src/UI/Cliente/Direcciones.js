@@ -14,7 +14,7 @@ import { agregarDireccion_DB, editarDireccion_DB, paginadoDirecciones_DB } from 
 
 /* ICONOS */
 import IconoAgregar from '../../SVG/aplicacion/IconoAgregar';
-import IconoAtras from '../../SVG/aplicacion/IconoAtras';
+import IconoMenu from '../../SVG/aplicacion/IconoMenu';
 
 /* VARIABLES GLOBALES */
 let map;
@@ -169,7 +169,7 @@ export class ClienteDirecciones extends React.Component {
         return(
             <div className="ClienteDirecciones">
                 <div className="usuario_encabezado">
-                    <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
+                    <div className="usuario_encabezado_menu" onClick={this.props.controlMenuUsuario}><IconoMenu/></div>
                     <label> Mis Direcciones </label>
                     <div onClick={this.agregarDireccion}><IconoAgregar fill="#23A24D"/></div>
                 </div>

@@ -351,8 +351,6 @@ export class Aplicacion extends Component {
             abrirMensajeError={this.abrirMensajeError}>
           </ModalIngreso>
           <Menu
-            usuarioAplicacion={this.state.usuarioAplicacion}
-            controlMenuAplicacion={this.controlMenuAplicacion}
             cambiarCiudad={this.cambiarCiudad}
             ciudad={this.state.ciudad}
             controlModalPedido={this.controlModalPedido}

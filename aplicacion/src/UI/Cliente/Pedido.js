@@ -10,7 +10,7 @@ import { unidadMedidaProducto } from '../../Componentes/Funciones';
 /* ICONOS */
 import IconoSacarProducto from '../../SVG/IconoSacarPedido';
 import IconoPedidoVacio from '../../SVG/IconoPedidoVacio';
-import IconoAtras from '../../SVG/aplicacion/IconoAtras';
+import IconoMenu from '../../SVG/aplicacion/IconoMenu';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
@@ -66,7 +66,7 @@ export class ClientePedido extends React.Component {
         return(
             <div className="ClientePedido">
                 <div className="usuario_encabezado">
-                    <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
+                    <div className="usuario_encabezado_menu" onClick={this.props.controlMenuUsuario}><IconoMenu/></div>
                     <label> Mi Pedido </label>
                     <div onClick={this.props.history.goBack}></div>
                 </div>

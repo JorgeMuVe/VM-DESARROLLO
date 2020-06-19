@@ -9,7 +9,7 @@ import Modal from '../../Componentes/Modal';
 import Paginado from '../../Componentes/Paginado';
 
 /* ICONOS */
-import IconoAtras from '../../SVG/aplicacion/IconoAtras';
+import IconoMenu from '../../SVG/aplicacion/IconoMenu';
 
 /* FUNCIONES */
 import { obtenerUsuario, unidadMedidaProducto } from '../../Componentes/Funciones';
@@ -143,7 +143,7 @@ export class ClienteCompras extends React.Component {
         return(
             <div className="TiendaVentas">
                 <div className="usuario_encabezado">
-                    <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
+                    <div className="usuario_encabezado_menu" onClick={this.props.controlMenuUsuario}><IconoMenu/></div>
                     <label> Mis Compras </label>
                     <div onClick={this.props.history.goBack}></div>
                 </div>

@@ -21,7 +21,7 @@ import { guardarArchivo_DB } from '../../DB/archivoDB';
 
 /*** ICONO SVG ***/
 import IconoGoogle from '../../SVG/IconoGoogle';
-import IconoAtras from '../../SVG/aplicacion/IconoAtras';
+import IconoMenu from '../../SVG/aplicacion/IconoMenu';
 import IconoAgregar from '../../SVG/aplicacion/IconoAgregar';
 
 /*** VARIABLES GLOBALES ***/
@@ -191,7 +191,7 @@ export class Productos extends React.Component {
         return(
             <div className="TiendaProductos">
                 <div className="usuario_encabezado">
-                    <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
+                    <div className="usuario_encabezado_menu" onClick={this.props.controlMenuUsuario}><IconoMenu/></div>
                     <label> Mis Productos </label>
                     <div onClick={this.agregarProducto}><IconoAgregar fill="#23A24D"/></div>
                 </div>

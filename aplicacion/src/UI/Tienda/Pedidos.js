@@ -13,7 +13,7 @@ import { listarPedidoTienda_DB } from '../../DB/pedidoDB';
 import { listarDetallesPedidoTienda_DB } from '../../DB/detalleDB';
 
 /* ICONOS */
-import IconoAtras from '../../SVG/aplicacion/IconoAtras';
+import IconoMenu from '../../SVG/aplicacion/IconoMenu';
 
 /* VARIABLES GLOBALES */
 let map;
@@ -170,7 +170,7 @@ export class TiendaPedidos extends React.Component {
         return(
             <div className="TiendaPedidos">
                 <div className="usuario_encabezado">
-                    <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
+                    <div className="usuario_encabezado_menu" onClick={this.props.controlMenuUsuario}><IconoMenu/></div>
                     <label> Mis Pedidos </label>
                     <div onClick={this.props.history.goBack}></div>
                 </div>

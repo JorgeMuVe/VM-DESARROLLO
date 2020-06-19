@@ -131,9 +131,17 @@ color:white;letter-spacing:2px;font:bold 18px 'fontfamili';}
 .MenuAplicacion{width:100%;min-height:100vh;position:absolute;z-index:100;display:flex;justify-content:center;background:rgba(0,0,0,0.5);}
 .menu_aplicacion{width:60%;height:200px;display:flex;justify-content:flex-start;margin-top:45px;}
 .menu_aplicacion_opciones{box-shadow: 1px 1px 6px 0 rgba(0,0,0,0.8);width:150px;}
-.MenuUsuario{width:100%;min-height:100vh;position:absolute;z-index:100;display:flex;justify-content:center;background:rgba(0,0,0,0.5)}
-.menu_usuario{width:60%;height:200px;display:flex;justify-content:flex-end;margin-top:45px;}
-.menu_usuario_opciones{box-shadow: 1px 1px 6px 0 rgba(0,0,0,0.8);width:200px;}
+
+.MenuUsuario{width:100%;min-height:100vh;position:absolute;top:0;z-index:100;display:flex;justify-content:center;background:rgba(0,0,0,0.5)}
+.menu_usuario{width:60%;height:100%;display:flex;justify-content:flex-end;margin-top:20px;}
+.menu_usuario_opciones{width:130px;}
+.menu_usuario_navegador {background:white;box-shadow: 1px 1px 6px 0 rgba(0,0,0,0.4);}
+.menu_usuario_navegador_boton{display:flex;flex-direction:row;align-items:center;font-size:16px;padding:5px;color:#2f313a;}
+.menu_usuario_navegador_boton.activo label{color:#e51b1b;}.menu_usuario_navegador_boton.activo div svg{fill:#e51b1b;}
+.menu_usuario_navegador_boton div{width:20%;border-right:1px solid #d1d3d8;cursor:pointer;padding:2px;}
+.menu_usuario_navegador_boton label{padding-left:15px;width:80%;color:#2f313a;letter-spacing:1px;font-size:18px;cursor:pointer;}
+.menu_usuario_navegador_boton:hover label{ transition: 0.40s all ease-in-out;color:#e51b1b;}
+.menu_usuario_navegador_boton:hover div svg{ transition: 0.40s all ease-in-out;fill:#e51b1b;}
 
 .Principal{height:100vh;display:flex;flex-direction:column;
 background:rgba(0, 0, 0, 0);margin-top:-50px;}
@@ -195,17 +203,12 @@ background:rgba(0, 0, 0, 0);min-height:300px;}
     border-radius: 20px;}
 
 .usuario_componentes{display:grid;grid-template-columns:180px 1fr;grid-gap:20px;width:60%;min-height:300px;margin-top:60px;padding-bottom:50px;}
-.usuario_navegador {background:white;display:grid;grid-template-columns: repeat(1,1fr);height:200px;box-shadow: 1px 1px 6px 0 rgba(0,0,0,0.5);}
-.usuario_navegador_boton{display:flex;flex-direction:row;align-items:center;font-size:16px;}
-.usuario_navegador_boton.activo label{color:#e51b1b;}.usuario_navegador_boton.activo div svg{fill:#e51b1b;}
-.usuario_navegador_boton div{width:20%;height:35px;border-right:1px solid #d1d3d8;cursor:pointer;}
-.usuario_navegador_boton label{padding-left:15px;width:80%;color:#2f313a;letter-spacing:1px;font-size:18px;cursor:pointer;}
-.usuario_navegador_boton:hover label{ transition: 0.40s all ease-in-out;color:#e51b1b;}
-.usuario_navegador_boton:hover div svg{ transition: 0.40s all ease-in-out;fill:#e51b1b;}
+.usuario_componentes_menu{width:10%;height:100%;display:flex;justify-content:flex-end;margin-top:240px}
 .usuario_paginas {background: white; box-shadow: 1px 1px 6px 0 rgba(0,0,0,0.5);padding: 10px;}
 .usuario_encabezado{display:flex;flex-direction:row;justify-content:space-between;align-items:center;margin-top:10px;}
-.usuario_encabezado svg{width:25px;height:25px;cursor:pointer;}
+.usuario_encabezado_menu svg{width:25px;height:25px;cursor:pointer;display:none;}
 .usuario_encabezado label{text-align:center;font:bold 4vh 'Fira Sans';letter-spacing:2px;color:#e51b1b}
+
 .usuario_tabla {padding:0px 10px;display:flex;flex-direction:column;}.usuario_tabla table{width:80%;}
 .usuario_tabla_paginado {padding:2px;margin:5px;}
 .usuario_datos {display:grid;grid-gap:20px;}
@@ -593,6 +596,7 @@ background:rgba(0, 0, 0, 0);min-height:300px;}
     .usuario_componentes{grid-template-columns:1fr;width:95%;}
     .usuario_menu{display:none;}
     .usuario_encabezado{grid-template-columns:1fr;}
+    .usuario_encabezado_menu svg{display:inline;}
     .usuario_tabla table{width:100%;}
     .negocio_tienda_datos{width:300px;}
     .principal_categoria_opciones{flex-direction:column;}

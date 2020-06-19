@@ -5,7 +5,7 @@
 
 /* COMPONENTES */
 import React from 'react';
-import { Route } from 'react-router-dom'; // Libreria React-Router
+import { Route,Redirect } from 'react-router-dom'; // Libreria React-Router
 
 import MenuCliente from '../../Componentes/MenuCliente';
 import Direcciones from './Direcciones';
@@ -19,7 +19,9 @@ import Cuenta from './Cuenta';
 /* ICONOS */
 
 /* VARIABLES GLOBALES */
-const estadoInicial = {};
+const estadoInicial = {
+    abrirMenu:false
+};
 
 export class Cliente extends React.Component {
     constructor(props){
@@ -27,14 +29,18 @@ export class Cliente extends React.Component {
         this.state = estadoInicial;
     }
 
-    componentDidMount(){
-        var ruta = this.props.match.params.ruta==="_"?"pedido":this.props.match.params.ruta;
-        this.props.history.push("/usuario/cliente/"+ruta);
-    }
+    controlMenuUsuario =()=> this.setState({abrirMenu:!this.state.abrirMenu})
     
     render(){
         return(
-            <div className="Cliente centrado">
+            <div className="Cliente centrado">                    
+                <div className={this.state.abrirMenu?"MenuUsuario":"ocultar"} onClick={()=>this.controlMenuUsuario()}>
+                    <div className="usuario_componentes_menu">
+                        <MenuCliente 
+                            controlMenuUsuario={this.controlMenuUsuario} 
+                            salirSistema={this.props.salirSistema}/>
+                    </div>
+                </div>
 
                 <div className="usuario_componentes">
                     <div className="usuario_menu">
@@ -44,13 +50,31 @@ export class Cliente extends React.Component {
                     </div>
 
                     <div className="usuario_paginas">
+                        <Route path="/usuario/cliente/pedido" render={(props)=> 
+                            <Pedido {...props}
+                                controlMenuUsuario={this.controlMenuUsuario}
+                                sacarProducto={this.props.sacarProducto}/>}>
+                        </Route>
 
-                        <Route path="/usuario/cliente/pedido" render={(props)=> <Pedido sacarProducto={this.props.sacarProducto} {...props}/>}/>
-                        <Route path="/usuario/cliente/confirmar" render={(props)=> <Confirmar confirmarPedido={this.props.confirmarPedido}{...props}/>}/>
-                        <Route path="/usuario/cliente/compras" render={(props)=> <Compras {...props}/>}/>
-                        <Route path="/usuario/cliente/direcciones" component={Direcciones}/>
-                        <Route path="/usuario/cliente/cuenta" render={(props)=> <Cuenta {...props}/>}/>
+                        <Route path="/usuario/cliente/confirmar" render={(props)=> 
+                            <Confirmar {...props}
+                                controlMenuUsuario={this.controlMenuUsuario}
+                                confirmarPedido={this.props.confirmarPedido}/>}>
+                        </Route>
 
+                        <Route path="/usuario/cliente/compras" render={(props)=>
+                            <Compras controlMenuUsuario={this.controlMenuUsuario}{...props}/>}>
+                        </Route>
+
+                        <Route path="/usuario/cliente/direcciones" render={(props)=>
+                            <Direcciones controlMenuUsuario={this.controlMenuUsuario}{...props}/>}>
+                        </Route>
+
+                        <Route path="/usuario/cliente/cuenta" render={(props)=>
+                            <Cuenta controlMenuUsuario={this.controlMenuUsuario} {...props}/>}>    
+                        </Route>
+
+                        <Redirect from="/usuario/cliente/_" to="/usuario/cliente/pedido"/>
                     </div>
                 </div>
             </div>

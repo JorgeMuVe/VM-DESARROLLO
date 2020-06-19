@@ -12,7 +12,7 @@ import { editarTienda_DB,listarTiposNegocio_DB } from '../../DB/tiendaDB';
 import { obtenerUsuario } from '../../Componentes/Funciones';
 
 /*** ICONO SVG ***/
-import IconoAtras from '../../SVG/aplicacion/IconoAtras';
+import IconoMenu from '../../SVG/aplicacion/IconoMenu';
 import IconoUsuario from '../../SVG/IconoUsuario';
 import IconoGoogle from '../../SVG/IconoGoogle';
 
@@ -147,7 +147,7 @@ export class TiendaPerfil extends React.Component {
         return(
             <div className="TiendaPerfil">
                 <div className="usuario_encabezado">
-                    <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
+                    <div className="usuario_encabezado_menu" onClick={this.props.controlMenuUsuario}><IconoMenu/></div>
                     <label> Mis Datos </label>
                     <div onClick={this.props.history.goBack}></div>
                 </div>

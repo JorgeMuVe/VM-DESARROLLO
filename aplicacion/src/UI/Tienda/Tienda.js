@@ -5,7 +5,8 @@
 
 /***  COMPONENTES  ***/
 import React from 'react';
-import { Route } from 'react-router-dom'; // Libreria React-Router
+import { Route,Redirect } from 'react-router-dom'; // Libreria React-Router
+
 import MenuTienda from '../../Componentes/MenuTienda';
 import Productos from './Productos';
 import Pedidos from './Pedidos';
@@ -17,7 +18,9 @@ import Cuenta from './Cuenta';
 /***   ICONOS   ***/
 
 /***  VARIABLES GLOBALES  ***/
-const estadoInicial = {};
+const estadoInicial = {
+    abrirMenu:false
+};
 
 export class Tienda extends React.Component {
     constructor(props){
@@ -25,14 +28,18 @@ export class Tienda extends React.Component {
         this.state = estadoInicial;
     }
 
-    componentDidMount(){
-        var ruta = this.props.match.params.ruta==="_"?"pedidos":this.props.match.params.ruta;
-        this.props.history.push("/usuario/tienda/"+ruta);
-    }
+    controlMenuUsuario =()=> this.setState({abrirMenu:!this.state.abrirMenu})
 
     render(){
         return(
             <div className="Tienda centrado">
+                <div className={this.state.abrirMenu?"MenuUsuario":"ocultar"} onClick={()=>this.controlMenuUsuario()}>
+                    <div className="usuario_componentes_menu">
+                        <MenuTienda 
+                            controlMenuUsuario={this.controlMenuUsuario} 
+                            salirSistema={this.props.salirSistema}/>
+                    </div>
+                </div>
 
                 <div className="usuario_componentes">
 
@@ -43,11 +50,21 @@ export class Tienda extends React.Component {
 
                     <div className="usuario_paginas">
 
-                        <Route path="/usuario/tienda/pedidos" render={(props)=> <Pedidos {...props}/>}/>
-                        <Route path="/usuario/tienda/ventas" render={(props)=> <Ventas {...props}/>}/>
-                        <Route path="/usuario/tienda/productos" render={(props)=> <Productos {...props}/>}/>
-                        <Route path="/usuario/tienda/cuenta" render={(props)=> <Cuenta {...props}/>}/>
+                        <Route path="/usuario/tienda/pedidos" render={(props)=>
+                            <Pedidos controlMenuUsuario={this.controlMenuUsuario}{...props}/>}>
+                        </Route>
+                        <Route path="/usuario/tienda/ventas" render={(props)=>
+                            <Ventas controlMenuUsuario={this.controlMenuUsuario}{...props}/>}>
+                        </Route>
+                        <Route path="/usuario/tienda/productos" render={(props)=>
+                            <Productos controlMenuUsuario={this.controlMenuUsuario}{...props}/>}>
+                        </Route>
 
+                        <Route path="/usuario/tienda/cuenta" render={(props)=>
+                            <Cuenta controlMenuUsuario={this.controlMenuUsuario}{...props}/>}>
+                        </Route>
+
+                        <Redirect from="/usuario/tienda/_" to="/usuario/tienda/pedidos"/>
                     </div>
 
                 </div>

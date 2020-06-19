@@ -10,7 +10,7 @@ import React from 'react';
 import { obtenerUsuario } from '../../Componentes/Funciones';
 
 /* ICONOS */
-import IconoAtras from '../../SVG/aplicacion/IconoAtras';
+import IconoMenu from '../../SVG/aplicacion/IconoMenu';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
@@ -39,7 +39,7 @@ export class NegocioVentas extends React.Component {
         return(
             <div className="NegocioVentas">
                 <div className="usuario_encabezado">
-                    <div onClick={this.props.history.goBack}><IconoAtras fill="#e51b1b"/></div>
+                    <div className="usuario_encabezado_menu" onClick={this.props.controlMenuUsuario}><IconoMenu/></div>
                     <label> Ventas Registradas </label>
                     <div onClick={this.props.history.goBack}></div>
                 </div>
