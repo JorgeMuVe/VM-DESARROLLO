@@ -42,7 +42,6 @@
     font-weight: bold;
   }
   
-  
   /* Crear Tab Principal */
   .tab button.active {
     background-color: #ccc;

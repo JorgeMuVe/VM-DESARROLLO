@@ -31,8 +31,7 @@ export class ModalIngreso extends React.Component {
     responseGoogle = (response) => {
         console.log(response);
     }
-
-
+    
     /* INGRESAR AL SISTEMA */
     ingresarSistema = (usuarioIngreso) => {
         ingresarSistema_DB(usuarioIngreso).then(res => {
