@@ -149,19 +149,20 @@ export class Aplicacion extends Component {
 
   buscarProductoCategoria =(categoria)=> {
     var idCategoria = this.verificarCategoria(categoria);
-    var productosCantidadPaginas=1;
-    const Buscador={
-      ciudad:"cusco",tipo:"TIPONEGOCIO",texto: "_",id:idCategoria,
-      inicio: (this.state.productosPaginaActual-1)*this.state.productosCantidadPaginas,
-      cantidad: this.state.productosPorPagina
-    };
+    const Buscador={ ciudad:"cusco",tipo:"TIPONEGOCIO",texto: "_",id:idCategoria};
+    this.buscadorProducto(Buscador);
+  }
 
-    buscarProducto_DB(Buscador).then(resProducto=>{
-      if(!resProducto.error){ 
-        productosCantidadPaginas = (resProducto[0].cantidadProductos / this.state.productosPorPagina);
-        productosCantidadPaginas = Math.ceil(productosCantidadPaginas||1);
-        this.setState({productosCantidadPaginas,categoriaProductos:resProducto});
-      };
+  /****  B U S Q U E D A   ****/
+  buscadorProducto =(Buscador)=> {
+    Buscador["inicio"]=(this.state.productosPaginaActual-1)*this.state.productosCantidadPaginas;
+    Buscador["cantidad"]=this.state.productosPorPagina;
+    buscarProducto_DB(Buscador).then(res=>{
+        if(!res.error){
+            var productosCantidadPaginas = (res[0].cantidadProductos / this.state.productosPorPagina);
+            productosCantidadPaginas = Math.ceil(productosCantidadPaginas||1);
+            this.setState({productosCantidadPaginas,categoriaProductos:res})
+        }else { this.setState({productosCantidadPaginas:1,categoriaProductos:[]}) }
     });
   }
 
@@ -352,6 +353,7 @@ export class Aplicacion extends Component {
           </ModalIngreso>
           <Menu
             cambiarCiudad={this.cambiarCiudad}
+            //buscadorProducto={this.buscadorProducto}
             ciudad={this.state.ciudad}
             controlModalPedido={this.controlModalPedido}
             controlModalIngreso={this.abrirModalIngreso}

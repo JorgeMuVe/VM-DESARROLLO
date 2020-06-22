@@ -49,12 +49,10 @@ export class Menu extends React.Component {
         const {ciudad} = this.props;
         const Buscador={
             ciudad1:ciudad,ciudad:"cusco", tipo: "TODO",
-            texto: document.getElementById("textoBuscar").value||"_",id:0,
-            inicio: (this.state.paginaActual-1)*this.state.productosPorPagina,
-            cantidad: this.state.productosPorPagina
+            texto: document.getElementById("textoBuscar").value||"_",id:0
         };
         this.props.history.push("/productos/buscador/"+Buscador.ciudad+"/"+Buscador.tipo+"/"+Buscador.id+"/"+Buscador.texto);
-        this.buscadorProducto(Buscador);
+        this.props.buscadorProducto(Buscador);
     }
 
     buscadorProducto =(Buscador)=> {
@@ -99,7 +97,7 @@ export class Menu extends React.Component {
                 </div>
                 <div className="Menu2_buscador">
                     <div className="centrado">
-                        <form className="Menu2_buscador_cuadro" noValidate onSubmit={this.buscadorProductoBoton}>
+                        <form className="Menu2_buscador_cuadro" noValidate onSubmit={this.buscarProductoTipo}>
                             <select id="nombreCiudad" onChange={()=>this.cambiarCiudad()} defaultValue={this.props.ciudad||"ciudad"}>
                                 <option value="cusco">CIUDAD</option>
                                 <option value="cusco">CUSCO</option>

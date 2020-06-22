@@ -15,7 +15,7 @@ import IconoTwitter from '../SVG/IconoTwitter';
 import IconoGoogle from '../SVG/IconoGoogle';
 
 /****** FUNCIONES *****/
-import { ingresarSistema_DB } from '../DB/usuarioDB';
+import { ingresarSistema_DB, agregarUsuario_DB} from '../DB/usuarioDB';
 
 /* VARIABLES GLOBALES */
 const estadoInicial = {
@@ -30,6 +30,33 @@ export class ModalIngreso extends React.Component {
 
     responseGoogle = (response) => {
         console.log(response);
+        if(response){
+            this.agregarUsuarioGoogle(response);
+        }
+    }
+
+    /* DATOS Y REGISTRO DE USUARIO*/
+    agregarUsuarioGoogle = (response) => {
+        var nuevoUsuario = {
+            registroNacional: '',
+            nombreCompleto: response.profileObj.givenName,
+            apellidoPaterno: response.profileObj.familyName,
+            apellidoMaterno: '',
+            telefonoCliente: '',
+            nombreUsuario: response.profileObj.email,
+            contrasena: response.profileObj.googleId,
+            tipoUsuario: 'cliente'
+
+        };   
+        agregarUsuario_DB(nuevoUsuario).then(res => {
+            if (!res.error) {
+                this.setState({ usuarioAplicacion: res }, () => {
+                    sessionStorage.setItem('usuarioAplicacion',JSON.stringify(res));
+                    this.props.history.push("/usuario/"+res.tipoUsuario+"/_");
+                    this.props.ingresarSistema(res);
+                });
+            } else { this.props.abrirMensajeError(4000, res.error) }
+        })
     }
     
     /* INGRESAR AL SISTEMA */
