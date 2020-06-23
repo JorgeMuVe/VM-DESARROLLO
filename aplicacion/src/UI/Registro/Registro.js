@@ -47,42 +47,42 @@ export class Registro extends React.Component {
                 <div className={"centrado " + (mostrarConfirmar ? "ocultar" : "")}>
                     <form className="registroDatos" validate="true" onSubmit={this.pasarConfirmacion}>
                         <p className="pRegistro">Ingresa tus datos para que puedas formar parte de esta gran tienda virtual.</p>
-                        <div class="nombresRegistro">
+                        <div className="nombresRegistro">
                             <span><IconoUsuarioRegistro /></span>
                             <input className="inNombresRegistro" required id="nombreCompleto" placeholder="Nombres" />
                         </div>
                         <div className="apellidosRegistro">
-                            <div class="ApPatRegistro">
+                            <div className="ApPatRegistro">
                                 <span><IconoUsuarioRegistro /></span>
                                 <input className="inApPatRegistro" required id="apellidoPaterno" placeholder="Apellido Paterno" />
                             </div>
-                            <div class="ApMatRegistro">
+                            <div className="ApMatRegistro">
                                 <span><IconoUsuarioRegistro /></span>
                                 <input className="inApMatRegistro" required id="apellidoMaterno" placeholder="Apellido Materno" />
                             </div>
                         </div>
                         <div className="dniTelefono">
-                            <div class="dniRegistro">
+                            <div className="dniRegistro">
                                 <span><IconoDNIRegistro /></span>
                                 <input className="inDNIRegistro" required id="registroNacional" placeholder="DNI" />
                             </div>
-                            <div class="telefonoRegistro">
+                            <div className="telefonoRegistro">
                                 <span><IconoTelefonoRegistro /></span>
                                 <input className="inTelefonoRegistro" required id="telefonoCliente" type="text" placeholder="Telefono" />
                             </div>
                         </div>
-                        <div class="checkboxsRegistro">
+                        <div className="checkboxsRegistro">
                             <div>
-                                <input required type="checkbox" class="terminosRegistro" />
+                                <input required type="checkbox" className="terminosRegistro" />
                                 <span> Acepto <a href="##" target="_blank"> Términos y Condiciones </a> y la <a href="##" target="_blank">Política de Privacidad y Tratamiento de Datos Personales</a> </span>
                             </div>
                             <div>
-                                <input type="checkbox" class="UsoInfoRegistro" />
+                                <input type="checkbox" className="UsoInfoRegistro" />
                                 <span> Acepto el uso de mi información para <a href="##" target="_blank">fines promocionales</a> <br /></span>
                             </div>
                         </div>
-                        <div class="centrado">
-                            <button class="botonRegistro" type="submit">Registrarme</button>
+                        <div className="centrado">
+                            <button className="botonRegistro" type="submit">Registrarme</button>
                         </div>
                         <hr></hr>
                         <span className="oic">Ingresá con</span>

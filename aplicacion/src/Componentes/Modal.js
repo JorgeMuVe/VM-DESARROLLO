@@ -10,7 +10,7 @@ const Modal = ( {mostrarModal,controlModal,tituloModal,children} ) => {
                 <hr />
                 <div className="centrado">{ children }</div>
             </div>
-      </div>
+        </div>
     )}
     return null;
 }

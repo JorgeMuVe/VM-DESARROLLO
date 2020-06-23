@@ -30,7 +30,10 @@ input[type=number]{-moz-appearance:textfield;}
 .boton_cerrar{cursor:pointer;border:solid 2px #e51b1b;color:#e51b1b;border-radius:8px;text-align:center;width:20px;height:20px;justify-self:end;font-weight:bold;margin-left:10px;}
 .boton_cerrar:hover,.boton_cerrar:focus{color:red;border-color:red;}
 
-.ModalIngreso,.modal_ingreso_tipo {display:grid;grid-gap:10px;}
+.ModalIngreso{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.5);}
+.modal_ingreso{background:whitesmoke;margin:70px auto;padding:15px;border-radius:4px;width:max-content;box-shadow:10px 5px 10px 0 rgba(0, 0, 0, 0.5);}
+.modal_ingreso,.modal_ingreso_tipo {display:grid;grid-gap:18px;}
+
 .modal_ingreso_tipo span{color:#e51b1b;font:400 18px 'Fira Sans';}
 .modal_ingreso_tipo_opciones{background:#eeeeee;padding:10px;border:solid 1px #d1d3d8;display:grid;grid-gap:20px;grid-template-columns:repeat(2,1fr);}
 .modal_ingreso_tipo_opciones div{
@@ -55,21 +58,45 @@ input[type=number]{-moz-appearance:textfield;}
     background: white;}
 .modal_ingreo_datos div svg{width:20px;height:20px;margin-right:3px;}
 .modal_ingreo_datos div input{width:100%;border-style:none;height:100%;background:white;font-size:15px;}
-.modal_ingreso_opciones {display:grid;grid-gap:20px;}
+.modal_ingreso_opciones {display:grid;grid-gap:10px;}
 .modal_ingreso_opciones div a {color: #2ECC71;}
-.modal_ingreso_opciones div button {
-    width:90%;height:35px;
-    border-radius:3px;
-    background-color:#e51b1b;
-    border: 1px solid #d1d3d8;
-    color:whitesmoke;
-    letter-spacing: 4px;
-    font-weight: bold;
-    font-size: 14px;}
+.modal_ingreso_opciones button{    
+    color:whitesmoke;background:linear-gradient(to right, #ff4b2b, #ff416c);
+    letter-spacing:3px;font-weight:bold;font-size:14px;
+    border-radius:10px;border:1px solid #d1d3d8;}
+.modal_ingreso_opciones_ingresar{width:90%;height:35px;}
+.modal_ingreso_opciones_salir{width:30%;height:30px;}
+.modal_ingreso_internet {display:flex;justify-content:space-evenly;}
+.ingreso_internet_boton{align-items:center;cursor:pointer;font-size:16px;padding:10px;border-radius:50%;}
+.modal_ingreso_tipo_cuadro{
+    width:240px; margin:10px auto; position: relative;
+    box-shadow:0 0 3px 1px #ff4b2b; border-radius: 30px;}
+.toggle-btn,.toggle-btn-activo{
+    font:600 15px 'Fira Sans';
+    padding:10px 30px;color:#ff4b2b;
+    cursor:pointer;background:transparent;
+    border:0;outline:none;position:relative;}
+.toggle-btn-activo{color:#fff;}
+#btn{
+    top:0;left:0;position: absolute;
+    width:120px;height:100%;
+    background:linear-gradient(to right, #ff4b2b, #ff416c);
+    border-radius: 50px;transition:.5s;}
+
+
+/*
+.boton_habilitado{position:relative;display:flex;height:40px;width:100%;}.boton_habilitado input{display:none;} 
+.boton_deslizar{background-color:#ccc;bottom:0;cursor:pointer;left:0;position:absolute;right:0;top:0;transition:.4s;}
+.boton_deslizar:before{position:absolute;content:"";bottom:2px;left:1px;background-color:#fff;transition:.4s;width:20px;height:20px;}
+.boton_deslizar.redondo{border-radius:34px;}.boton_deslizar.redondo:before{border-radius:50%;}
+input:checked+.boton_deslizar{background-color:#66bb6a;}input:checked+.boton_deslizar:before{transform:translateX(26px);}
+
+
 .modal_ingreso_internet {display:grid;grid-gap:15px;}
 .ingreso_internet_boton{display:flex;flex-direction:row;background:#e51b1b;align-items:center;cursor:pointer;font-size:16px;}
 .ingreso_internet_boton div{width:20%;height:35px;border-right:1px solid #fff;}
 .ingreso_internet_boton label{padding-left:15px;width:100%;color:whitesmoke;letter-spacing:1px;}
+*/
 
 .ModalCantidad{display:grid;grid-gap:10px;text-align: center;}
 .ModalCantidad img{max-width:320px;max-height:320px;}
@@ -465,7 +492,7 @@ background:rgba(0, 0, 0, 0);min-height:300px;}
 
 
 
-.Menu2_buscador{background:#17202A;z-index:1;}
+.Menu2_buscador{background:#17202A;}
 .Menu2_buscador_cuadro{display:flex;flex-direction:row;justify-content:center;padding:5px;border:0px solid #3f1919;border-radius:0px 0px 50px 50px;width:50%;color:#cecece;}
 .Menu2_buscador_cuadro select{padding:0px 10px;border-style:none;border-radius:50px 0px 0px 50px;text-align-last:center;
     font-size:17px;color:white;background:linear-gradient(-45deg,#ee6e6e,#E51b1b,#ee6e6e);}
