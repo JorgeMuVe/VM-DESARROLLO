@@ -73,8 +73,6 @@ export class Menu extends React.Component {
     render(){
         return(
             <div className="Menu2">
-                
-
                 <div className="Menu2_superior">
                     <NavLink to="/" className="Menu2_superior_logo"></NavLink>
                     <div className="Menu2_superior_usuario">

@@ -111,7 +111,7 @@ export class ModalIngreso extends React.Component {
                     <div className="ingreso_internet_boton" style={{backgroundColor:'#00aced'}}>
                         <div className="centrado"><IconoTwitter fill="#fff"/></div>
                     </div>
-                   
+                
                     <GoogleLogin
                         clientId="863857254472-bi855s65oh0llnm47g2n5c1e8e9j37e8.apps.googleusercontent.com"
                         render={renderProps => (
@@ -129,64 +129,41 @@ export class ModalIngreso extends React.Component {
                 <div className="modal_ingreo_datos">
                     <div><IconoUsuario fill="#d1d3d8"/><input required id="nombreUsuario" type="text" placeholder="Usuario o Correo"/></div>
                     <div><IconoContrasena fill="#d1d3d8"/><input required id="contrasena" type="password" placeholder="Contraseña"/></div>
+                    <label><input type="checkbox"/>Recordar Contraseña</label>
+                    <label><a href="/registro">Olvido su contraseña?</a></label>
                 </div>:
                 <div>
                     <div className={"centrado " + (this.state.mostrarConfirmar ? "ocultar" : "")}>
                     <form className="registroDatos" validate="true" onSubmit={this.pasarConfirmacion}>
-                        <p className="pRegistro">Ingresa tus datos para que puedas formar parte de esta gran tienda virtual.</p>
                         <div className="nombresRegistro">
                             <span><IconoUsuario /></span>
                             <input className="inNombresRegistro" required id="nombreCompleto" placeholder="Nombres" />
                         </div>
-                        <div className="apellidosRegistro">
-                            <div className="ApPatRegistro">
-                                <span><IconoUsuario /></span>
-                                <input className="inApPatRegistro" required id="apellidoPaterno" placeholder="Apellido Paterno" />
-                            </div>
-                            <div className="ApMatRegistro">
-                                <span><IconoUsuario /></span>
-                                <input className="inApMatRegistro" required id="apellidoMaterno" placeholder="Apellido Materno" />
-                            </div>
+                        <div className="ApPatRegistro">
+                            <span><IconoUsuario /></span>
+                            <input className="inApPatRegistro" required id="apellidoPaterno" placeholder="Apellido Paterno" />
                         </div>
-                        <div className="dniTelefono">
-                            <div className="dniRegistro">
-                                <span><IconoDNIRegistro /></span>
-                                <input className="inDNIRegistro" required id="registroNacional" placeholder="DNI" />
-                            </div>
-                            <div className="telefonoRegistro">
-                                <span><IconoTelefonoRegistro /></span>
-                                <input className="inTelefonoRegistro" required id="telefonoCliente" type="text" placeholder="Telefono" />
-                            </div>
+                        <div className="ApMatRegistro">
+                            <span><IconoUsuario /></span>
+                            <input className="inApMatRegistro" required id="apellidoMaterno" placeholder="Apellido Materno" />
                         </div>
-                        <div className="checkboxsRegistro">
-                            <div>
-                                <input required type="checkbox" className="terminosRegistro" />
-                                <span> Acepto <a href="##" target="_blank"> Términos y Condiciones </a> y la <a href="##" target="_blank">Política de Privacidad y Tratamiento de Datos Personales</a> </span>
-                            </div>
-                            <div>
-                                <input type="checkbox" className="UsoInfoRegistro" />
-                                <span> Acepto el uso de mi información para <a href="##" target="_blank">fines promocionales</a> <br /></span>
-                            </div>
+                        <div className="dniRegistro">
+                            <span><IconoDNIRegistro /></span>
+                            <input className="inDNIRegistro" required id="registroNacional" placeholder="DNI" />
                         </div>
-                        <div className="centrado">
-                            <button className="botonRegistro" type="submit">Registrarme</button>
+                        <div className="telefonoRegistro">
+                            <span><IconoTelefonoRegistro /></span>
+                            <input className="inTelefonoRegistro" required id="telefonoCliente" type="text" placeholder="Telefono" />
+                        </div>
+                        <div>
+                            <input required type="checkbox" className="terminosRegistro" />
+                            <span> Acepto <a href="##" target="_blank"> Términos y Condiciones </a> y la <a href="##" target="_blank">Política de Privacidad y Tratamiento de Datos Personales</a> </span>
+                        </div>
+                        <div>
+                            <input type="checkbox" className="UsoInfoRegistro" />
+                            <span> Acepto el uso de mi información para <a href="##" target="_blank">fines promocionales</a> <br /></span>
                         </div>
                         <hr></hr>
-                        <span className="oic">Ingresá con</span>
-                        <div className="modal_ingreso_internet">
-                            <div className="ingreso_internet_boton" style={{ backgroundColor: '#4267B2' }}>
-                                <div className="centrado"><IconoFacebook fill="#d1d3d8" /></div>
-                                <label style={{textAlign:'center'}}>Ingresar con Facebook</label>
-                            </div>
-                            <div className="ingreso_internet_boton" style={{ backgroundColor: '#00aced' }}>
-                                <div className="centrado"><IconoTwitter fill="#d1d3d8" /></div>
-                                <label style={{textAlign:'center'}}>Ingresar con Twitter</label>
-                            </div>
-                            <div className="ingreso_internet_boton" style={{ backgroundColor: '#b63a2b' }}>
-                                <div className="centrado"><IconoGoogle fill="#d1d3d8" /></div>
-                                <label style={{textAlign:'center'}}>Ingresar con Google</label>
-                            </div>
-                        </div>
                     </form>
                 </div>
                 </div>}
@@ -195,7 +172,6 @@ export class ModalIngreso extends React.Component {
                     <div className="centrado">
                         <button className="modal_ingreso_opciones_ingresar" type="submit">{this.state.tipoAccion?"INGRESAR":"REGISTRO"}</button>
                     </div>
-                    <div><a href="/registro">Olvido su contraseña?</a></div>
                     <div className="centrado">
                         <button className="modal_ingreso_opciones_salir" onClick={this.props.controlModalIngreso}> SALIR </button>
                     </div>
