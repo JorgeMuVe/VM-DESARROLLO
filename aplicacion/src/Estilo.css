@@ -50,18 +50,33 @@ input[type=number]{-moz-appearance:textfield;}
     cursor: pointer;}
 .modal_ingreso_tipo_opciones div svg{width:15px;height:15px;margin-right:3px;cursor:pointer;}
 
-.modal_ingreo_datos {display:grid;grid-gap:10px;}
-.modal_ingreo_datos div{
+.modal_ingreso_datos {display:grid;grid-gap:10px;}
+.modal_ingreso_datos a {color: #ff4b2b;}
+.modal_ingreso_datos label{color:#3d4d67;font:400 Normal 14px/15px "Poppins",sans-serif;}
+.modal_ingreso_cuadro{background: white;
     border:solid 1px #d1d3d8;border-radius:5px;padding:5px;
-    display:flex;flex-direction:row;justify-content:space-between;
-    background: white;}
-.modal_ingreo_datos div svg{width:20px;height:20px;margin-right:3px;}
-.modal_ingreo_datos div input{width:100%;border-style:none;height:100%;background:white;font-size:15px;}
-.modal_ingreo_datos a {color: #ff4b2b;}
+    display:flex;flex-direction:row;justify-content:space-between;}
+.modal_ingreso_cuadro svg{width:20px;height:20px;margin-right:3px;}
+.modal_ingreso_cuadro input{width:100%;border-style:none;height:100%;background:white;font-size:15px;}
+
+/* REGISTRO */
+.registroDatos{display:grid;grid-template-columns:1fr;grid-gap:10px;}
+.inNombresRegistro,.inApPatRegistro,.inApMatRegistro,.inDNIRegistro,.inTelefonoRegistro,.inNombreUsuarioConf,.inContraseñaConf,.inConfContraseñaConf{height:20px;font-size:16px;border-radius:20px;background:rgb(235, 237, 243);border:none;}
+
+.registroDatos div{display:grid;grid-template-columns:35px 1fr}
+.registroDatos div svg{width:20px;height:20px;}
+.registroDatos input{padding:5px;padding-left:15px;margin-left:5px;margin-right:5px;}
+
+.registroDatos span{color:#3d4d67;font:400 Normal 14px/15px "Poppins",sans-serif;}
+.registroDatos a{color:#1555bd;font: 400 Normal 14px/15px "Poppins",sans-serif;}
+.registroDatos hr{margin: 0;border: 0;height: 0;clear: both;border-bottom: solid 1px rgba(0,0,0,.1);}
+
+.ApPatRegistro,.ApMatRegistro,.dniRegistro,.telefonoRegistro{display: inline-block;}
+.registroConfirmacion{display:grid;grid-template-columns:1fr;grid-gap:10px;width:350px;margin-top: 20px;}
 
 
 .modal_ingreso_opciones {display:grid;grid-gap:10px;}
-.modal_ingreso_opciones button{    
+.modal_ingreso_opciones_ingresar,.modal_ingreso_opciones_salir{    
     color:whitesmoke;background:linear-gradient(to right, #ff4b2b, #ff416c);
     letter-spacing:3px;font-weight:bold;font-size:14px;
     border-radius:10px;border:1px solid #d1d3d8;}
@@ -438,21 +453,6 @@ background:rgba(0, 0, 0, 0);min-height:300px;}
 .cuadro_texto svg{width:20px;height:20px;margin-right:3px;}
 .cuadro_texto input{width:100%;height:100%;border-style:none;background:white;font-size:18px;}
 .cuadro_texto select{width:100%;height:100%;font-size:18px;}
-
-/* REGISTRO */
-.registroDatos{display:grid;grid-template-columns:1fr;grid-gap:10px;}
-.inNombresRegistro,.inApPatRegistro,.inApMatRegistro,.inDNIRegistro,.inTelefonoRegistro,.inNombreUsuarioConf,.inContraseñaConf,.inConfContraseñaConf{height:20px;font-size:16px;border-radius:20px;background:rgb(235, 237, 243);border:none;}
-
-.registroDatos div{display:grid;grid-template-columns:35px 1fr}
-.registroDatos div svg{width:20px;height:20px;}
-.registroDatos input{padding:5px;padding-left:15px;margin-left:5px;margin-right:5px;}
-
-.registroDatos span{color:#3d4d67;font:400 Normal 14px/15px "Poppins",sans-serif;}
-.registroDatos a{color:#1555bd;font: 400 Normal 14px/15px "Poppins",sans-serif;}
-.registroDatos hr{margin: 0;border: 0;height: 0;clear: both;border-bottom: solid 1px rgba(0,0,0,.1);}
-
-.ApPatRegistro,.ApMatRegistro,.dniRegistro,.telefonoRegistro{display: inline-block;}
-.registroConfirmacion{display:grid;grid-template-columns:1fr;grid-gap:10px;width:350px;margin-top: 20px;}
 
 /*CartaProducto*/
 .DiseñoProductos{justify-content:center;align-content:center;justify-items:center;padding-bottom:10px;}
