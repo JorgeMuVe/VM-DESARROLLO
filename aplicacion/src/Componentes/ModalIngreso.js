@@ -2,6 +2,7 @@
 import React from 'react';
 import {withRouter} from 'react-router';
 import { GoogleLogin } from 'react-google-login';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 
 /***** ICONO SVG *******/
 import IconoUsuario from '../SVG/IconoUsuario';
@@ -105,8 +106,20 @@ export class ModalIngreso extends React.Component {
                 </div>
 
                 <div className="modal_ingreso_internet">
+                <FacebookLogin
+                        appId="724713238280233"
+                        autoLoad={false}
+                        callback={this.responseFacebook}
+                        render={renderProps => (
+                            <div onClick={renderProps.onClick} className="ingreso_internet_boton" style={{backgroundColor:'#4267B2'}}>
+                        <div className="centrado"><IconoFacebook fill="#fff"/>
+                        </div>
+                    </div>
+                        )}
+                    />
                     <div className="ingreso_internet_boton" style={{backgroundColor:'#4267B2'}}>
-                        <div className="centrado"><IconoFacebook fill="#fff"/></div>
+                        <div className="centrado"><IconoFacebook fill="#fff"/>
+                        </div>
                     </div>
                     <div className="ingreso_internet_boton" style={{backgroundColor:'#00aced'}}>
                         <div className="centrado"><IconoTwitter fill="#fff"/></div>

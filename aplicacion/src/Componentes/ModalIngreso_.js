@@ -107,9 +107,9 @@ export class ModalIngreso extends React.Component {
                     
                         
                     <FacebookLogin
-                        appId="1088597931155576"
+                        appId="724713238280233"
                         autoLoad
-                        callback={responseFacebook}
+                        callback={this.responseFacebook}
                         render={renderProps => (
                             <button onClick={renderProps.onClick}>This is my custom FB button</button>
                         )}
