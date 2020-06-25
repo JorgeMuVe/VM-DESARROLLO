@@ -63,18 +63,18 @@ input[type=number]{-moz-appearance:textfield;}
 
 /* REGISTRO */
 .registroDatos{display:grid;grid-template-columns:1fr;grid-gap:10px;}
-.inNombresRegistro,.inApPatRegistro,.inApMatRegistro,.inDNIRegistro,.inTelefonoRegistro,.inNombreUsuarioConf,.inContraseñaConf,.inConfContraseñaConf{height:20px;font-size:16px;border-radius:20px;background:rgb(235, 237, 243);border:none;}
+.registroConfirmacion{display:grid;grid-template-columns:1fr;grid-gap:10px;}
+.registro_confirmacion{text-align:center;}.registro_confirmacion div span{color:#ff416c;cursor:pointer;}
+.registroDatos div,.registro_confirmacion_cuadro{display:grid;grid-template-columns:35px 1fr}
+.registroDatos div svg,.registro_confirmacion_cuadro svg{width:20px;height:20px;}
+.registroDatos input,.registro_confirmacion_cuadro input{padding:5px;}
 
-.registroDatos div{display:grid;grid-template-columns:35px 1fr}
-.registroDatos div svg{width:20px;height:20px;}
-.registroDatos input{padding:5px;padding-left:15px;margin-left:5px;margin-right:5px;}
-
-.registroDatos span{color:#3d4d67;font:400 Normal 14px/15px "Poppins",sans-serif;}
-.registroDatos a{color:#1555bd;font: 400 Normal 14px/15px "Poppins",sans-serif;}
-.registroDatos hr{margin: 0;border: 0;height: 0;clear: both;border-bottom: solid 1px rgba(0,0,0,.1);}
-
+.registroDatos span,.registroConfirmacion span{color:#3d4d67;font:400 Normal 14px/15px "Poppins",sans-serif;}
+.registroDatos a,.registroConfirmacion a{color:#1555bd;font: 400 Normal 14px/15px "Poppins",sans-serif;}
+.registroDatos hr,.registroConfirmacion hr{margin: 0;border: 0;height: 0;clear: both;border-bottom: solid 1px rgba(0,0,0,.1);}
+.inNombresRegistro,.inApPatRegistro,.inApMatRegistro,.inDNIRegistro,.inTelefonoRegistro,.inNombreUsuarioConf,
+.inContraseñaConf,.inConfContraseñaConf{height:20px;font-size:16px;border-radius:20px;background:rgb(235, 237, 243);border:none;}
 .ApPatRegistro,.ApMatRegistro,.dniRegistro,.telefonoRegistro{display: inline-block;}
-.registroConfirmacion{display:grid;grid-template-columns:1fr;grid-gap:10px;width:350px;margin-top: 20px;}
 
 
 .modal_ingreso_opciones {display:grid;grid-gap:10px;}
@@ -637,7 +637,7 @@ background:rgba(0, 0, 0, 0);min-height:300px;}
 .Registro,.confirmarRegistro{display:grid;grid-gap:20px;margin-top:50px;}
 .registro_imagen{display:grid;}
 .registro_datos{display:grid;grid-template-columns:1fr;grid-gap:10px;width:250px;}
-.registro_confirmacion{display:grid;grid-template-columns:1fr;grid-gap:10px;width:350px;}
+.registro_confirmacion{display:grid;grid-template-columns:1fr;grid-gap:10px;}
 .registro_siguiente{display:flex;justify-content:center;align-items:center;}
 .registro_siguiente button{width:150px;height:50px;font-size:20px;}
 

@@ -21,7 +21,8 @@ import { ingresarSistema_DB, agregarUsuario_DB} from '../DB/usuarioDB';
 /* VARIABLES GLOBALES */
 const estadoInicial = {
     tipoUsuario:'cliente',
-    tipoAccion:true
+    tipoAccion:true,
+    mostrarConfirmar:false
 };
 
 export class ModalIngreso extends React.Component {
@@ -82,6 +83,10 @@ export class ModalIngreso extends React.Component {
         this.ingresarSistema(usuarioIngreso);
     }
 
+    cambiarConfirmacion =()=> {
+        this.setState({mostrarConfirmar:!this.state.mostrarConfirmar})
+    }
+
     cambiarTipoUsuario =(tipoUsuario)=> {
         this.setState({tipoUsuario})
     }
@@ -98,7 +103,7 @@ export class ModalIngreso extends React.Component {
         if(this.props.mostrarModalIngreso){
         return(
         <div className="ModalIngreso">
-            <form className="modal_ingreso">
+            <div className="modal_ingreso">
                 <div className="modal_ingreso_tipo_cuadro">
                     <div id="btn"></div>
                     <button type="button" className={this.state.tipoAccion?"toggle-btn-activo":"toggle-btn "} onClick={this.cambiarAccion}>Ingresar</button>
@@ -106,21 +111,17 @@ export class ModalIngreso extends React.Component {
                 </div>
 
                 <div className="modal_ingreso_internet">
-                <FacebookLogin
+                    <FacebookLogin
                         appId="724713238280233"
                         autoLoad={false}
                         callback={this.responseFacebook}
                         render={renderProps => (
                             <div onClick={renderProps.onClick} className="ingreso_internet_boton" style={{backgroundColor:'#4267B2'}}>
                         <div className="centrado"><IconoFacebook fill="#fff"/>
+                            </div>
                         </div>
-                    </div>
-                        )}
-                    />
-                    <div className="ingreso_internet_boton" style={{backgroundColor:'#4267B2'}}>
-                        <div className="centrado"><IconoFacebook fill="#fff"/>
-                        </div>
-                    </div>
+                    )}/>
+
                     <div className="ingreso_internet_boton" style={{backgroundColor:'#00aced'}}>
                         <div className="centrado"><IconoTwitter fill="#fff"/></div>
                     </div>
@@ -151,27 +152,52 @@ export class ModalIngreso extends React.Component {
                 :
                 <div className={"centrado"}>
                     {this.state.mostrarConfirmar?
-                    <form validate="true" onSubmit={this.pasarConfirmacion}>
+                    <form validate="true" onSubmit={this.cambiarConfirmacion}>
                         <div className="registroDatos">
-                            <div className="nombresRegistro">
-                                <span><IconoUsuario /></span>
+                            <div>
+                                <span><IconoUsuario fill="#d1d3d8"/></span>
                                 <input className="inNombresRegistro" required id="nombreCompleto" placeholder="Nombres" />
                             </div>
-                            <div className="ApPatRegistro">
-                                <span><IconoUsuario /></span>
+                            <div>
+                                <span><IconoUsuario fill="#d1d3d8"/></span>
                                 <input className="inApPatRegistro" required id="apellidoPaterno" placeholder="Apellido Paterno" />
                             </div>
-                            <div className="ApMatRegistro">
-                                <span><IconoUsuario /></span>
+                            <div>
+                                <span><IconoUsuario fill="#d1d3d8"/></span>
                                 <input className="inApMatRegistro" required id="apellidoMaterno" placeholder="Apellido Materno" />
                             </div>
-                            <div className="dniRegistro">
-                                <span><IconoDNIRegistro /></span>
+                            <div>
+                                <span><IconoDNIRegistro fill="#d1d3d8"/></span>
                                 <input className="inDNIRegistro" required id="registroNacional" placeholder="DNI" />
                             </div>
-                            <div className="telefonoRegistro">
-                                <span><IconoTelefonoRegistro /></span>
+                            <div>
+                                <span><IconoTelefonoRegistro fill="#d1d3d8"/></span>
                                 <input className="inTelefonoRegistro" required id="telefonoCliente" type="text" placeholder="Telefono" />
+                            </div>
+                        </div>
+                        <hr></hr>
+                        <div className="centrado">
+                            <button className="modal_ingreso_opciones_ingresar" type="submit">REGISTRO</button>
+                        </div>
+                    </form>
+                    :
+                    <form validate="true" onSubmit={this.agregarUsuario}>
+                        <div className="registroConfirmacion">
+                            <div className="registro_confirmacion">
+                                <div>Hola <b>Jorge</b>, Un paso más!</div>
+                                <div>Para cambiar tus datos.<span onClick={()=>this.cambiarConfirmacion()}> Atras</span></div>
+                            </div>
+                            <div className="registro_confirmacion_cuadro">
+                                <span><IconoUsuario fill="#d1d3d8" /></span>
+                                <input className="inNombreUsuarioConf" required id="nombreUsuario" type="text" placeholder="Email"/>
+                            </div>
+                            <div className="registro_confirmacion_cuadro">
+                                <span><IconoUsuario fill="#d1d3d8" /></span>
+                                <input className="inContraseñaConf" required id="contrasena" type="password" placeholder="Contraseña"/>
+                            </div>
+                            <div className="registro_confirmacion_cuadro">
+                                <span><IconoContrasena fill="#d1d3d8"/></span>
+                                <input className="inConfContraseñaConf" required id="confirmarContrasena" type="password" placeholder="Confirma Contraseña"/>
                             </div>
                             <div>
                                 <input required type="checkbox" className="terminosRegistro" />
@@ -184,22 +210,7 @@ export class ModalIngreso extends React.Component {
                         </div>
                         <hr></hr>
                         <div className="centrado">
-                            <button className="modal_ingreso_opciones_ingresar" type="submit">{this.state.tipoAccion?"INGRESAR":"REGISTRO"}</button>
-                        </div>
-                    </form>
-                    :
-                    <form className="centrado" validate="true" onSubmit={this.agregarUsuario}>
-                        <div className="registroConfirmacion">
-                            <div>Hola <b>Jorge</b>, Un paso más!</div>
-                            <div>
-                                Ingresa los datos para tu cuenta nueva.
-                            </div>
-                            <input className="inNombreUsuarioConf" required style={{ width: '250px' }} id="nombreUsuario" placeholder="Correo" type='email' />
-                            <input className="inContraseñaConf" required style={{ width: '250px' }} id="contrasena" placeholder="Contraseña" type='password' />
-                            <input className="inConfContraseñaConf" required style={{ width: '250px' }} id="confirmarContrasena" placeholder="Confirma Contraseña" type='password' />
-                        </div>
-                        <div className="centrado">
-                            <button className="modal_ingreso_opciones_ingresar" type="submit">Confirmar</button>
+                            <button className="modal_ingreso_opciones_ingresar" type="submit">CONFIRMAR</button>
                         </div>
                     </form>}
                 </div>}
@@ -209,7 +220,7 @@ export class ModalIngreso extends React.Component {
                         <button className="modal_ingreso_opciones_salir" onClick={this.props.controlModalIngreso}> SALIR </button>
                     </div>
                 </div>
-            </form>
+            </div>
         </div> 
         ) } else { return null }
     }
