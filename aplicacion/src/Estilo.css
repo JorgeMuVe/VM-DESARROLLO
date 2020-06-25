@@ -489,8 +489,6 @@ background:rgba(0, 0, 0, 0);min-height:300px;}
 .Menu2_inferior_opciones div:hover svg{fill:url(#rojo_naranja)}
 .Menu2_inferior_opciones div:hover label{color:#E51b1b}
 
-
-
 .Menu2_buscador{background:#17202A;}
 .Menu2_buscador_cuadro{display:flex;flex-direction:row;justify-content:center;padding:5px;border:0px solid #3f1919;border-radius:0px 0px 50px 50px;width:50%;color:#cecece;}
 .Menu2_buscador_cuadro select{padding:0px 10px;border-style:none;border-radius:50px 0px 0px 50px;text-align-last:center;
@@ -517,18 +515,29 @@ background:rgba(0, 0, 0, 0);min-height:300px;}
 .principal3_publicidad_lista_lateral{display:flex;flex-direction:column;height:800px;}
 .principal3_publicidad_lista_central{display:flex;width:100%}
 
-.sliderVerticalAnimacion{animation:slideVertical 30s infinite alternate;}
-.sliderVerticalAnimacionInvert{animation:slideVerticalInvert 30s infinite alternate;}
+/* Atencion al cliente */
+.HorarioAtencion{margin: 0px;padding: 25px 25px 0px 25px;}
+.HAtencion{display: grid;grid-template-columns: auto auto;margin-top: 30px;}
+.camDevoluciones{padding: 20px 60px 0px 60px;}
+.HorarioAtencion p, .HAtencionInfo a, .PoliticaDatos p, .TerminosCondiciones p, ol,ul, .CondicionesPromociones p, .Conocenos p{color: #444;font-size: 15px;padding-top: 8px;text-decoration: none; line-height : 25px;}
 
-.sliderHorizontalAnimacion{animation:slideHorizontal 20s infinite alternate;}
-.sliderHorizontalAnimacionInvert{animation:slideHorizontalInvert 20s infinite alternate;}
+.PoliticaDatos,.TerminosCondiciones, .CondicionesPromociones, .Conocenos{margin: 0px;padding: 25px 70px 0px 70px;}
 
+/* Atencion al cliente */
 
-@keyframes slideVertical{0%{margin-top:0%;}100% {margin-top:-65%;}}
-@keyframes slideVerticalInvert{0%{margin-top:-65%;}100%{margin-top:0%;}}
+/* Contacto formulario */
+.TrabajaConNosotros{margin: 0px;padding: 25px 200px 0px 200px;}
 
-@keyframes slideHorizontal{0%{margin-left:0%;}100% {margin-left:-65%;}}
-@keyframes slideHorizontalInvert{0%{margin-left:-65%;}100%{margin-left:0%;}}
+.contacto_formularioTN {display:grid;grid-template-columns:repeat(2,1fr);gap:1em;}
+.contacto_formularioTN textarea{resize: none;color: #444;border-radius: 10px 10px 10px 10px;border: none;padding-left: 10px;padding-top: 3px;padding-bottom: 3px;font-size: 17px;outline: none;margin: 7px;}
+.contacto_formulario_infoTN, .contacto_formulario_mensajeTN{display:grid;grid-gap:5px;}
+.contacto_formulario_mensajeTN{grid-column: 1/3;}
+.contacto_formularioTN button{background:linear-gradient(-45deg,#E51b1b,#EE7752,#E51b1b);color: white;border:0;border-radius: 15px;display: block;margin: 15px auto;padding: 15px 45px;width: 100%;font:600 18px '';letter-spacing:2px;cursor: pointer;opacity: 1;visibility: visible;}
+.contacto_formularioTN button:hover{transition: all .3s ease;background-color: rgba(0,0,0,0.8);}
+.contacto_formularioTN input{display: block;height: 30px;padding-left: 10px;padding-top: 3px;padding-bottom: 3px;margin: 7px;font-size: 17px;border-radius: 20px;background: rgb(255, 255, 255);border: none;transition: background 0.5s;color: #444;}
+.botonContactoFormularioTN{display: block;}
+/* Contacto formulario */
+
 /* ----------------------------------- */
 
 .Registro,.confirmarRegistro{display:grid;grid-gap:20px;margin-top:50px;}

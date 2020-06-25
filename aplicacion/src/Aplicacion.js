@@ -12,6 +12,12 @@ import Contacto from './Componentes/Contacto';
 import PiePagina from './Componentes/PiePagina';
 import Socios from './Componentes/Socios';
 import PerfilTienda from './Componentes/PerfilTienda';
+import HorarioAtencion from './Componentes/HorarioAtencion';
+import PoliticaDatos from './Componentes/PoliticaDatos';
+import TerminosCondiciones from './Componentes/TerminosCondiciones';
+import CondicionesPromociones from './Componentes/CondicionesPromociones';
+import TrabajaConNosotros from './Componentes/TrabajaConNosotros';
+import Conocenos from './Componentes/Conocenos';
 
 /* *********  I N T E R F A Z   **********/
 import Principal from './UI/Paginas/Principal';
@@ -438,6 +444,30 @@ export class Aplicacion extends Component {
 
             <Route path="/productos/lista" render={(props) =>
               <ProductoLista listarPor={"NEGOCIO"} {...props}/>}>
+            </Route>
+
+            <Route path="/HorarioAtencion">
+              <HorarioAtencion/>
+            </Route>
+
+            <Route path="/PoliticaDatos">
+              <PoliticaDatos/>
+            </Route>
+
+            <Route path="/TerminosCondiciones">
+              <TerminosCondiciones/>
+            </Route>
+
+            <Route path="/CondicionesPromociones">
+              <CondicionesPromociones/>
+            </Route>
+
+            <Route path="/TrabajaConNosotros">
+              <TrabajaConNosotros/>
+            </Route>
+
+            <Route path="/Conocenos">
+              <Conocenos/>
             </Route>
 
           </Switch>
