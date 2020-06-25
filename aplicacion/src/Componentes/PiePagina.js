@@ -28,22 +28,22 @@ export class PiePagina extends React.Component {
 
                 <div className="AtencionCliente">
                     <label className="texto_temaRojo">Atencion al Cliente</label>
-                    <span><a href="##">Horarios de Atención</a></span>
-                    <span><a href="##">Horarios de Atención</a></span>
-                    <span><a href="##">Cambios y devoluciones</a></span>
+                    <span><a href="/HorarioAtencion">Horarios de Atención</a></span>
+                    <span><a href="#contacto">Pregunta frecuentes</a></span>
+                    <span><a href="/HorarioAtencion/#cambiosDev">Cambios y devoluciones</a></span>
                 </div>
 
                 <div className="PoliticasCondiciones">
                     <label className="texto_temaRojo">Politicas y Condiciones</label>
-                    <span><a href="##">Política de datos personales</a></span>
-                    <span><a href="##">Condiciones de promociones</a></span>
-                    <span><a href="##">Términos y condiciones</a></span>
+                    <span><a href="/PoliticaDatos">Política de datos personales</a></span>
+                    <span><a href="/CondicionesPromociones">Condiciones de promociones</a></span>
+                    <span><a href="/TerminosCondiciones">Términos y condiciones</a></span>
                 </div>
 
                 <div className="Nosotros">
                     <label className="texto_temaRojo">Nosotros</label>
-                    <span><a href="##">Conocénos</a></span>
-                    <span><a href="##">Trabaja con nosotros</a></span>
+                    <span><a href="/Conocenos">Conocénos</a></span>
+                    <span><a href="/TrabajaConNosotros">Trabaja con nosotros</a></span>
                     <span><a href="##">Nuestras tiendas</a></span>
                 </div>
                 <div className="Comunicate">
