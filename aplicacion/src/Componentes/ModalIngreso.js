@@ -22,7 +22,8 @@ import { ingresarSistema_DB, agregarUsuario_DB} from '../DB/usuarioDB';
 const estadoInicial = {
     tipoUsuario:'cliente',
     tipoAccion:true,
-    mostrarConfirmar:false
+    mostrarConfirmar:false,
+    nuevoUsuario:{}
 };
 
 export class ModalIngreso extends React.Component {
@@ -50,16 +51,17 @@ export class ModalIngreso extends React.Component {
             contrasena: response.profileObj.googleId,
             tipoUsuario: 'cliente'
 
-        };   
-        agregarUsuario_DB(nuevoUsuario).then(res => {
-            if (!res.error) {
-                this.setState({ usuarioAplicacion: res }, () => {
-                    sessionStorage.setItem('usuarioAplicacion',JSON.stringify(res));
-                    this.props.history.push("/usuario/"+res.tipoUsuario+"/_");
-                    this.props.ingresarSistema(res);
-                });
-            } else { this.props.abrirMensajeError(4000, res.error) }
-        })
+        };
+        console.log(nuevoUsuario);
+        //agregarUsuario_DB(nuevoUsuario).then(res => {
+        //    if (!res.error) {
+        //        this.setState({ usuarioAplicacion: res }, () => {
+        //            sessionStorage.setItem('usuarioAplicacion',JSON.stringify(res));
+        //            this.props.history.push("/usuario/"+res.tipoUsuario+"/_");
+        //            this.props.ingresarSistema(res);
+        //        });
+        //    } else { this.props.abrirMensajeError(4000, res.error) }
+        //})
     }
     
     /* INGRESAR AL SISTEMA */
@@ -83,8 +85,36 @@ export class ModalIngreso extends React.Component {
         this.ingresarSistema(usuarioIngreso);
     }
 
-    cambiarConfirmacion =()=> {
-        this.setState({mostrarConfirmar:!this.state.mostrarConfirmar})
+    cambiarConfirmacion =(evento)=> {
+        evento.preventDefault();
+        var nuevoUsuario = {
+            registroNacional: document.getElementById("registroNacional").value,
+            nombreCompleto: document.getElementById("nombreCompleto").value,
+            apellidoPaterno: document.getElementById("apellidoPaterno").value,
+            apellidoMaterno: document.getElementById("apellidoMaterno").value,
+            telefonoCliente: document.getElementById("telefonoCliente").value
+        };
+        this.setState({mostrarConfirmar:true,nuevoUsuario})//,()=>document.getElementById('form_confirmacion').reset())
+    }
+
+    agregarUsuario =(evento)=> {
+        evento.preventDefault();
+        const { nuevoUsuario } = this.state;
+        var contrasena = document.getElementById("contrasena").value;
+        var confirmarContrasena = document.getElementById("confirmarContrasena").value;
+        var nombreUsuario = document.getElementById("nombreUsuario").value;
+        if (contrasena === confirmarContrasena) {
+            nuevoUsuario["nombreUsuario"] = nombreUsuario;
+            nuevoUsuario["contrasena"] = contrasena;
+            nuevoUsuario["tipoUsuario"] = "cliente";
+            agregarUsuario_DB(nuevoUsuario).then(res => {
+                if (!res.error) {
+                    sessionStorage.setItem('usuarioAplicacion',JSON.stringify(res));
+                    this.props.history.push('/usuario/'+res.tipoUsuario+"/_");
+                    this.props.ingresarSistema(res);
+                } else { this.props.abrirMensajeError(4000, res.error) }
+            })
+        } else { this.props.abrirMensajeError(4000, "Contraseñas no coinciden!!") }
     }
 
     cambiarTipoUsuario =(tipoUsuario)=> {
@@ -140,7 +170,7 @@ export class ModalIngreso extends React.Component {
                     />
                 </div>
                 {this.state.tipoAccion?
-                <form validate="true" onSubmit={this.ingresarSistemaBoton} className="modal_ingreso_datos">
+                <form id="form_ingreso" cvalidate="true" onSubmit={this.ingresarSistemaBoton} className="modal_ingreso_datos">
                     <div className="modal_ingreso_cuadro"><IconoUsuario fill="#d1d3d8"/><input required id="nombreUsuario" type="text" placeholder="Usuario o Correo"/></div>
                     <div className="modal_ingreso_cuadro"><IconoContrasena fill="#d1d3d8"/><input required id="contrasena" type="password" placeholder="Contraseña"/></div>
                     <label><input type="checkbox"/>Recordar Contraseña</label>
@@ -151,28 +181,28 @@ export class ModalIngreso extends React.Component {
                 </form>
                 :
                 <div className={"centrado"}>
-                    {this.state.mostrarConfirmar?
-                    <form validate="true" onSubmit={this.cambiarConfirmacion}>
+                    {!this.state.mostrarConfirmar?
+                    <form id="form_registro" validate="true" onSubmit={this.cambiarConfirmacion}>
                         <div className="registroDatos">
-                            <div>
-                                <span><IconoUsuario fill="#d1d3d8"/></span>
-                                <input className="inNombresRegistro" required id="nombreCompleto" placeholder="Nombres" />
+                            <div> <span><IconoUsuario fill="#d1d3d8"/></span>
+                                <input required id="nombreCompleto" className="inNombresRegistro" placeholder="Nombres"
+                                    defaultValue={this.state.nuevoUsuario.nombreCompleto}/>
                             </div>
-                            <div>
-                                <span><IconoUsuario fill="#d1d3d8"/></span>
-                                <input className="inApPatRegistro" required id="apellidoPaterno" placeholder="Apellido Paterno" />
+                            <div> <span><IconoUsuario fill="#d1d3d8"/></span>
+                                <input required id="apellidoPaterno" className="inApPatRegistro" placeholder="Apellido Paterno"
+                                    defaultValue={this.state.nuevoUsuario.apellidoPaterno}/>
                             </div>
-                            <div>
-                                <span><IconoUsuario fill="#d1d3d8"/></span>
-                                <input className="inApMatRegistro" required id="apellidoMaterno" placeholder="Apellido Materno" />
+                            <div> <span><IconoUsuario fill="#d1d3d8"/></span>
+                                <input required id="apellidoMaterno" className="inApMatRegistro" placeholder="Apellido Materno"
+                                    defaultValue={this.state.nuevoUsuario.apellidoMaterno}/>
                             </div>
-                            <div>
-                                <span><IconoDNIRegistro fill="#d1d3d8"/></span>
-                                <input className="inDNIRegistro" required id="registroNacional" placeholder="DNI" />
+                            <div> <span><IconoDNIRegistro fill="#d1d3d8"/></span>
+                                <input required id="registroNacional" className="inDNIRegistro" placeholder="DNI"
+                                    defaultValue={this.state.nuevoUsuario.registroNacional}/>
                             </div>
-                            <div>
-                                <span><IconoTelefonoRegistro fill="#d1d3d8"/></span>
-                                <input className="inTelefonoRegistro" required id="telefonoCliente" type="text" placeholder="Telefono" />
+                            <div> <span><IconoTelefonoRegistro fill="#d1d3d8"/></span>
+                                <input required id="telefonoCliente" className="inTelefonoRegistro" placeholder="Telefono"
+                                    defaultValue={this.state.nuevoUsuario.telefonoCliente}/>
                             </div>
                         </div>
                         <hr></hr>
@@ -181,23 +211,24 @@ export class ModalIngreso extends React.Component {
                         </div>
                     </form>
                     :
-                    <form validate="true" onSubmit={this.agregarUsuario}>
+                    <form id="form_confirmacion" validate="true" onSubmit={this.agregarUsuario}>
                         <div className="registroConfirmacion">
                             <div className="registro_confirmacion">
-                                <div>Hola <b>Jorge</b>, Un paso más!</div>
-                                <div>Para cambiar tus datos.<span onClick={()=>this.cambiarConfirmacion()}> Atras</span></div>
+                                <div>Hola <b>{this.state.nuevoUsuario.nombreCompleto}</b>, Un paso más!</div>
+                                <div>Para cambiar tus datos.<span onClick={()=>this.setState({mostrarConfirmar:false})}> Atras</span></div>
                             </div>
                             <div className="registro_confirmacion_cuadro">
                                 <span><IconoUsuario fill="#d1d3d8" /></span>
-                                <input className="inNombreUsuarioConf" required id="nombreUsuario" type="text" placeholder="Email"/>
+                                <input required id="nombreUsuario" className="inNombreUsuarioConf" placeholder="Email"
+                                    defaultValue={this.state.nuevoUsuario.nombreUsuario}/>
                             </div>
                             <div className="registro_confirmacion_cuadro">
                                 <span><IconoUsuario fill="#d1d3d8" /></span>
-                                <input className="inContraseñaConf" required id="contrasena" type="password" placeholder="Contraseña"/>
+                                <input required id="contrasena" className="inContraseñaConf" placeholder="Contraseña" type="password"/>
                             </div>
                             <div className="registro_confirmacion_cuadro">
                                 <span><IconoContrasena fill="#d1d3d8"/></span>
-                                <input className="inConfContraseñaConf" required id="confirmarContrasena" type="password" placeholder="Confirma Contraseña"/>
+                                <input required id="confirmarContrasena" className="inConfContraseñaConf" placeholder="Confirma Contraseña" type="password"/>
                             </div>
                             <div>
                                 <input required type="checkbox" className="terminosRegistro" />
